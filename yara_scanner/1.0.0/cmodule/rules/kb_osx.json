@@ -1,0 +1,38 @@
+{
+	"rca9c482ba67fc4b43832eefceda962f63527b25688a046d045112415fc68c0d": {
+		"rule_name": "tool_multi_ZZ_Sandcat__Backdoor",
+		"malware_class": "BACKDOOR",
+		"malware_family": "Sandcat",
+		"rule_severity": "high",
+		"rule_type": "tool",
+		"is_exact": true,
+		"is_silent": false,
+		"description": "A plugin supplying a default agent to be used in a CALDERA operation.",
+		"date": "01.07.2022",
+		"hash": [
+			"08ae98354c82a5207449ec1feda45b41ac9109f5ae61252c1249f857d42c24b2",
+			"716472f1006d7d4b6b9e9e0256bd5847457c96abf7b4456b31f7291376562a37",
+			"04909f0f8e77ffe443d463e282c4b26a18a4d11b2e5582ef7e2bfbb1968094aa"
+		],
+		"reference": [],
+		"rule_precision": 14
+	},
+	"r5662dbbdf51cb7e321c8beed7073342f73eed59987a7675152ab8808ba7c2e2": {
+		"rule_name": "tool_osx_ZZ_CloudMensis__Backdoor__FirstStage",
+		"malware_class": "BACKDOOR",
+		"malware_family": "CloudMensis",
+		"rule_severity": "high",
+		"rule_type": "tool",
+		"is_exact": true,
+		"is_silent": false,
+		"description": "Strings from CloudMensis first stage downloader",
+		"date": "29.07.2022",
+		"hash": [
+			"273633eee4776aef40904124ed1722a0793e6567f3009cdb037ed0a9d79c1b0b"
+		],
+		"reference": [
+			"www.welivesecurity.com/2022/07/19/i-see-what-you-did-there-look-cloudmensis-macos-spyware/"
+		],
+		"rule_precision": 15
+	}
+}

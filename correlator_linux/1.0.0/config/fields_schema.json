@@ -1,0 +1,154 @@
+{
+    "additionalProperties": true,
+    "properties": {
+        "category.generic": {
+            "rules": {},
+            "type": "string",
+            "ui": {
+                "widgetConfig": {}
+            }
+        },
+        "category.high": {
+            "rules": {},
+            "type": "string",
+            "ui": {
+                "widgetConfig": {}
+            }
+        },
+        "correlation_name": {
+            "rules": {},
+            "type": "string",
+            "ui": {
+                "widgetConfig": {}
+            }
+        },
+        "numfield1": {
+            "rules": {},
+            "type": "number",
+            "ui": {
+                "widgetConfig": {}
+            }
+        },
+        "object.fullpath": {
+            "rules": {},
+            "type": "string",
+            "ui": {
+                "widgetConfig": {}
+            }
+        },
+        "object.name": {
+            "rules": {},
+            "type": "string",
+            "ui": {
+                "widgetConfig": {}
+            }
+        },
+        "object.path": {
+            "rules": {},
+            "type": "string",
+            "ui": {
+                "widgetConfig": {}
+            }
+        },
+        "object.process.cmdline": {
+            "rules": {},
+            "type": "string",
+            "ui": {
+                "widgetConfig": {}
+            }
+        },
+        "object.process.fullpath": {
+            "rules": {},
+            "type": "string",
+            "ui": {
+                "widgetConfig": {}
+            }
+        },
+        "object.process.id": {
+            "rules": {},
+            "type": "number",
+            "ui": {
+                "widgetConfig": {}
+            }
+        },
+        "object.process.name": {
+            "rules": {},
+            "type": "string",
+            "ui": {
+                "widgetConfig": {}
+            }
+        },
+        "object.process.parent.id": {
+            "rules": {},
+            "type": "number",
+            "ui": {
+                "widgetConfig": {}
+            }
+        },
+        "object.process.path": {
+            "rules": {},
+            "type": "string",
+            "ui": {
+                "widgetConfig": {}
+            }
+        },
+        "object.state": {
+            "rules": {},
+            "type": "string",
+            "ui": {
+                "widgetConfig": {}
+            }
+        },
+        "object.value": {
+            "rules": {},
+            "type": "string",
+            "ui": {
+                "widgetConfig": {}
+            }
+        },
+        "subject.process.fullpath": {
+            "rules": {},
+            "type": "string",
+            "ui": {
+                "widgetConfig": {}
+            }
+        },
+        "subject.process.id": {
+            "rules": {},
+            "type": "number",
+            "ui": {
+                "widgetConfig": {}
+            }
+        },
+        "subject.process.meta": {
+            "rules": {},
+            "type": "string",
+            "ui": {
+                "widgetConfig": {}
+            }
+        },
+        "subject.process.name": {
+            "rules": {},
+            "type": "string",
+            "ui": {
+                "widgetConfig": {}
+            }
+        },
+        "subject.process.parent.id": {
+            "rules": {},
+            "type": "number",
+            "ui": {
+                "widgetConfig": {}
+            }
+        },
+        "subject.process.path": {
+            "rules": {},
+            "type": "string",
+            "ui": {
+                "widgetConfig": {}
+            }
+        }
+    },
+    "required": [],
+    "type": "object"
+}

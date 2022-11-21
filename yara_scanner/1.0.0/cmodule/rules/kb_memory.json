@@ -1,0 +1,117 @@
+{
+	"r9e06f000270c7db97d1f38f7a97f172d7c7c90aaea055e15a934ca5701eaac4": {
+		"rule_name": "tool_mem_ZZ_NGLite__Backdoor__NKN__P2P",
+		"malware_class": "BACKDOOR",
+		"malware_family": "NGLite",
+		"rule_severity": "high",
+		"rule_type": "tool",
+		"is_exact": true,
+		"is_silent": false,
+		"description": "A major platform RAT Tool based by Blockchain/P2P.Now support Windows/Linux/MacOS",
+		"date": "12.01.2022",
+		"hash": [
+			"3da8d1bfb8192f43cf5d9247035aa4445381d2d26bed981662e3db34824c71fd",
+			"805b92787ca7833eef5e61e2df1310e4b6544955e812e60b5f834f904623fd9f"
+		],
+		"reference": [
+			"github.com/Maka8ka/NGLite"
+		],
+		"rule_precision": 15
+	},
+	"rb071bf69a3455f0c3103129088e953084a754e335bca63ec157d890a7823538": {
+		"rule_name": "tool_mem_ZZ_SoftPerfectNetScan__NetTool",
+		"malware_class": "NETTOOL",
+		"malware_family": "SoftPerfectNetScan",
+		"rule_severity": "medium",
+		"rule_type": "tool",
+		"is_exact": true,
+		"is_silent": false,
+		"description": "SoftPerfect Network Scanner. Powerful multipurpose network administration tool for Windows and macOS",
+		"date": "23.03.2022",
+		"hash": [
+			"572d88c419c6ae75aeb784ceab327d040cb589903d6285bbffa77338111af14b",
+			"bb574434925e26514b0daf56b45163e4c32b5fc52a1484854b315f40fd8ff8d2"
+		],
+		"reference": [
+			"www.softperfect.com/products/networkscanner"
+		],
+		"rule_precision": 15
+	},
+	"r9d7ea46b597a0bd177bd86c061f20d0ebb87aa0035077432238897ecb645293": {
+		"rule_name": "tool_mem_ZZ_AgentTesla__Stealer",
+		"malware_class": "TROJAN_PSW",
+		"malware_family": "AgentTesla",
+		"rule_severity": "high",
+		"rule_type": "tool",
+		"is_exact": true,
+		"is_silent": false,
+		"description": "Rule to detect AgentTesla Stealer",
+		"date": "01.04.2022",
+		"hash": [
+			"d150feb631d6e9050b7fb76db57504e6dcc2715fe03e45db095f50d56a9495a5",
+			"255f610db16ba77385d63b21e50b3e24bfecd0305bfc43377a0f08df90eb424d",
+			"3581d9d26a6241ca4b678491855f776f994dbdb626b8cc940ed3ea2346a27626",
+			"cb6aed5feef5ca0c148453c3d92eb2b7a62ce222e9519949629053abf4c8aa56"
+		],
+		"reference": [],
+		"rule_precision": 14
+	},
+	"rf99fad897e8b2cea65b5589355f0f2b84a6abbaace72233a2c06a4115f8550d": {
+		"rule_name": "tool_mem_ZZ_Emotet__Banker",
+		"malware_class": "TROJAN_BANKER",
+		"malware_family": "Emotet",
+		"rule_severity": "high",
+		"rule_type": "tool",
+		"is_exact": true,
+		"is_silent": false,
+		"description": "Generic detection for various Emotet variations",
+		"date": "09.09.2021",
+		"hash": [
+			"8955f5b904b7c6d4d7ff43bd8459a439",
+			"0db500c6cb80201c3513849bc9ef55e6",
+			"24c6fc3d5299e9a4cfba1cf5c5f88719",
+			"a8c3ddba4932673ee0c26768a8eb3021",
+			"b2489e53bbb1c8b29e821601a5cfd907",
+			"93634bdc0d75c0a8feca9e368e5ea605f7374301d6f8d07b7f3783c9fc26b680",
+			"c040ac4054c4b454cbd442a1950e797859addf8f22e2bd8dc7e2e0451dbd8d95"
+		],
+		"reference": [],
+		"rule_precision": 14
+	},
+	"r1603b0e6128a75354f02510401ea3bf5aa636e1f351ffeac51bc82f70bb938e": {
+		"rule_name": "tool_mem_ZZ_DnsCat__Risktool",
+		"malware_class": "RISKTOOL",
+		"malware_family": "DnsCat",
+		"rule_severity": "medium",
+		"rule_type": "tool",
+		"is_exact": true,
+		"is_silent": false,
+		"description": "dnscat - dns tunnel for linux",
+		"date": "05.07.2022",
+		"hash": [
+			"45eacba032367db7f3b031e5d9df10b30d01664f24da6847322f6af1fd8e7f01"
+		],
+		"reference": [
+			"https://github.com/iagox86/dnscat2"
+		],
+		"rule_precision": 15
+	},
+	"ra68ec570cf2406fd46d5ccf4c9fc0e2ba5a0eeb5217d3c2e9cb0edb3b9d213f": {
+		"rule_name": "exploit_mem_ZZ_CVE202122555",
+		"malware_class": "TROJAN",
+		"malware_family": "CVE202122555",
+		"rule_severity": "high",
+		"rule_type": "exploit",
+		"is_exact": true,
+		"is_silent": false,
+		"description": "CVE-2021-22555 exploit",
+		"date": "19.11.2021",
+		"hash": [
+			"55574537c7719f8bf046c11009768e6a7ac06ad23cff0e213734f67677b70df5"
+		],
+		"reference": [
+			"https://github.com/google/security-research/blob/master/pocs/linux/cve-2021-22555/exploit.c"
+		],
+		"rule_precision": 15
+	},
+}

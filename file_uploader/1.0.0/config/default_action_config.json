@@ -1,0 +1,20 @@
+{
+    "fu_upload_object_file": {
+        "fields": [
+            "object.fullpath"
+        ],
+        "priority": 37
+    },
+    "fu_upload_object_proc_image": {
+        "fields": [
+            "object.process.fullpath"
+        ],
+        "priority": 37
+    },
+    "fu_upload_subject_proc_image": {
+        "fields": [
+            "subject.process.fullpath"
+        ],
+        "priority": 37
+    }
+}

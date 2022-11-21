@@ -1,0 +1,3 @@
+[submodule "luapower"]
+	path = luapower
+	url = git@github.com:capr/multigit.git

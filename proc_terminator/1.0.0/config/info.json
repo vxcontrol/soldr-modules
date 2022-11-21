@@ -1,0 +1,67 @@
+{
+    "name": "proc_terminator",
+    "template": "responder",
+    "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 0
+    },
+    "os": {
+        "darwin": [
+            "amd64"
+        ],
+        "linux": [
+            "386",
+            "amd64"
+        ],
+        "windows": [
+            "386",
+            "amd64"
+        ]
+    },
+    "system": false,
+    "actions": [
+        "pt_kill_object_process_by_file_path",
+        "pt_kill_object_process_by_image",
+        "pt_kill_object_process_by_name",
+        "pt_kill_object_process_by_name_and_id",
+        "pt_kill_object_process_by_image_and_id",
+        "pt_kill_object_process_tree_by_file_path",
+        "pt_kill_object_process_tree_by_image",
+        "pt_kill_object_process_tree_by_name",
+        "pt_kill_object_process_tree_by_name_and_id",
+        "pt_kill_object_process_tree_by_image_and_id",
+        "pt_kill_subject_process_by_image",
+        "pt_kill_subject_process_by_name",
+        "pt_kill_subject_process_by_name_and_id",
+        "pt_kill_subject_process_by_image_and_id",
+        "pt_kill_subject_process_tree_by_image",
+        "pt_kill_subject_process_tree_by_name",
+        "pt_kill_subject_process_tree_by_name_and_id",
+        "pt_kill_subject_process_tree_by_image_and_id"
+    ],
+    "events": [
+        "pt_module_started",
+        "pt_module_stopped",
+        "pt_object_process_killed_failed",
+        "pt_object_process_killed_successful",
+        "pt_object_process_skipped",
+        "pt_process_not_found",
+        "pt_subject_process_killed_failed",
+        "pt_subject_process_killed_successful",
+        "pt_subject_process_skipped"
+    ],
+    "fields": [
+        "object.fullpath",
+        "object.process.fullpath",
+        "object.process.id",
+        "object.process.name",
+        "reason",
+        "subject.process.fullpath",
+        "subject.process.id",
+        "subject.process.name"
+    ],
+    "tags": [
+        "responder"
+    ]
+}

@@ -1,0 +1,37 @@
+{
+	"r84d8e20fbf9049a12f51bccfb62dc3cca238a552b2c57e382f45b5a74967bae": {
+		"rule_name": "tool_win_ZZ_Gh0st__Backdoor__Payload",
+		"malware_class": "BACKDOOR",
+		"malware_family": "Gh0st",
+		"rule_severity": "high",
+		"rule_type": "tool",
+		"is_exact": true,
+		"is_silent": false,
+		"description": "Gh0st RAT, payload, Unknown APT",
+		"date": "26.02.2021",
+		"hash": [
+			"1c7c0f9902331dd2243046cd4326b73c"
+		],
+		"reference": [],
+		"rule_precision": 14
+	},
+	"r24bf11add1c6c7ab04c15c926e89a5b348c25ca897d8a51c202322f1552e0a8": {
+		"rule_name": "tool_win_ZZ_TightVNC__RemoteAdmin",
+		"malware_class": "REMOTEADMIN",
+		"malware_family": "TightVNC",
+		"rule_severity": "medium",
+		"rule_type": "tool",
+		"is_exact": true,
+		"is_silent": false,
+		"description": "Detect Tight VNC remote admin tool",
+		"date": "11.11.2022",
+		"hash": [
+			"8f206a23fac32b0f68ea50feeb3d55958cc90e52161c0af0df69104f90df3bc9",
+			"fd426c27ba5b900915e3d69f9a5eff1961f4b48546e60bf72a579163be701605",
+			"37e30dc2faaabaf93f0539ffbde032461ab63a2c242fbe6e1f60a22344c8a334",
+			"14f736b7df6a35c29eaed82a47fc0a248684960aa8f2222b5ab8cdad28ead745"
+		],
+		"reference": [],
+		"rule_precision": 14
+	}
+}

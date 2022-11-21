@@ -1,0 +1,11 @@
+{
+    "log_files": [
+        {
+            "filepath": "/var/log/audit/audit.log",
+            "select": "*",
+            "suppress": "(cwd=\"\\\\w{0,}vxagent\\\\w{0,}\")or(comm=\"\\\\w{0,}vxagent\\\\w{0,}\")or(name=\"\\\\w{0,}vxagent\\\\w{0,}\")or(name=\"/var/log/audit/audit.log\")"
+        }
+    ],
+    "receivers": [],
+    "target_path": ""
+}

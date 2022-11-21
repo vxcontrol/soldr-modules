@@ -1,0 +1,690 @@
+{
+    "additionalProperties": false,
+    "properties": {
+        "pt_kill_object_process_by_file_path": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/base.action"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "object.fullpath"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "object.fullpath"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 1,
+                            "minItems": 1,
+                            "type": "array"
+                        },
+                        "priority": {
+                            "default": 66,
+                            "maximum": 66,
+                            "minimum": 66,
+                            "type": "integer"
+                        }
+                    },
+                    "required": [
+                        "fields",
+                        "priority"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "pt_kill_object_process_by_image": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/base.action"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "object.process.fullpath"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "object.process.fullpath"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 1,
+                            "minItems": 1,
+                            "type": "array"
+                        },
+                        "priority": {
+                            "default": 68,
+                            "maximum": 68,
+                            "minimum": 68,
+                            "type": "integer"
+                        }
+                    },
+                    "required": [
+                        "fields",
+                        "priority"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "pt_kill_object_process_by_name": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/base.action"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "object.process.name"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "object.process.name"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 1,
+                            "minItems": 1,
+                            "type": "array"
+                        },
+                        "priority": {
+                            "default": 68,
+                            "maximum": 68,
+                            "minimum": 68,
+                            "type": "integer"
+                        }
+                    },
+                    "required": [
+                        "fields",
+                        "priority"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "pt_kill_object_process_by_name_and_id": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/base.action"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "object.process.id",
+                                "object.process.name"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "object.process.id",
+                                    "object.process.name"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 2,
+                            "minItems": 2,
+                            "type": "array"
+                        },
+                        "priority": {
+                            "default": 70,
+                            "maximum": 70,
+                            "minimum": 70,
+                            "type": "integer"
+                        }
+                    },
+                    "required": [
+                        "fields",
+                        "priority"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "pt_kill_object_process_by_image_and_id": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/base.action"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "object.process.fullpath",
+                                "object.process.id"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "object.process.fullpath",
+                                    "object.process.id"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 2,
+                            "minItems": 2,
+                            "type": "array"
+                        },
+                        "priority": {
+                            "default": 70,
+                            "maximum": 70,
+                            "minimum": 70,
+                            "type": "integer"
+                        }
+                    },
+                    "required": [
+                        "fields",
+                        "priority"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "pt_kill_object_process_tree_by_file_path": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/base.action"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "object.fullpath"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "object.fullpath"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 1,
+                            "minItems": 1,
+                            "type": "array"
+                        },
+                        "priority": {
+                            "default": 72,
+                            "maximum": 72,
+                            "minimum": 72,
+                            "type": "integer"
+                        }
+                    },
+                    "required": [
+                        "fields",
+                        "priority"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "pt_kill_object_process_tree_by_image": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/base.action"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "object.process.fullpath"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "object.process.fullpath"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 1,
+                            "minItems": 1,
+                            "type": "array"
+                        },
+                        "priority": {
+                            "default": 72,
+                            "maximum": 72,
+                            "minimum": 72,
+                            "type": "integer"
+                        }
+                    },
+                    "required": [
+                        "fields",
+                        "priority"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "pt_kill_object_process_tree_by_name": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/base.action"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "object.process.name"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "object.process.name"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 1,
+                            "minItems": 1,
+                            "type": "array"
+                        },
+                        "priority": {
+                            "default": 72,
+                            "maximum": 72,
+                            "minimum": 72,
+                            "type": "integer"
+                        }
+                    },
+                    "required": [
+                        "fields",
+                        "priority"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "pt_kill_object_process_tree_by_name_and_id": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/base.action"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "object.process.id",
+                                "object.process.name"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "object.process.id",
+                                    "object.process.name"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 2,
+                            "minItems": 2,
+                            "type": "array"
+                        },
+                        "priority": {
+                            "default": 74,
+                            "maximum": 74,
+                            "minimum": 74,
+                            "type": "integer"
+                        }
+                    },
+                    "required": [
+                        "fields",
+                        "priority"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "pt_kill_object_process_tree_by_image_and_id": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/base.action"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "object.process.fullpath",
+                                "object.process.id"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "object.process.fullpath",
+                                    "object.process.id"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 2,
+                            "minItems": 2,
+                            "type": "array"
+                        },
+                        "priority": {
+                            "default": 74,
+                            "maximum": 74,
+                            "minimum": 74,
+                            "type": "integer"
+                        }
+                    },
+                    "required": [
+                        "fields",
+                        "priority"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "pt_kill_subject_process_by_image": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/base.action"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "subject.process.fullpath"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "subject.process.fullpath"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 1,
+                            "minItems": 1,
+                            "type": "array"
+                        },
+                        "priority": {
+                            "default": 68,
+                            "maximum": 68,
+                            "minimum": 68,
+                            "type": "integer"
+                        }
+                    },
+                    "required": [
+                        "fields",
+                        "priority"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "pt_kill_subject_process_by_name": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/base.action"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "subject.process.name"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "subject.process.name"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 1,
+                            "minItems": 1,
+                            "type": "array"
+                        },
+                        "priority": {
+                            "default": 68,
+                            "maximum": 68,
+                            "minimum": 68,
+                            "type": "integer"
+                        }
+                    },
+                    "required": [
+                        "fields",
+                        "priority"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "pt_kill_subject_process_by_name_and_id": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/base.action"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "subject.process.id",
+                                "subject.process.name"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "subject.process.id",
+                                    "subject.process.name"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 2,
+                            "minItems": 2,
+                            "type": "array"
+                        },
+                        "priority": {
+                            "default": 70,
+                            "maximum": 70,
+                            "minimum": 70,
+                            "type": "integer"
+                        }
+                    },
+                    "required": [
+                        "fields",
+                        "priority"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "pt_kill_subject_process_by_image_and_id": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/base.action"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "subject.process.fullpath",
+                                "subject.process.id"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "subject.process.fullpath",
+                                    "subject.process.id"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 2,
+                            "minItems": 2,
+                            "type": "array"
+                        },
+                        "priority": {
+                            "default": 70,
+                            "maximum": 70,
+                            "minimum": 70,
+                            "type": "integer"
+                        }
+                    },
+                    "required": [
+                        "fields",
+                        "priority"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "pt_kill_subject_process_tree_by_image": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/base.action"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "subject.process.fullpath"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "subject.process.fullpath"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 1,
+                            "minItems": 1,
+                            "type": "array"
+                        },
+                        "priority": {
+                            "default": 72,
+                            "maximum": 72,
+                            "minimum": 72,
+                            "type": "integer"
+                        }
+                    },
+                    "required": [
+                        "fields",
+                        "priority"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "pt_kill_subject_process_tree_by_name": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/base.action"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "subject.process.name"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "subject.process.name"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 1,
+                            "minItems": 1,
+                            "type": "array"
+                        },
+                        "priority": {
+                            "default": 72,
+                            "maximum": 72,
+                            "minimum": 72,
+                            "type": "integer"
+                        }
+                    },
+                    "required": [
+                        "fields",
+                        "priority"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "pt_kill_subject_process_tree_by_name_and_id": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/base.action"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "subject.process.id",
+                                "subject.process.name"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "subject.process.id",
+                                    "subject.process.name"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 2,
+                            "minItems": 2,
+                            "type": "array"
+                        },
+                        "priority": {
+                            "default": 74,
+                            "maximum": 74,
+                            "minimum": 74,
+                            "type": "integer"
+                        }
+                    },
+                    "required": [
+                        "fields",
+                        "priority"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "pt_kill_subject_process_tree_by_image_and_id": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/base.action"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "subject.process.fullpath",
+                                "subject.process.id"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "subject.process.fullpath",
+                                    "subject.process.id"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 2,
+                            "minItems": 2,
+                            "type": "array"
+                        },
+                        "priority": {
+                            "default": 74,
+                            "maximum": 74,
+                            "minimum": 74,
+                            "type": "integer"
+                        }
+                    },
+                    "required": [
+                        "fields",
+                        "priority"
+                    ],
+                    "type": "object"
+                }
+            ]
+        }
+    },
+    "required": [
+        "pt_kill_object_process_by_file_path",
+        "pt_kill_object_process_by_image",
+        "pt_kill_object_process_by_name",
+        "pt_kill_object_process_by_name_and_id",
+        "pt_kill_object_process_by_image_and_id",
+        "pt_kill_object_process_tree_by_file_path",
+        "pt_kill_object_process_tree_by_image",
+        "pt_kill_object_process_tree_by_name",
+        "pt_kill_object_process_tree_by_name_and_id",
+        "pt_kill_object_process_tree_by_image_and_id",
+        "pt_kill_subject_process_by_image",
+        "pt_kill_subject_process_by_name",
+        "pt_kill_subject_process_by_name_and_id",
+        "pt_kill_subject_process_by_image_and_id",
+        "pt_kill_subject_process_tree_by_image",
+        "pt_kill_subject_process_tree_by_name",
+        "pt_kill_subject_process_tree_by_name_and_id",
+        "pt_kill_subject_process_tree_by_image_and_id"
+    ],
+    "type": "object"
+}

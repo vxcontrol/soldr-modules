@@ -1,0 +1,249 @@
+{
+    "module": {
+        "en": {
+            "title": "File sender",
+            "description": "Sends files to external systems"
+        },
+        "ru": {
+            "title": "Отправка файлов",
+            "description": "Отправляет файлы во внешние системы"
+        }
+    },
+    "config": {
+        "file_size_limit": {
+            "en": {
+                "title": "Maximum file size (MB)",
+                "description": "At most 1024 MB"
+            },
+            "ru": {
+                "title": "Максимальный размер файла, МБ",
+                "description": "Не более 1024 МБ"
+            }
+        },
+        "request_config": {
+            "en": {
+                "title": "External system address and HTTP request method",
+                "description": ""
+            },
+            "ru": {
+                "title": "Адрес внешней системы и метод HTTP-запроса",
+                "description": ""
+            }
+        },
+        "request_headers": {
+            "en": {
+                "title": "List of request headers",
+                "description": "In '{name}': '{value}' format"
+            },
+            "ru": {
+                "title": "Список заголовков запроса",
+                "description": "В формате '{имя}': '{значение}'"
+            }
+        }
+    },
+    "secure_config": {},
+    "fields": {
+        "object.fullpath": {
+            "en": {
+                "title": "object.fullpath",
+                "description": "File path"
+            },
+            "ru": {
+                "title": "object.fullpath",
+                "description": "Путь к файлу"
+            }
+        },
+        "object.process.fullpath": {
+            "en": {
+                "title": "object.process.fullpath",
+                "description": "Path to an executable file of the process"
+            },
+            "ru": {
+                "title": "object.process.fullpath",
+                "description": "Путь до исполняемого файла процесса"
+            }
+        },
+        "reason": {
+            "en": {
+                "title": "reason",
+                "description": "Event reason"
+            },
+            "ru": {
+                "title": "reason",
+                "description": "Причина возникновения события"
+            }
+        },
+        "subject.fullpath": {
+            "en": {
+                "title": "subject.fullpath",
+                "description": "File path"
+            },
+            "ru": {
+                "title": "subject.fullpath",
+                "description": "Путь к файлу"
+            }
+        },
+        "subject.process.fullpath": {
+            "en": {
+                "title": "subject.process.fullpath",
+                "description": "Path to an executable file of the process"
+            },
+            "ru": {
+                "title": "subject.process.fullpath",
+                "description": "Путь до исполняемого файла процесса"
+            }
+        }
+    },
+    "actions": {
+        "fu_upload_object_file": {
+            "en": {
+                "title": "Send an object file to an external system",
+                "description": "Sending an object file to an external system over HTTP"
+            },
+            "ru": {
+                "title": "Отправить файл-объект во внешнюю систему",
+                "description": "Отправка файла-объекта во внешнюю систему по протоколу HTTP"
+            }
+        },
+        "fu_upload_object_proc_image": {
+            "en": {
+                "title": "Send an executable file of the object process to an exetrnal system",
+                "description": "Sending an executable file of the object process to an external system over HTTP"
+            },
+            "ru": {
+                "title": "Отправить исполняемый файл процесса-объекта во внешнюю систему",
+                "description": "Отправка исполняемого файла процесса-объекта во внешнюю систему по протоколу HTTP"
+            }
+        },
+        "fu_upload_subject_proc_image": {
+            "en": {
+                "title": "Send an executable file of the subject process to an exetrnal system",
+                "description": "Sending an executable file of the subject process to an external system over HTTP"
+            },
+            "ru": {
+                "title": "Отправить исполняемый файл процесса-субъекта во внешнюю систему",
+                "description": "Отправка исполняемого файла процесса-субъекта во внешнюю систему по протоколу HTTP"
+            }
+        }
+    },
+    "events": {
+        "fu_module_started": {
+            "en": {
+                "title": "The \"File sender\" module is started",
+                "description": "The module is started successfully"
+            },
+            "ru": {
+                "title": "Модуль «Отправка файлов» запущен",
+                "description": "Модуль успешно запущен"
+            }
+        },
+        "fu_module_stopped": {
+            "en": {
+                "title": "The \"File sender\" module is stopped",
+                "description": "The module is stopped successfully"
+            },
+            "ru": {
+                "title": "Модуль «Отправка файлов» остановлен",
+                "description": "Модуль успешно остановлен"
+            }
+        },
+        "fu_object_file_upload_failed": {
+            "en": {
+                "title": "The module failed to send the object file to the exetrnal system: an error occurred",
+                "description": "Failed to send '{{[object.fullpath]}}'"
+            },
+            "ru": {
+                "title": "Модуль не смог отправить файл-объект во внешнюю систему: возникла ошибка",
+                "description": "Ошибка отправки '{{[object.fullpath]}}'"
+            }
+        },
+        "fu_object_file_upload_successful": {
+            "en": {
+                "title": "The module sent the object file to the exetrnal system",
+                "description": "'{{[object.fullpath]}}' was sent successfully"
+            },
+            "ru": {
+                "title": "Файл-объект отправлен модулем во внешнюю систему",
+                "description": "'{{[object.fullpath]}}' успешно отправлен во внешнюю систему"
+            }
+        },
+        "fu_object_proc_image_upload_failed": {
+            "en": {
+                "title": "The module failed to send the executable file of the object process to the exetrnal system: an error occurred",
+                "description": "Failed to send '{{[object.process.fullpath]}}'"
+            },
+            "ru": {
+                "title": "Модуль не смог отправить исполняемый файл процесса-объекта во внешнюю систему: возникла ошибка",
+                "description": "Ошибка отправки '{{[object.process.fullpath]}}'"
+            }
+        },
+        "fu_object_proc_image_upload_successful": {
+            "en": {
+                "title": "The module sent the executable file of the object process to the exetrnal system",
+                "description": "'{{[object.process.fullpath]}}' was sent successfully"
+            },
+            "ru": {
+                "title": "Исполняемый файл процесса-объекта отправлен модулем во внешнюю систему",
+                "description": "'{{[object.process.fullpath]}}' успешно отправлен во внешнюю систему"
+            }
+        },
+        "fu_subject_proc_image_upload_failed": {
+            "en": {
+                "title": "The module failed to send the executable file of the subject process to the exetrnal system: an error occurred",
+                "description": "Failed to send '{{[subject.process.fullpath]}}'"
+            },
+            "ru": {
+                "title": "Модуль не смог отправить исполняемый файл процесса-субъекта во внешнюю систему: возникла ошибка",
+                "description": "Ошибка отправки '{{[subject.process.fullpath]}}'"
+            }
+        },
+        "fu_subject_proc_image_upload_successful": {
+            "en": {
+                "title": "The module sent the executable file of the subject process to the exetrnal system",
+                "description": "'{{[subject.process.fullpath]}}' was sent successfully"
+            },
+            "ru": {
+                "title": "Исполняемый файл процесса-субъекта отправлен модулем во внешнюю систему",
+                "description": "'{{[subject.process.fullpath]}}' успешно отправлен во внешнюю систему"
+            }
+        },
+        "fu_upload_internal_error": {
+            "en": {
+                "title": "The module failed to send the file to the exetrnal system: not enough data to perform the operation",
+                "description": "Internal file sending error occurred: '{{reason}}'"
+            },
+            "ru": {
+                "title": "Модуль не смог отправить файл во внешнюю систему: недостаточно данных для выполнения операции",
+                "description": "Возникла внутренняя ошибка отправки файла по причине '{{reason}}'"
+            }
+        }
+    },
+    "action_config": {
+        "fu_upload_object_file": {},
+        "fu_upload_object_proc_image": {},
+        "fu_upload_subject_proc_image": {}
+    },
+    "event_config": {
+        "fu_module_started": {},
+        "fu_module_stopped": {},
+        "fu_object_file_upload_failed": {},
+        "fu_object_file_upload_successful": {},
+        "fu_object_proc_image_upload_failed": {},
+        "fu_object_proc_image_upload_successful": {},
+        "fu_subject_proc_image_upload_failed": {},
+        "fu_subject_proc_image_upload_successful": {},
+        "fu_upload_internal_error": {}
+    },
+    "tags": {
+        "responder": {
+            "en": {
+                "title": "responder",
+                "description": "Stops suspicious and malicious activity on the end device by performing actions in accordance with the configuration of the detection modules"
+            },
+            "ru": {
+                "title": "responder",
+                "description": "Пресекает подозрительную и вредоносную активность на конечном устройстве, выполняя действия в соответствии с конфигурацией модулей обнаружения"
+            }
+        }
+    }
+}

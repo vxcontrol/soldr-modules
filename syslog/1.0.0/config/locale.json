@@ -1,0 +1,89 @@
+{
+    "module": {
+        "en": {
+            "title": "Event sender to syslog server",
+            "description": "Sends the database event records to the syslog server"
+        },
+        "ru": {
+            "title": "Отправка событий на syslog-сервер",
+            "description": "Отправляет записи о событиях ИБ на syslog-сервер"
+        }
+    },
+    "config": {
+        "target_path": {
+            "en": {
+                "title": "Address of the syslog server",
+                "description": ""
+            },
+            "ru": {
+                "title": "Адрес syslog-сервера",
+                "description": ""
+            }
+        }
+    },
+    "secure_config": {},
+    "fields": {},
+    "actions": {
+        "send_to_syslog": {
+            "en": {
+                "title": "Send an event to the syslog server",
+                "description": "Sending an event to the syslog server"
+            },
+            "ru": {
+                "title": "Отправить событие на syslog-сервер",
+                "description": "Отправка события на syslog-сервер"
+            }
+        }
+    },
+    "events": {
+        "syslog_module_started": {
+            "en": {
+                "title": "The \"Event sender to syslog server\" module is started",
+                "description": "The module is started successfully"
+            },
+            "ru": {
+                "title": "Модуль «Отправка событий на syslog-сервер» запущен",
+                "description": "Модуль успешно запущен"
+            }
+        },
+        "syslog_module_stopped": {
+            "en": {
+                "title": "The \"Event sender to syslog server\" module is stopped",
+                "description": "The module is stopped successfully"
+            },
+            "ru": {
+                "title": "Модуль «Отправка событий на syslog-сервер» остановлен",
+                "description": "Модуль успешно остановлен"
+            }
+        }
+    },
+    "action_config": {
+        "send_to_syslog": {}
+    },
+    "event_config": {
+        "syslog_module_started": {},
+        "syslog_module_stopped": {}
+    },
+    "tags": {
+        "responder": {
+            "en": {
+                "title": "responder",
+                "description": "Stops suspicious and malicious activity on the end device by performing actions in accordance with the configuration of the detection modules"
+            },
+            "ru": {
+                "title": "responder",
+                "description": "Пресекает подозрительную и вредоносную активность на конечном устройстве, выполняя действия в соответствии с конфигурацией модулей обнаружения"
+            }
+        },
+        "syslog": {
+            "en": {
+                "title": "syslog",
+                "description": "Sending events to the syslog server"
+            },
+            "ru": {
+                "title": "syslog",
+                "description": "Отправка событий на syslog-сервер"
+            }
+        }
+    }
+}

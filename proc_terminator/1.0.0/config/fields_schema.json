@@ -1,0 +1,63 @@
+{
+    "additionalProperties": true,
+    "properties": {
+        "object.fullpath": {
+            "rules": {},
+            "type": "string",
+            "ui": {
+                "widgetConfig": {}
+            }
+        },
+        "object.process.fullpath": {
+            "rules": {},
+            "type": "string",
+            "ui": {
+                "widgetConfig": {}
+            }
+        },
+        "object.process.id": {
+            "rules": {},
+            "type": "number",
+            "ui": {
+                "widgetConfig": {}
+            }
+        },
+        "object.process.name": {
+            "rules": {},
+            "type": "string",
+            "ui": {
+                "widgetConfig": {}
+            }
+        },
+        "reason": {
+            "rules": {},
+            "type": "string",
+            "ui": {
+                "widgetConfig": {}
+            }
+        },
+        "subject.process.fullpath": {
+            "rules": {},
+            "type": "string",
+            "ui": {
+                "widgetConfig": {}
+            }
+        },
+        "subject.process.id": {
+            "rules": {},
+            "type": "number",
+            "ui": {
+                "widgetConfig": {}
+            }
+        },
+        "subject.process.name": {
+            "rules": {},
+            "type": "string",
+            "ui": {
+                "widgetConfig": {}
+            }
+        }
+    },
+    "required": [],
+    "type": "object"
+}

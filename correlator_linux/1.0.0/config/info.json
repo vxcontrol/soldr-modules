@@ -1,0 +1,55 @@
+{
+    "actions": [],
+    "events": [
+        "Malware_Exploit_Elf_CVE_2021_4034_a",
+        "Suspicious_Create_File_Boot_Modification",
+        "Suspicious_Create_File_Boot_RCScripts",
+        "Suspicious_Create_File_Scheduler_Cron",
+        "Suspicious_Create_File_Ssh_AuthorizedKeys",
+        "Suspicious_Create_Process_Iptables_ModifyFirewall",
+        "Suspicious_Read_File_Passwd_CredentialsEnumeration",
+        "Suspicious_Read_File_Shadow_CredentialsDumping",
+        "Suspicious_Write_File_PAM_Persistence",
+        "Suspicious_Write_Process_Inject_Ptrace"
+    ],
+    "fields": [
+        "category.generic",
+        "category.high",
+        "correlation_name",
+        "numfield1",
+        "object.fullpath",
+        "object.name",
+        "object.path",
+        "object.process.cmdline",
+        "object.process.fullpath",
+        "object.process.id",
+        "object.process.name",
+        "object.process.parent.id",
+        "object.process.path",
+        "object.state",
+        "object.value",
+        "subject.process.fullpath",
+        "subject.process.id",
+        "subject.process.meta",
+        "subject.process.name",
+        "subject.process.parent.id",
+        "subject.process.path"
+    ],
+    "name": "correlator_linux",
+    "os": {
+        "linux": [
+            "amd64"
+        ]
+    },
+    "system": false,
+    "tags": [
+        "detector",
+        "responder"
+    ],
+    "template": "responder",
+    "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 0
+    }
+}

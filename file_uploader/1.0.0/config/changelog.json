@@ -1,0 +1,14 @@
+{
+    "1.0.0": {
+        "en": {
+            "date": "04-29-2022",
+            "title": "Base functionality",
+            "description": "Added the ability to send files to external systems over HTTP."
+        },
+        "ru": {
+            "date": "29.04.2022",
+            "title": "Базовая функциональность",
+            "description": "Добавлена возможность отправлять файлы во внешние системы по протоколу HTTP."
+        }
+    }
+}

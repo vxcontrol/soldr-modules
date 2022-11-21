@@ -1,0 +1,26 @@
+{
+    "syslog_module_started": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [],
+        "type": "atomic"
+    },
+    "syslog_module_stopped": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [],
+        "type": "atomic"
+    }
+}

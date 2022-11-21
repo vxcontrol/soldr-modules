@@ -1,0 +1,207 @@
+{
+    "sysmon_already_installed": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "reason",
+            "version"
+        ],
+        "type": "atomic"
+    },
+    "sysmon_already_started": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "reason",
+            "version"
+        ],
+        "type": "atomic"
+    },
+    "sysmon_config_updated_error": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "reason",
+            "version"
+        ],
+        "type": "atomic"
+    },
+    "sysmon_config_updated_success": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "version"
+        ],
+        "type": "atomic"
+    },
+    "sysmon_installed_error": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "reason",
+            "version"
+        ],
+        "type": "atomic"
+    },
+    "sysmon_installed_success": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "version"
+        ],
+        "type": "atomic"
+    },
+    "sysmon_started_error": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "reason",
+            "version"
+        ],
+        "type": "atomic"
+    },
+    "sysmon_started_success": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "version"
+        ],
+        "type": "atomic"
+    },
+    "sysmon_unexpected_stopped": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "reason",
+            "version"
+        ],
+        "type": "atomic"
+    },
+    "sysmon_unexpected_uninstalled": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "reason",
+            "version"
+        ],
+        "type": "atomic"
+    },
+    "sysmon_uninstalled_error": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "reason",
+            "version"
+        ],
+        "type": "atomic"
+    },
+    "sysmon_uninstalled_success": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "version"
+        ],
+        "type": "atomic"
+    },
+    "sysmon_updated_error": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "reason",
+            "version"
+        ],
+        "type": "atomic"
+    },
+    "sysmon_updated_success": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "version"
+        ],
+        "type": "atomic"
+    }
+}

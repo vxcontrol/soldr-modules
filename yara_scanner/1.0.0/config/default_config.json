@@ -1,0 +1,383 @@
+{
+    "exclude_fs_items_linux": [
+        {
+            "filepath": "/var/log/*"
+        }
+    ],
+    "exclude_fs_items_win": [
+        {
+            "filepath": "*\\appdata\\local\\*\\user data\\default\\*"
+        },
+        {
+            "filepath": "*\\appdata\\local\\connecteddevicesplatform\\*"
+        },
+        {
+            "filepath": "*\\appdata\\local\\microsoft\\office\\*"
+        },
+        {
+            "filepath": "*\\microsoft\\office\\recent\\*"
+        },
+        {
+            "filepath": "*\\microsoft\\windows\\wer\\temp\\*"
+        },
+        {
+            "filepath": "*\\roaming\\microsoft\\windows\\recent\\*"
+        },
+        {
+            "filepath": "*\\windows\\appcompat\\*"
+        },
+        {
+            "filepath": "*\\windows\\ccm\\logs\\*"
+        },
+        {
+            "filepath": "*\\windows\\logs\\*"
+        },
+        {
+            "filepath": "*\\windows\\prefetch\\*"
+        },
+        {
+            "filepath": "*\\windows\\system32\\config\\*"
+        },
+        {
+            "filepath": "*\\windows\\system32\\sru\\*"
+        },
+        {
+            "filepath": "*\\windows\\system32\\wbem\\*"
+        },
+        {
+            "filepath": "*\\windows\\system32\\winevt\\*"
+        },
+        {
+            "filepath": "*\\windows\\temp\\*"
+        }
+    ],
+    "exclude_rules": [],
+    "fastscan_fs_items_linux": [
+        {
+            "filepath": "/bin",
+            "recursive": true
+        },
+        {
+            "filepath": "/sbin",
+            "recursive": true
+        },
+        {
+            "filepath": "/usr/bin",
+            "recursive": true
+        },
+        {
+            "filepath": "/usr/sbin",
+            "recursive": true
+        },
+        {
+            "filepath": "/home",
+            "recursive": true
+        }
+    ],
+    "fastscan_fs_items_win": [
+        {
+            "filepath": "%appdata%\\Microsoft\\Windows\\Start Menu\\Programs\\Startup",
+            "recursive": true
+        },
+        {
+            "filepath": "%programdata%\\Microsoft\\Windows\\Start Menu\\Programs\\Startup",
+            "recursive": true
+        },
+        {
+            "filepath": "%localappdata%\\Temp",
+            "recursive": true
+        },
+        {
+            "filepath": "%localappdata%\\Local\\Microsoft\\Windows\\INetCache\\Content.Outlook",
+            "recursive": true
+        },
+        {
+            "filepath": "%userprofile%\\Downloads",
+            "recursive": true
+        },
+        {
+            "filepath": "%userprofile%\\Documents",
+            "recursive": true
+        },
+        {
+            "filepath": "%userprofile%\\Desktop",
+            "recursive": true
+        },
+        {
+            "filepath": "%PUBLIC%",
+            "recursive": true
+        },
+        {
+            "filepath": "%ProgramFiles%",
+            "recursive": true
+        },
+        {
+            "filepath": "%ProgramFiles(x86)%",
+            "recursive": true
+        },
+        {
+            "filepath": "%appdata%",
+            "recursive": true
+        },
+        {
+            "filepath": "%programdata%",
+            "recursive": false
+        },
+        {
+            "filepath": "%windir%\\Tasks",
+            "recursive": false
+        },
+        {
+            "filepath": "%windir%\\System32\\Tasks",
+            "recursive": false
+        }
+    ],
+    "fastscan_proc_items_linux": [
+        {
+            "proc_image": "*"
+        }
+    ],
+    "fastscan_proc_items_win": [
+        {
+            "proc_image": "*\\svchost.exe"
+        },
+        {
+            "proc_image": "*\\dllhost.exe"
+        },
+        {
+            "proc_image": "*\\rundll32.exe"
+        },
+        {
+            "proc_image": "*\\spoolsv.exe"
+        },
+        {
+            "proc_image": "*\\lsass.exe"
+        }
+    ],
+    "malware_class_items": [
+        {
+            "enabled": true,
+            "malware_class": "SPAM"
+        },
+        {
+            "enabled": true,
+            "malware_class": "RISKTOOL"
+        },
+        {
+            "enabled": true,
+            "malware_class": "SERVER_TELNET"
+        },
+        {
+            "enabled": true,
+            "malware_class": "SERVER_FTP"
+        },
+        {
+            "enabled": true,
+            "malware_class": "SERVER_PROXY"
+        },
+        {
+            "enabled": true,
+            "malware_class": "SERVER_WEB"
+        },
+        {
+            "enabled": true,
+            "malware_class": "CLIENT_IRC"
+        },
+        {
+            "enabled": true,
+            "malware_class": "CLIENT_P2P"
+        },
+        {
+            "enabled": true,
+            "malware_class": "CLIENT_SMTP"
+        },
+        {
+            "enabled": true,
+            "malware_class": "DIALER"
+        },
+        {
+            "enabled": true,
+            "malware_class": "FRAUDTOOL"
+        },
+        {
+            "enabled": true,
+            "malware_class": "DOWNLOADER"
+        },
+        {
+            "enabled": true,
+            "malware_class": "MONITOR"
+        },
+        {
+            "enabled": true,
+            "malware_class": "WEBTOOLBAR"
+        },
+        {
+            "enabled": true,
+            "malware_class": "NETTOOL"
+        },
+        {
+            "enabled": true,
+            "malware_class": "PSWTOOL"
+        },
+        {
+            "enabled": true,
+            "malware_class": "REMOTEADMIN"
+        },
+        {
+            "enabled": true,
+            "malware_class": "ADWARE"
+        },
+        {
+            "enabled": true,
+            "malware_class": "PHISHING"
+        },
+        {
+            "enabled": true,
+            "malware_class": "HACKTOOL"
+        },
+        {
+            "enabled": true,
+            "malware_class": "HOAX"
+        },
+        {
+            "enabled": true,
+            "malware_class": "FLOODER"
+        },
+        {
+            "enabled": true,
+            "malware_class": "IM_FLOODER"
+        },
+        {
+            "enabled": true,
+            "malware_class": "SMS_FLOODER"
+        },
+        {
+            "enabled": true,
+            "malware_class": "EMAIL_FLOODER"
+        },
+        {
+            "enabled": true,
+            "malware_class": "SPOOFER"
+        },
+        {
+            "enabled": true,
+            "malware_class": "CONSTRUCTOR"
+        },
+        {
+            "enabled": true,
+            "malware_class": "VIRTOOL"
+        },
+        {
+            "enabled": true,
+            "malware_class": "DOS"
+        },
+        {
+            "enabled": true,
+            "malware_class": "TROJAN"
+        },
+        {
+            "enabled": true,
+            "malware_class": "EXPLOIT"
+        },
+        {
+            "enabled": true,
+            "malware_class": "TROJAN_FAKEAV"
+        },
+        {
+            "enabled": true,
+            "malware_class": "TROJAN_ARCBOMB"
+        },
+        {
+            "enabled": true,
+            "malware_class": "TROJAN_DDOS"
+        },
+        {
+            "enabled": true,
+            "malware_class": "TROJAN_PROXY"
+        },
+        {
+            "enabled": true,
+            "malware_class": "TROJAN_NOTIFIER"
+        },
+        {
+            "enabled": true,
+            "malware_class": "TROJAN_CLICKER"
+        },
+        {
+            "enabled": true,
+            "malware_class": "TROJAN_DOWNLOADER"
+        },
+        {
+            "enabled": true,
+            "malware_class": "TROJAN_DROPPER"
+        },
+        {
+            "enabled": true,
+            "malware_class": "TROJAN_RANSOM"
+        },
+        {
+            "enabled": true,
+            "malware_class": "TROJAN_MAILFINDER"
+        },
+        {
+            "enabled": true,
+            "malware_class": "TROJAN_SPY"
+        },
+        {
+            "enabled": true,
+            "malware_class": "TROJAN_IM"
+        },
+        {
+            "enabled": true,
+            "malware_class": "TROJAN_SMS"
+        },
+        {
+            "enabled": true,
+            "malware_class": "TROJAN_GAMETHIEF"
+        },
+        {
+            "enabled": true,
+            "malware_class": "TROJAN_PSW"
+        },
+        {
+            "enabled": true,
+            "malware_class": "TROJAN_BANKER"
+        },
+        {
+            "enabled": true,
+            "malware_class": "BACKDOOR"
+        },
+        {
+            "enabled": true,
+            "malware_class": "ROOTKIT"
+        },
+        {
+            "enabled": true,
+            "malware_class": "VIRUS"
+        },
+        {
+            "enabled": true,
+            "malware_class": "WORM"
+        },
+        {
+            "enabled": true,
+            "malware_class": "IRC_WORM"
+        },
+        {
+            "enabled": true,
+            "malware_class": "IM_WORM"
+        },
+        {
+            "enabled": true,
+            "malware_class": "P2P_WORM"
+        },
+        {
+            "enabled": true,
+            "malware_class": "EMAIL_WORM"
+        },
+        {
+            "enabled": true,
+            "malware_class": "NET_WORM"
+        }
+    ]
+}

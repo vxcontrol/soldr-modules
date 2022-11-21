@@ -1,0 +1,58 @@
+{
+    "yr_object_scan_proc": {
+        "fields": [
+            "object.process.fullpath",
+            "object.process.id"
+        ],
+        "priority": 78
+    },
+    "yr_object_task_scan_proc": {
+        "fields": [
+            "object.process.fullpath",
+            "object.process.id"
+        ],
+        "priority": 15
+    },
+    "yr_scan_fs": {
+        "fields": [
+            "object.fullpath"
+        ],
+        "priority": 35
+    },
+    "yr_subject_scan_proc": {
+        "fields": [
+            "subject.process.fullpath",
+            "subject.process.id"
+        ],
+        "priority": 78
+    },
+    "yr_subject_task_scan_proc": {
+        "fields": [
+            "subject.process.fullpath",
+            "subject.process.id"
+        ],
+        "priority": 15
+    },
+    "yr_task_fastscan_fs": {
+        "fields": [],
+        "priority": 15
+    },
+    "yr_task_fastscan_proc": {
+        "fields": [],
+        "priority": 15
+    },
+    "yr_task_fullscan_fs": {
+        "fields": [],
+        "priority": 15
+    },
+    "yr_task_fullscan_proc": {
+        "fields": [],
+        "priority": 15
+    },
+    "yr_task_scan_fs": {
+        "fields": [
+            "object.fullpath"
+        ],
+        "priority": 15
+    }
+}

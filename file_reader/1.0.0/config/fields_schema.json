@@ -1,0 +1,14 @@
+{
+    "additionalProperties": true,
+    "properties": {
+        "reason": {
+            "rules": {},
+            "type": "string",
+            "ui": {
+                "widgetConfig": {}
+            }
+        }
+    },
+    "required": [],
+    "type": "object"
+}

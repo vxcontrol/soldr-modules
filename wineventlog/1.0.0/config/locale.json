@@ -1,0 +1,108 @@
+{
+    "module": {
+        "en": {
+            "title": "WinEventLog: data collector from Windows Event Log",
+            "description": "Passes data from Windows Event Log to detection modules and third-party systems"
+        },
+        "ru": {
+            "title": "WinEventLog: сбор данных из журнала событий Windows",
+            "description": "Передает данные из журнала событий Windows в модули обнаружения и сторонние системы"
+        }
+    },
+    "config": {
+        "log_channels": {
+            "en": {
+                "title": "Log channels",
+                "description": "List of data collection channels"
+            },
+            "ru": {
+                "title": "Каналы журналов",
+                "description": "Список каналов сбора данных"
+            }
+        },
+        "receivers": {
+            "en": {
+                "title": "Modules that receive raw events from Windows Event Log",
+                "description": "List of module identifiers"
+            },
+            "ru": {
+                "title": "Модули, получающие необработанные события из журнала событий Windows",
+                "description": "Список идентификаторов модулей"
+            }
+        },
+        "target_path": {
+            "en": {
+                "title": "Data recipient address",
+                "description": ""
+            },
+            "ru": {
+                "title": "Адрес получателя данных",
+                "description": ""
+            }
+        }
+    },
+    "secure_config": {},
+    "fields": {
+        "reason": {
+            "en": {
+                "title": "Event reason",
+                "description": "The event reason contains detailed information to investigate the situation"
+            },
+            "ru": {
+                "title": "Причина события",
+                "description": "Причина события описывает некоторую подробную информацию для расследования ситуации"
+            }
+        }
+    },
+    "actions": {},
+    "events": {
+        "wel_module_internal_error": {
+            "en": {
+                "title": "Module internal error",
+                "description": "Module internal error occurred. Reason:\n{{ reason }}"
+            },
+            "ru": {
+                "title": "Внутренняя ошибка в модуле",
+                "description": "Произошла внутренняя ошибка в модуле, причина:\n{{ reason }}"
+            }
+        },
+        "wel_module_started": {
+            "en": {
+                "title": "The \"WinEventLog: data collector from Windows Event Log\" module is started",
+                "description": "The module is started successfully"
+            },
+            "ru": {
+                "title": "Модуль «WinEventLog: сбор данных из журнала событий Windows» запущен",
+                "description": "Успешный запуск модуля"
+            }
+        },
+        "wel_module_stopped": {
+            "en": {
+                "title": "The \"WinEventLog: data collector from Windows Event Log\" module is stopped",
+                "description": "The module is stopped successfully"
+            },
+            "ru": {
+                "title": "Модуль «WinEventLog: сбор данных из журнала событий Windows» остановлен",
+                "description": "Успешная остановка модуля"
+            }
+        }
+    },
+    "action_config": {},
+    "event_config": {
+        "wel_module_internal_error": {},
+        "wel_module_started": {},
+        "wel_module_stopped": {}
+    },
+    "tags": {
+        "collector": {
+            "en": {
+                "title": "collector",
+                "description": "Collects data about events on the end device and sends it to the detection modules and SIEM systems"
+            },
+            "ru": {
+                "title": "сборщик",
+                "description": "Собирает данные о событиях на конечном устройстве и передает их в модули обнаружения и в SIEM-системы"
+            }
+        }
+    }
+}

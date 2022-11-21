@@ -1,0 +1,218 @@
+{
+    "module": {
+        "en": {
+            "title": "File remover",
+            "description": "Removes files"
+        },
+        "ru": {
+            "title": "Удаление файлов",
+            "description": "Удаляет файлы"
+        }
+    },
+    "config": {},
+    "secure_config": {},
+    "fields": {
+        "object.fullpath": {
+            "en": {
+                "title": "object.fullpath",
+                "description": "File path"
+            },
+            "ru": {
+                "title": "object.fullpath",
+                "description": "Путь к файлу"
+            }
+        },
+        "object.process.fullpath": {
+            "en": {
+                "title": "object.process.fullpath",
+                "description": "Path to an executable file of the process"
+            },
+            "ru": {
+                "title": "object.process.fullpath",
+                "description": "Путь до исполняемого файла процесса"
+            }
+        },
+        "reason": {
+            "en": {
+                "title": "reason",
+                "description": "Event reason"
+            },
+            "ru": {
+                "title": "reason",
+                "description": "Причина возникновения события"
+            }
+        },
+        "subject.fullpath": {
+            "en": {
+                "title": "subject.fullpath",
+                "description": "File path"
+            },
+            "ru": {
+                "title": "subject.fullpath",
+                "description": "Путь к файлу"
+            }
+        },
+        "subject.process.fullpath": {
+            "en": {
+                "title": "subject.process.fullpath",
+                "description": "Path to an executable file of the process"
+            },
+            "ru": {
+                "title": "subject.process.fullpath",
+                "description": "Путь до исполняемого файла процесса"
+            }
+        }
+    },
+    "actions": {
+        "fr_remove_object_file": {
+            "en": {
+                "title": "Remove an object file by path",
+                "description": "Removing an object file on an agent"
+            },
+            "ru": {
+                "title": "Удалить файл-объект, используя путь",
+                "description": "Удаление файла-объекта на агенте"
+            }
+        },
+        "fr_remove_object_proc_image": {
+            "en": {
+                "title": "Remove an executable file of the object process",
+                "description": "Removing an executable file of the object process on an agent"
+            },
+            "ru": {
+                "title": "Удалить исполняемый файл процесса-объекта",
+                "description": "Удаление исполняемого файла процесса-объекта на агенте"
+            }
+        },
+        "fr_remove_subject_proc_image": {
+            "en": {
+                "title": "Remove an executable file of the subject process",
+                "description": "Removing an executable file of the subject process on an agent"
+            },
+            "ru": {
+                "title": "Удалить исполняемый файл процесса-субъекта",
+                "description": "Удаление исполняемого файла процесса-субъекта на агенте"
+            }
+        }
+    },
+    "events": {
+        "fr_module_started": {
+            "en": {
+                "title": "The \"File remover\" module is started",
+                "description": "The module is started successfully"
+            },
+            "ru": {
+                "title": "Модуль «Удаление файлов» запущен",
+                "description": "Модуль успешно запущен"
+            }
+        },
+        "fr_module_stopped": {
+            "en": {
+                "title": "The \"File remover\" module is stopped",
+                "description": "The module is stopped successfully"
+            },
+            "ru": {
+                "title": "Модуль «Удаление файлов» остановлен",
+                "description": "Модуль успешно остановлен"
+            }
+        },
+        "fr_object_file_removed_failed": {
+            "en": {
+                "title": "The module failed to remove the object file: an error occurred",
+                "description": "Failed to remove '{{[object.fullpath]}}'"
+            },
+            "ru": {
+                "title": "Файл-объект не удален модулем: возникла ошибка",
+                "description": "Ошибка удаления '{{[object.fullpath]}}'"
+            }
+        },
+        "fr_object_file_removed_successful": {
+            "en": {
+                "title": "The module removed the object file",
+                "description": "'{{[object.fullpath]}}' was removed successful"
+            },
+            "ru": {
+                "title": "Файл-объект удален модулем",
+                "description": "'{{[object.fullpath]}}' был удален успешно"
+            }
+        },
+        "fr_object_proc_image_removed_failed": {
+            "en": {
+                "title": "The module failed to remove the executable file of the object process: an error occurred",
+                "description": "Failed to remove '{{[object.process.fullpath]}}'"
+            },
+            "ru": {
+                "title": "Исполняемый файл процесса-объекта не удален модулем: возникла ошибка",
+                "description": "Ошибка удаления '{{[object.process.fullpath]}}'"
+            }
+        },
+        "fr_object_proc_image_removed_successful": {
+            "en": {
+                "title": "The module removed the executable file of the object process",
+                "description": "'{{[object.process.fullpath]}}' was removed successful"
+            },
+            "ru": {
+                "title": "Исполняемый файл процесса-объекта удален модулем",
+                "description": "'{{[object.process.fullpath]}}' был удален успешно"
+            }
+        },
+        "fr_remove_internal_error": {
+            "en": {
+                "title": "The module failed to remove the file: not enough data to perform the operation",
+                "description": "Internal error occurred by '{{ reason }}' for '{{ filepath }}'"
+            },
+            "ru": {
+                "title": "Файл не удален модулем: недостаточно данных для выполнения операции",
+                "description": "Возникла внутренняя ошибка удаления '{{ filepath }}' по причине '{{ reason }}'"
+            }
+        },
+        "fr_subject_proc_image_removed_failed": {
+            "en": {
+                "title": "The module failed to remove the executable file of the subject process: an error occurred",
+                "description": "Failed to remove '{{[subject.process.fullpath]}}'"
+            },
+            "ru": {
+                "title": "Исполняемый файл процесса-субъекта не удален модулем: возникла ошибка",
+                "description": "Ошибка удаления '{{[subject.process.fullpath]}}'"
+            }
+        },
+        "fr_subject_proc_image_removed_successful": {
+            "en": {
+                "title": "The module removed the executable file of the subject process",
+                "description": "'{{[subject.process.fullpath]}}' was removed successful"
+            },
+            "ru": {
+                "title": "Исполняемый файл процесса-субъекта удален модулем",
+                "description": "'{{[subject.process.fullpath]}}' был удален успешно"
+            }
+        }
+    },
+    "action_config": {
+        "fr_remove_object_file": {},
+        "fr_remove_object_proc_image": {},
+        "fr_remove_subject_proc_image": {}
+    },
+    "event_config": {
+        "fr_module_started": {},
+        "fr_module_stopped": {},
+        "fr_object_file_removed_failed": {},
+        "fr_object_file_removed_successful": {},
+        "fr_object_proc_image_removed_failed": {},
+        "fr_object_proc_image_removed_successful": {},
+        "fr_remove_internal_error": {},
+        "fr_subject_proc_image_removed_failed": {},
+        "fr_subject_proc_image_removed_successful": {}
+    },
+    "tags": {
+        "responder": {
+            "en": {
+                "title": "responder",
+                "description": "Stops suspicious and malicious activity on the end device by performing actions in accordance with the configuration of the detection modules"
+            },
+            "ru": {
+                "title": "responder",
+                "description": "Пресекает подозрительную и вредоносную активность на конечном устройстве, выполняя действия в соответствии с конфигурацией модулей обнаружения"
+            }
+        }
+    }
+}

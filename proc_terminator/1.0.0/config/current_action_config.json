@@ -1,0 +1,118 @@
+{
+    "pt_kill_object_process_by_file_path": {
+        "fields": [
+            "object.fullpath"
+        ],
+        "priority": 66
+    },
+    "pt_kill_object_process_by_image": {
+        "fields": [
+            "object.process.fullpath"
+        ],
+        "priority": 68
+    },
+    "pt_kill_object_process_by_name": {
+        "fields": [
+            "object.process.name"
+        ],
+        "priority": 68
+    },
+    "pt_kill_object_process_by_name_and_id": {
+        "fields": [
+            "object.process.id",
+            "object.process.name"
+        ],
+        "priority": 70
+    },
+    "pt_kill_object_process_by_image_and_id": {
+        "fields": [
+            "object.process.fullpath",
+            "object.process.id"
+        ],
+        "priority": 70
+    },
+    "pt_kill_object_process_tree_by_file_path": {
+        "fields": [
+            "object.fullpath"
+        ],
+        "priority": 72
+    },
+    "pt_kill_object_process_tree_by_image": {
+        "fields": [
+            "object.process.fullpath"
+        ],
+        "priority": 72
+    },
+    "pt_kill_object_process_tree_by_name": {
+        "fields": [
+            "object.process.name"
+        ],
+        "priority": 72
+    },
+    "pt_kill_object_process_tree_by_name_and_id": {
+        "fields": [
+            "object.process.id",
+            "object.process.name"
+        ],
+        "priority": 74
+    },
+    "pt_kill_object_process_tree_by_image_and_id": {
+        "fields": [
+            "object.process.fullpath",
+            "object.process.id"
+        ],
+        "priority": 74
+    },
+    "pt_kill_subject_process_by_image": {
+        "fields": [
+            "subject.process.fullpath"
+        ],
+        "priority": 68
+    },
+    "pt_kill_subject_process_by_name": {
+        "fields": [
+            "subject.process.name"
+        ],
+        "priority": 68
+    },
+    "pt_kill_subject_process_by_name_and_id": {
+        "fields": [
+            "subject.process.id",
+            "subject.process.name"
+        ],
+        "priority": 70
+    },
+    "pt_kill_subject_process_by_image_and_id": {
+        "fields": [
+            "subject.process.fullpath",
+            "subject.process.id"
+        ],
+        "priority": 70
+    },
+    "pt_kill_subject_process_tree_by_image": {
+        "fields": [
+            "subject.process.fullpath"
+        ],
+        "priority": 72
+    },
+    "pt_kill_subject_process_tree_by_name": {
+        "fields": [
+            "subject.process.name"
+        ],
+        "priority": 72
+    },
+    "pt_kill_subject_process_tree_by_name_and_id": {
+        "fields": [
+            "subject.process.id",
+            "subject.process.name"
+        ],
+        "priority": 74
+    },
+    "pt_kill_subject_process_tree_by_image_and_id": {
+        "fields": [
+            "subject.process.fullpath",
+            "subject.process.id"
+        ],
+        "priority": 74
+    }
+}

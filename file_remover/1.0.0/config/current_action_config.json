@@ -1,0 +1,20 @@
+{
+    "fr_remove_object_file": {
+        "fields": [
+            "object.fullpath"
+        ],
+        "priority": 23
+    },
+    "fr_remove_object_proc_image": {
+        "fields": [
+            "object.process.fullpath"
+        ],
+        "priority": 23
+    },
+    "fr_remove_subject_proc_image": {
+        "fields": [
+            "subject.process.fullpath"
+        ],
+        "priority": 23
+    }
+}

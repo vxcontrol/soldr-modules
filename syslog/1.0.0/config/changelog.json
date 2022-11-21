@@ -1,0 +1,14 @@
+{
+    "1.0.0": {
+        "en": {
+            "date": "04-19-2022",
+            "title": "Base functionality",
+            "description": "Added the ability to send information security events to the syslog server."
+        },
+        "ru": {
+            "date": "19.04.2022",
+            "title": "Базовая функциональность",
+            "description": "Добавлена возможность отправлять события ИБ на syslog-сервер."
+        }
+    }
+}

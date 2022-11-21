@@ -1,0 +1,138 @@
+{
+    "pt_module_started": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [],
+        "type": "atomic"
+    },
+    "pt_module_stopped": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [],
+        "type": "atomic"
+    },
+    "pt_object_process_killed_failed": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "object.process.id",
+            "object.process.name",
+            "reason"
+        ],
+        "type": "atomic"
+    },
+    "pt_object_process_killed_successful": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "object.fullpath",
+            "object.process.fullpath",
+            "object.process.id",
+            "object.process.name"
+        ],
+        "type": "atomic"
+    },
+    "pt_object_process_skipped": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "object.fullpath",
+            "object.process.fullpath",
+            "object.process.id",
+            "object.process.name"
+        ],
+        "type": "atomic"
+    },
+    "pt_process_not_found": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "reason"
+        ],
+        "type": "atomic"
+    },
+    "pt_subject_process_killed_failed": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "reason",
+            "subject.process.id",
+            "subject.process.name"
+        ],
+        "type": "atomic"
+    },
+    "pt_subject_process_killed_successful": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "subject.process.fullpath",
+            "subject.process.id",
+            "subject.process.name"
+        ],
+        "type": "atomic"
+    },
+    "pt_subject_process_skipped": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "subject.process.fullpath",
+            "subject.process.id",
+            "subject.process.name"
+        ],
+        "type": "atomic"
+    }
+}

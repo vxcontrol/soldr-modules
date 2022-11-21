@@ -1,0 +1,14 @@
+{
+    "1.0.0": {
+        "en": {
+            "date": "10-01-2022",
+            "title": "Base functionality",
+            "description": "Added the ability to send data from the specified log files to detection modules, MaxPatrol SIEM, and the syslog server."
+        },
+        "ru": {
+            "date": "01.10.2022",
+            "title": "Базовая функциональность",
+            "description": "Добавлена возможность отправлять данные из заданных файлов журналов в модули обнаружения, MaxPatrol SIEM и на syslog-сервер."
+        }
+    }
+}

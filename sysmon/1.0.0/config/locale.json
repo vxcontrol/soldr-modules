@@ -1,0 +1,239 @@
+{
+    "module": {
+        "en": {
+            "title": "Sysmon installer",
+            "description": "Installs and configures the Sysmon utility"
+        },
+        "ru": {
+            "title": "Установщик Sysmon",
+            "description": "Устанавливает и конфигурирует утилиту Sysmon"
+        }
+    },
+    "config": {
+        "replace_current_sysmon_binary": {
+            "en": {
+                "title": "Replace the Sysmon executable file on an agent",
+                "description": ""
+            },
+            "ru": {
+                "title": "Заменить исполняемый файл Sysmon на агенте",
+                "description": ""
+            }
+        },
+        "replace_current_sysmon_config": {
+            "en": {
+                "title": "Remove a configuration file on an agent",
+                "description": ""
+            },
+            "ru": {
+                "title": "Заменить файл конфигурации на агенте",
+                "description": ""
+            }
+        },
+        "sysmon_config": {
+            "en": {
+                "title": "Configuration file",
+                "description": ""
+            },
+            "ru": {
+                "title": "Файл конфигурации",
+                "description": ""
+            }
+        }
+    },
+    "secure_config": {},
+    "fields": {
+        "reason": {
+            "en": {
+                "title": "Event reason",
+                "description": "The event reason contains information for further investigation"
+            },
+            "ru": {
+                "title": "Причина события",
+                "description": "Причина события содежит информацию для дальнейшего расследования"
+            }
+        },
+        "version": {
+            "en": {
+                "title": "Sysmon version",
+                "description": "The string containing the version of the Sysmon utility"
+            },
+            "ru": {
+                "title": "Версия Sysmon",
+                "description": "Строка содержащая версию утилиты Sysmon"
+            }
+        }
+    },
+    "actions": {},
+    "events": {
+        "sysmon_already_installed": {
+            "en": {
+                "title": "The module detected Sysmon installed on an agent",
+                "description": "The module detected Sysmon installed in OS:\n{{ reason }}"
+            },
+            "ru": {
+                "title": "Модуль обнаружил установленный Sysmon на агенте",
+                "description": "Модуль обнаружил установленный Sysmon в ОС:\n{{ reason }}"
+            }
+        },
+        "sysmon_already_started": {
+            "en": {
+                "title": "The module detected Sysmon already running on an agent",
+                "description": "The module detected Sysmon already running in OS:\n{{ reason }}"
+            },
+            "ru": {
+                "title": "Модуль обнаружил уже запущенный Sysmon на агенте",
+                "description": "Модуль обнаружил уже запущенный Sysmon в ОС:\n{{ reason }}"
+            }
+        },
+        "sysmon_config_updated_error": {
+            "en": {
+                "title": "The module could not update the Sysmon configuration on an agent",
+                "description": "The module could not update the Sysmon configuration {{ version }} on an agent:\n{{ reason }}"
+            },
+            "ru": {
+                "title": "Модуль не смог обновить конфигурацию Sysmon на агенте",
+                "description": "Модуль не смог обновить конфигурацию Sysmon {{ version }}, причина:\n{{ reason }}"
+            }
+        },
+        "sysmon_config_updated_success": {
+            "en": {
+                "title": "The module updated the Sysmon configuration on an agent",
+                "description": "The module updated the Sysmon configuration '{{ version }}' on an agent"
+            },
+            "ru": {
+                "title": "Модуль обновил конфигурацию Sysmon на агенте",
+                "description": "Модуль обновил конфигурацию Sysmon {{ version }} на агенте"
+            }
+        },
+        "sysmon_installed_error": {
+            "en": {
+                "title": "The module could not install the Sysmon configuration on an agent",
+                "description": "The module could not install the Sysmon configuration '{{ version }}' on an agent:\n{{ reason }}"
+            },
+            "ru": {
+                "title": "Модуль не смог установить Sysmon на агенте",
+                "description": "Модуль не смог установить Sysmon {{ version }} на агенте, причина:\n{{ reason }}"
+            }
+        },
+        "sysmon_installed_success": {
+            "en": {
+                "title": "The module installed Sysmon on an agent",
+                "description": "The module installed Sysmon '{{ version }}' on an agent"
+            },
+            "ru": {
+                "title": "Модуль установил Sysmon на агенте",
+                "description": "Модуль установил Sysmon {{ version }} на агенте"
+            }
+        },
+        "sysmon_started_error": {
+            "en": {
+                "title": "The module could not start Sysmon on an agent",
+                "description": "The module could not start the Sysmon configuration '{{ version }}' on an agent:\n{{ reason }}"
+            },
+            "ru": {
+                "title": "Модуль не смог запустить Sysmon на агенте",
+                "description": "Модуль не смог запустить Sysmon {{ version }} на агенте, причина:\n{{ reason }}"
+            }
+        },
+        "sysmon_started_success": {
+            "en": {
+                "title": "The module started Sysmon on an agent",
+                "description": "The module started Sysmon '{{ version }}' on an agent"
+            },
+            "ru": {
+                "title": "Модуль запустил Sysmon на агенте",
+                "description": "Модуль запустил Sysmon {{ version }} на агенте"
+            }
+        },
+        "sysmon_unexpected_stopped": {
+            "en": {
+                "title": "Sysmon was stopped on an agent",
+                "description": "Sysmon '{{ version }}' was stopped on an agent:\n{{ reason }}"
+            },
+            "ru": {
+                "title": "Sysmon был остановлен на агенте",
+                "description": "Sysmon {{ version }} был остановлен на агенте, причина:\n{{ reason }}"
+            }
+        },
+        "sysmon_unexpected_uninstalled": {
+            "en": {
+                "title": "Sysmon was deleted on an agent",
+                "description": "Sysmon '{{ version }}' was deleted on an agent:\n{{ reason }}"
+            },
+            "ru": {
+                "title": "Sysmon был удален на агенте",
+                "description": "Sysmon {{ version }} был удален на агенте, причина:\n{{ reason }}"
+            }
+        },
+        "sysmon_uninstalled_error": {
+            "en": {
+                "title": "The module could not delete Sysmon on an agent",
+                "description": "The module could not delete the Sysmon configuration '{{ version }}' on an agent:\n{{ reason }}"
+            },
+            "ru": {
+                "title": "Модуль не смог удалить Sysmon на агенте",
+                "description": "Модуль не смог удалить Sysmon {{ version }} на агенте, причина:\n{{ reason }}"
+            }
+        },
+        "sysmon_uninstalled_success": {
+            "en": {
+                "title": "The module deleted Sysmon on an agent",
+                "description": "The module deleted Sysmon '{{ version }}' on an agent"
+            },
+            "ru": {
+                "title": "Модуль удалил Sysmon на агенте",
+                "description": "Модуль удалил Sysmon {{ version }} на агенте"
+            }
+        },
+        "sysmon_updated_error": {
+            "en": {
+                "title": "The module could not upgrade Sysmon on an agent",
+                "description": "The module could not upgrade Sysmon on an agent to the version {{ version }}:\n{{ reason }}"
+            },
+            "ru": {
+                "title": "Модуль не смог обновить Sysmon на агенте",
+                "description": "Модуль не смог обновить Sysmon на агенте до версии {{ version }}, причина:\n{{ reason }}"
+            }
+        },
+        "sysmon_updated_success": {
+            "en": {
+                "title": "The module upgraded Sysmon on an agent",
+                "description": "The module upgraded Sysmon on an agent to the version {{ version }}"
+            },
+            "ru": {
+                "title": "Модуль обновил Sysmon на агенте",
+                "description": "Модуль обновил Sysmon на агенте до версии {{ version }}"
+            }
+        }
+    },
+    "action_config": {},
+    "event_config": {
+        "sysmon_already_installed": {},
+        "sysmon_already_started": {},
+        "sysmon_config_updated_error": {},
+        "sysmon_config_updated_success": {},
+        "sysmon_installed_error": {},
+        "sysmon_installed_success": {},
+        "sysmon_started_error": {},
+        "sysmon_started_success": {},
+        "sysmon_unexpected_stopped": {},
+        "sysmon_unexpected_uninstalled": {},
+        "sysmon_uninstalled_error": {},
+        "sysmon_uninstalled_success": {},
+        "sysmon_updated_error": {},
+        "sysmon_updated_success": {}
+    },
+    "tags": {
+        "provisioner": {
+            "en": {
+                "title": "installer",
+                "description": "Installs and configures applications and manages the OS configuration on the end device"
+            },
+            "ru": {
+                "title": "установщик",
+                "description": "Устанавливает и конфигурирует приложения и управляют конфигурацией ОС на конечном устройстве"
+            }
+        }
+    }
+}

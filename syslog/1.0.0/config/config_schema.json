@@ -1,0 +1,23 @@
+{
+    "additionalProperties": false,
+    "properties": {
+        "target_path": {
+            "rules": {
+                "customRule": [
+                    {
+                        "errMsg": "It must match to (tcp|udp)://HOST:PORT regexp or be empty",
+                        "script": "dx: /^((tcp|udp):\\/\\/)?([^:\\/ ]*(:[0-9]{2,5})?)$/.test({{$root.target_path}})"
+                    }
+                ]
+            },
+            "type": "string",
+            "ui": {
+                "widgetConfig": {
+                    "placeholder": "tcp://syslog.pt:514"
+                }
+            }
+        }
+    },
+    "required": [],
+    "type": "object"
+}

@@ -1,0 +1,14 @@
+{
+    "1.0.0": {
+        "en": {
+            "date": "04-19-2022",
+            "title": "Base functionality",
+            "description": "Added the ability to send data from the specified Windows Event Log channels to detection modules, MaxPatrol SIEM, and the syslog server."
+        },
+        "ru": {
+            "date": "19.04.2022",
+            "title": "Базовая функциональность",
+            "description": "Добавлена возможность отправлять данные из заданных каналов журнала событий Windows в модули обнаружения, MaxPatrol SIEM и на syslog-сервер."
+        }
+    }
+}

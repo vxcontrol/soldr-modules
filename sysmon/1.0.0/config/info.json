@@ -1,0 +1,40 @@
+{
+    "name": "sysmon",
+    "template": "empty",
+    "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 0
+    },
+    "os": {
+        "windows": [
+            "386",
+            "amd64"
+        ]
+    },
+    "system": false,
+    "actions": [],
+    "events": [
+        "sysmon_already_installed",
+        "sysmon_already_started",
+        "sysmon_config_updated_error",
+        "sysmon_config_updated_success",
+        "sysmon_installed_error",
+        "sysmon_installed_success",
+        "sysmon_started_error",
+        "sysmon_started_success",
+        "sysmon_unexpected_stopped",
+        "sysmon_unexpected_uninstalled",
+        "sysmon_uninstalled_error",
+        "sysmon_uninstalled_success",
+        "sysmon_updated_error",
+        "sysmon_updated_success"
+    ],
+    "fields": [
+        "reason",
+        "version"
+    ],
+    "tags": [
+        "provisioner"
+    ]
+}

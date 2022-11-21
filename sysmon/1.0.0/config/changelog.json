@@ -1,0 +1,14 @@
+{
+    "1.0.0": {
+        "en": {
+            "date": "04-19-2022",
+            "title": "Base functionality",
+            "description": "Added the ability to install Sysmon on end devices in default  configuration. If Sysmon is already installed, the module updates its configuration."
+        },
+        "ru": {
+            "date": "19.04.2022",
+            "title": "Базовая функциональность",
+            "description": "Добавлена возможность установки Sysmon на конечные устройства в заданной конфигурации. Если Sysmon уже установлен, модуль обновляет его конфигурацию."
+        }
+    }
+}

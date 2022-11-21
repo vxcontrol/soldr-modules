@@ -1,0 +1,548 @@
+{
+    "additionalProperties": false,
+    "properties": {
+        "Suspicious_Create_Process_BitsAdmin_RestrictionBypass": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "category.generic",
+                                "category.high",
+                                "correlation_name",
+                                "numfield1",
+                                "object.process.cmdline",
+                                "object.process.fullpath",
+                                "object.process.id",
+                                "object.process.name",
+                                "object.process.parent.fullpath",
+                                "object.process.parent.id",
+                                "object.process.parent.name"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "category.generic",
+                                    "category.high",
+                                    "correlation_name",
+                                    "numfield1",
+                                    "object.process.cmdline",
+                                    "object.process.fullpath",
+                                    "object.process.id",
+                                    "object.process.name",
+                                    "object.process.parent.fullpath",
+                                    "object.process.parent.id",
+                                    "object.process.parent.name"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 11,
+                            "minItems": 11,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "Suspicious_Create_Process_NetSh_NetShell": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "category.generic",
+                                "category.high",
+                                "correlation_name",
+                                "numfield1",
+                                "object.process.cmdline",
+                                "object.process.fullpath",
+                                "object.process.id",
+                                "object.process.name",
+                                "object.process.parent.fullpath",
+                                "object.process.parent.id",
+                                "object.process.parent.name"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "category.generic",
+                                    "category.high",
+                                    "correlation_name",
+                                    "numfield1",
+                                    "object.process.cmdline",
+                                    "object.process.fullpath",
+                                    "object.process.id",
+                                    "object.process.name",
+                                    "object.process.parent.fullpath",
+                                    "object.process.parent.id",
+                                    "object.process.parent.name"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 11,
+                            "minItems": 11,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "Suspicious_Create_Process_Ping_SelfDelete": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "category.generic",
+                                "category.high",
+                                "correlation_name",
+                                "numfield1",
+                                "object.process.cmdline",
+                                "object.process.fullpath",
+                                "object.process.id",
+                                "object.process.name",
+                                "object.process.parent.fullpath",
+                                "object.process.parent.id",
+                                "object.process.parent.name"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "category.generic",
+                                    "category.high",
+                                    "correlation_name",
+                                    "numfield1",
+                                    "object.process.cmdline",
+                                    "object.process.fullpath",
+                                    "object.process.id",
+                                    "object.process.name",
+                                    "object.process.parent.fullpath",
+                                    "object.process.parent.id",
+                                    "object.process.parent.name"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 11,
+                            "minItems": 11,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "Suspicious_Create_Process_Schtasks_Persistence": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "category.generic",
+                                "category.high",
+                                "correlation_name",
+                                "numfield1",
+                                "object.process.cmdline",
+                                "object.process.fullpath",
+                                "object.process.id",
+                                "object.process.name",
+                                "object.process.parent.fullpath",
+                                "object.process.parent.id",
+                                "object.process.parent.name"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "category.generic",
+                                    "category.high",
+                                    "correlation_name",
+                                    "numfield1",
+                                    "object.process.cmdline",
+                                    "object.process.fullpath",
+                                    "object.process.id",
+                                    "object.process.name",
+                                    "object.process.parent.fullpath",
+                                    "object.process.parent.id",
+                                    "object.process.parent.name"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 11,
+                            "minItems": 11,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "Suspicious_Write_File_USB_AirSpread": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "category.generic",
+                                "category.high",
+                                "correlation_name",
+                                "numfield1",
+                                "object.fullpath",
+                                "object.name",
+                                "object.path",
+                                "subject.process.fullpath",
+                                "subject.process.id",
+                                "subject.process.name",
+                                "subject.process.path"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "category.generic",
+                                    "category.high",
+                                    "correlation_name",
+                                    "numfield1",
+                                    "object.fullpath",
+                                    "object.name",
+                                    "object.path",
+                                    "subject.process.fullpath",
+                                    "subject.process.id",
+                                    "subject.process.name",
+                                    "subject.process.path"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 11,
+                            "minItems": 11,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "Suspicious_Write_Process_Inject_CreateRemoteThread": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "category.generic",
+                                "category.high",
+                                "correlation_name",
+                                "numfield1",
+                                "object.process.fullpath",
+                                "object.process.guid",
+                                "object.process.id",
+                                "object.process.name",
+                                "object.process.path",
+                                "object.property",
+                                "object.value",
+                                "subject.process.fullpath",
+                                "subject.process.guid",
+                                "subject.process.id",
+                                "subject.process.name",
+                                "subject.process.path"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "category.generic",
+                                    "category.high",
+                                    "correlation_name",
+                                    "numfield1",
+                                    "object.process.fullpath",
+                                    "object.process.guid",
+                                    "object.process.id",
+                                    "object.process.name",
+                                    "object.process.path",
+                                    "object.property",
+                                    "object.value",
+                                    "subject.process.fullpath",
+                                    "subject.process.guid",
+                                    "subject.process.id",
+                                    "subject.process.name",
+                                    "subject.process.path"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 16,
+                            "minItems": 16,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "Suspicious_Write_Process_Inject_ProcessTampering": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "category.generic",
+                                "category.high",
+                                "correlation_name",
+                                "numfield1",
+                                "object.process.cmdline",
+                                "object.process.fullpath",
+                                "object.process.guid",
+                                "object.process.id",
+                                "object.process.name",
+                                "object.process.path",
+                                "reason",
+                                "subject.process.cmdline",
+                                "subject.process.fullpath",
+                                "subject.process.guid",
+                                "subject.process.id",
+                                "subject.process.name",
+                                "subject.process.path"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "category.generic",
+                                    "category.high",
+                                    "correlation_name",
+                                    "numfield1",
+                                    "object.process.cmdline",
+                                    "object.process.fullpath",
+                                    "object.process.guid",
+                                    "object.process.id",
+                                    "object.process.name",
+                                    "object.process.path",
+                                    "reason",
+                                    "subject.process.cmdline",
+                                    "subject.process.fullpath",
+                                    "subject.process.guid",
+                                    "subject.process.id",
+                                    "subject.process.name",
+                                    "subject.process.path"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 17,
+                            "minItems": 17,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "Suspicious_Write_Registry_Key_LsaComponents": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "category.generic",
+                                "category.high",
+                                "correlation_name",
+                                "numfield1",
+                                "object.fullpath",
+                                "object.name",
+                                "object.new_value",
+                                "object.path",
+                                "object.property",
+                                "object.type",
+                                "object.value",
+                                "subject.process.fullpath",
+                                "subject.process.id",
+                                "subject.process.name"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "category.generic",
+                                    "category.high",
+                                    "correlation_name",
+                                    "numfield1",
+                                    "object.fullpath",
+                                    "object.name",
+                                    "object.new_value",
+                                    "object.path",
+                                    "object.property",
+                                    "object.type",
+                                    "object.value",
+                                    "subject.process.fullpath",
+                                    "subject.process.id",
+                                    "subject.process.name"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 14,
+                            "minItems": 14,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "Suspicious_Write_Registry_Key_SafeBoot": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "category.generic",
+                                "category.high",
+                                "correlation_name",
+                                "numfield1",
+                                "object.fullpath",
+                                "object.name",
+                                "object.new_value",
+                                "object.path",
+                                "object.property",
+                                "object.type",
+                                "object.value",
+                                "subject.process.fullpath",
+                                "subject.process.id",
+                                "subject.process.name"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "category.generic",
+                                    "category.high",
+                                    "correlation_name",
+                                    "numfield1",
+                                    "object.fullpath",
+                                    "object.name",
+                                    "object.new_value",
+                                    "object.path",
+                                    "object.property",
+                                    "object.type",
+                                    "object.value",
+                                    "subject.process.fullpath",
+                                    "subject.process.id",
+                                    "subject.process.name"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 14,
+                            "minItems": 14,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "Suspicious_Write_Registry_Key_ScreenSaver": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "category.generic",
+                                "category.high",
+                                "correlation_name",
+                                "numfield1",
+                                "object.fullpath",
+                                "object.name",
+                                "object.new_value",
+                                "object.path",
+                                "object.property",
+                                "object.value",
+                                "subject.process.fullpath",
+                                "subject.process.id",
+                                "subject.process.name",
+                                "subject.process.path"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "category.generic",
+                                    "category.high",
+                                    "correlation_name",
+                                    "numfield1",
+                                    "object.fullpath",
+                                    "object.name",
+                                    "object.new_value",
+                                    "object.path",
+                                    "object.property",
+                                    "object.value",
+                                    "subject.process.fullpath",
+                                    "subject.process.id",
+                                    "subject.process.name",
+                                    "subject.process.path"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 14,
+                            "minItems": 14,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        }
+    },
+    "required": [
+        "Suspicious_Create_Process_BitsAdmin_RestrictionBypass",
+        "Suspicious_Create_Process_NetSh_NetShell",
+        "Suspicious_Create_Process_Ping_SelfDelete",
+        "Suspicious_Create_Process_Schtasks_Persistence",
+        "Suspicious_Write_File_USB_AirSpread",
+        "Suspicious_Write_Process_Inject_CreateRemoteThread",
+        "Suspicious_Write_Process_Inject_ProcessTampering",
+        "Suspicious_Write_Registry_Key_LsaComponents",
+        "Suspicious_Write_Registry_Key_SafeBoot",
+        "Suspicious_Write_Registry_Key_ScreenSaver"
+    ],
+    "type": "object"
+}

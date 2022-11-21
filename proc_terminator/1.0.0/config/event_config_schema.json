@@ -1,0 +1,292 @@
+{
+    "additionalProperties": false,
+    "properties": {
+        "pt_module_started": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [],
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "pt_module_stopped": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [],
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "pt_object_process_killed_failed": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "object.process.id",
+                                "object.process.name",
+                                "reason"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "object.process.id",
+                                    "object.process.name",
+                                    "reason"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 3,
+                            "minItems": 3,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "pt_object_process_killed_successful": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "object.fullpath",
+                                "object.process.fullpath",
+                                "object.process.id",
+                                "object.process.name"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "object.fullpath",
+                                    "object.process.fullpath",
+                                    "object.process.id",
+                                    "object.process.name"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 4,
+                            "minItems": 4,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "pt_object_process_skipped": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "object.fullpath",
+                                "object.process.fullpath",
+                                "object.process.id",
+                                "object.process.name"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "object.fullpath",
+                                    "object.process.fullpath",
+                                    "object.process.id",
+                                    "object.process.name"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 4,
+                            "minItems": 4,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "pt_process_not_found": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "reason"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "reason"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 1,
+                            "minItems": 1,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "pt_subject_process_killed_failed": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "reason",
+                                "subject.process.id",
+                                "subject.process.name"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "reason",
+                                    "subject.process.id",
+                                    "subject.process.name"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 3,
+                            "minItems": 3,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "pt_subject_process_killed_successful": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "subject.process.fullpath",
+                                "subject.process.id",
+                                "subject.process.name"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "subject.process.fullpath",
+                                    "subject.process.id",
+                                    "subject.process.name"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 3,
+                            "minItems": 3,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "pt_subject_process_skipped": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "subject.process.fullpath",
+                                "subject.process.id",
+                                "subject.process.name"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "subject.process.fullpath",
+                                    "subject.process.id",
+                                    "subject.process.name"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 3,
+                            "minItems": 3,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        }
+    },
+    "required": [
+        "pt_module_started",
+        "pt_module_stopped",
+        "pt_object_process_killed_failed",
+        "pt_object_process_killed_successful",
+        "pt_object_process_skipped",
+        "pt_process_not_found",
+        "pt_subject_process_killed_failed",
+        "pt_subject_process_killed_successful",
+        "pt_subject_process_skipped"
+    ],
+    "type": "object"
+}

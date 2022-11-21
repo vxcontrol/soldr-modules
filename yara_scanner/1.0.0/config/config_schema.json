@@ -1,0 +1,328 @@
+{
+    "additionalProperties": false,
+    "properties": {
+        "exclude_fs_items_linux": {
+            "items": {
+                "properties": {
+                    "filepath": {
+                        "rules": {
+                            "required": {
+                                "errMsg": "Common.Pseudo.ValidationText.Required",
+                                "value": true
+                            }
+                        },
+                        "type": "string",
+                        "ui": {
+                            "label": "dx: window.__$ncform.lang == 'en' ? 'File path or name' : 'Имя или путь к файлу'",
+                            "widgetConfig": {}
+                        }
+                    }
+                },
+                "required": [
+                    "filepath"
+                ],
+                "type": "object",
+                "ui": {
+                    "label": "dx: {{$root.exclude_fs_items_linux[i].filepath}} ? {{$root.exclude_fs_items_linux[i].filepath}} : 'exclude fs linux ' + (parseInt(idxChain)+1)",
+                    "widgetConfig": {}
+                }
+            },
+            "rules": {},
+            "type": "array",
+            "ui": {
+                "showIdxLabel": false,
+                "widgetConfig": {
+                    "collapsed": true,
+                    "disableReorder": true,
+                    "itemCollapse": true
+                }
+            }
+        },
+        "exclude_fs_items_win": {
+            "items": {
+                "properties": {
+                    "filepath": {
+                        "rules": {
+                            "required": {
+                                "errMsg": "Common.Pseudo.ValidationText.Required",
+                                "value": true
+                            }
+                        },
+                        "type": "string",
+                        "ui": {
+                            "label": "dx: window.__$ncform.lang == 'en' ? 'File path or name' : 'Имя или путь к файлу'",
+                            "widgetConfig": {}
+                        }
+                    }
+                },
+                "required": [
+                    "filepath"
+                ],
+                "type": "object",
+                "ui": {
+                    "label": "dx: {{$root.exclude_fs_items_win[i].filepath}} ? {{$root.exclude_fs_items_win[i].filepath}} : 'exclude fs windows ' + (parseInt(idxChain)+1)",
+                    "widgetConfig": {}
+                }
+            },
+            "rules": {},
+            "type": "array",
+            "ui": {
+                "showIdxLabel": false,
+                "widgetConfig": {
+                    "collapsed": true,
+                    "disableReorder": true,
+                    "itemCollapse": true
+                }
+            }
+        },
+        "exclude_rules": {
+            "items": {
+                "properties": {
+                    "rule_name": {
+                        "rules": {
+                            "required": {
+                                "errMsg": "Common.Pseudo.ValidationText.Required",
+                                "value": true
+                            }
+                        },
+                        "type": "string",
+                        "ui": {
+                            "label": "dx: window.__$ncform.lang == 'en' ? 'Rule ID' : 'Идентификатор правила'",
+                            "widgetConfig": {}
+                        }
+                    }
+                },
+                "required": [
+                    "rule_name"
+                ],
+                "type": "object",
+                "ui": {
+                    "label": "dx: {{$root.exclude_rules[i].rule_name}} ? {{$root.exclude_rules[i].rule_name}} : 'exclude rule ' + (parseInt(idxChain)+1)",
+                    "widgetConfig": {}
+                }
+            },
+            "rules": {},
+            "type": "array",
+            "ui": {
+                "showIdxLabel": false,
+                "widgetConfig": {
+                    "collapsed": true,
+                    "disableReorder": true,
+                    "itemCollapse": true
+                }
+            }
+        },
+        "fastscan_fs_items_linux": {
+            "items": {
+                "properties": {
+                    "filepath": {
+                        "rules": {
+                            "required": {
+                                "errMsg": "Common.Pseudo.ValidationText.Required",
+                                "value": true
+                            }
+                        },
+                        "type": "string",
+                        "ui": {
+                            "label": "dx: window.__$ncform.lang == 'en' ? 'File path or name' : 'Имя или путь к файлу'",
+                            "widgetConfig": {}
+                        }
+                    },
+                    "recursive": {
+                        "rules": {},
+                        "type": "boolean",
+                        "ui": {
+                            "label": "dx: window.__$ncform.lang == 'en' ? 'Recursive search' : 'Рекурсивный поиск'",
+                            "widgetConfig": {}
+                        }
+                    }
+                },
+                "required": [
+                    "filepath"
+                ],
+                "type": "object",
+                "ui": {
+                    "label": "dx: {{$root.fastscan_fs_items_linux[i].filepath}} ? {{$root.fastscan_fs_items_linux[i].filepath}} : 'fastscan fs linux ' + (parseInt(idxChain)+1)",
+                    "widgetConfig": {}
+                }
+            },
+            "rules": {},
+            "type": "array",
+            "ui": {
+                "showIdxLabel": false,
+                "widgetConfig": {
+                    "collapsed": true,
+                    "disableReorder": true,
+                    "itemCollapse": true
+                }
+            }
+        },
+        "fastscan_fs_items_win": {
+            "items": {
+                "properties": {
+                    "filepath": {
+                        "rules": {
+                            "required": {
+                                "errMsg": "Common.Pseudo.ValidationText.Required",
+                                "value": true
+                            }
+                        },
+                        "type": "string",
+                        "ui": {
+                            "label": "dx: window.__$ncform.lang == 'en' ? 'File path or name' : 'Имя или путь к файлу'",
+                            "widgetConfig": {}
+                        }
+                    },
+                    "recursive": {
+                        "rules": {},
+                        "type": "boolean",
+                        "ui": {
+                            "label": "dx: window.__$ncform.lang == 'en' ? 'Recursive search' : 'Рекурсивный поиск'",
+                            "widgetConfig": {}
+                        }
+                    }
+                },
+                "required": [
+                    "filepath"
+                ],
+                "type": "object",
+                "ui": {
+                    "label": "dx: {{$root.fastscan_fs_items_win[i].filepath}} ? {{$root.fastscan_fs_items_win[i].filepath}} : 'fastscan fs windows ' + (parseInt(idxChain)+1)",
+                    "widgetConfig": {}
+                }
+            },
+            "rules": {},
+            "type": "array",
+            "ui": {
+                "showIdxLabel": false,
+                "widgetConfig": {
+                    "collapsed": true,
+                    "disableReorder": true,
+                    "itemCollapse": true
+                }
+            }
+        },
+        "fastscan_proc_items_linux": {
+            "items": {
+                "properties": {
+                    "proc_image": {
+                        "rules": {
+                            "required": {
+                                "errMsg": "Common.Pseudo.ValidationText.Required",
+                                "value": true
+                            }
+                        },
+                        "type": "string",
+                        "ui": {
+                            "label": "dx: window.__$ncform.lang == 'en' ? 'Process path or name' : 'Имя или путь к исполняемому файлу'",
+                            "widgetConfig": {}
+                        }
+                    }
+                },
+                "required": [
+                    "proc_image"
+                ],
+                "type": "object",
+                "ui": {
+                    "label": "dx: {{$root.fastscan_proc_items_linux[i].proc_image}} ? {{$root.fastscan_proc_items_linux[i].proc_image}} : 'fastscan process linux ' + (parseInt(idxChain)+1)",
+                    "widgetConfig": {}
+                }
+            },
+            "rules": {},
+            "type": "array",
+            "ui": {
+                "showIdxLabel": false,
+                "widgetConfig": {
+                    "collapsed": true,
+                    "disableReorder": true,
+                    "itemCollapse": true
+                }
+            }
+        },
+        "fastscan_proc_items_win": {
+            "items": {
+                "properties": {
+                    "proc_image": {
+                        "rules": {
+                            "required": {
+                                "errMsg": "Common.Pseudo.ValidationText.Required",
+                                "value": true
+                            }
+                        },
+                        "type": "string",
+                        "ui": {
+                            "label": "dx: window.__$ncform.lang == 'en' ? 'Process path or name' : 'Имя или путь к исполняемому файлу'",
+                            "widgetConfig": {}
+                        }
+                    }
+                },
+                "required": [
+                    "proc_image"
+                ],
+                "type": "object",
+                "ui": {
+                    "label": "dx: {{$root.fastscan_proc_items_win[i].proc_image}} ? {{$root.fastscan_proc_items_win[i].proc_image}} : 'fastscan process windows ' + (parseInt(idxChain)+1)",
+                    "widgetConfig": {}
+                }
+            },
+            "rules": {},
+            "type": "array",
+            "ui": {
+                "showIdxLabel": false,
+                "widgetConfig": {
+                    "collapsed": true,
+                    "disableReorder": true,
+                    "itemCollapse": true
+                }
+            }
+        },
+        "malware_class_items": {
+            "items": {
+                "properties": {
+                    "enabled": {
+                        "rules": {},
+                        "type": "boolean",
+                        "ui": {
+                            "label": "dx: window.__$ncform.lang == 'en' ? 'Enabled' : 'Включен'",
+                            "widgetConfig": {}
+                        },
+                        "value": true
+                    },
+                    "malware_class": {
+                        "rules": {
+                            "required": {
+                                "errMsg": "Common.Pseudo.ValidationText.Required",
+                                "value": true
+                            }
+                        },
+                        "type": "string",
+                        "ui": {
+                            "label": "dx: window.__$ncform.lang == 'en' ? 'Malware class' : 'Класс ВПО'",
+                            "widgetConfig": {}
+                        }
+                    }
+                },
+                "required": [
+                    "malware_class"
+                ],
+                "type": "object",
+                "ui": {
+                    "label": "dx: {{$root.malware_class_items[i].malware_class}} ? {{$root.malware_class_items[i].malware_class}} : 'malware class ' + (parseInt(idxChain)+1)",
+                    "widgetConfig": {}
+                }
+            },
+            "rules": {},
+            "type": "array",
+            "ui": {
+                "showIdxLabel": false,
+                "widgetConfig": {
+                    "collapsed": true,
+                    "disableReorder": true,
+                    "itemCollapse": true
+                }
+            }
+        }
+    },
+    "required": [],
+    "type": "object"
+}

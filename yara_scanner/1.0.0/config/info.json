@@ -1,0 +1,64 @@
+{
+    "name": "yara_scanner",
+    "template": "responder",
+    "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 0
+    },
+    "os": {
+        "linux": [
+            "386",
+            "amd64"
+        ],
+        "windows": [
+            "386",
+            "amd64"
+        ]
+    },
+    "system": false,
+    "actions": [
+        "yr_object_scan_proc",
+        "yr_object_task_scan_proc",
+        "yr_scan_fs",
+        "yr_subject_scan_proc",
+        "yr_subject_task_scan_proc",
+        "yr_task_fastscan_fs",
+        "yr_task_fastscan_proc",
+        "yr_task_fullscan_fs",
+        "yr_task_fullscan_proc",
+        "yr_task_scan_fs"
+    ],
+    "events": [
+        "yr_file_matched_custom",
+        "yr_file_matched_high",
+        "yr_file_matched_low",
+        "yr_file_matched_medium",
+        "yr_module_started",
+        "yr_module_stopped",
+        "yr_object_process_matched_high",
+        "yr_object_process_matched_low",
+        "yr_object_process_matched_medium",
+        "yr_process_matched_custom",
+        "yr_subject_process_matched_high",
+        "yr_subject_process_matched_low",
+        "yr_subject_process_matched_medium"
+    ],
+    "fields": [
+        "malware_class",
+        "object.fullpath",
+        "object.process.fullpath",
+        "object.process.id",
+        "object.sha256_hash",
+        "reason",
+        "rule_name",
+        "rule_precision",
+        "rule_type",
+        "rules",
+        "subject.process.fullpath",
+        "subject.process.id"
+    ],
+    "tags": [
+        "responder"
+    ]
+}

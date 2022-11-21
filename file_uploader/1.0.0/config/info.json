@@ -1,0 +1,49 @@
+{
+    "name": "file_uploader",
+    "template": "responder",
+    "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 0
+    },
+    "os": {
+        "darwin": [
+            "amd64"
+        ],
+        "linux": [
+            "386",
+            "amd64"
+        ],
+        "windows": [
+            "386",
+            "amd64"
+        ]
+    },
+    "system": false,
+    "actions": [
+        "fu_upload_object_file",
+        "fu_upload_object_proc_image",
+        "fu_upload_subject_proc_image"
+    ],
+    "events": [
+        "fu_module_started",
+        "fu_module_stopped",
+        "fu_object_file_upload_failed",
+        "fu_object_file_upload_successful",
+        "fu_object_proc_image_upload_failed",
+        "fu_object_proc_image_upload_successful",
+        "fu_subject_proc_image_upload_failed",
+        "fu_subject_proc_image_upload_successful",
+        "fu_upload_internal_error"
+    ],
+    "fields": [
+        "object.fullpath",
+        "object.process.fullpath",
+        "reason",
+        "subject.fullpath",
+        "subject.process.fullpath"
+    ],
+    "tags": [
+        "responder"
+    ]
+}

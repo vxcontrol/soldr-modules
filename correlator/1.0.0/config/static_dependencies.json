@@ -1,0 +1,10 @@
+[
+    {
+        "module_name": "sysmon",
+        "type": "to_receive_data"
+    },
+    {
+        "module_name": "wineventlog",
+        "type": "to_receive_data"
+    }
+]

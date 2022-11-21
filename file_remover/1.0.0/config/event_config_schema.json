@@ -1,0 +1,278 @@
+{
+    "additionalProperties": false,
+    "properties": {
+        "fr_module_started": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [],
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "fr_module_stopped": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [],
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "fr_object_file_removed_failed": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "object.fullpath",
+                                "reason"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "object.fullpath",
+                                    "reason"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 2,
+                            "minItems": 2,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "fr_object_file_removed_successful": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "object.fullpath"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "object.fullpath"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 1,
+                            "minItems": 1,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "fr_object_proc_image_removed_failed": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "object.fullpath",
+                                "object.process.fullpath",
+                                "reason"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "object.fullpath",
+                                    "object.process.fullpath",
+                                    "reason"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 3,
+                            "minItems": 3,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "fr_object_proc_image_removed_successful": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "object.fullpath",
+                                "object.process.fullpath"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "object.fullpath",
+                                    "object.process.fullpath"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 2,
+                            "minItems": 2,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "fr_remove_internal_error": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "reason"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "reason"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 1,
+                            "minItems": 1,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "fr_subject_proc_image_removed_failed": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "reason",
+                                "subject.fullpath",
+                                "subject.process.fullpath"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "reason",
+                                    "subject.fullpath",
+                                    "subject.process.fullpath"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 3,
+                            "minItems": 3,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "fr_subject_proc_image_removed_successful": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "subject.fullpath",
+                                "subject.process.fullpath"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "subject.fullpath",
+                                    "subject.process.fullpath"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 2,
+                            "minItems": 2,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        }
+    },
+    "required": [
+        "fr_module_started",
+        "fr_module_stopped",
+        "fr_object_file_removed_failed",
+        "fr_object_file_removed_successful",
+        "fr_object_proc_image_removed_failed",
+        "fr_object_proc_image_removed_successful",
+        "fr_remove_internal_error",
+        "fr_subject_proc_image_removed_failed",
+        "fr_subject_proc_image_removed_successful"
+    ],
+    "type": "object"
+}

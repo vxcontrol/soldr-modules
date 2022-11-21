@@ -1,0 +1,43 @@
+{
+    "additionalProperties": false,
+    "properties": {
+        "replace_current_sysmon_binary": {
+            "default": true,
+            "rules": {},
+            "type": "boolean",
+            "ui": {
+                "widgetConfig": {}
+            }
+        },
+        "replace_current_sysmon_config": {
+            "default": true,
+            "rules": {},
+            "type": "boolean",
+            "ui": {
+                "disabled": "dx: {{$root.replace_current_sysmon_binary}}",
+                "widgetConfig": {}
+            },
+            "valueTemplate": "dx: {{$root.replace_current_sysmon_binary}} ? true : {{$root.replace_current_sysmon_config}}"
+        },
+        "sysmon_config": {
+            "rules": {},
+            "type": "string",
+            "ui": {
+                "widget": "textarea",
+                "widgetConfig": {
+                    "autoSize": {
+                        "maxRows": 20,
+                        "minRows": 10
+                    },
+                    "rows": 10
+                }
+            }
+        }
+    },
+    "required": [
+        "replace_current_sysmon_binary",
+        "replace_current_sysmon_config",
+        "sysmon_config"
+    ],
+    "type": "object"
+}

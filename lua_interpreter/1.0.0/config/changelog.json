@@ -1,0 +1,14 @@
+{
+    "1.0.0": {
+        "en": {
+            "date": "04-19-2022",
+            "title": "Base functionality",
+            "description": "Added the ability to execute arbitrary Lua code on an agent. The code can be stored in localStorage and loaded for execution on other agents."
+        },
+        "ru": {
+            "date": "19.04.2022",
+            "title": "Базовая функциональность",
+            "description": "Добавлена возможность выполнять произвольный код на языке Lua на агенте. Код может быть сохранен в localStorage и загружен для выполнения на других агентах."
+        }
+    }
+}

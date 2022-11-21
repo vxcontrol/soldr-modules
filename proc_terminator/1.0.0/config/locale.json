@@ -1,0 +1,444 @@
+{
+    "module": {
+        "en": {
+            "title": "Process terminator",
+            "description": "Terminates processes"
+        },
+        "ru": {
+            "title": "Завершение процессов",
+            "description": "Завершает процессы"
+        }
+    },
+    "config": {
+        "process_image_excludes_linux": {
+            "en": {
+                "title": "Exclude list for Linux",
+                "description": "Linux executable files of the processes that do not need to be terminated"
+            },
+            "ru": {
+                "title": "Список исключений для Linux",
+                "description": "Исполняемые файлы процессов на Linux, которые не требуется завершать"
+            }
+        },
+        "process_image_excludes_osx": {
+            "en": {
+                "title": "Exclude list for macOS",
+                "description": "macOS executable files of the processes that do not need to be terminated"
+            },
+            "ru": {
+                "title": "Список исключений для macOS",
+                "description": "Исполняемые файлы процессов на macOS, которые не требуется завершать"
+            }
+        },
+        "process_image_excludes_windows": {
+            "en": {
+                "title": "Exclude list for Windows",
+                "description": "Windows executable files of the processes that do not need to be terminated"
+            },
+            "ru": {
+                "title": "Список исключений для Windows",
+                "description": "Исполняемые файлы процессов на Windows, которые не требуется завершать"
+            }
+        }
+    },
+    "secure_config": {},
+    "fields": {
+        "object.fullpath": {
+            "en": {
+                "title": "object.fullpath",
+                "description": "File path"
+            },
+            "ru": {
+                "title": "object.fullpath",
+                "description": "Путь к файлу"
+            }
+        },
+        "object.process.fullpath": {
+            "en": {
+                "title": "object.process.fullpath",
+                "description": "Path to an executable file of the process"
+            },
+            "ru": {
+                "title": "object.process.fullpath",
+                "description": "Путь до исполняемого файла процесса"
+            }
+        },
+        "object.process.id": {
+            "en": {
+                "title": "object.process.id",
+                "description": "Process ID"
+            },
+            "ru": {
+                "title": "object.process.id",
+                "description": "Идентификатор процесса"
+            }
+        },
+        "object.process.name": {
+            "en": {
+                "title": "object.process.name",
+                "description": "Process name"
+            },
+            "ru": {
+                "title": "object.process.name",
+                "description": "Имя процесса"
+            }
+        },
+        "reason": {
+            "en": {
+                "title": "reason",
+                "description": "Event reason"
+            },
+            "ru": {
+                "title": "reason",
+                "description": "Причина возникновения события"
+            }
+        },
+        "subject.process.fullpath": {
+            "en": {
+                "title": "subject.process.fullpath",
+                "description": "Path to an executable file of the process"
+            },
+            "ru": {
+                "title": "subject.process.fullpath",
+                "description": "Путь до исполняемого файла процесса"
+            }
+        },
+        "subject.process.id": {
+            "en": {
+                "title": "subject.process.id",
+                "description": "Process ID"
+            },
+            "ru": {
+                "title": "subject.process.id",
+                "description": "Идентификатор процесса"
+            }
+        },
+        "subject.process.name": {
+            "en": {
+                "title": "subject.process.name",
+                "description": "Process name"
+            },
+            "ru": {
+                "title": "subject.process.name",
+                "description": "Имя процесса"
+            }
+        }
+    },
+    "actions": {
+        "pt_kill_object_process_by_file_path": {
+            "en": {
+                "title": "Terminate all processes by object file path",
+                "description": "Terminating all processes that are using the specified file"
+            },
+            "ru": {
+                "title": "Завершить все процессы, используя путь к файлу-объекту",
+                "description": "Завершение всех процессов, запущенных указанным файлом"
+            }
+        },
+        "pt_kill_object_process_by_image": {
+            "en": {
+                "title": "Terminate all processes by path to an executable file of the object process",
+                "description": "Terminating all processes that are using the specified object file"
+            },
+            "ru": {
+                "title": "Завершить все процессы, используя путь к исполняемому файлу процесса-объекта",
+                "description": "Завершение всех процессов, запущенных указанным файлом-объектом"
+            }
+        },
+        "pt_kill_object_process_by_name": {
+            "en": {
+                "title": "Terminate all processes by object process name",
+                "description": "Terminating all processes with the specified object process name"
+            },
+            "ru": {
+                "title": "Завершить все процессы, используя имя процесса-объекта",
+                "description": "Завершение всех процессов с указанным именем процесса-объекта"
+            }
+        },
+        "pt_kill_object_process_by_name_and_id": {
+            "en": {
+                "title": "Terminate a process by object process name and ID",
+                "description": "Terminating a process with the specified object process name and ID"
+            },
+            "ru": {
+                "title": "Завершить процесс, используя имя и идентификатор процесса-объекта",
+                "description": "Завершение процесса с указанным именем и идентификатором процесса-объекта"
+            }
+        },
+        "pt_kill_object_process_by_image_and_id": {
+            "en": {
+                "title": "Terminate a process by path to an executable file of the object process and ID",
+                "description": "Terminating a process with the specified object process path and ID"
+            },
+            "ru": {
+                "title": "Завершить процесс, используя путь к исполняемому файлу и идентификатор процесса-объекта",
+                "description": "Завершение процесса с указанным путем и идентификатором процесса-объекта"
+            }
+        },
+        "pt_kill_object_process_tree_by_file_path": {
+            "en": {
+                "title": "Terminate process trees by object file path",
+                "description": "Terminating all process trees whose paths to the executable files match the specified one. Terminating the found process first"
+            },
+            "ru": {
+                "title": "Завершить деревья процессов, используя путь к файлу-объекту",
+                "description": "Завершение всех деревьев процессов, у которых путь к исполняемому файлу совпадает с указанным. Первым завершается найденный процесс"
+            }
+        },
+        "pt_kill_object_process_tree_by_image": {
+            "en": {
+                "title": "Terminate process trees by path to the executable object file",
+                "description": "Terminating all process trees whose paths to the executable files match the specified one. Terminating the found process first"
+            },
+            "ru": {
+                "title": "Завершить деревья процессов, используя путь к исполняемому файлу-объекту",
+                "description": "Завершение всех деревьев процессов, у которых путь к исполняемому файлу совпадает с указанным. Первым завершается найденный процесс"
+            }
+        },
+        "pt_kill_object_process_tree_by_name": {
+            "en": {
+                "title": "Terminate process trees by object process name",
+                "description": "Terminating all process trees whose process names match the specified one. Terminating the found process first"
+            },
+            "ru": {
+                "title": "Завершить деревья процессов, используя имя процесса-объекта",
+                "description": "Завершение всех деревьев процессов, у которых имя процесса совпадает с указанным. Первым завершается найденный процесс"
+            }
+        },
+        "pt_kill_object_process_tree_by_name_and_id": {
+            "en": {
+                "title": "Terminate a process tree by parent object process name and ID",
+                "description": "Terminating a process tree whose process name and ID match the specified ones. Terminating the found process first"
+            },
+            "ru": {
+                "title": "Завершить дерево процессов, используя имя и идентификатор родительского процесса-объекта",
+                "description": "Завершение дерева процессов, у которого имя и идентификатор процесса совпадает с указанными. Первым завершается найденный процесс"
+            }
+        },
+        "pt_kill_object_process_tree_by_image_and_id": {
+            "en": {
+                "title": "Terminate a process tree by path to an executable file of the object parent process and ID",
+                "description": "Terminating a process tree whose process an executable file and ID match the specified ones. Terminating the found process first"
+            },
+            "ru": {
+                "title": "Завершить дерево процессов, используя путь к исполняемому файлу и идентификатор родительского процесса-объекта",
+                "description": "Завершение дерева процессов, у которого путь к исполняемому файлу и идентификатор процесса совпадает с указанными. Первым завершается найденный процесс"
+            }
+        },
+        "pt_kill_subject_process_by_image": {
+            "en": {
+                "title": "Terminate all processes by path to an executable file of the subject process",
+                "description": "Terminating all processes that are using the specified subject file"
+            },
+            "ru": {
+                "title": "Завершить все процессы, используя путь к исполняемому файлу процесса-субъекта",
+                "description": "Завершение всех процессов, запущенных указанным файлом-субъектом"
+            }
+        },
+        "pt_kill_subject_process_by_name": {
+            "en": {
+                "title": "Terminate all processes by subject process name",
+                "description": "Terminating all processes with the specified subject process name"
+            },
+            "ru": {
+                "title": "Завершить все процессы, используя имя процесса-субъекта",
+                "description": "Завершение всех процессов с указанным именем процесса-субъекта"
+            }
+        },
+        "pt_kill_subject_process_by_name_and_id": {
+            "en": {
+                "title": "Terminate a process by subject process name and ID",
+                "description": "Terminating a process with the specified subject process name and ID"
+            },
+            "ru": {
+                "title": "Завершить процесс, используя имя и идентификатор процесса-субъекта",
+                "description": "Завершение процесса с указанным именем и идентификатором процесса-субъекта"
+            }
+        },
+        "pt_kill_subject_process_by_image_and_id": {
+            "en": {
+                "title": "Terminate a process by path to an executable file of the subject process and ID",
+                "description": "Terminating a process with the specified subject process path and ID"
+            },
+            "ru": {
+                "title": "Завершить процесс, используя путь к исполняемому файлу и идентификатор процесса-субъекта",
+                "description": "Завершение процесса с указанным путем и идентификатором процесса-субъекта"
+            }
+        },
+        "pt_kill_subject_process_tree_by_image": {
+            "en": {
+                "title": "Terminate process trees by path to the executable subject file",
+                "description": "Terminating all process trees whose paths to the executable files match the specified one. Terminating the found process first"
+            },
+            "ru": {
+                "title": "Завершить деревья процессов, используя путь к исполняемому файлу-субъекту",
+                "description": "Завершение всех деревьев процессов, у которых путь к исполняемому файлу совпадает с указанным. Первым завершается найденный процесс"
+            }
+        },
+        "pt_kill_subject_process_tree_by_name": {
+            "en": {
+                "title": "Terminate process trees by subject process name",
+                "description": "Terminating all process trees whose process names match the specified one. Terminating the found process first"
+            },
+            "ru": {
+                "title": "Завершить деревья процессов, используя имя процесса-субъекта",
+                "description": "Завершение всех деревьев процессов, у которых имя процесса совпадает с указанным. Первым завершается найденный процесс"
+            }
+        },
+        "pt_kill_subject_process_tree_by_name_and_id": {
+            "en": {
+                "title": "Terminate a process tree by parent subject process name and ID",
+                "description": "Terminating a process tree whose process name and ID match the specified ones. Terminating the found process first"
+            },
+            "ru": {
+                "title": "Завершить дерево процессов, используя имя и идентификатор родительского процесса-субъекта",
+                "description": "Завершение дерева процессов, у которого имя и идентификатор процесса совпадает с указанными. Первым завершается найденный процесс"
+            }
+        },
+        "pt_kill_subject_process_tree_by_image_and_id": {
+            "en": {
+                "title": "Terminate a process tree by path to an executable file of the subject parent process and ID",
+                "description": "Terminating a process tree whose process an executable file and ID match the specified ones. Terminating the found process first"
+            },
+            "ru": {
+                "title": "Завершить дерево процессов, используя путь к исполняемому файлу и идентификатор родительского процесса-субъекта",
+                "description": "Завершение дерева процессов, у которого путь к исполняемому файлу и идентификатор процесса совпадает с указанными. Первым завершается найденный процесс"
+            }
+        }
+    },
+    "events": {
+        "pt_module_started": {
+            "en": {
+                "title": "The \"Process terminator\" module is started",
+                "description": "The module is started successfully"
+            },
+            "ru": {
+                "title": "Модуль «Завершение процессов» запущен",
+                "description": "Модуль успешно запущен"
+            }
+        },
+        "pt_module_stopped": {
+            "en": {
+                "title": "The \"Process terminator\" module is stopped",
+                "description": "The module is stopped successfully"
+            },
+            "ru": {
+                "title": "Модуль «Завершение процессов» остановлен",
+                "description": "Модуль успешно остановлен"
+            }
+        },
+        "pt_object_process_killed_failed": {
+            "en": {
+                "title": "The module failed to terminate the object process: an error occurred",
+                "description": "Failed to terminate the object process ID '{{[object.process.id]}}' - '{{[object.process.name]}}' by reason '{{reason}}'"
+            },
+            "ru": {
+                "title": "Процесс-объект не завершен модулем: возникла ошибка",
+                "description": "Ошибка завершения процесса-объекта '{{[object.process.id]}}' - '{{[object.process.name]}}' по причине '{{reason}}'"
+            }
+        },
+        "pt_object_process_killed_successful": {
+            "en": {
+                "title": "The module terminated the object process",
+                "description": "Object process ID '{{[object.process.id]}}' - '{{[object.process.name]}}' terminated successful"
+            },
+            "ru": {
+                "title": "Процесс-объект завершен модулем",
+                "description": "Процесс-объект '{{[object.process.id]}}' - '{{[object.process.name]}}' завершен успешно"
+            }
+        },
+        "pt_object_process_skipped": {
+            "en": {
+                "title": "The module failed to terminate the object process: process is on the exclude list",
+                "description": "Object process '{{[object.process.id]}}' - '{{[object.process.name]}}' was skipped by policy"
+            },
+            "ru": {
+                "title": "Процесс-объект не завершен модулем: входит в список исключений",
+                "description": "Процесс-объект '{{[object.process.id]}}' - '{{[object.process.name]}}' был пропущен в соответсвии с политикой"
+            }
+        },
+        "pt_process_not_found": {
+            "en": {
+                "title": "The module failed to terminate a process: process not found",
+                "description": "'{{[object.process.name]}}' not found"
+            },
+            "ru": {
+                "title": "Процесс не завершен модулем: процесс не найден",
+                "description": "'{{[object.process.name]}}' не найден"
+            }
+        },
+        "pt_subject_process_killed_failed": {
+            "en": {
+                "title": "The module failed to terminate the subject process: an error occurred",
+                "description": "Failed to terminate the subject process ID '{{[subject.process.id]}}' - '{{[subject.process.name]}}' by reason '{{reason}}'"
+            },
+            "ru": {
+                "title": "Процесс-субъект не завершен модулем: возникла ошибка",
+                "description": "Ошибка завершения процесса-субъекта '{{[subject.process.id]}}' - '{{[subject.process.name]}}' по причине '{{reason}}'"
+            }
+        },
+        "pt_subject_process_killed_successful": {
+            "en": {
+                "title": "The module terminated the subject process",
+                "description": "Subject process ID '{{[subject.process.id]}}' - '{{[subject.process.name]}}' terminated successful"
+            },
+            "ru": {
+                "title": "Процесс-субъект завершен модулем",
+                "description": "Процесс-субъект '{{[subject.process.id]}}' - '{{[subject.process.name]}}' завершен успешно"
+            }
+        },
+        "pt_subject_process_skipped": {
+            "en": {
+                "title": "The module failed to terminate the subject process: process is on the exclude list",
+                "description": "Subject process '{{[subject.process.id]}}' - '{{[subject.process.name]}}' was skipped by policy"
+            },
+            "ru": {
+                "title": "Процесс-субъект не завершен модулем: входит в список исключений",
+                "description": "Процесс-субъект '{{[subject.process.id]}}' - '{{[subject.process.name]}}' был пропущен в соответсвии с политикой"
+            }
+        }
+    },
+    "action_config": {
+        "pt_kill_object_process_by_file_path": {},
+        "pt_kill_object_process_by_image": {},
+        "pt_kill_object_process_by_name": {},
+        "pt_kill_object_process_by_name_and_id": {},
+        "pt_kill_object_process_by_image_and_id": {},
+        "pt_kill_object_process_tree_by_file_path": {},
+        "pt_kill_object_process_tree_by_image": {},
+        "pt_kill_object_process_tree_by_name": {},
+        "pt_kill_object_process_tree_by_name_and_id": {},
+        "pt_kill_object_process_tree_by_image_and_id": {},
+        "pt_kill_subject_process_by_image": {},
+        "pt_kill_subject_process_by_name": {},
+        "pt_kill_subject_process_by_name_and_id": {},
+        "pt_kill_subject_process_by_image_and_id": {},
+        "pt_kill_subject_process_tree_by_image": {},
+        "pt_kill_subject_process_tree_by_name": {},
+        "pt_kill_subject_process_tree_by_name_and_id": {},
+        "pt_kill_subject_process_tree_by_image_and_id": {}
+    },
+    "event_config": {
+        "pt_module_started": {},
+        "pt_module_stopped": {},
+        "pt_object_process_killed_failed": {},
+        "pt_object_process_killed_successful": {},
+        "pt_object_process_skipped": {},
+        "pt_process_not_found": {},
+        "pt_subject_process_killed_failed": {},
+        "pt_subject_process_killed_successful": {},
+        "pt_subject_process_skipped": {}
+    },
+    "tags": {
+        "responder": {
+            "en": {
+                "title": "responder",
+                "description": "Stops suspicious and malicious activity on the end device by performing actions in accordance with the configuration of the detection modules"
+            },
+            "ru": {
+                "title": "responder",
+                "description": "Пресекает подозрительную и вредоносную активность на конечном устройстве, выполняя действия в соответствии с конфигурацией модулей обнаружения"
+            }
+        }
+    }
+}

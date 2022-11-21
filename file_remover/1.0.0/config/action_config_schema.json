@@ -1,0 +1,119 @@
+{
+    "additionalProperties": false,
+    "properties": {
+        "fr_remove_object_file": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/base.action"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "object.fullpath"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "object.fullpath"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 1,
+                            "minItems": 1,
+                            "type": "array"
+                        },
+                        "priority": {
+                            "default": 23,
+                            "maximum": 23,
+                            "minimum": 23,
+                            "type": "integer"
+                        }
+                    },
+                    "required": [
+                        "fields",
+                        "priority"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "fr_remove_object_proc_image": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/base.action"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "object.process.fullpath"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "object.process.fullpath"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 1,
+                            "minItems": 1,
+                            "type": "array"
+                        },
+                        "priority": {
+                            "default": 23,
+                            "maximum": 23,
+                            "minimum": 23,
+                            "type": "integer"
+                        }
+                    },
+                    "required": [
+                        "fields",
+                        "priority"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "fr_remove_subject_proc_image": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/base.action"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "subject.process.fullpath"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "subject.process.fullpath"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 1,
+                            "minItems": 1,
+                            "type": "array"
+                        },
+                        "priority": {
+                            "default": 23,
+                            "maximum": 23,
+                            "minimum": 23,
+                            "type": "integer"
+                        }
+                    },
+                    "required": [
+                        "fields",
+                        "priority"
+                    ],
+                    "type": "object"
+                }
+            ]
+        }
+    },
+    "required": [
+        "fr_remove_object_file",
+        "fr_remove_object_proc_image",
+        "fr_remove_subject_proc_image"
+    ],
+    "type": "object"
+}

@@ -1,0 +1,145 @@
+{
+    "additionalProperties": false,
+    "properties": {
+        "log_files": {
+            "items": {
+                "additionalProperties": false,
+                "properties": {
+                    "filepath": {
+                        "rules": {
+                            "customRule": [
+                                {
+                                    "errMsg": "Charset restriction to [0-9a-zA-Z:/\\-_/*,\\.]",
+                                    "script": "dx: /^[\\ 0-9a-zA-Z:/\\-_/*,\\.]*$/.test({{$root.log_files[i].filepath}})"
+                                }
+                            ],
+                            "required": {
+                                "errMsg": "Common.Pseudo.ValidationText.Required",
+                                "value": true
+                            }
+                        },
+                        "type": "string"
+                    },
+                    "select": {
+                        "rules": {
+                            "customRule": [
+                                {
+                                    "errMsg": "Charset restriction to [0-9a-zA-Z\\-_/*,\\. \u003e\u003c!\\(\\)\\[\\]=@:;{}\"'\\\\]",
+                                    "script": "dx: /^[0-9a-zA-Z\\-_/*,\\. \u003e\u003c!\\(\\)\\[\\]=@:;{}\"'\\\\]*$/.test({{$root.log_files[i].select}})"
+                                }
+                            ],
+                            "required": {
+                                "errMsg": "Common.Pseudo.ValidationText.Required",
+                                "value": true
+                            }
+                        },
+                        "type": "string"
+                    },
+                    "suppress": {
+                        "rules": {
+                            "customRule": [
+                                {
+                                    "errMsg": "Charset restriction to [0-9a-zA-Z\\-_/*,\\. \u003e\u003c!\\(\\)\\[\\]=@:;{}\"'\\\\]",
+                                    "script": "dx: /^[0-9a-zA-Z\\-_/*,\\. \u003e\u003c!\\(\\)\\[\\]=@:;{}\"'\\\\]*$/.test({{$root.log_files[i].suppress}})"
+                                }
+                            ]
+                        },
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "filepath",
+                    "select"
+                ],
+                "rules": {},
+                "type": "object",
+                "ui": {
+                    "label": "dx: {{$root.log_files[i].filepath}} ? {{$root.log_files[i].filepath}} : 'filepath_' + (parseInt(idxChain)+1)",
+                    "linkFields": [
+                        {
+                            "fieldPath": "dx: {{$path}}.split('[').slice(0,-1).join('[')",
+                            "rules": [
+                                "minItems"
+                            ]
+                        }
+                    ]
+                }
+            },
+            "minItems": 1,
+            "rules": {
+                "minItems": {
+                    "errMsg": "Files list must be contains at least 1 path and filter",
+                    "value": 1
+                }
+            },
+            "type": "array",
+            "ui": {
+                "showIdxLabel": false,
+                "widgetConfig": {
+                    "collapsed": true,
+                    "disableReorder": true,
+                    "itemCollapse": true,
+                    "requiredDelConfirm": true
+                }
+            }
+        },
+        "receivers": {
+            "items": {
+                "rules": {
+                    "customRule": [
+                        {
+                            "errMsg": "Modules.EditSystemModulePage.ValidationText.NameValidationOnAdding",
+                            "script": "dx: !!({{$root.receivers[i]}}.match(/^[a-z0-9_]*$/))"
+                        }
+                    ],
+                    "maxLength": {
+                        "errMsg": "Common.Pseudo.ValidationText.MaxLengthEntityName",
+                        "value": 255
+                    },
+                    "minLength": {
+                        "errMsg": "Common.Pseudo.ValidationText.MinLength",
+                        "value": 3
+                    },
+                    "required": {
+                        "errMsg": "Common.Pseudo.ValidationText.Required",
+                        "value": true
+                    }
+                },
+                "type": "string",
+                "ui": {
+                    "label": "dx: {{$root.receivers[i]}} ? {{$root.receivers[i]}} : 'module_' + (parseInt(idxChain)+1)",
+                    "placeholder": "module_id"
+                }
+            },
+            "rules": {},
+            "type": "array",
+            "ui": {
+                "showIdxLabel": false,
+                "widgetConfig": {
+                    "collapsed": true,
+                    "disableReorder": true
+                }
+            }
+        },
+        "target_path": {
+            "rules": {
+                "customRule": [
+                    {
+                        "errMsg": "It must match to (amqp|amqps|tcp|udp)://HOST:PORT regexp or be empty",
+                        "script": "dx: /^((amqp|amqps|tcp|udp):\\/\\/)?([^:\\/ ]*(:[0-9]{2,5})?)$/.test({{$root.target_path}})"
+                    }
+                ]
+            },
+            "type": "string",
+            "ui": {
+                "widgetConfig": {
+                    "placeholder": "tcp://localhost:514"
+                }
+            }
+        }
+    },
+    "required": [
+        "log_files"
+    ],
+    "type": "object"
+}

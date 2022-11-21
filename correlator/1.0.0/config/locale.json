@@ -1,0 +1,424 @@
+{
+    "action_config": {},
+    "actions": {},
+    "config": {},
+    "event_config": {
+        "Suspicious_Create_Process_BitsAdmin_RestrictionBypass": {},
+        "Suspicious_Create_Process_NetSh_NetShell": {},
+        "Suspicious_Create_Process_Ping_SelfDelete": {},
+        "Suspicious_Create_Process_Schtasks_Persistence": {},
+        "Suspicious_Write_File_USB_AirSpread": {},
+        "Suspicious_Write_Process_Inject_CreateRemoteThread": {},
+        "Suspicious_Write_Process_Inject_ProcessTampering": {},
+        "Suspicious_Write_Registry_Key_LsaComponents": {},
+        "Suspicious_Write_Registry_Key_SafeBoot": {},
+        "Suspicious_Write_Registry_Key_ScreenSaver": {}
+    },
+    "events": {
+        "Suspicious_Create_Process_BitsAdmin_RestrictionBypass": {
+            "en": {
+                "description": "BitsAdmin process creation; \nSeverity medium; Precision high",
+                "title": "Suspicious Create Process BitsAdmin RestrictionBypass"
+            },
+            "ru": {
+                "description": "BitsAdmin process creation; \nСредняя критичность; Высокая точность",
+                "title": "Suspicious Create Process BitsAdmin RestrictionBypass"
+            }
+        },
+        "Suspicious_Create_Process_NetSh_NetShell": {
+            "en": {
+                "description": "Malicious program changes windows firewall settings; \nSeverity medium; Precision high",
+                "title": "Suspicious Create Process NetSh NetShell"
+            },
+            "ru": {
+                "description": "Malicious program changes windows firewall settings; \nСредняя критичность; Высокая точность",
+                "title": "Suspicious Create Process NetSh NetShell"
+            }
+        },
+        "Suspicious_Create_Process_Ping_SelfDelete": {
+            "en": {
+                "description": "Ping process creation for self-deletion wait; \nSeverity medium; Precision high",
+                "title": "Suspicious Create Process Ping SelfDelete"
+            },
+            "ru": {
+                "description": "Ping process creation for self-deletion wait; \nСредняя критичность; Высокая точность",
+                "title": "Suspicious Create Process Ping SelfDelete"
+            }
+        },
+        "Suspicious_Create_Process_Schtasks_Persistence": {
+            "en": {
+                "description": "schtasks.exe run for persistence; \nSeverity medium; Precision high",
+                "title": "Suspicious Create Process Schtasks Persistence"
+            },
+            "ru": {
+                "description": "schtasks.exe run for persistence; \nСредняя критичность; Высокая точность",
+                "title": "Suspicious Create Process Schtasks Persistence"
+            }
+        },
+        "Suspicious_Write_File_USB_AirSpread": {
+            "en": {
+                "description": "echo \"123\" > f:\\\\autorun.inf; \nSeverity high; Precision high; MITRE techniques: T1546",
+                "title": "Suspicious Write File USB AirSpread"
+            },
+            "ru": {
+                "description": "echo \"123\" > f:\\\\autorun.inf; \nВысокая критичность; Высокая точность; Техники MITRE: T1546",
+                "title": "Suspicious Write File USB AirSpread"
+            }
+        },
+        "Suspicious_Write_Process_Inject_CreateRemoteThread": {
+            "en": {
+                "description": "Suspicious_Write_Process_Inject_CreateRemoteThread\nSeverity high; Precision high; MITRE techniques: T1055",
+                "title": "Suspicious Write Process Inject CreateRemoteThread"
+            },
+            "ru": {
+                "description": "Suspicious_Write_Process_Inject_CreateRemoteThread\nВысокая критичность; Высокая точность; Техники MITRE: T1055",
+                "title": "Suspicious Write Process Inject CreateRemoteThread"
+            }
+        },
+        "Suspicious_Write_Process_Inject_ProcessTampering": {
+            "en": {
+                "description": "Suspicious_Write_Process_Inject_ProcessTampering\nSeverity high; Precision high; MITRE techniques: T1055",
+                "title": "Suspicious Write Process Inject ProcessTampering"
+            },
+            "ru": {
+                "description": "Suspicious_Write_Process_Inject_ProcessTampering\nВысокая критичность; Высокая точность; Техники MITRE: T1055",
+                "title": "Suspicious Write Process Inject ProcessTampering"
+            }
+        },
+        "Suspicious_Write_Registry_Key_LsaComponents": {
+            "en": {
+                "description": "Suspicious_Write_Registry_Key_LsaComponents\nSeverity high; Precision high; MITRE techniques: T1547",
+                "title": "Suspicious Write Registry Key LsaComponents"
+            },
+            "ru": {
+                "description": "Suspicious_Write_Registry_Key_LsaComponents\nВысокая критичность; Высокая точность; Техники MITRE: T1547",
+                "title": "Suspicious Write Registry Key LsaComponents"
+            }
+        },
+        "Suspicious_Write_Registry_Key_SafeBoot": {
+            "en": {
+                "description": "Suspicious_Write_Registry_Key_SafeBoot\nSeverity high; Precision high; MITRE techniques: T1562",
+                "title": "Suspicious Write Registry Key SafeBoot"
+            },
+            "ru": {
+                "description": "Suspicious_Write_Registry_Key_SafeBoot\nВысокая критичность; Высокая точность; Техники MITRE: T1562",
+                "title": "Suspicious Write Registry Key SafeBoot"
+            }
+        },
+        "Suspicious_Write_Registry_Key_ScreenSaver": {
+            "en": {
+                "description": "Suspicious_Write_Registry_Key_ScreenSaver\nSeverity medium; Precision high; MITRE techniques: T1546.002, T1546",
+                "title": "Suspicious Write Registry Key ScreenSaver"
+            },
+            "ru": {
+                "description": "Suspicious_Write_Registry_Key_ScreenSaver\nСредняя критичность; Высокая точность; Техники MITRE: T1546.002, T1546",
+                "title": "Suspicious Write Registry Key ScreenSaver"
+            }
+        }
+    },
+    "fields": {
+        "category.generic": {
+            "en": {
+                "description": "category generic",
+                "title": "category.generic"
+            },
+            "ru": {
+                "description": "category generic",
+                "title": "category.generic"
+            }
+        },
+        "category.high": {
+            "en": {
+                "description": "category high",
+                "title": "category.high"
+            },
+            "ru": {
+                "description": "category high",
+                "title": "category.high"
+            }
+        },
+        "correlation_name": {
+            "en": {
+                "description": "correlation name",
+                "title": "correlation_name"
+            },
+            "ru": {
+                "description": "correlation name",
+                "title": "correlation_name"
+            }
+        },
+        "numfield1": {
+            "en": {
+                "description": "numfield1",
+                "title": "numfield1"
+            },
+            "ru": {
+                "description": "numfield1",
+                "title": "numfield1"
+            }
+        },
+        "object.fullpath": {
+            "en": {
+                "description": "object fullpath",
+                "title": "object.fullpath"
+            },
+            "ru": {
+                "description": "object fullpath",
+                "title": "object.fullpath"
+            }
+        },
+        "object.name": {
+            "en": {
+                "description": "object name",
+                "title": "object.name"
+            },
+            "ru": {
+                "description": "object name",
+                "title": "object.name"
+            }
+        },
+        "object.new_value": {
+            "en": {
+                "description": "object new value",
+                "title": "object.new_value"
+            },
+            "ru": {
+                "description": "object new value",
+                "title": "object.new_value"
+            }
+        },
+        "object.path": {
+            "en": {
+                "description": "object path",
+                "title": "object.path"
+            },
+            "ru": {
+                "description": "object path",
+                "title": "object.path"
+            }
+        },
+        "object.process.cmdline": {
+            "en": {
+                "description": "object process cmdline",
+                "title": "object.process.cmdline"
+            },
+            "ru": {
+                "description": "object process cmdline",
+                "title": "object.process.cmdline"
+            }
+        },
+        "object.process.fullpath": {
+            "en": {
+                "description": "object process fullpath",
+                "title": "object.process.fullpath"
+            },
+            "ru": {
+                "description": "object process fullpath",
+                "title": "object.process.fullpath"
+            }
+        },
+        "object.process.guid": {
+            "en": {
+                "description": "object process guid",
+                "title": "object.process.guid"
+            },
+            "ru": {
+                "description": "object process guid",
+                "title": "object.process.guid"
+            }
+        },
+        "object.process.id": {
+            "en": {
+                "description": "object process id",
+                "title": "object.process.id"
+            },
+            "ru": {
+                "description": "object process id",
+                "title": "object.process.id"
+            }
+        },
+        "object.process.name": {
+            "en": {
+                "description": "object process name",
+                "title": "object.process.name"
+            },
+            "ru": {
+                "description": "object process name",
+                "title": "object.process.name"
+            }
+        },
+        "object.process.parent.fullpath": {
+            "en": {
+                "description": "object process parent fullpath",
+                "title": "object.process.parent.fullpath"
+            },
+            "ru": {
+                "description": "object process parent fullpath",
+                "title": "object.process.parent.fullpath"
+            }
+        },
+        "object.process.parent.id": {
+            "en": {
+                "description": "object process parent id",
+                "title": "object.process.parent.id"
+            },
+            "ru": {
+                "description": "object process parent id",
+                "title": "object.process.parent.id"
+            }
+        },
+        "object.process.parent.name": {
+            "en": {
+                "description": "object process parent name",
+                "title": "object.process.parent.name"
+            },
+            "ru": {
+                "description": "object process parent name",
+                "title": "object.process.parent.name"
+            }
+        },
+        "object.process.path": {
+            "en": {
+                "description": "object process path",
+                "title": "object.process.path"
+            },
+            "ru": {
+                "description": "object process path",
+                "title": "object.process.path"
+            }
+        },
+        "object.property": {
+            "en": {
+                "description": "object property",
+                "title": "object.property"
+            },
+            "ru": {
+                "description": "object property",
+                "title": "object.property"
+            }
+        },
+        "object.type": {
+            "en": {
+                "description": "object type",
+                "title": "object.type"
+            },
+            "ru": {
+                "description": "object type",
+                "title": "object.type"
+            }
+        },
+        "object.value": {
+            "en": {
+                "description": "object value",
+                "title": "object.value"
+            },
+            "ru": {
+                "description": "object value",
+                "title": "object.value"
+            }
+        },
+        "reason": {
+            "en": {
+                "description": "reason",
+                "title": "reason"
+            },
+            "ru": {
+                "description": "reason",
+                "title": "reason"
+            }
+        },
+        "subject.process.cmdline": {
+            "en": {
+                "description": "subject process cmdline",
+                "title": "subject.process.cmdline"
+            },
+            "ru": {
+                "description": "subject process cmdline",
+                "title": "subject.process.cmdline"
+            }
+        },
+        "subject.process.fullpath": {
+            "en": {
+                "description": "subject process fullpath",
+                "title": "subject.process.fullpath"
+            },
+            "ru": {
+                "description": "subject process fullpath",
+                "title": "subject.process.fullpath"
+            }
+        },
+        "subject.process.guid": {
+            "en": {
+                "description": "subject process guid",
+                "title": "subject.process.guid"
+            },
+            "ru": {
+                "description": "subject process guid",
+                "title": "subject.process.guid"
+            }
+        },
+        "subject.process.id": {
+            "en": {
+                "description": "subject process id",
+                "title": "subject.process.id"
+            },
+            "ru": {
+                "description": "subject process id",
+                "title": "subject.process.id"
+            }
+        },
+        "subject.process.name": {
+            "en": {
+                "description": "subject process name",
+                "title": "subject.process.name"
+            },
+            "ru": {
+                "description": "subject process name",
+                "title": "subject.process.name"
+            }
+        },
+        "subject.process.path": {
+            "en": {
+                "description": "subject process path",
+                "title": "subject.process.path"
+            },
+            "ru": {
+                "description": "subject process path",
+                "title": "subject.process.path"
+            }
+        }
+    },
+    "module": {
+        "en": {
+            "description": "Performs normalization, aggregation, and correlation of a stream of raw events from sources. When malicious or suspicious activities are detected, it registers information security events (correlation events)",
+            "title": "Correlator (Windows)"
+        },
+        "ru": {
+            "description": "Выполняет нормализацию, агрегацию и корреляцию потока необработанных событий от источников. При обнаружении вредоносных или подозрительных действий регистрирует события ИБ (корреляционные события)",
+            "title": "Коррелятор (Windows)"
+        }
+    },
+    "secure_config": {},
+    "tags": {
+        "detector": {
+            "en": {
+                "description": "Analyzes collected events, detects suspicious and malicious activity on the end device, and registers information security events",
+                "title": "detector"
+            },
+            "ru": {
+                "description": "Анализиpирует собранные события, обнаруживают подозрительную и вредоносную активность на конечном устройстве — и регистрируют события ИБ",
+                "title": "detector"
+            }
+        },
+        "responder": {
+            "en": {
+                "description": "Stops suspicious and malicious activity on the end device by performing actions in accordance with the configuration of detection modules",
+                "title": "responder"
+            },
+            "ru": {
+                "description": "Пресекает подозрительную и вредоносную активность на конечном устройстве, выполняя действия в соответствии с конфигурацией модулей обнаружения",
+                "title": "responder"
+            }
+        }
+    }
+}

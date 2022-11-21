@@ -1,0 +1,490 @@
+{
+    "module": {
+        "en": {
+            "title": "YARA scanner",
+            "description": "Performs signature analysis based on YARA rules. When malicious or suspicious files and processes are detected, it issues verdicts and registers information security events"
+        },
+        "ru": {
+            "title": "YARA-сканер",
+            "description": "Выполняет сигнатурный анализ на основе YARA-правил. При обнаружении вредоносных или подозрительных файлов и процессов выносит вердикты и регистрирует события ИБ"
+        }
+    },
+    "config": {
+        "exclude_fs_items_linux": {
+            "en": {
+                "title": "Excluded list for Linux",
+                "description": "Files and directories excluded from scan on Linux"
+            },
+            "ru": {
+                "title": "Список исключений для проверок в Linux",
+                "description": "Файлы и каталоги, которые не требуется проверять в Linux"
+            }
+        },
+        "exclude_fs_items_win": {
+            "en": {
+                "title": "Excluded list for Windows",
+                "description": "Files and folders excluded from scan on Windows"
+            },
+            "ru": {
+                "title": "Список исключений для проверок в Windows",
+                "description": "Файлы и папки, которые не требуется проверять в Windows"
+            }
+        },
+        "exclude_rules": {
+            "en": {
+                "title": "Excluded list for YARA rules",
+                "description": "Rules excluded from scan"
+            },
+            "ru": {
+                "title": "Список исключений для YARA-правил",
+                "description": "Правила, которые не используются для проверок"
+            }
+        },
+        "fastscan_fs_items_linux": {
+            "en": {
+                "title": "Quick scan parameters on Linux",
+                "description": "A list of files and directories for a quick scan on Linux"
+            },
+            "ru": {
+                "title": "Параметры быстрой проверки файлов в Linux",
+                "description": "Список файлов и каталогов для быстрой проверки в Linux"
+            }
+        },
+        "fastscan_fs_items_win": {
+            "en": {
+                "title": "Quick scan parameters on Windows",
+                "description": "A list of files and folders for a quick scan on Windows"
+            },
+            "ru": {
+                "title": "Параметры быстрой проверки файлов в Windows",
+                "description": "Список файлов и папок для быстрой проверки в Windows"
+            }
+        },
+        "fastscan_proc_items_linux": {
+            "en": {
+                "title": "Process quick scan parameters on Linux",
+                "description": "A list of processes for a quick scan on Linux"
+            },
+            "ru": {
+                "title": "Параметры быстрой проверки процессов в Linux",
+                "description": "Список процессов для быстрой проверки в Linux"
+            }
+        },
+        "fastscan_proc_items_win": {
+            "en": {
+                "title": "Process quick scan parameters on Windows",
+                "description": "A list of processes for a quick scan on Windows"
+            },
+            "ru": {
+                "title": "Параметры быстрой проверки процессов в Windows",
+                "description": "Список процессов для быстрой проверки в Windows"
+            }
+        },
+        "malware_class_items": {
+            "en": {
+                "title": "Malware classes",
+                "description": "A file is considered malicious if it belongs to one of the classes"
+            },
+            "ru": {
+                "title": "Классы вредоносного ПО",
+                "description": "Файл признается вредоносным, если он принадлежит к одному из классов"
+            }
+        }
+    },
+    "secure_config": {},
+    "fields": {
+        "malware_class": {
+            "en": {
+                "title": "malware_class",
+                "description": "malware class"
+            },
+            "ru": {
+                "title": "malware_class",
+                "description": "malware class"
+            }
+        },
+        "object.fullpath": {
+            "en": {
+                "title": "object.fullpath",
+                "description": "object fullpath"
+            },
+            "ru": {
+                "title": "object.fullpath",
+                "description": "object fullpath"
+            }
+        },
+        "object.process.fullpath": {
+            "en": {
+                "title": "object.process.fullpath",
+                "description": "object process fullpath"
+            },
+            "ru": {
+                "title": "object.process.fullpath",
+                "description": "object process fullpath"
+            }
+        },
+        "object.process.id": {
+            "en": {
+                "title": "object.process.id",
+                "description": "object process id"
+            },
+            "ru": {
+                "title": "object.process.id",
+                "description": "object process id"
+            }
+        },
+        "object.sha256_hash": {
+            "en": {
+                "title": "object.sha256_hash",
+                "description": "object sha256_hash"
+            },
+            "ru": {
+                "title": "object.sha256_hash",
+                "description": "object sha256_hash"
+            }
+        },
+        "reason": {
+            "en": {
+                "title": "reason",
+                "description": "reason"
+            },
+            "ru": {
+                "title": "reason",
+                "description": "reason"
+            }
+        },
+        "rule_name": {
+            "en": {
+                "title": "rule_name",
+                "description": "rule name"
+            },
+            "ru": {
+                "title": "rule_name",
+                "description": "rule name"
+            }
+        },
+        "rule_precision": {
+            "en": {
+                "title": "rule_precision",
+                "description": "rule precision"
+            },
+            "ru": {
+                "title": "rule_precision",
+                "description": "rule precision"
+            }
+        },
+        "rule_type": {
+            "en": {
+                "title": "rule_type",
+                "description": "rule type"
+            },
+            "ru": {
+                "title": "rule_type",
+                "description": "rule type"
+            }
+        },
+        "rules": {
+            "en": {
+                "title": "rules",
+                "description": "rules"
+            },
+            "ru": {
+                "title": "rules",
+                "description": "rules"
+            }
+        },
+        "subject.process.fullpath": {
+            "en": {
+                "title": "subject.process.fullpath",
+                "description": "subject process fullpath"
+            },
+            "ru": {
+                "title": "subject.process.fullpath",
+                "description": "subject process fullpath"
+            }
+        },
+        "subject.process.id": {
+            "en": {
+                "title": "subject.process.id",
+                "description": "subject process id"
+            },
+            "ru": {
+                "title": "subject.process.id",
+                "description": "subject process id"
+            }
+        }
+    },
+    "actions": {
+        "yr_object_scan_proc": {
+            "en": {
+                "title": "Scan an object process with YARA rules in priority order",
+                "description": "Synchronous scanning of an object process with YARA rules"
+            },
+            "ru": {
+                "title": "Проверить процесс-объект YARA-правилами в приоритетном порядке",
+                "description": "Проверка процесса-объекта YARA-правилами в синхронном режиме"
+            }
+        },
+        "yr_object_task_scan_proc": {
+            "en": {
+                "title": "Start a scan task of an object process with YARA rules",
+                "description": "Asynchronous scanning of an object process with YARA rules"
+            },
+            "ru": {
+                "title": "Запустить задачу проверки процесса-объекта YARA-правилами",
+                "description": "Проверка процесса-объекта YARA-правилами в асинхронном режиме"
+            }
+        },
+        "yr_scan_fs": {
+            "en": {
+                "title": "Scan an object file or folder with YARA rules in priority order",
+                "description": "Synchronous scanning of an object file or folder with YARA rules"
+            },
+            "ru": {
+                "title": "Проверить файл или папку объекта YARA-правилами в приоритетном порядке",
+                "description": "Проверка файла или папки объекта YARA-правилами в синхронном режиме"
+            }
+        },
+        "yr_subject_scan_proc": {
+            "en": {
+                "title": "Scan a subject process with YARA rules in priority order",
+                "description": "Synchronous scanning of a subject process with YARA rules"
+            },
+            "ru": {
+                "title": "Проверить процесс-субъект YARA-правилами в приоритетном порядке",
+                "description": "Проверка процесса-субъекта YARA-правилами в синхронном режиме"
+            }
+        },
+        "yr_subject_task_scan_proc": {
+            "en": {
+                "title": "Start a scan task of a subject process with YARA rules",
+                "description": "Asynchronous scanning of a subject process with YARA rules"
+            },
+            "ru": {
+                "title": "Запустить задачу проверки процесса-субъекта YARA-правилами",
+                "description": "Проверка процесса-субъекта YARA-правилами в асинхронном режиме"
+            }
+        },
+        "yr_task_fastscan_fs": {
+            "en": {
+                "title": "Start a scan task of important system files with YARA rules",
+                "description": "Asynchronous scanning of important system files with YARA rules"
+            },
+            "ru": {
+                "title": "Запустить задачу проверки важных системных файлов YARA-правилами",
+                "description": "Проверка важных системных файлов YARA-правилами в асинхронном режиме"
+            }
+        },
+        "yr_task_fastscan_proc": {
+            "en": {
+                "title": "Start a scan task of important system processes with YARA rules",
+                "description": "Asynchronous scanning of important system processes with YARA rules"
+            },
+            "ru": {
+                "title": "Запустить задачу проверки важных системных процессов YARA-правилами",
+                "description": "Проверка важных системных процессов YARA-правилами в асинхронном режиме"
+            }
+        },
+        "yr_task_fullscan_fs": {
+            "en": {
+                "title": "Start a scan task of all files with YARA rules",
+                "description": "Asynchronous scanning of all files with YARA rules"
+            },
+            "ru": {
+                "title": "Запустить задачу проверки всех файлов YARA-правилами",
+                "description": "Проверка всех файлов YARA-правилами в асинхронном режиме"
+            }
+        },
+        "yr_task_fullscan_proc": {
+            "en": {
+                "title": "Start a scan task of all processes with YARA rules",
+                "description": "Asynchronous scanning of all processes with YARA rules"
+            },
+            "ru": {
+                "title": "Запустить задачу проверки всех процессов YARA-правилами",
+                "description": "Проверка всех процессов YARA-правилами в асинхронном режиме"
+            }
+        },
+        "yr_task_scan_fs": {
+            "en": {
+                "title": "Start a scan task of an object file or folder with YARA rules",
+                "description": "Asynchronous scanning of an object file or folder with YARA rules"
+            },
+            "ru": {
+                "title": "Запустить задачу проверки файла или папки объекта YARA-правилами",
+                "description": "Проверка файла или папки объекта YARA-правилами в асинхронном режиме"
+            }
+        }
+    },
+    "events": {
+        "yr_file_matched_custom": {
+            "en": {
+                "title": "The module detected a malicious file by custom rule",
+                "description": ""
+            },
+            "ru": {
+                "title": "Модуль обнаружил вредоносный файл пользовательским правилом",
+                "description": ""
+            }
+        },
+        "yr_file_matched_high": {
+            "en": {
+                "title": "The module detected a malicious file. Severity: high",
+                "description": ""
+            },
+            "ru": {
+                "title": "Модуль обнаружил вредоносный файл. Уровень опасности: высокий",
+                "description": ""
+            }
+        },
+        "yr_file_matched_low": {
+            "en": {
+                "title": "The module detected a suspicious file. Severity: low",
+                "description": ""
+            },
+            "ru": {
+                "title": "Модуль обнаружил подозрительный файл. Уровень опасности: низкий",
+                "description": ""
+            }
+        },
+        "yr_file_matched_medium": {
+            "en": {
+                "title": "The module detected a suspicious file. Severity: medium",
+                "description": ""
+            },
+            "ru": {
+                "title": "Модуль обнаружил подозрительный файл. Уровень опасности: средний",
+                "description": ""
+            }
+        },
+        "yr_module_started": {
+            "en": {
+                "title": "The \"YARA scanner\" module is started",
+                "description": "The module is started successfully"
+            },
+            "ru": {
+                "title": "Модуль «YARA-сканер» запущен",
+                "description": "Успешный запуск модуля"
+            }
+        },
+        "yr_module_stopped": {
+            "en": {
+                "title": "The \"YARA scanner\" module is stopped",
+                "description": "The module is stopped successfully"
+            },
+            "ru": {
+                "title": "Модуль «YARA-сканер» остановлен",
+                "description": "Успешная остановка модуля"
+            }
+        },
+        "yr_object_process_matched_high": {
+            "en": {
+                "title": "The module detected a malicious object process. Severity: high",
+                "description": ""
+            },
+            "ru": {
+                "title": "Модуль обнаружил вредоносный процесс-объект. Уровень опасности: высокий",
+                "description": ""
+            }
+        },
+        "yr_object_process_matched_low": {
+            "en": {
+                "title": "The module detected a suspicious object process. Severity: low",
+                "description": ""
+            },
+            "ru": {
+                "title": "Модуль обнаружил подозрительный процесс-объект. Уровень опасности: низкий",
+                "description": ""
+            }
+        },
+        "yr_object_process_matched_medium": {
+            "en": {
+                "title": "The module detected a suspicious object process. Severity: medium",
+                "description": ""
+            },
+            "ru": {
+                "title": "Модуль обнаружил подозрительный процесс-объект. Уровень опасности: средний",
+                "description": ""
+            }
+        },
+        "yr_process_matched_custom": {
+            "en": {
+                "title": "The module detected a malicious process by custom rule",
+                "description": ""
+            },
+            "ru": {
+                "title": "Модуль обнаружил подозрительный процесс пользовательским правилом",
+                "description": ""
+            }
+        },
+        "yr_subject_process_matched_high": {
+            "en": {
+                "title": "The module detected a malicious subject process. Severity: high",
+                "description": ""
+            },
+            "ru": {
+                "title": "Модуль обнаружил вредоносный процесс-субъект. Уровень опасности: высокий",
+                "description": ""
+            }
+        },
+        "yr_subject_process_matched_low": {
+            "en": {
+                "title": "The module detected a suspicious subject process. Severity: low",
+                "description": ""
+            },
+            "ru": {
+                "title": "Модуль обнаружил подозрительный процесс-субъект. Уровень опасности: низкий",
+                "description": ""
+            }
+        },
+        "yr_subject_process_matched_medium": {
+            "en": {
+                "title": "The module detected a suspicious subject process. Severity: medium",
+                "description": ""
+            },
+            "ru": {
+                "title": "Модуль обнаружил подозрительный процесс-субъект. Уровень опасности: средний",
+                "description": ""
+            }
+        }
+    },
+    "action_config": {
+        "yr_object_scan_proc": {},
+        "yr_object_task_scan_proc": {},
+        "yr_scan_fs": {},
+        "yr_subject_scan_proc": {},
+        "yr_subject_task_scan_proc": {},
+        "yr_task_fastscan_fs": {},
+        "yr_task_fastscan_proc": {},
+        "yr_task_fullscan_fs": {},
+        "yr_task_fullscan_proc": {},
+        "yr_task_scan_fs": {}
+    },
+    "event_config": {
+        "yr_file_matched_custom": {},
+        "yr_file_matched_high": {},
+        "yr_file_matched_low": {},
+        "yr_file_matched_medium": {},
+        "yr_module_started": {},
+        "yr_module_stopped": {},
+        "yr_object_process_matched_high": {},
+        "yr_object_process_matched_low": {},
+        "yr_object_process_matched_medium": {},
+        "yr_process_matched_custom": {},
+        "yr_subject_process_matched_high": {},
+        "yr_subject_process_matched_low": {},
+        "yr_subject_process_matched_medium": {}
+    },
+    "tags": {
+        "responder": {
+            "en": {
+                "title": "Responder",
+                "description": "Stops suspicious and malicious activity on the end device by performing actions in accordance with the configuration of the detection modules"
+            },
+            "ru": {
+                "title": "Исполнитель",
+                "description": "Пресекает подозрительную и вредоносную активность на конечном устройстве, выполняя действия в соответствии с конфигурацией модулей обнаружения"
+            }
+        }
+    }
+}

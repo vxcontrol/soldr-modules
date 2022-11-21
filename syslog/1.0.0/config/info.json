@@ -1,0 +1,35 @@
+{
+    "name": "syslog",
+    "template": "responder",
+    "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 0
+    },
+    "os": {
+        "darwin": [
+            "amd64"
+        ],
+        "linux": [
+            "386",
+            "amd64"
+        ],
+        "windows": [
+            "386",
+            "amd64"
+        ]
+    },
+    "system": false,
+    "actions": [
+        "send_to_syslog"
+    ],
+    "events": [
+        "syslog_module_started",
+        "syslog_module_stopped"
+    ],
+    "fields": [],
+    "tags": [
+        "responder",
+        "syslog"
+    ]
+}

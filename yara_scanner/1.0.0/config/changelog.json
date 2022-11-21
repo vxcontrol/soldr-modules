@@ -1,0 +1,14 @@
+{
+    "1.0.0": {
+        "en": {
+            "date": "04-19-2022",
+            "title": "Base functionality",
+            "description": "Added the ability to perform signature analysis based on YARA rules. The scan scope and rules can be configured before the scan is started."
+        },
+        "ru": {
+            "date": "19.04.2022",
+            "title": "Базовая функциональность",
+            "description": "Добавлена возможность выполнять сигнатурный анализ на основе правил YARA. Область проверки и правила могут быть заданы при запуске проверки."
+        }
+    }
+}

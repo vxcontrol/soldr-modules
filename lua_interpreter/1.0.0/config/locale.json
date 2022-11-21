@@ -1,0 +1,31 @@
+{
+    "module": {
+        "ru": {
+            "title": "Интерпретатор языка Lua",
+            "description": "Предоставляет возможность для выполнения произвольного кода на языке Lua на агенте"
+        },
+        "en": {
+            "title": "Lua language interpreter",
+            "description": "This module is used to execute arbitrary code on Lua on an agent"
+        }
+    },
+    "config": {},
+    "secure_config": {},
+    "actions": {},
+    "action_config": {},
+    "events": {},
+    "event_config": {},
+    "fields": {},
+    "tags": {
+        "lua": {
+            "ru": {
+                "title": "lua",
+                "description": "Код на языке Lua"
+            },
+            "en": {
+                "title": "lua",
+                "description": "Code in Lua language"
+            }
+        }
+    }
+}

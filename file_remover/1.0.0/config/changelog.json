@@ -1,0 +1,14 @@
+{
+    "1.0.0": {
+        "en": {
+            "date": "04-19-2022",
+            "title": "Base functionality",
+            "description": "Added the ability to delete files using a filepath or a path to a folder with the executable file of a process."
+        },
+        "ru": {
+            "date": "19.04.2022",
+            "title": "Базовая функциональность",
+            "description": "Добавлена возможность удаления файлов, используя путь к файлу или путь к папке с исполняемым файлом процесса."
+        }
+    }
+}

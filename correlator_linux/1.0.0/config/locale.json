@@ -1,0 +1,364 @@
+{
+    "action_config": {},
+    "actions": {},
+    "config": {},
+    "event_config": {
+        "Malware_Exploit_Elf_CVE_2021_4034_a": {},
+        "Suspicious_Create_File_Boot_Modification": {},
+        "Suspicious_Create_File_Boot_RCScripts": {},
+        "Suspicious_Create_File_Scheduler_Cron": {},
+        "Suspicious_Create_File_Ssh_AuthorizedKeys": {},
+        "Suspicious_Create_Process_Iptables_ModifyFirewall": {},
+        "Suspicious_Read_File_Passwd_CredentialsEnumeration": {},
+        "Suspicious_Read_File_Shadow_CredentialsDumping": {},
+        "Suspicious_Write_File_PAM_Persistence": {},
+        "Suspicious_Write_Process_Inject_Ptrace": {}
+    },
+    "events": {
+        "Malware_Exploit_Elf_CVE_2021_4034_a": {
+            "en": {
+                "description": "Malware_Exploit_Elf_CVE_2021_4034_a",
+                "title": "Malware Exploit Elf CVE 2021 4034 a"
+            },
+            "ru": {
+                "description": "Malware_Exploit_Elf_CVE_2021_4034_a",
+                "title": "Malware Exploit Elf CVE 2021 4034 a"
+            }
+        },
+        "Suspicious_Create_File_Boot_Modification": {
+            "en": {
+                "description": "Detect /boot/ modification; \nSeverity medium; Precision high",
+                "title": "Suspicious Create File Boot Modification"
+            },
+            "ru": {
+                "description": "Detect /boot/ modification; \nСредняя критичность; Высокая точность",
+                "title": "Suspicious Create File Boot Modification"
+            }
+        },
+        "Suspicious_Create_File_Boot_RCScripts": {
+            "en": {
+                "description": "Detect creation of Boot or Logon initialization scripts; \nSeverity medium; Precision high; MITRE techniques: T1037",
+                "title": "Suspicious Create File Boot RCScripts"
+            },
+            "ru": {
+                "description": "Detect creation of Boot or Logon initialization scripts; \nСредняя критичность; Высокая точность; Техники MITRE: T1037",
+                "title": "Suspicious Create File Boot RCScripts"
+            }
+        },
+        "Suspicious_Create_File_Scheduler_Cron": {
+            "en": {
+                "description": "Persistence via cron jobs; \nSeverity medium; Precision high; MITRE techniques: T1053",
+                "title": "Suspicious Create File Scheduler Cron"
+            },
+            "ru": {
+                "description": "Persistence via cron jobs; \nСредняя критичность; Высокая точность; Техники MITRE: T1053",
+                "title": "Suspicious Create File Scheduler Cron"
+            }
+        },
+        "Suspicious_Create_File_Ssh_AuthorizedKeys": {
+            "en": {
+                "description": "Persistence via SSH keys; \nSeverity high; Precision high; MITRE techniques: T1098",
+                "title": "Suspicious Create File Ssh AuthorizedKeys"
+            },
+            "ru": {
+                "description": "Persistence via SSH keys; \nВысокая критичность; Высокая точность; Техники MITRE: T1098",
+                "title": "Suspicious Create File Ssh AuthorizedKeys"
+            }
+        },
+        "Suspicious_Create_Process_Iptables_ModifyFirewall": {
+            "en": {
+                "description": "Disable or modify system firewalls in order to bypass controls limiting network usage; \nSeverity high; Precision high; MITRE techniques: T1562",
+                "title": "Suspicious Create Process Iptables ModifyFirewall"
+            },
+            "ru": {
+                "description": "Disable or modify system firewalls in order to bypass controls limiting network usage; \nВысокая критичность; Высокая точность; Техники MITRE: T1562",
+                "title": "Suspicious Create Process Iptables ModifyFirewall"
+            }
+        },
+        "Suspicious_Read_File_Passwd_CredentialsEnumeration": {
+            "en": {
+                "description": "Read file /etc/passwd with users login information; \nSeverity medium; Precision high; MITRE techniques: T1003",
+                "title": "Suspicious Read File Passwd CredentialsEnumeration"
+            },
+            "ru": {
+                "description": "Read file /etc/passwd with users login information; \nСредняя критичность; Высокая точность; Техники MITRE: T1003",
+                "title": "Suspicious Read File Passwd CredentialsEnumeration"
+            }
+        },
+        "Suspicious_Read_File_Shadow_CredentialsDumping": {
+            "en": {
+                "description": "Dump the contents of /etc/shadow; \nSeverity high; Precision high; MITRE techniques: T1003",
+                "title": "Suspicious Read File Shadow CredentialsDumping"
+            },
+            "ru": {
+                "description": "Dump the contents of /etc/shadow; \nВысокая критичность; Высокая точность; Техники MITRE: T1003",
+                "title": "Suspicious Read File Shadow CredentialsDumping"
+            }
+        },
+        "Suspicious_Write_File_PAM_Persistence": {
+            "en": {
+                "description": "Adversaries may modify pluggable authentication modules (PAM) to access user credentials; \nSeverity high; Precision high; MITRE techniques: T1556",
+                "title": "Suspicious Write File PAM Persistence"
+            },
+            "ru": {
+                "description": "Adversaries may modify pluggable authentication modules (PAM) to access user credentials; \nВысокая критичность; Высокая точность; Техники MITRE: T1556",
+                "title": "Suspicious Write File PAM Persistence"
+            }
+        },
+        "Suspicious_Write_Process_Inject_Ptrace": {
+            "en": {
+                "description": "Detect injection in process via ptrace syscall; \nSeverity high; Precision high; MITRE techniques: T1055",
+                "title": "Suspicious Write Process Inject Ptrace"
+            },
+            "ru": {
+                "description": "Detect injection in process via ptrace syscall; \nВысокая критичность; Высокая точность; Техники MITRE: T1055",
+                "title": "Suspicious Write Process Inject Ptrace"
+            }
+        }
+    },
+    "fields": {
+        "category.generic": {
+            "en": {
+                "description": "category generic",
+                "title": "category.generic"
+            },
+            "ru": {
+                "description": "category generic",
+                "title": "category.generic"
+            }
+        },
+        "category.high": {
+            "en": {
+                "description": "category high",
+                "title": "category.high"
+            },
+            "ru": {
+                "description": "category high",
+                "title": "category.high"
+            }
+        },
+        "correlation_name": {
+            "en": {
+                "description": "correlation name",
+                "title": "correlation_name"
+            },
+            "ru": {
+                "description": "correlation name",
+                "title": "correlation_name"
+            }
+        },
+        "numfield1": {
+            "en": {
+                "description": "numfield1",
+                "title": "numfield1"
+            },
+            "ru": {
+                "description": "numfield1",
+                "title": "numfield1"
+            }
+        },
+        "object.fullpath": {
+            "en": {
+                "description": "object fullpath",
+                "title": "object.fullpath"
+            },
+            "ru": {
+                "description": "object fullpath",
+                "title": "object.fullpath"
+            }
+        },
+        "object.name": {
+            "en": {
+                "description": "object name",
+                "title": "object.name"
+            },
+            "ru": {
+                "description": "object name",
+                "title": "object.name"
+            }
+        },
+        "object.path": {
+            "en": {
+                "description": "object path",
+                "title": "object.path"
+            },
+            "ru": {
+                "description": "object path",
+                "title": "object.path"
+            }
+        },
+        "object.process.cmdline": {
+            "en": {
+                "description": "object process cmdline",
+                "title": "object.process.cmdline"
+            },
+            "ru": {
+                "description": "object process cmdline",
+                "title": "object.process.cmdline"
+            }
+        },
+        "object.process.fullpath": {
+            "en": {
+                "description": "object process fullpath",
+                "title": "object.process.fullpath"
+            },
+            "ru": {
+                "description": "object process fullpath",
+                "title": "object.process.fullpath"
+            }
+        },
+        "object.process.id": {
+            "en": {
+                "description": "object process id",
+                "title": "object.process.id"
+            },
+            "ru": {
+                "description": "object process id",
+                "title": "object.process.id"
+            }
+        },
+        "object.process.name": {
+            "en": {
+                "description": "object process name",
+                "title": "object.process.name"
+            },
+            "ru": {
+                "description": "object process name",
+                "title": "object.process.name"
+            }
+        },
+        "object.process.parent.id": {
+            "en": {
+                "description": "object process parent id",
+                "title": "object.process.parent.id"
+            },
+            "ru": {
+                "description": "object process parent id",
+                "title": "object.process.parent.id"
+            }
+        },
+        "object.process.path": {
+            "en": {
+                "description": "object process path",
+                "title": "object.process.path"
+            },
+            "ru": {
+                "description": "object process path",
+                "title": "object.process.path"
+            }
+        },
+        "object.state": {
+            "en": {
+                "description": "object state",
+                "title": "object.state"
+            },
+            "ru": {
+                "description": "object state",
+                "title": "object.state"
+            }
+        },
+        "object.value": {
+            "en": {
+                "description": "object value",
+                "title": "object.value"
+            },
+            "ru": {
+                "description": "object value",
+                "title": "object.value"
+            }
+        },
+        "subject.process.fullpath": {
+            "en": {
+                "description": "subject process fullpath",
+                "title": "subject.process.fullpath"
+            },
+            "ru": {
+                "description": "subject process fullpath",
+                "title": "subject.process.fullpath"
+            }
+        },
+        "subject.process.id": {
+            "en": {
+                "description": "subject process id",
+                "title": "subject.process.id"
+            },
+            "ru": {
+                "description": "subject process id",
+                "title": "subject.process.id"
+            }
+        },
+        "subject.process.meta": {
+            "en": {
+                "description": "subject process meta",
+                "title": "subject.process.meta"
+            },
+            "ru": {
+                "description": "subject process meta",
+                "title": "subject.process.meta"
+            }
+        },
+        "subject.process.name": {
+            "en": {
+                "description": "subject process name",
+                "title": "subject.process.name"
+            },
+            "ru": {
+                "description": "subject process name",
+                "title": "subject.process.name"
+            }
+        },
+        "subject.process.parent.id": {
+            "en": {
+                "description": "subject process parent id",
+                "title": "subject.process.parent.id"
+            },
+            "ru": {
+                "description": "subject process parent id",
+                "title": "subject.process.parent.id"
+            }
+        },
+        "subject.process.path": {
+            "en": {
+                "description": "subject process path",
+                "title": "subject.process.path"
+            },
+            "ru": {
+                "description": "subject process path",
+                "title": "subject.process.path"
+            }
+        }
+    },
+    "module": {
+        "en": {
+            "description": "Performs normalization, aggregation, and correlation of a stream of raw events from sources. When malicious or suspicious activities are detected, it registers information security events (correlation events)",
+            "title": "Correlator (Linux)"
+        },
+        "ru": {
+            "description": "Выполняет нормализацию, агрегацию и корреляцию потока необработанных событий от источников. При обнаружении вредоносных или подозрительных действий регистрирует события ИБ (корреляционные события)",
+            "title": "Коррелятор (Linux)"
+        }
+    },
+    "secure_config": {},
+    "tags": {
+        "detector": {
+            "en": {
+                "description": "Analyzes collected events, detects suspicious and malicious activity on the end device, and registers information security events",
+                "title": "detector"
+            },
+            "ru": {
+                "description": "Анализиpирует собранные события, обнаруживают подозрительную и вредоносную активность на конечном устройстве — и регистрируют события ИБ",
+                "title": "detector"
+            }
+        },
+        "responder": {
+            "en": {
+                "description": "Stops suspicious and malicious activity on the end device by performing actions in accordance with the configuration of detection modules",
+                "title": "responder"
+            },
+            "ru": {
+                "description": "Пресекает подозрительную и вредоносную активность на конечном устройстве, выполняя действия в соответствии с конфигурацией модулей обнаружения",
+                "title": "responder"
+            }
+        }
+    }
+}

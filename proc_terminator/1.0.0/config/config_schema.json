@@ -1,0 +1,85 @@
+{
+    "additionalProperties": false,
+    "properties": {
+        "process_image_excludes_linux": {
+            "items": {
+                "rules": {
+                    "required": {
+                        "errMsg": "Common.Pseudo.ValidationText.Required",
+                        "value": true
+                    }
+                },
+                "type": "string",
+                "ui": {
+                    "label": "dx: {{$root.process_image_excludes_linux[i]}} ? {{$root.process_image_excludes_linux[i]}} : 'process_image_' + (parseInt(idxChain)+1)",
+                    "widgetConfig": {}
+                }
+            },
+            "rules": {},
+            "type": "array",
+            "ui": {
+                "showIdxLabel": false,
+                "widgetConfig": {
+                    "collapsed": true,
+                    "disableReorder": true,
+                    "itemCollapse": true,
+                    "requiredDelConfirm": true
+                }
+            }
+        },
+        "process_image_excludes_osx": {
+            "items": {
+                "rules": {
+                    "required": {
+                        "errMsg": "Common.Pseudo.ValidationText.Required",
+                        "value": true
+                    }
+                },
+                "type": "string",
+                "ui": {
+                    "label": "dx: {{$root.process_image_excludes_osx[i]}} ? {{$root.process_image_excludes_osx[i]}} : 'process_image_' + (parseInt(idxChain)+1)",
+                    "widgetConfig": {}
+                }
+            },
+            "rules": {},
+            "type": "array",
+            "ui": {
+                "showIdxLabel": false,
+                "widgetConfig": {
+                    "collapsed": true,
+                    "disableReorder": true,
+                    "itemCollapse": true,
+                    "requiredDelConfirm": true
+                }
+            }
+        },
+        "process_image_excludes_windows": {
+            "items": {
+                "rules": {
+                    "required": {
+                        "errMsg": "Common.Pseudo.ValidationText.Required",
+                        "value": true
+                    }
+                },
+                "type": "string",
+                "ui": {
+                    "label": "dx: {{$root.process_image_excludes_windows[i]}} ? {{$root.process_image_excludes_windows[i]}} : 'process_image_' + (parseInt(idxChain)+1)",
+                    "widgetConfig": {}
+                }
+            },
+            "rules": {},
+            "type": "array",
+            "ui": {
+                "showIdxLabel": false,
+                "widgetConfig": {
+                    "collapsed": true,
+                    "disableReorder": true,
+                    "itemCollapse": true,
+                    "requiredDelConfirm": true
+                }
+            }
+        }
+    },
+    "required": [],
+    "type": "object"
+}

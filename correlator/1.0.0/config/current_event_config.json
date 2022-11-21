@@ -1,0 +1,262 @@
+{
+    "Suspicious_Create_Process_BitsAdmin_RestrictionBypass": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "category.generic",
+            "category.high",
+            "correlation_name",
+            "numfield1",
+            "object.process.cmdline",
+            "object.process.fullpath",
+            "object.process.id",
+            "object.process.name",
+            "object.process.parent.fullpath",
+            "object.process.parent.id",
+            "object.process.parent.name"
+        ],
+        "type": "atomic"
+    },
+    "Suspicious_Create_Process_NetSh_NetShell": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "category.generic",
+            "category.high",
+            "correlation_name",
+            "numfield1",
+            "object.process.cmdline",
+            "object.process.fullpath",
+            "object.process.id",
+            "object.process.name",
+            "object.process.parent.fullpath",
+            "object.process.parent.id",
+            "object.process.parent.name"
+        ],
+        "type": "atomic"
+    },
+    "Suspicious_Create_Process_Ping_SelfDelete": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "category.generic",
+            "category.high",
+            "correlation_name",
+            "numfield1",
+            "object.process.cmdline",
+            "object.process.fullpath",
+            "object.process.id",
+            "object.process.name",
+            "object.process.parent.fullpath",
+            "object.process.parent.id",
+            "object.process.parent.name"
+        ],
+        "type": "atomic"
+    },
+    "Suspicious_Create_Process_Schtasks_Persistence": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "category.generic",
+            "category.high",
+            "correlation_name",
+            "numfield1",
+            "object.process.cmdline",
+            "object.process.fullpath",
+            "object.process.id",
+            "object.process.name",
+            "object.process.parent.fullpath",
+            "object.process.parent.id",
+            "object.process.parent.name"
+        ],
+        "type": "atomic"
+    },
+    "Suspicious_Write_File_USB_AirSpread": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "category.generic",
+            "category.high",
+            "correlation_name",
+            "numfield1",
+            "object.fullpath",
+            "object.name",
+            "object.path",
+            "subject.process.fullpath",
+            "subject.process.id",
+            "subject.process.name",
+            "subject.process.path"
+        ],
+        "type": "atomic"
+    },
+    "Suspicious_Write_Process_Inject_CreateRemoteThread": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "category.generic",
+            "category.high",
+            "correlation_name",
+            "numfield1",
+            "object.process.fullpath",
+            "object.process.guid",
+            "object.process.id",
+            "object.process.name",
+            "object.process.path",
+            "object.property",
+            "object.value",
+            "subject.process.fullpath",
+            "subject.process.guid",
+            "subject.process.id",
+            "subject.process.name",
+            "subject.process.path"
+        ],
+        "type": "atomic"
+    },
+    "Suspicious_Write_Process_Inject_ProcessTampering": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "category.generic",
+            "category.high",
+            "correlation_name",
+            "numfield1",
+            "object.process.cmdline",
+            "object.process.fullpath",
+            "object.process.guid",
+            "object.process.id",
+            "object.process.name",
+            "object.process.path",
+            "reason",
+            "subject.process.cmdline",
+            "subject.process.fullpath",
+            "subject.process.guid",
+            "subject.process.id",
+            "subject.process.name",
+            "subject.process.path"
+        ],
+        "type": "atomic"
+    },
+    "Suspicious_Write_Registry_Key_LsaComponents": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "category.generic",
+            "category.high",
+            "correlation_name",
+            "numfield1",
+            "object.fullpath",
+            "object.name",
+            "object.new_value",
+            "object.path",
+            "object.property",
+            "object.type",
+            "object.value",
+            "subject.process.fullpath",
+            "subject.process.id",
+            "subject.process.name"
+        ],
+        "type": "atomic"
+    },
+    "Suspicious_Write_Registry_Key_SafeBoot": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "category.generic",
+            "category.high",
+            "correlation_name",
+            "numfield1",
+            "object.fullpath",
+            "object.name",
+            "object.new_value",
+            "object.path",
+            "object.property",
+            "object.type",
+            "object.value",
+            "subject.process.fullpath",
+            "subject.process.id",
+            "subject.process.name"
+        ],
+        "type": "atomic"
+    },
+    "Suspicious_Write_Registry_Key_ScreenSaver": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "category.generic",
+            "category.high",
+            "correlation_name",
+            "numfield1",
+            "object.fullpath",
+            "object.name",
+            "object.new_value",
+            "object.path",
+            "object.property",
+            "object.value",
+            "subject.process.fullpath",
+            "subject.process.id",
+            "subject.process.name",
+            "subject.process.path"
+        ],
+        "type": "atomic"
+    }
+}

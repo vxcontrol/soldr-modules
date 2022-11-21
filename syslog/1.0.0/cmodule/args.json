@@ -1,0 +1,8 @@
+{
+    "debug_correlator": ["false"],
+    "queue_limit_size": ["1000"],
+    "sender_limits": [
+        "1",
+        "50"
+    ]
+}

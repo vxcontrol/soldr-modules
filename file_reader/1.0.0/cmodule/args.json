@@ -1,0 +1,6 @@
+{
+    "debug_engine": ["false"],
+    "debug_correlator": ["false"],
+    "queue_size": ["1000"],
+    "receivers": []
+}

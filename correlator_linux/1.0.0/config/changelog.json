@@ -1,0 +1,14 @@
+{
+    "1.0.0": {
+        "en": {
+            "date": "06-19-2022",
+            "title": "Base functionality",
+            "description": "Implemented normalization, aggregation, and correlation of raw events from sources."
+        },
+        "ru": {
+            "date": "19.06.2022",
+            "title": "Базовая функциональность",
+            "description": "Реализована нормализация, агрегация и корреляция потока необработанных событий от источников."
+        }
+    }
+}

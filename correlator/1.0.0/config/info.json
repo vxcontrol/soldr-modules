@@ -1,0 +1,61 @@
+{
+    "actions": [],
+    "events": [
+        "Suspicious_Create_Process_BitsAdmin_RestrictionBypass",
+        "Suspicious_Create_Process_NetSh_NetShell",
+        "Suspicious_Create_Process_Ping_SelfDelete",
+        "Suspicious_Create_Process_Schtasks_Persistence",
+        "Suspicious_Write_File_USB_AirSpread",
+        "Suspicious_Write_Process_Inject_CreateRemoteThread",
+        "Suspicious_Write_Process_Inject_ProcessTampering",
+        "Suspicious_Write_Registry_Key_LsaComponents",
+        "Suspicious_Write_Registry_Key_SafeBoot",
+        "Suspicious_Write_Registry_Key_ScreenSaver"
+    ],
+    "fields": [
+        "category.generic",
+        "category.high",
+        "correlation_name",
+        "numfield1",
+        "object.fullpath",
+        "object.name",
+        "object.new_value",
+        "object.path",
+        "object.process.cmdline",
+        "object.process.fullpath",
+        "object.process.guid",
+        "object.process.id",
+        "object.process.name",
+        "object.process.parent.fullpath",
+        "object.process.parent.id",
+        "object.process.parent.name",
+        "object.process.path",
+        "object.property",
+        "object.type",
+        "object.value",
+        "reason",
+        "subject.process.cmdline",
+        "subject.process.fullpath",
+        "subject.process.guid",
+        "subject.process.id",
+        "subject.process.name",
+        "subject.process.path"
+    ],
+    "name": "correlator",
+    "os": {
+        "windows": [
+            "amd64"
+        ]
+    },
+    "system": false,
+    "tags": [
+        "detector",
+        "responder"
+    ],
+    "template": "responder",
+    "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 0
+    }
+}

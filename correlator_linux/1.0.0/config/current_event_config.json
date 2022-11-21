@@ -1,0 +1,240 @@
+{
+    "Malware_Exploit_Elf_CVE_2021_4034_a": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "category.generic",
+            "category.high",
+            "correlation_name",
+            "subject.process.fullpath",
+            "subject.process.id",
+            "subject.process.name",
+            "subject.process.parent.id",
+            "subject.process.path"
+        ],
+        "type": "atomic"
+    },
+    "Suspicious_Create_File_Boot_Modification": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "category.generic",
+            "category.high",
+            "correlation_name",
+            "numfield1",
+            "object.fullpath",
+            "object.name",
+            "object.path",
+            "subject.process.fullpath",
+            "subject.process.id",
+            "subject.process.name",
+            "subject.process.path"
+        ],
+        "type": "atomic"
+    },
+    "Suspicious_Create_File_Boot_RCScripts": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "category.generic",
+            "category.high",
+            "correlation_name",
+            "numfield1",
+            "object.fullpath",
+            "object.name",
+            "object.path",
+            "subject.process.fullpath",
+            "subject.process.id",
+            "subject.process.name",
+            "subject.process.path"
+        ],
+        "type": "atomic"
+    },
+    "Suspicious_Create_File_Scheduler_Cron": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "category.generic",
+            "category.high",
+            "correlation_name",
+            "numfield1",
+            "object.fullpath",
+            "object.name",
+            "object.path",
+            "subject.process.fullpath",
+            "subject.process.id",
+            "subject.process.name",
+            "subject.process.path"
+        ],
+        "type": "atomic"
+    },
+    "Suspicious_Create_File_Ssh_AuthorizedKeys": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "category.generic",
+            "category.high",
+            "correlation_name",
+            "numfield1",
+            "object.fullpath",
+            "object.name",
+            "object.path",
+            "subject.process.fullpath",
+            "subject.process.id",
+            "subject.process.name",
+            "subject.process.path"
+        ],
+        "type": "atomic"
+    },
+    "Suspicious_Create_Process_Iptables_ModifyFirewall": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "category.generic",
+            "category.high",
+            "correlation_name",
+            "numfield1",
+            "object.process.cmdline",
+            "object.process.fullpath",
+            "object.process.id",
+            "object.process.name",
+            "object.process.parent.id",
+            "object.process.path"
+        ],
+        "type": "atomic"
+    },
+    "Suspicious_Read_File_Passwd_CredentialsEnumeration": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "category.generic",
+            "category.high",
+            "correlation_name",
+            "numfield1",
+            "object.fullpath",
+            "object.state",
+            "subject.process.fullpath",
+            "subject.process.id",
+            "subject.process.meta",
+            "subject.process.name",
+            "subject.process.parent.id",
+            "subject.process.path"
+        ],
+        "type": "atomic"
+    },
+    "Suspicious_Read_File_Shadow_CredentialsDumping": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "category.generic",
+            "category.high",
+            "correlation_name",
+            "numfield1",
+            "object.fullpath",
+            "object.state",
+            "subject.process.fullpath",
+            "subject.process.id",
+            "subject.process.meta",
+            "subject.process.name",
+            "subject.process.parent.id",
+            "subject.process.path"
+        ],
+        "type": "atomic"
+    },
+    "Suspicious_Write_File_PAM_Persistence": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "category.generic",
+            "category.high",
+            "correlation_name",
+            "numfield1",
+            "object.fullpath",
+            "subject.process.fullpath",
+            "subject.process.id",
+            "subject.process.meta",
+            "subject.process.name",
+            "subject.process.parent.id",
+            "subject.process.path"
+        ],
+        "type": "atomic"
+    },
+    "Suspicious_Write_Process_Inject_Ptrace": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "category.generic",
+            "category.high",
+            "correlation_name",
+            "numfield1",
+            "object.process.id",
+            "object.value",
+            "subject.process.fullpath",
+            "subject.process.id",
+            "subject.process.name",
+            "subject.process.parent.id",
+            "subject.process.path"
+        ],
+        "type": "atomic"
+    }
+}

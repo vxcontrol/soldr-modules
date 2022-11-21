@@ -1,0 +1,75 @@
+{
+    "additionalProperties": true,
+    "properties": {
+        "malware_class": {
+            "rules": {},
+            "type": "string",
+            "ui": {
+                "widgetConfig": {}
+            }
+        },
+        "object.fullpath": {
+            "type": "string"
+        },
+        "object.process.fullpath": {
+            "rules": {},
+            "type": "string",
+            "ui": {
+                "widgetConfig": {}
+            }
+        },
+        "object.process.id": {
+            "type": "number"
+        },
+        "object.sha256_hash": {
+            "rules": {},
+            "type": "string",
+            "ui": {
+                "widgetConfig": {}
+            }
+        },
+        "reason": {
+            "rules": {},
+            "type": "string",
+            "ui": {
+                "widgetConfig": {}
+            }
+        },
+        "rule_name": {
+            "rules": {},
+            "type": "string",
+            "ui": {
+                "widgetConfig": {}
+            }
+        },
+        "rule_precision": {
+            "rules": {},
+            "type": "number",
+            "ui": {
+                "widgetConfig": {}
+            }
+        },
+        "rule_type": {
+            "rules": {},
+            "type": "string",
+            "ui": {
+                "widgetConfig": {}
+            }
+        },
+        "rules": {
+            "type": "string"
+        },
+        "subject.process.fullpath": {
+            "rules": {},
+            "type": "string",
+            "ui": {
+                "widgetConfig": {}
+            }
+        },
+        "subject.process.id": {
+            "type": "number"
+        }
+    },
+    "required": [],
+    "type": "object"
+}

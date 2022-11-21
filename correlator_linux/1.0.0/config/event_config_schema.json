@@ -1,0 +1,504 @@
+{
+    "additionalProperties": false,
+    "properties": {
+        "Malware_Exploit_Elf_CVE_2021_4034_a": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "category.generic",
+                                "category.high",
+                                "correlation_name",
+                                "subject.process.fullpath",
+                                "subject.process.id",
+                                "subject.process.name",
+                                "subject.process.parent.id",
+                                "subject.process.path"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "category.generic",
+                                    "category.high",
+                                    "correlation_name",
+                                    "subject.process.fullpath",
+                                    "subject.process.id",
+                                    "subject.process.name",
+                                    "subject.process.parent.id",
+                                    "subject.process.path"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 8,
+                            "minItems": 8,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "Suspicious_Create_File_Boot_Modification": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "category.generic",
+                                "category.high",
+                                "correlation_name",
+                                "numfield1",
+                                "object.fullpath",
+                                "object.name",
+                                "object.path",
+                                "subject.process.fullpath",
+                                "subject.process.id",
+                                "subject.process.name",
+                                "subject.process.path"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "category.generic",
+                                    "category.high",
+                                    "correlation_name",
+                                    "numfield1",
+                                    "object.fullpath",
+                                    "object.name",
+                                    "object.path",
+                                    "subject.process.fullpath",
+                                    "subject.process.id",
+                                    "subject.process.name",
+                                    "subject.process.path"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 11,
+                            "minItems": 11,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "Suspicious_Create_File_Boot_RCScripts": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "category.generic",
+                                "category.high",
+                                "correlation_name",
+                                "numfield1",
+                                "object.fullpath",
+                                "object.name",
+                                "object.path",
+                                "subject.process.fullpath",
+                                "subject.process.id",
+                                "subject.process.name",
+                                "subject.process.path"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "category.generic",
+                                    "category.high",
+                                    "correlation_name",
+                                    "numfield1",
+                                    "object.fullpath",
+                                    "object.name",
+                                    "object.path",
+                                    "subject.process.fullpath",
+                                    "subject.process.id",
+                                    "subject.process.name",
+                                    "subject.process.path"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 11,
+                            "minItems": 11,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "Suspicious_Create_File_Scheduler_Cron": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "category.generic",
+                                "category.high",
+                                "correlation_name",
+                                "numfield1",
+                                "object.fullpath",
+                                "object.name",
+                                "object.path",
+                                "subject.process.fullpath",
+                                "subject.process.id",
+                                "subject.process.name",
+                                "subject.process.path"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "category.generic",
+                                    "category.high",
+                                    "correlation_name",
+                                    "numfield1",
+                                    "object.fullpath",
+                                    "object.name",
+                                    "object.path",
+                                    "subject.process.fullpath",
+                                    "subject.process.id",
+                                    "subject.process.name",
+                                    "subject.process.path"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 11,
+                            "minItems": 11,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "Suspicious_Create_File_Ssh_AuthorizedKeys": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "category.generic",
+                                "category.high",
+                                "correlation_name",
+                                "numfield1",
+                                "object.fullpath",
+                                "object.name",
+                                "object.path",
+                                "subject.process.fullpath",
+                                "subject.process.id",
+                                "subject.process.name",
+                                "subject.process.path"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "category.generic",
+                                    "category.high",
+                                    "correlation_name",
+                                    "numfield1",
+                                    "object.fullpath",
+                                    "object.name",
+                                    "object.path",
+                                    "subject.process.fullpath",
+                                    "subject.process.id",
+                                    "subject.process.name",
+                                    "subject.process.path"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 11,
+                            "minItems": 11,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "Suspicious_Create_Process_Iptables_ModifyFirewall": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "category.generic",
+                                "category.high",
+                                "correlation_name",
+                                "numfield1",
+                                "object.process.cmdline",
+                                "object.process.fullpath",
+                                "object.process.id",
+                                "object.process.name",
+                                "object.process.parent.id",
+                                "object.process.path"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "category.generic",
+                                    "category.high",
+                                    "correlation_name",
+                                    "numfield1",
+                                    "object.process.cmdline",
+                                    "object.process.fullpath",
+                                    "object.process.id",
+                                    "object.process.name",
+                                    "object.process.parent.id",
+                                    "object.process.path"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 10,
+                            "minItems": 10,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "Suspicious_Read_File_Passwd_CredentialsEnumeration": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "category.generic",
+                                "category.high",
+                                "correlation_name",
+                                "numfield1",
+                                "object.fullpath",
+                                "object.state",
+                                "subject.process.fullpath",
+                                "subject.process.id",
+                                "subject.process.meta",
+                                "subject.process.name",
+                                "subject.process.parent.id",
+                                "subject.process.path"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "category.generic",
+                                    "category.high",
+                                    "correlation_name",
+                                    "numfield1",
+                                    "object.fullpath",
+                                    "object.state",
+                                    "subject.process.fullpath",
+                                    "subject.process.id",
+                                    "subject.process.meta",
+                                    "subject.process.name",
+                                    "subject.process.parent.id",
+                                    "subject.process.path"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 12,
+                            "minItems": 12,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "Suspicious_Read_File_Shadow_CredentialsDumping": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "category.generic",
+                                "category.high",
+                                "correlation_name",
+                                "numfield1",
+                                "object.fullpath",
+                                "object.state",
+                                "subject.process.fullpath",
+                                "subject.process.id",
+                                "subject.process.meta",
+                                "subject.process.name",
+                                "subject.process.parent.id",
+                                "subject.process.path"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "category.generic",
+                                    "category.high",
+                                    "correlation_name",
+                                    "numfield1",
+                                    "object.fullpath",
+                                    "object.state",
+                                    "subject.process.fullpath",
+                                    "subject.process.id",
+                                    "subject.process.meta",
+                                    "subject.process.name",
+                                    "subject.process.parent.id",
+                                    "subject.process.path"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 12,
+                            "minItems": 12,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "Suspicious_Write_File_PAM_Persistence": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "category.generic",
+                                "category.high",
+                                "correlation_name",
+                                "numfield1",
+                                "object.fullpath",
+                                "subject.process.fullpath",
+                                "subject.process.id",
+                                "subject.process.meta",
+                                "subject.process.name",
+                                "subject.process.parent.id",
+                                "subject.process.path"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "category.generic",
+                                    "category.high",
+                                    "correlation_name",
+                                    "numfield1",
+                                    "object.fullpath",
+                                    "subject.process.fullpath",
+                                    "subject.process.id",
+                                    "subject.process.meta",
+                                    "subject.process.name",
+                                    "subject.process.parent.id",
+                                    "subject.process.path"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 11,
+                            "minItems": 11,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "Suspicious_Write_Process_Inject_Ptrace": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "category.generic",
+                                "category.high",
+                                "correlation_name",
+                                "numfield1",
+                                "object.process.id",
+                                "object.value",
+                                "subject.process.fullpath",
+                                "subject.process.id",
+                                "subject.process.name",
+                                "subject.process.parent.id",
+                                "subject.process.path"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "category.generic",
+                                    "category.high",
+                                    "correlation_name",
+                                    "numfield1",
+                                    "object.process.id",
+                                    "object.value",
+                                    "subject.process.fullpath",
+                                    "subject.process.id",
+                                    "subject.process.name",
+                                    "subject.process.parent.id",
+                                    "subject.process.path"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 11,
+                            "minItems": 11,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        }
+    },
+    "required": [
+        "Malware_Exploit_Elf_CVE_2021_4034_a",
+        "Suspicious_Create_File_Boot_Modification",
+        "Suspicious_Create_File_Boot_RCScripts",
+        "Suspicious_Create_File_Scheduler_Cron",
+        "Suspicious_Create_File_Ssh_AuthorizedKeys",
+        "Suspicious_Create_Process_Iptables_ModifyFirewall",
+        "Suspicious_Read_File_Passwd_CredentialsEnumeration",
+        "Suspicious_Read_File_Shadow_CredentialsDumping",
+        "Suspicious_Write_File_PAM_Persistence",
+        "Suspicious_Write_Process_Inject_Ptrace"
+    ],
+    "type": "object"
+}

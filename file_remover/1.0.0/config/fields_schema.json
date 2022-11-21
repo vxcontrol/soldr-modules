@@ -1,0 +1,42 @@
+{
+    "additionalProperties": true,
+    "properties": {
+        "object.fullpath": {
+            "rules": {},
+            "type": "string",
+            "ui": {
+                "widgetConfig": {}
+            }
+        },
+        "object.process.fullpath": {
+            "rules": {},
+            "type": "string",
+            "ui": {
+                "widgetConfig": {}
+            }
+        },
+        "reason": {
+            "rules": {},
+            "type": "string",
+            "ui": {
+                "widgetConfig": {}
+            }
+        },
+        "subject.fullpath": {
+            "rules": {},
+            "type": "string",
+            "ui": {
+                "widgetConfig": {}
+            }
+        },
+        "subject.process.fullpath": {
+            "rules": {},
+            "type": "string",
+            "ui": {
+                "widgetConfig": {}
+            }
+        }
+    },
+    "required": [],
+    "type": "object"
+}

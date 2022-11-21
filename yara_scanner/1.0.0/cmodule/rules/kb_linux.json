@@ -1,0 +1,32 @@
+{
+	"r9a2f7d2e109c53a139d693a755cebca635b39380c24d66755d5de955e96680c": {
+		"rule_name": "tool_linux_ZZ_tsh__Backdoor__Opensource__Tool",
+		"malware_class": "BACKDOOR",
+		"malware_family": "tsh",
+		"rule_severity": "high",
+		"rule_type": "tool",
+		"is_exact": true,
+		"is_silent": false,
+		"description": "Tiny SHell linux opensource backdoor - https://github.com/creaktive/tsh",
+		"date": "2021-06-18",
+		"hash": [],
+		"reference": [],
+		"rule_precision": 12
+	},
+	"raefd49c2b9c45600c80f9bbaaf446123d663e641663ecd05a3f1cd7d37a6805": {
+		"rule_name": "tool_linux_ZZ_Lightning__Backdoor__Downloader",
+		"malware_class": "BACKDOOR",
+		"malware_family": "Lightning",
+		"rule_severity": "high",
+		"rule_type": "tool",
+		"is_exact": true,
+		"is_silent": false,
+		"description": "Downloader of Lightning framework",
+		"date": "25.07.2022",
+		"hash": [
+			"48f9471c20316b295704e6f8feb2196dd619799edec5835734fc24051f45c5b7"
+		],
+		"reference": [],
+		"rule_precision": 14
+	}
+}

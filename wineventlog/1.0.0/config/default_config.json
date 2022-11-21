@@ -1,0 +1,11 @@
+{
+    "log_channels": [
+        {
+            "channel": "Security",
+            "select": "*",
+            "suppress": ""
+        }
+    ],
+    "receivers": [],
+    "target_path": ""
+}

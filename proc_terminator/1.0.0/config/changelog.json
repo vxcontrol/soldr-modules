@@ -1,0 +1,14 @@
+{
+    "1.0.0": {
+        "en": {
+            "date": "04-19-2022",
+            "title": "Base functionality",
+            "description": "Added the ability to terminate processes and process trees. The actions can use the name and ID of a process, a filepath, and a path to the executable file of a process."
+        },
+        "ru": {
+            "date": "19.04.2022",
+            "title": "Базовая функциональность",
+            "description": "Добавлена возможность завершения процессов и деревьев процессов. Действия могут использовать имя и идентификатор процесса, путь к файлу и путь до исполняемого файла процесса."
+        }
+    }
+}

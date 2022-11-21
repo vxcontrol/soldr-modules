@@ -1,0 +1,131 @@
+{
+    "fr_module_started": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [],
+        "type": "atomic"
+    },
+    "fr_module_stopped": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [],
+        "type": "atomic"
+    },
+    "fr_object_file_removed_failed": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "object.fullpath",
+            "reason"
+        ],
+        "type": "atomic"
+    },
+    "fr_object_file_removed_successful": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "object.fullpath"
+        ],
+        "type": "atomic"
+    },
+    "fr_object_proc_image_removed_failed": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "object.fullpath",
+            "object.process.fullpath",
+            "reason"
+        ],
+        "type": "atomic"
+    },
+    "fr_object_proc_image_removed_successful": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "object.fullpath",
+            "object.process.fullpath"
+        ],
+        "type": "atomic"
+    },
+    "fr_remove_internal_error": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "reason"
+        ],
+        "type": "atomic"
+    },
+    "fr_subject_proc_image_removed_failed": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "reason",
+            "subject.fullpath",
+            "subject.process.fullpath"
+        ],
+        "type": "atomic"
+    },
+    "fr_subject_proc_image_removed_successful": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "subject.fullpath",
+            "subject.process.fullpath"
+        ],
+        "type": "atomic"
+    }
+}

@@ -1,0 +1,108 @@
+{
+    "module": {
+        "en": {
+            "title": "Data collector from log files",
+            "description": "Passes data from log files to detection modules and third-party systems"
+        },
+        "ru": {
+            "title": "Сбор данных из файлов журналов",
+            "description": "Передает данные из файлов журналов в модули обнаружения и сторонние системы"
+        }
+    },
+    "config": {
+        "log_files": {
+            "en": {
+                "title": "Log files",
+                "description": "List of files for data collection"
+            },
+            "ru": {
+                "title": "Файлы журналов",
+                "description": "Список файлов для сбора данных"
+            }
+        },
+        "receivers": {
+            "en": {
+                "title": "Modules that receive raw events from log files",
+                "description": "List of module identifiers"
+            },
+            "ru": {
+                "title": "Модули, получающие необработанные события из файлов журналов",
+                "description": "Список идентификаторов модулей"
+            }
+        },
+        "target_path": {
+            "en": {
+                "title": "Data recipient address",
+                "description": ""
+            },
+            "ru": {
+                "title": "Адрес получателя данных",
+                "description": ""
+            }
+        }
+    },
+    "secure_config": {},
+    "fields": {
+        "reason": {
+            "en": {
+                "title": "Event reason",
+                "description": "The event reason contains detailed information to investigate the situation"
+            },
+            "ru": {
+                "title": "Причина события",
+                "description": "Причина события описывает некоторую подробную информацию для расследования ситуации"
+            }
+        }
+    },
+    "actions": {},
+    "events": {
+        "frd_module_internal_error": {
+            "en": {
+                "title": "Module internal error",
+                "description": "Module internal error occurred. Reason:\n{{ reason }}"
+            },
+            "ru": {
+                "title": "Внутренняя ошибка в модуле",
+                "description": "Произошла внутренняя ошибка в модуле, причина:\n{{ reason }}"
+            }
+        },
+        "frd_module_started": {
+            "en": {
+                "title": "The \"Data collector from log files\" module is started",
+                "description": "The module is started successfully"
+            },
+            "ru": {
+                "title": "Модуль «Сбор данных из файловых журналов» запущен",
+                "description": "Успешный запуск модуля"
+            }
+        },
+        "frd_module_stopped": {
+            "en": {
+                "title": "The \"Data collector from log files\" module is stopped",
+                "description": "The module is stopped successfully"
+            },
+            "ru": {
+                "title": "Модуль «Сбор данных из файловых журналов» остановлен",
+                "description": "Успешная остановка модуля"
+            }
+        }
+    },
+    "action_config": {},
+    "event_config": {
+        "frd_module_internal_error": {},
+        "frd_module_started": {},
+        "frd_module_stopped": {}
+    },
+    "tags": {
+        "collector": {
+            "en": {
+                "title": "collector",
+                "description": "Collects data about events on the end device and sends it to the detection modules and SIEM systems"
+            },
+            "ru": {
+                "title": "сборщик",
+                "description": "Собирает данные о событиях на конечном устройстве и передает их в модули обнаружения и в SIEM-системы"
+            }
+        }
+    }
+}
