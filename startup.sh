@@ -57,4 +57,9 @@ echo "updating of modules secure config into global DB was complete"
 
 echo "done"
 
+GET_MODULES="SELECT name from modules;"
+MODULES=$(mysql -h"$DB_HOST" -P"$DB_PORT" -u"$DB_USER" -p"$DB_PASS" "$DB_NAME" -Nse "$GET_MODULES" 2>/dev/null)
+echo "List of modules in database: $MODULES"
+
+
 sleep infinity
