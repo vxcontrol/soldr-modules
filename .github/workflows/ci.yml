@@ -10,6 +10,6 @@ on:
 jobs:
 #   BUILD DOCKER
   build_docker_vxmodules:
-    uses: ./.github/workflows/build-docker-vxweb.yml
+    uses: ./.github/workflows/build-docker-modules.yml
     if: github.ref_name == 'master' || startsWith(github.ref, 'refs/tags')
     secrets: inherit
