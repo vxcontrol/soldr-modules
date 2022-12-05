@@ -50,16 +50,21 @@ while true; do
 done
 
 # update modules base columns into global DB
-mysql -h"$DB_HOST" -P"$DB_PORT" -u"$DB_USER" -p"$DB_PASS" "$DB_NAME" < /opt/vxmodules/dump_global.sql
-echo "base updating of modules into global DB complete"
-mysql -h"$DB_HOST" -P"$DB_PORT" -u"$DB_USER" -p"$DB_PASS" "$DB_NAME" < /opt/vxmodules/dump_global_sec_cfg.sql
-echo "updating of modules secure config into global DB was complete"
-
-echo "done"
-
-GET_MODULES="SELECT name from modules;"
-MODULES=$(mysql -h"$DB_HOST" -P"$DB_PORT" -u"$DB_USER" -p"$DB_PASS" "$DB_NAME" -Nse "$GET_MODULES" 2>/dev/null)
-echo "List of modules in database: $MODULES"
+while true; do
+  mysql -h"$DB_HOST" -P"$DB_PORT" -u"$DB_USER" -p"$DB_PASS" "$DB_NAME" < /opt/vxmodules/dump_global.sql
+  echo "base updating of modules into global DB complete"
+  mysql -h"$DB_HOST" -P"$DB_PORT" -u"$DB_USER" -p"$DB_PASS" "$DB_NAME" < /opt/vxmodules/dump_global_sec_cfg.sql
+  echo "updating of modules secure config into global DB was complete"
+  GET_MODULES="SELECT name from modules;"
+  MODULES=$(mysql -h"$DB_HOST" -P"$DB_PORT" -u"$DB_USER" -p"$DB_PASS" "$DB_NAME" -Nse "$GET_MODULES" 2>/dev/null)
+  echo "List of modules in database: $MODULES"
+  if [[ -n $MODULES ]]; then
+        echo "Modules uploaded to database"
+        break
+    fi
+    echo "failed to update global modules table"
+    sleep 1
+done
 
 
 sleep infinity
