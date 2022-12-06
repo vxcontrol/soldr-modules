@@ -1,8 +1,8 @@
-FROM minio/mc
+FROM minio/mc as minio_client
 
 FROM python:3.10-alpine
 
-COPY --from=0 /usr/bin/mc /usr/bin/mc
+COPY --from=minio_client /usr/bin/mc /usr/bin/mc
 
 ARG VXVERSION=unknown
 
@@ -33,7 +33,7 @@ COPY config.json /opt/vxmodules/mon/
 
 RUN chmod +x /opt/vxmodules/startup.sh && \
     chmod +x /opt/vxmodules/gen_sql.py && \
-    apk add mysql-client bash jq && \
+    apk add --no-cache mysql-client bash jq && \
     echo 'hosts: files mdns4_minimal [NOTFOUND=return] dns mdns4' >> /etc/nsswitch.conf && \
     pip3 install pypika && \
     echo ${VXVERSION} > /opt/vxmodules/version
