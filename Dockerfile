@@ -1,8 +1,8 @@
-FROM minio/mc
+FROM minio/mc as minio_client
 
-FROM mysql:5.7-debian
+FROM python:3.10-alpine
 
-COPY --from=0 /usr/bin/mc /usr/bin/mc
+COPY --from=minio_client /usr/bin/mc /usr/bin/mc
 
 ARG VXVERSION=unknown
 
@@ -31,28 +31,16 @@ COPY lua_interpreter /opt/vxmodules/mon/lua_interpreter
 COPY utils /opt/vxmodules/mon/utils
 COPY config.json /opt/vxmodules/mon/
 
-RUN chmod +x /opt/vxmodules/startup.sh
-RUN chmod +x /opt/vxmodules/gen_sql.py
-
-RUN \
-  apt update && \
-  apt install -y ca-certificates && \
-  apt install -y jq && \
-  apt install -y --no-install-recommends python3 python3-pip && \
-  apt clean -y && \
-  apt autoremove -y && \
-  rm -rf /tmp/* /var/tmp/* && \
-  rm -rf /var/lib/apt/lists/* && \
-  echo 'hosts: files mdns4_minimal [NOTFOUND=return] dns mdns4' >> /etc/nsswitch.conf
-
-RUN pip3 install pypika
+RUN chmod +x /opt/vxmodules/startup.sh && \
+    chmod +x /opt/vxmodules/gen_sql.py && \
+    apk add --no-cache mysql-client bash jq && \
+    echo 'hosts: files mdns4_minimal [NOTFOUND=return] dns mdns4' >> /etc/nsswitch.conf && \
+    pip3 install pypika && \
+    echo ${VXVERSION} > /opt/vxmodules/version
 
 WORKDIR /opt/vxmodules/mon/
 
 # Generate new dump sql files
 RUN python3 /opt/vxmodules/gen_sql.py /opt/vxmodules/
-
-# Write version file
-RUN echo ${VXVERSION} > /opt/vxmodules/version
 
 ENTRYPOINT ["/opt/vxmodules/startup.sh"]
