@@ -1,13 +1,13 @@
 <template>
-    <div class="layout-row layout-row-column">
-        <div class="layout-row layout-row-none layout-row-row layout-row-middle">
+    <div class="layout-column">
+        <div class="flex-none layout-row layout-align-start-center">
             <el-button type="text" icon="el-icon-back" @click="onBack()"></el-button>
             <el-divider direction="vertical"></el-divider>
-            <header class="layout-row layout-row-auto quick-check-scope__header">
+            <header class="flex-auto quick-check-scope__header">
                 {{ $t('BrowserModule.YaraManagement.Label.QuickCheckParams') }}
             </header>
         </div>
-        <div class="layout-row layout-row-auto layout-row-column quick-check-scope__content">
+        <div class="flex-auto layout-column quick-check-scope__content">
             <header class="quick-check-scope__subheader">
                 {{ $t('BrowserModule.YaraManagement.Label.CheckScope') }}
             </header>

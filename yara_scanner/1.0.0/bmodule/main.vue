@@ -27,7 +27,7 @@
                         <el-button
                             icon="el-icon-plus"
                             type="primary"
-                            class="layout-margin-left-s"
+                            class="layout-margin-left-m"
                             @click="goToNewCheckView()">
                             {{ $t('BrowserModule.YaraManagement.ButtonText.NewCheck') }}
                         </el-button>
@@ -190,11 +190,11 @@
             </el-tab-pane>
             <el-tab-pane v-if="viewMode === 'agent'" name="rules" :label="$t('BrowserModule.YaraManagement.TabTitle.Rules')">
                 <!-- RULES LIST -->
-                <div class="layout-fill layout-row layout-row-row layout-row-stretch">
+                <div class="layout-fill layout-row layout-align-start-stretch">
                     <component
                         v-if="connection"
                         ref="rulesGrid"
-                        class="layout-row-auto layout-fill"
+                        class="flex-auto layout-fill"
                         storage-key="yara-rules-grid"
                         :is="components['grid']"
                         :data="rules"
@@ -272,7 +272,7 @@
                             <div class="rules-view__title">
                                 {{ selectedRule.rule_name }}
                             </div>
-                            <div class="rules-view__hash layout-margin-bottom-s">
+                            <div class="rules-view__hash layout-margin-bottom-m">
                                 <div v-for="hash of (selectedRule.hash || '').split('|')">
                                     {{ hash }}
                                 </div>
@@ -499,7 +499,7 @@ const EN_LOCALE = {
 
 module.exports = {
     name,
-    props: [ "protoAPI", "hash", "module", "eventsAPI", "modulesAPI", "components", "viewMode", "helpers", "entity" ],
+    props: [ "protoAPI", "hash", "module", "api", "components", "viewMode", "helpers", "entity" ],
     data: () => ({
         leftTab: undefined,
         connection: undefined,

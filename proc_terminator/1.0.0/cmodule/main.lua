@@ -1,13 +1,13 @@
 require("engine")
-local bit     = require("bit")
 local ffi     = require("ffi")
-local lfs     = require("lfs")
 local glue    = require("glue")
 local cjson   = require("cjson.safe")
 local luapath = require("path")
+local process_api = require("process_api")
 local lk32
 if ffi.os == "Windows" then
     lk32 = require("waffi.windows.kernel32")
+    lk32.STILL_ALIVE = 259
 else
     ffi.cdef[[
         typedef uint32_t pid_t;
@@ -93,7 +93,20 @@ local function push_event(event_name, action_name, action_data)
 end
 
 local function update_agent_info()
-    agent_id, agent_path = dyn_handlers.update_agent_info()
+    agent_id, agent_path = process_api.update_agent_info()
+end
+
+local function collect_process_info(object_type)
+    local process_list = {}
+    process_api.for_each_process(function(proc_info)
+        table.insert(process_list, {
+            [object_type .. ".process.id"] = proc_info.pid,
+            [object_type .. ".process.name"] = proc_info.name,
+            [object_type .. ".process.fullpath"] = proc_info.path,
+            [object_type .. ".process.parent.id"] = proc_info.parent_pid,
+        })
+    end)
+    return process_list
 end
 
 local function get_process_tree(check_ppid, object_type, full_process_info, depth)
@@ -104,7 +117,7 @@ local function get_process_tree(check_ppid, object_type, full_process_info, dept
         return child_list
     end
     if full_process_info == nil then
-        full_process_info = dyn_handlers.collect_process_info(object_type)
+        full_process_info = collect_process_info(object_type)
     end
 
     for _, proc_info in ipairs(full_process_info) do
@@ -182,7 +195,7 @@ local function kill_proc_children(action_name, object_type, proc_id)
             child_action_data.data = {
                 [object_type .. ".process.name"] = ch_proc_name,
                 [object_type .. ".process.id"] = ch_proc_id,
-                [object_type .. ".process.fullpath"] = dyn_handlers.get_process_path(ch_proc_id)
+                [object_type .. ".process.fullpath"] = process_api.get_process_path(ch_proc_id)
             }
             __log.info("Killing -> " .. ch_proc_id)
             dyn_handlers.kill_process_by_name_and_id(action_name, child_action_data, object_type, false, true)
@@ -213,51 +226,35 @@ local function check_action_structure(action_name, action_data)
     action_data.data["object.process.id"] = tonumber(action_data.data["object.process.id"])
     action_data.data["subject.process.id"] = tonumber(action_data.data["subject.process.id"])
 
+    local actions = {
+        pt_kill_object_process_by_file_path = {{"object.fullpath", "string"}},
+        pt_kill_object_process_by_image = {{"object.process.fullpath", "string"}},
+        pt_kill_object_process_by_name = {{"object.process.name", "string"}},
+        pt_kill_object_process_by_name_and_id = {{"object.process.name", "string"}, {"object.process.id", "number"}},
+        pt_kill_object_process_by_image_and_id = {{"object.process.fullpath", "string"}, {"object.process.id", "number"}},
+        pt_kill_object_process_tree_by_file_path = {{"object.fullpath", "string"}},
+        pt_kill_object_process_tree_by_image = {{"object.process.fullpath", "string"}},
+        pt_kill_object_process_tree_by_name = {{"object.process.name", "string"}},
+        pt_kill_object_process_tree_by_name_and_id = {{"object.process.name", "string"}, {"object.process.id", "number"}},
+        pt_kill_object_process_tree_by_image_and_id = {{"object.process.fullpath", "string"}, {"object.process.id", "number"}},
+        pt_kill_subject_process_by_image = {{"subject.process.fullpath", "string"}},
+        pt_kill_subject_process_by_name = {{"subject.process.name", "string"}},
+        pt_kill_subject_process_by_name_and_id = {{"subject.process.name", "string"}, {"subject.process.id", "number"}},
+        pt_kill_subject_process_by_image_and_id = {{"subject.process.fullpath", "string"}, {"subject.process.id", "number"}},
+        pt_kill_subject_process_tree_by_image = {{"subject.process.fullpath", "string"}},
+        pt_kill_subject_process_tree_by_name = {{"subject.process.name", "string"}},
+        pt_kill_subject_process_tree_by_name_and_id = {{"subject.process.name", "string"}, {"subject.process.id", "number"}},
+        pt_kill_subject_process_tree_by_image_and_id = {{"subject.process.fullpath", "string"}, {"subject.process.id", "number"}}
+    }
+
     -- check action data structure
-    return (action_name == "pt_kill_object_process_by_file_path" and
-            type(action_data.data["object.fullpath"]) == "string") or
-        (action_name == "pt_kill_object_process_by_image" and
-            type(action_data.data["object.process.fullpath"]) == "string") or
-        (action_name == "pt_kill_object_process_by_name" and
-            type(action_data.data["object.process.name"]) == "string") or
-        (action_name == "pt_kill_object_process_by_name_and_id" and
-            type(action_data.data["object.process.name"]) == "string" and
-            type(action_data.data["object.process.id"]) == "number") or
-        (action_name == "pt_kill_object_process_by_image_and_id" and
-            type(action_data.data["object.process.fullpath"]) == "string" and
-            type(action_data.data["object.process.id"]) == "number") or
-        (action_name == "pt_kill_object_process_tree_by_file_path" and
-            type(action_data.data["object.fullpath"]) == "string") or
-        (action_name == "pt_kill_object_process_tree_by_image" and
-            type(action_data.data["object.process.fullpath"]) == "string") or
-        (action_name == "pt_kill_object_process_tree_by_name" and
-            type(action_data.data["object.process.name"]) == "string") or
-        (action_name == "pt_kill_object_process_tree_by_name_and_id" and
-            type(action_data.data["object.process.name"]) == "string" and
-            type(action_data.data["object.process.id"]) == "number") or
-        (action_name == "pt_kill_object_process_tree_by_image_and_id" and
-            type(action_data.data["object.process.fullpath"]) == "string" and
-            type(action_data.data["object.process.id"]) == "number") or
-        (action_name == "pt_kill_subject_process_by_image" and
-            type(action_data.data["subject.process.fullpath"]) == "string") or
-        (action_name == "pt_kill_subject_process_by_name" and
-            type(action_data.data["subject.process.name"]) == "string") or
-        (action_name == "pt_kill_subject_process_by_name_and_id" and
-            type(action_data.data["subject.process.name"]) == "string" and
-            type(action_data.data["subject.process.id"]) == "number") or
-        (action_name == "pt_kill_subject_process_by_image_and_id" and
-            type(action_data.data["subject.process.fullpath"]) == "string" and
-            type(action_data.data["subject.process.id"]) == "number") or
-        (action_name == "pt_kill_subject_process_tree_by_image" and
-            type(action_data.data["subject.process.fullpath"]) == "string") or
-        (action_name == "pt_kill_subject_process_tree_by_name" and
-            type(action_data.data["subject.process.name"]) == "string") or
-        (action_name == "pt_kill_subject_process_tree_by_name_and_id" and
-            type(action_data.data["subject.process.name"]) == "string" and
-            type(action_data.data["subject.process.id"]) == "number") or
-        (action_name == "pt_kill_subject_process_tree_by_image_and_id" and
-            type(action_data.data["subject.process.fullpath"]) == "string" and
-            type(action_data.data["subject.process.id"]) == "number")
+    for _, value in ipairs(actions[action_name]) do
+        local data_name, data_type = unpack(value)
+        if type(action_data.data[data_name]) ~= data_type then
+            return false
+        end
+    end
+    return true
 end
 
 local function exec_action(action_name, action_data)
@@ -328,25 +325,24 @@ end
 
 if ffi.os == "Windows" then
 
+    --[[ Windows handlers ]]
+
     function handlers.windows.kill_proc_common(action_name, action_data, object_type, proc_handle)
         local exitCode = ffi.new("DWORD[1]", 0)
-        if lk32.TerminateProcess(proc_handle, 0) == 1 then
+        if lk32.TerminateProcess(proc_handle, 0) ~= 0 then
             lk32.WaitForSingleObject(proc_handle, wait_kill_timeout)
             action_data.data.result = true
             push_event("pt_" .. object_type .. "_process_killed_successful", action_name, action_data)
             return action_data.data
             -- we can fail if the process is already terminating, so check for it
-        else
-            -- https://docs.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getexitcodeprocess
-            if lk32.GetExitCodeProcess(proc_handle, exitCode) == 1 then
-                __log.debugf("exit code from requested kill process: %d", tonumber(exitCode[0]))
-                -- 259 - STILL_ALIVE
-                if tonumber(exitCode[0]) ~= 259 then
-                    action_data.data.result = true
-                    action_data.data.reason = "already terminating"
-                    push_event("pt_" .. object_type .. "_process_killed_successful", action_name, action_data)
-                    return action_data.data
-                end
+        elseif lk32.GetExitCodeProcess(proc_handle, exitCode) ~= 0 then
+            __log.debugf("exit code from requested kill process: %d", tonumber(exitCode[0]))
+
+            if tonumber(exitCode[0]) ~= lk32.STILL_ALIVE then
+                action_data.data.result = true
+                action_data.data.reason = "already terminating"
+                push_event("pt_" .. object_type .. "_process_killed_successful", action_name, action_data)
+                return action_data.data
             end
         end
 
@@ -362,64 +358,57 @@ if ffi.os == "Windows" then
         name = name:lower()
         __log.debug("kill_process_by_name", name, kill_children)
 
-        local full_process_info = dyn_handlers.collect_process_info(object_type)
-        -- expect that we do not fail this one
+        -- check proc name to ensure we really need to open process
+        local s_proc_name = luapath.file(name)
+        s_proc_name = s_proc_name:lower()
 
         local proc_found = false
         local action_data_bak = glue.update({}, action_data.data)
         action_data_bak.result = true
-        for i = 1, #full_process_info do
-            local proc_id = full_process_info[i][object_type .. ".process.id"]
-            local proc_name = full_process_info[i][object_type .. ".process.name"]
-            proc_name = proc_name:lower()
-
-            -- check proc name to ensure we really need to open process
-            local s_proc_name = luapath.file(name)
-            s_proc_name = s_proc_name:lower()
-            if s_proc_name ~= proc_name then
-                goto continue
+        process_api.for_each_process(function(proc_info)
+            if (proc_info.name ~= s_proc_name) then
+                return false
             end
 
-            local proc_path, err = handlers.windows.get_process_path(proc_id)
-            local proc_path_l = proc_path:lower()
+            local proc_path, err = process_api.get_process_path(proc_info.pid)
+            local proc_path_lower = proc_path:lower()
             if err == nil then
-                if proc_path == "" and glue.indexof(proc_name, system_process_excludes_windows) then
+                if proc_path == "" and glue.indexof(proc_info.name, system_process_excludes_windows) then
                     proc_found = true
-                    action_data.data = update_action_data(action_data, object_type, proc_id, proc_path)
+                    action_data.data = update_action_data(action_data, object_type, proc_info.pid, proc_path)
                     push_event("pt_" .. object_type .. "_process_skipped", action_name, action_data)
-                    goto continue
-                elseif proc_path == "" or (proc_path_l ~= name and luapath.file(proc_path_l) ~= name) then
-                    goto continue
+                    return false
+                elseif proc_path == "" or (proc_path_lower ~= name and luapath.file(proc_path_lower) ~= name) then
+                    return false
                 end
             else
-                goto continue
+                return false
             end
 
             proc_found = true
-            action_data.data = update_action_data(action_data, object_type, proc_id, proc_path)
+            action_data.data = update_action_data(action_data, object_type, proc_info.pid, proc_path)
 
-            if is_whitelisted(proc_path_l, proc_id, false) then
+            if is_whitelisted(proc_path_lower, proc_info.pid, false) then
                 push_event("pt_" .. object_type .. "_process_skipped", action_name, action_data)
-                goto continue
+                return false
             end
 
             if kill_children then
-                kill_proc_children(action_name, object_type, proc_id)
+                kill_proc_children(action_name, object_type, proc_info.pid)
             end
             local proc_handle
-            proc_handle, action_data.data = handlers.windows.get_termination_handle(action_name, action_data, object_type,
-                proc_id)
+            proc_handle, action_data.data = handlers.windows.get_termination_handle(
+                action_name, action_data, object_type, proc_info.pid)
             if proc_handle == nil then
                 action_data_bak.result = false
-                goto continue
+                return false
             end
 
             action_data.data = handlers.windows.kill_proc_common(action_name, action_data, object_type, proc_handle)
             action_data_bak.result = action_data.data.result
 
             lk32.CloseHandle(proc_handle)
-            ::continue::
-        end
+        end)
 
         action_data.data = action_data_bak
         action_data.data.reason = not action_data.data.result and "failed_to_kill_a_part_of_processes" or nil
@@ -452,7 +441,7 @@ if ffi.os == "Windows" then
         __log.debug("kill_process_by_name_and_id", dproc_name, dproc_id, kill_children, ignore_whitelist)
 
         local proc_handle
-        local proc_path, err = handlers.windows.get_process_path(dproc_id)
+        local proc_path, err = process_api.get_process_path(dproc_id)
         proc_path = proc_path or ""
         local proc_path_l = proc_path:lower()
         local proc_name_l = luapath.file(proc_path_l)
@@ -492,51 +481,8 @@ if ffi.os == "Windows" then
         return action_data.data.result
     end
 
-    -- take snap, get required fields from it
-    -- name - *.process.name
-    -- proc_id - *.process.id
-    -- ppid - *.process.parent.id
-    function handlers.windows.collect_process_info(object_type)
-        local full_process_info = {}
-        local proc_entry = ffi.new("PROCESSENTRY32[1]")
-        proc_entry[0].dwSize = ffi.sizeof("PROCESSENTRY32")
-        local snap_handle = lk32.CreateToolhelp32Snapshot(0x00000002, 0)
-
-        if (lk32.Process32First(snap_handle, proc_entry[0]) == 1) then
-            while (lk32.Process32Next(snap_handle, proc_entry[0]) == 1) do
-                table.insert(full_process_info, {
-                    [object_type .. ".process.id"] = tonumber(proc_entry[0].th32ProcessID),
-                    [object_type .. ".process.name"] = ffi.string(proc_entry[0].szExeFile),
-                    [object_type .. ".process.parent.id"] = tonumber(proc_entry[0].th32ParentProcessID)
-                })
-            end
-        else
-            __log.error("failed to get info from snapshot")
-        end
-        if snap_handle ~= ffi.NULL then
-            lk32.CloseHandle(snap_handle)
-        end
-        return full_process_info
-    end
-
-    function handlers.windows.get_last_error()
-        local err = lk32.GetLastError()
-        __log.debugf("winapi last err: %d", tonumber(err))
-        return err
-    end
-
-    function handlers.windows.get_process_handle(proc_id)
-        local handle = lk32.OpenProcess(bit.bor(lk32.PROCESS_QUERY_LIMITED_INFORMATION, lk32.PROCESS_TERMINATE,
-            lk32.PROCESS_VM_READ, 0x00100000 -- lk32.SYNCHRONIZE
-        ), false, proc_id)
-        if handle == ffi.NULL then
-            return nil, handlers.windows.get_last_error()
-        end
-        return handle, nil
-    end
-
     function handlers.windows.get_termination_handle(action_name, action_data, object_type, proc_id)
-        local proc_handle, err = handlers.windows.get_process_handle(proc_id)
+        local proc_handle, err = process_api.get_process_handle(proc_id)
         if proc_handle == nil then
             -- access denied
             if err == 5 then
@@ -554,33 +500,9 @@ if ffi.os == "Windows" then
         return proc_handle, action_data.data
     end
 
-    -- by using less priveleged handle we can get path for any process
-    -- GetModuleFileNameExA didn't work on w7x64
-    function handlers.windows.get_process_path(proc_id)
-        local proc_handle, err = lk32.OpenProcess(lk32.PROCESS_QUERY_LIMITED_INFORMATION, false, proc_id)
-        if proc_handle == nil then
-            return "", err
-        end
-        local max_path = lk32.MAX_PATH
-        local filename = ffi.new("char[?]", max_path)
-        local size = ffi.new("DWORD[1]", 2048)
-        if lk32.QueryFullProcessImageNameA(proc_handle, 0, filename, size) == 1 then
-            lk32.CloseHandle(proc_handle)
-            return ffi.string(filename, size[0]), nil
-        end
-        lk32.CloseHandle(proc_handle)
-        __log.errorf("failed to get process path for proc_id '%d'", proc_id)
-        return "", nil
-    end
-
-    function handlers.windows.update_agent_info()
-        local aid, apath
-        aid = tonumber(lk32.GetCurrentProcessId())
-        apath = handlers.windows.get_process_path(aid):lower()
-        return aid, apath
-    end
-
 else
+
+    --[[ Linux handlers ]]
 
     function handlers.linux.kill_proc_common(action_name, action_data, object_type, proc_id)
         assert(type(proc_id) == "number", "input process id has invalid type")
@@ -593,33 +515,87 @@ else
         --    calling process has permission to send signals, except for
         --    process 1 (init), but see below.
 
-        local err
         if proc_id <= 0 then
             action_data.data.result = false
             action_data.data.reason = "Invalid PID specified"
             push_event("pt_" .. object_type .. "process_not_found", action_name, action_data)
-            return action_data, nil
+            return action_data
         end
         __log.info("call linux.kill_proc_common", action_name, proc_id)
         if ffi.C.kill(proc_id, 9) == 0 then
             action_data.data.result = true
             push_event("pt_" .. object_type .. "_process_killed_successful", action_name, action_data)
-            return action_data.data, nil
-        else
-            -- #define    EPERM         1    /* Operation not permitted */
-            -- #define    ESRCH         3    /* No such process */
-            err = ffi.errno()
-            if err == 1 then
-                action_data.data.result = false
-                action_data.data.reason = "Access denied"
-                push_event("pt_" .. object_type .. "_process_killed_failed", action_name, action_data)
-            elseif err == 3 then
-                action_data.data.result = false
-                action_data.data.reason = "Process not found"
-                push_event("pt_process_not_found", action_name, action_data)
-            end
+            return action_data.data
         end
+
+        local EPERM = 1 -- Operation not permitted
+        local ESRCH = 3 -- No such process
+        action_data.data.result = false
+
+        local err = ffi.errno()
+        if err == ESRCH then
+            action_data.data.reason = "Process not found"
+            push_event("pt_process_not_found", action_name, action_data)
+            return action_data.data
+        end
+
+        action_data.data.reason = err == EPERM and "Access denied" or ("errno: %d"):format(err)
+        push_event("pt_" .. object_type .. "_process_killed_failed", action_name, action_data)
         return action_data.data, err
+    end
+
+    function handlers.linux.kill_process_by_name(action_name, action_data, object_type, name, kill_children, ignore_whitelist)
+        assert(type(name) == "string", "input process name or path has invalid type")
+        assert(type(kill_children) == "boolean", "kill_children flag has invalid type")
+        __log.debug("kill_process_by_name", name, kill_children)
+
+        local proc_found = false
+        local action_data_bak = glue.update({}, action_data.data)
+        action_data_bak.result = true
+
+        process_api.for_each_process(function(proc_info)
+            clear_proc_data(action_data, object_type)
+
+            -- some processes on osx might start with dash
+            -- current way of getting process info does not guarantee getting full process name
+            -- instead it gets argv[0] of running process
+            if ffi.os == "OSX" then
+                if proc_info.path == "" or ( not glue.ends(proc_info.name, name)) then
+                    return false
+                end
+            else
+            if proc_info.path == "" or (proc_info.path ~= name and proc_info.name ~= name) then
+                return false
+            end
+            end
+            proc_found = true
+            action_data.data = update_action_data(action_data, object_type, proc_info.pid, proc_info.path)
+
+            if is_whitelisted(proc_info.path, proc_info.pid, ignore_whitelist) then
+                action_data.data.result = true
+                push_event("pt_" .. object_type .. "_process_skipped", action_name, action_data)
+                return false
+            end
+
+            if kill_children then
+                kill_proc_children(action_name, object_type, proc_info.pid)
+            end
+
+            local err
+            action_data.data, err = dyn_handlers.kill_proc_common(action_name, action_data, object_type, proc_info.pid)
+            if err then
+                __log.debugf("process killed -> '%d' with error -> '%s'", proc_info.pid, err)
+            else
+                __log.debugf("process killed -> '%d'", proc_info.pid)
+            end
+        end)
+
+        if not proc_found then
+            action_data.data.result = false
+            action_data.data.reason = "Process not found"
+            push_event("pt_process_not_found", action_name, action_data)
+        end
+        return action_data.data.result
     end
 
     function handlers.linux.kill_process_by_name_and_id(action_name, action_data, object_type, kill_children, ignore_whitelist)
@@ -640,7 +616,7 @@ else
         end
         __log.debug("linux.kill_process_by_name_and_id", dproc_name, dproc_id, kill_children, ignore_whitelist)
 
-        local proc_path, err = dyn_handlers.get_process_path(dproc_id)
+        local proc_path, err = process_api.get_process_path(dproc_id)
         __log.debugf("proc info -> '%s' error -> '%s'", proc_path, err)
         if not err and proc_path ~= "" and proc_path ~= nil and (not dproc_path or dproc_path == proc_path) then
             action_data.data = update_action_data(action_data, object_type, dproc_id, proc_path)
@@ -675,192 +651,18 @@ else
         return action_data.data.result
     end
 
-    function handlers.linux.kill_process_by_name(action_name, action_data, object_type, name, kill_children, ignore_whitelist)
-        assert(type(name) == "string", "input process name or path has invalid type")
-        assert(type(kill_children) == "boolean", "kill_children flag has invalid type")
-        __log.debug("kill_process_by_name", name, kill_children)
+    --[[ OSX handlers ]]
 
-        local proc_found = false
-        local action_data_bak = glue.update({}, action_data.data)
-        action_data_bak.result = true
-
-        local full_process_info = dyn_handlers.collect_process_info(object_type)
-
-        local proc_name, proc_id, proc_path, err
-        for _, proc_info in ipairs(full_process_info) do
-            clear_proc_data(action_data, object_type)
-            proc_name = proc_info[object_type .. ".process.name"]
-            proc_id = proc_info[object_type .. ".process.id"]
-            proc_path = proc_info[object_type .. ".process.fullpath"]
-
-            -- some processes on osx might start with dash
-            -- current way of getting process info does not guarantee getting full process name
-            -- instead it gets argv[0] of running process
-            if ffi.os == "OSX" then
-                if proc_path == "" or ( not glue.ends(proc_name, name)) then
-                    goto continue
-                end
-            else
-                if proc_path == "" or (proc_path ~= name and proc_name ~= name) then
-                    goto continue
-                end
-            end
-            proc_found = true
-            action_data.data = update_action_data(action_data, object_type, proc_id, proc_path)
-
-            if is_whitelisted(proc_path, proc_id, ignore_whitelist) then
-                action_data.data.result = true
-                push_event("pt_" .. object_type .. "_process_skipped", action_name, action_data)
-                goto continue
-            end
-
-            if kill_children then
-                kill_proc_children(action_name, object_type, proc_id)
-            end
-
-            action_data.data, err = dyn_handlers.kill_proc_common(action_name, action_data, object_type, proc_id)
-            __log.debugf("proc killed -> '%d' error -> '%s'", proc_id, err)
-
-            ::continue::
-        end
-
-        if not proc_found then
-            action_data.data.result = false
-            action_data.data.reason = "Process not found"
-            push_event("pt_process_not_found", action_name, action_data)
-        end
-        return action_data.data.result
-    end
-
-    function handlers.linux.get_process_path(proc_id)
-        local attrs = lfs.symlinkattributes(string.format("/proc/%s/exe", proc_id))
-        if type(attrs) ~= "table" then
-            return "", "not found"
-        elseif attrs["mode"] ~= "link" then
-            return "", "invalid process id"
-        elseif type(attrs["target"]) ~= "string" then
-            return "", "permission deny"
-        end
-        return attrs["target"]
-    end
-
-    -- might be a number or "self"
-    function handlers.linux.get_process_info(proc_id_str)
-        assert(type(proc_id_str) == "string")
-        local file = io.open("/proc/" .. proc_id_str .. "/stat", "r")
-        if file ~= nil then
-            local info = file:read()
-            local _pid, _ppid = info:match("(%S+) %S+ %S+ (%S+)")
-            local proc_id = tonumber(_pid)
-            local ppid = tonumber(_ppid)
-            file:close()
-            if proc_id ~= nil and ppid ~= nil then
-                return proc_id, ppid, false
-            else
-                return nil, nil, true
-            end
-        end
-
-        return nil, nil, true
-    end
-
-    function handlers.linux.collect_process_info(object_type)
-        local process_list = {}
-        local imagepath, err
-        for file in lfs.dir("/proc") do
-            if file == "." or file == ".." or tonumber(file) == nil then
-                goto continue
-            end
-            local attrs = lfs.attributes(string.format("/proc/%s", file))
-            if type(attrs) ~= "table" or attrs["mode"] ~= "directory" then
-                goto continue
-            end
-
-            imagepath, err = handlers.linux.get_process_path(file)
-            if not err then
-                local proc_id, ppid
-                local name = luapath.file(imagepath)
-                proc_id, ppid, err = handlers.linux.get_process_info(file)
-                if not err then
-                    if proc_id == nil or ppid == nil then
-                        __log.info("Invalid PID: -> " .. proc_id .. " expected ->" .. file)
-                    end
-                    table.insert(process_list, {
-                        [object_type .. ".process.id"] = proc_id,
-                        [object_type .. ".process.parent.id"] = ppid,
-                        [object_type .. ".process.fullpath"] = imagepath,
-                        [object_type .. ".process.name"] = name
-                    })
-                end
-            end
-
-            ::continue::
-        end
-        return process_list
-    end
-
-    function handlers.linux.update_agent_info()
-        local aid, apath
-        aid = handlers.linux.get_process_info("self")
-        apath = handlers.linux.get_process_path("self")
-        return aid, apath
-    end
-
-    function handlers.osx.update_agent_info()
-        local aid, apath
-        aid = ffi.C.getpid()
-        apath = handlers.osx.get_process_path(aid)
-        return aid, apath
-    end
-
-    function handlers.osx.get_process_path(proc_id)
-        assert(type(proc_id) == "number", "PID should a number")
-        local cmd =  "/bin/ps o comm=\"\" " .. tostring(proc_id) -- comm for osx, command for linux
-        local cmd_handle = assert(io.popen(cmd, "r"), "failed to call io.popen")
-        local imagepath = assert(cmd_handle:read("*all"), "failed to read from pipe")
-        imagepath = string.gsub(imagepath, '^%s*(.-)%s*$', '%1')
-         __log.debugf("handlers.osx.get_process_path for '%d' -> '%s'", proc_id, imagepath)
-        cmd_handle:close()
-        if imagepath ~= nil and imagepath ~= "" then
-            return imagepath, nil
-        else
-            return nil, "Not found"
-        end
-    end
-
-    function handlers.osx.collect_process_info(object_type)
-        local process_list = {}
-        -- TODO move this to sysctl syscall to retrieve the process table.
-        local cmd = "/bin/ps axo pid=\"\",ppid=\"\",comm=\"\""  -- comm for osx, command for linux
-        local cmd_handle = assert(io.popen(cmd, "r"), "failed to call io.popen")
-        local cmd_res = assert(cmd_handle:read("*all"), "failed to read from pipe")
-        cmd_handle:close()
-        for str in string.gmatch(cmd_res, "([^"..'\n'.."]+)") do
-            local _pid, _ppid, imagepath = str:match("%s+(%S+)%s+(%S+) ([^.]+)")
-            imagepath = string.gsub(imagepath, '^%s*(.-)%s*$', '%1')
-            __log.debugf("handlers.osx.collect_process_info PID -> '%s' PPID -> '%s' IMAGE -> '%s", _pid, _ppid , imagepath)
-            if _pid ~= nil and _ppid ~= nil and imagepath ~= nil then
-                table.insert(process_list, {
-                    [object_type .. ".process.id"] = tonumber(_pid),
-                    [object_type .. ".process.parent.id"] = tonumber(_ppid),
-                    [object_type .. ".process.fullpath"] = imagepath,
-                    [object_type .. ".process.name"] = luapath.file(imagepath),
-                })
-            end
-        end
-        return process_list
-    end
-
-    function handlers.osx.kill_process_by_name_and_id(action_name, action_data, object_type, kill_children, ignore_whitelist)
-        return handlers.linux.kill_process_by_name_and_id(action_name, action_data, object_type, kill_children, ignore_whitelist)
+    function handlers.osx.kill_proc_common(action_name, action_data, object_type, proc_id)
+        return handlers.linux.kill_proc_common(action_name, action_data, object_type, proc_id)
     end
 
     function handlers.osx.kill_process_by_name(action_name, action_data, object_type, name, kill_children, ignore_whitelist)
         return handlers.linux.kill_process_by_name(action_name, action_data, object_type, name, kill_children, ignore_whitelist)
     end
 
-    function handlers.osx.kill_proc_common(action_name, action_data, object_type, proc_id)
-        return handlers.linux.kill_proc_common(action_name, action_data, object_type, proc_id)
+    function handlers.osx.kill_process_by_name_and_id(action_name, action_data, object_type, kill_children, ignore_whitelist)
+        return handlers.linux.kill_process_by_name_and_id(action_name, action_data, object_type, kill_children, ignore_whitelist)
     end
 
 end

@@ -3,13 +3,13 @@
         <!-- VIEW -->
         <div
             v-if="task && !canShowParams"
-            class="layout-fill layout-row layout-row-column overflow-hidden">
-            <div class="layout-row layout-row-none layout-row-row layout-row-middle view-check__header">
-                <div class="layout-row layout-row-auto layout-row-column">
-                    <div class="layout-row layout-row-none layout-row-row layout-row-middle">
+            class="layout-fill layout-column overflow-hidden">
+            <div class="flex-none layout-row layout-align-start-center view-check__header">
+                <div class="flex-auto layout-column">
+                    <div class="flex-none layout-row layout-align-start-center">
                         <el-button type="text" icon="el-icon-back" @click="onBack()"></el-button>
                         <el-divider direction="vertical"></el-divider>
-                        <div class="layout-row layout-row-auto layout-row-column">
+                        <div class="flex-auto layout-column">
                             <header class="view-check__title">
                                 {{
                                     $t('BrowserModule.YaraManagement.Label.CheckFiles', { dt: toLocalizedDateTime(task.time_start) })
@@ -28,7 +28,7 @@
                         @stop-check="stopCheck">
                     </component>
                 </div>
-                <div class="layout-row flew-none">
+                <div class="flex-none">
                     <el-tooltip :content="$t('BrowserModule.YaraManagement.ButtonTooltip.ShowParams')">
                         <el-button class="el-icon-info" @click="showCheckParams()"></el-button>
                     </el-tooltip>
@@ -43,7 +43,7 @@
                     </el-button>
                 </div>
             </div>
-            <div class="layout-row layout-row-auto layout-row-column view-check__content">
+            <div class="flex-auto layout-column view-check__content">
                 <component
                     class="layout-fill"
                     :is="components['grid']"
@@ -129,13 +129,13 @@
         </div>
 
         <!-- CHECK PARAMS -->
-        <div v-if="task && canShowParams" class="layout-fill layout-row layout-row-column overflow-hidden">
-            <div class="layout-row layout-row-none layout-row-row layout-row-middle view-check__header">
-                <div class="layout-row layout-row-auto layout-row-column">
-                    <div class="layout-row layout-row-none layout-row-row layout-row-middle">
+        <div v-if="task && canShowParams" class="layout-fill layout-column overflow-hidden">
+            <div class="flex-none layout-row layout-align-start-center view-check__header">
+                <div class="flex-auto layout-column">
+                    <div class="flex-none layout-row layout-align-start-center">
                         <el-button type="text" icon="el-icon-back" @click="showView()"></el-button>
                         <el-divider direction="vertical"></el-divider>
-                        <div class="layout-row layout-row-auto layout-row-column">
+                        <div class="flex-auto layout-column">
                             <header class="view-check__title">
                                 {{
                                     $t('BrowserModule.YaraManagement.Label.CheckFiles', { dt: toLocalizedDateTime(task.time_start) })
@@ -154,18 +154,18 @@
                         @stop-check="stopCheck">
                     </component>
                 </div>
-                <div class="layout-row flew-none">
+                <div class="flex-none">
                     <el-tooltip :content="$t('BrowserModule.YaraManagement.ButtonTooltip.Copy')">
                         <el-button class="el-icon-copy-document" @click="doCopy()"></el-button>
                     </el-tooltip>
                 </div>
             </div>
-            <div class="layout-row-none layout-row layout-row-auto layout-row-column view-check__content">
-                <div class="layout-row layout-row-row layout-row-top view-check__params">
+            <div class="flex-auto layout-column view-check__content">
+                <div class="layout-row layout-align-start-start view-check__params">
                     <div class="view-check__params-label">
                         {{ $t('BrowserModule.YaraManagement.ColumnTitle.Type') }}
                     </div>
-                    <div class="layout-row-auto">
+                    <div class="flex-auto">
                         <span v-if="[TaskType.CustomFs, TaskType.FastFs, TaskType.FullFs].includes(task.task_type)">
                             {{ $t('BrowserModule.YaraManagement.Text.File') }}
                         </span>
@@ -176,13 +176,13 @@
                     </div>
                 </div>
 
-                <div class="layout-row-none layout-row layout-row-row layout-row-top view-check__params">
+                <div class="flex-none layout-row layout-align-start-start view-check__params">
                     <div
                         class="view-check__params-label"
                         :class="{'view-check__params-label_with-button': [TaskType.FastFs, TaskType.FastProc].includes(task.task_type)}">
                         {{ $t('BrowserModule.YaraManagement.ColumnTitle.Path') }}
                     </div>
-                    <div class="layout-row-auto">
+                    <div class="flex-auto">
                         <div v-if="[TaskType.CustomProc, TaskType.CustomFs].includes(task.task_type)">
                             {{ task.task_params.filepath || task.task_params.proc_image }}
                         </div>
@@ -201,32 +201,32 @@
                                 </div>
 
                                 <div v-if="task.task_type === TaskType.FastFs">
-                                    <header class="view-check__params-label layout-margin-bottom-s">
+                                    <header class="view-check__params-label layout-margin-bottom-m">
                                         {{ $t('BrowserModule.YaraManagement.Label.CheckScopeFs') }}
                                     </header>
                                     <div v-for="item of fastScanFsItems"
-                                         class="layout-margin-bottom-s">
+                                         class="layout-margin-bottom-m">
                                         {{ item.filepath }}
                                     </div>
                                 </div>
 
                                 <div v-else-if="task.task_type === TaskType.FastProc">
-                                    <header class="view-check__params-label layout-margin-bottom-s">
+                                    <header class="view-check__params-label layout-margin-bottom-m">
                                         {{ $t('BrowserModule.YaraManagement.Label.CheckScopeProc') }}
                                     </header>
                                     <div v-for="item of fastScanProcItems"
-                                         class="layout-margin-bottom-s">
+                                         class="layout-margin-bottom-m">
                                         {{ item.proc_image }}
                                     </div>
                                 </div>
 
                                 <div
                                     v-if="task.task_type === TaskType.FastFs && excludeFsItems.length > 0">
-                                    <header class="view-check__params-label layout-margin-bottom-s">
+                                    <header class="view-check__params-label layout-margin-bottom-m">
                                         {{ $t('BrowserModule.YaraManagement.Label.CheckExcludedScope') }}
                                     </header>
                                     <div v-for="item of excludeFsItems"
-                                         class="layout-margin-bottom-s">
+                                         class="layout-margin-bottom-m">
                                         {{ item.filepath }}
                                     </div>
                                 </div>
@@ -238,7 +238,7 @@
                     </div>
                 </div>
 
-                <div class="layout-row-auto layout-row layout-row-row layout-row-stretch view-check__params">
+                <div class="flex-auto layout-row layout-align-start-stretch view-check__params">
                     <div
                         class="view-check__params-label"
                         :class="{'view-check__params-label_with-button': !task.custom_rules}">
@@ -246,12 +246,12 @@
                     </div>
                     <div
                         v-if="task.custom_rules"
-                        class="layout-row-auto">
+                        class="flex-auto">
                         <div
-                            class="layout-row layout-row-row layout-row-right layout-margin-bottom-s">
+                            class="layout-row layout-align-end layout-margin-bottom-m">
                             <el-link
                                 type="primary"
-                                class="layout-margin-left-s"
+                                class="layout-margin-left-m"
                                 icon="el-icon-download"
                                 :underline="false"
                                 @click="doExport">
@@ -264,7 +264,7 @@
                     </div>
                     <div
                         v-if="!task.custom_rules"
-                        class="layout-row-auto layout-row layout-row-column layout-row-stretch">
+                        class="flex-auto layout-column layout-align-start-stretch">
                         <div v-if="!canShowPolicyRules">
                             {{ $t('BrowserModule.YaraManagement.Text.FromPolicyConfig') }}
                             <el-button type="text" @click="showPolicyRules()">
@@ -277,14 +277,14 @@
                                 {{ $t('BrowserModule.YaraManagement.ButtonText.Hide') }}
                             </el-button>
                             <div>
-                                <div class="view-check__params-label layout-margin-bottom-s">
+                                <div class="view-check__params-label layout-margin-bottom-m">
                                     {{ $t('BrowserModule.YaraManagement.Label.Classes') }}
                                 </div>
 
-                                <div class="layout-row layout-row-row layout-row-wrap layout-row-left">
+                                <div class="layout-row layout-wrap layout-align-start">
                                     <div
                                         v-for="item of module.current_config.malware_class_items"
-                                        class="view-check__class-item layout-margin-bottom-s">
+                                        class="view-check__class-item layout-margin-bottom-m">
                                         <el-checkbox
                                             :value="item.enabled"
                                             :disabled="true">
@@ -294,14 +294,14 @@
                                 </div>
 
                                 <div v-if="module.current_config.exclude_rules.length > 0">
-                                    <div class="view-check__params-label layout-margin-bottom-s">
+                                    <div class="view-check__params-label layout-margin-bottom-m">
                                         {{ $t('BrowserModule.YaraManagement.Label.ExcludedRules') }}
                                     </div>
 
-                                    <div class="layout-row layout-row-column">
+                                    <div class="layout-column">
                                         <div
                                             v-for="item of module.current_config.exclude_rules"
-                                            class="layout-margin-bottom-s">
+                                            class="layout-margin-bottom-m">
                                             <div>{{ item.rule_name }}</div>
                                         </div>
                                     </div>
@@ -310,23 +310,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!--                <div class="layout-row-auto layout-row layout-row-row layout-row-stretch view-check__params">-->
-                <!--                    <div class="view-check__params-label">-->
-                <!--                        {{ $t('BrowserModule.YaraManagement.Label.CheckOptions') }}-->
-                <!--                    </div>-->
-                <!--                    <div class="layout-row-auto layout-row layout-row-column layout-row-stretch">-->
-                <!--                        <div-->
-                <!--                            v-for="key of Object.keys(check.options)"-->
-                <!--                            class="view-check__check-option layout-margin-bottom-s">-->
-                <!--                            <el-checkbox-->
-                <!--                                :value="check.options[key]"-->
-                <!--                                :disabled="true">-->
-                <!--                                {{ key }}-->
-                <!--                            </el-checkbox>-->
-                <!--                        </div>-->
-                <!--                    </div>-->
-                <!--                </div>-->
             </div>
         </div>
     </div>
