@@ -7,12 +7,6 @@
                 "properties": {
                     "filepath": {
                         "rules": {
-                            "customRule": [
-                                {
-                                    "errMsg": "Charset restriction to [0-9a-zA-Z:/\\-_/*,\\.]",
-                                    "script": "dx: /^[\\ 0-9a-zA-Z:/\\-_/*,\\.]*$/.test({{$root.log_files[i].filepath}})"
-                                }
-                            ],
                             "required": {
                                 "errMsg": "Common.Pseudo.ValidationText.Required",
                                 "value": true
