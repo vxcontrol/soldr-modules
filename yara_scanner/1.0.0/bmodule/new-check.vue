@@ -1,26 +1,26 @@
 <template>
     <div>
-        <div v-show="!canShowQuickCheckParams" class="layout-fill layout-row layout-row-column">
+        <div v-show="!canShowQuickCheckParams" class="layout-fill layout-column">
             <div
-                class="layout-row layout-row-auto layout-row-row layout-row-between layout-row-stretch layout-margin-left-s check__content">
-                <div class="layout-row layout-row-none layout-row-column check__left-column">
-                    <div class="check__type layout-margin-bottom-s">
-                        <div class="label layout-margin-bottom-s">
+                class="flex-auto layout-row layout-align-space-between layout-align-start-stretch layout-margin-left-m check__content">
+                <div class="flex-none layout-column check__left-column">
+                    <div class="check__type layout-margin-bottom-m">
+                        <div class="label layout-margin-bottom-m">
                             {{ $t('BrowserModule.YaraManagement.Label.WhatCheck') }}
                         </div>
                         <el-radio-group v-model="checkForm.type" size="mini">
-                            <div class="layout-row layout-row-column">
-                                <el-radio :label="CheckType.All" class="layout-margin-bottom-s">
+                            <div class="layout-column">
+                                <el-radio :label="CheckType.All" class="layout-margin-bottom-m">
                                     {{
                                         $t('BrowserModule.YaraManagement.RadioButtonLabel.ProcessFileFolder')
                                     }}
                                 </el-radio>
-                                <el-radio :label="CheckType.FolderOrFile" class="layout-margin-bottom-s">
+                                <el-radio :label="CheckType.FolderOrFile" class="layout-margin-bottom-m">
                                     {{
                                         $t('BrowserModule.YaraManagement.RadioButtonLabel.FileFolder')
                                     }}
                                 </el-radio>
-                                <el-radio :label="CheckType.Process" class="layout-margin-bottom-s">
+                                <el-radio :label="CheckType.Process" class="layout-margin-bottom-m">
                                     {{
                                         $t('BrowserModule.YaraManagement.RadioButtonLabel.Process')
                                     }}
@@ -31,24 +31,25 @@
                     <div
                         v-if="checkForm.type !== CheckType.Process && checkForm.scope.type === CheckScope.Scan"
                         class="check__parameters">
-                        <div class="label layout-margin-bottom-s">
+                        <div class="label layout-margin-bottom-m">
                             {{ $t('BrowserModule.YaraManagement.Label.NewCheckParameters') }}
                         </div>
-                        <div class="layout-row layout-row-column">
+                        <div class="layout-column">
                             <el-checkbox
                                 v-model="checkForm.options.recursion"
-                                class="layout-margin-bottom-s">
+                                class="layout-margin-bottom-m">
                                 {{ $t('BrowserModule.YaraManagement.CheckboxLabel.Recursion') }}
                             </el-checkbox>
                         </div>
                     </div>
                 </div>
-                <div class="layout-row layout-row-auto layout-margin-left-s layout-row-column layout-row-between check__right-column">
-                    <div class="label layout-margin-bottom-s">
+                <div
+                    class="flex-auto layout-margin-left-m layout-column layout-align-space-between check__right-column">
+                    <div class="label layout-margin-bottom-m">
                         {{ $t('BrowserModule.YaraManagement.Label.WhereCheck') }}
                     </div>
                     <div
-                        class="layout-row-none layout-margin-bottom-s layout-row layout-row-row layout-row-top check__scope">
+                        class="flex-none layout-margin-bottom-m layout-row layout-align-start-start check__scope">
                         <el-radio v-model="checkForm.scope.type" :label="CheckScope.FastScan">
                             {{ $t('BrowserModule.YaraManagement.RadioButtonLabel.Quick') }}
                         </el-radio>
@@ -61,38 +62,39 @@
                         </el-radio>
                     </div>
 
-                    <div class="layout-row-none layout-margin-xl-medium-bottom el-form-item" v-bind:class="{'is-error': !isValidPath}">
-                        <div
-                            class="layout-row layout-row-row layout-row-between">
+                    <div class="flex-none layout-margin-xl-medium-bottom el-form-item">
+                        <div class="layout-row layout-align-space-between">
                             <el-input
-                                class="layout-row layout-row-auto"
+                                class="flex-auto"
                                 v-model="checkForm.scope.value"
+                                :class="{ 'form-item_error': hasFirstSave && !isValidPath }"
                                 :placeholder="getScopePlaceholder(checkForm)"
                                 :disabled="checkForm.scope.type !== CheckScope.Scan">
                             </el-input>
 
                             <el-input
-                                class="layout-row layout-row-none new-check_process-id layout-margin-left-s"
+                                class="flex-none new-check_process-id layout-margin-left-m"
                                 v-if="checkForm.type === CheckType.Process && checkForm.scope.type === CheckScope.Scan"
                                 v-model="checkForm.scope.id"
+                                :class="{ 'form-item_error': hasFirstSave && !isValidProcess }"
                                 :placeholder="$t('BrowserModule.YaraManagement.InputPlaceholder.ProcessID')"
                                 :disabled="checkForm.scope.type !== CheckScope.Scan"
                                 @input="onInputProcessId()">
                             </el-input>
                         </div>
 
-                        <div v-if="!isValidPath" class="el-form-item__error error-text">
+                        <div v-if="hasFirstSave && !isValidPath" class="el-form-item__error error-text">
                             {{ $t('BrowserModule.YaraManagement.ValidationText.InvalidPath') }}
                         </div>
                     </div>
 
-                    <div class="label layout-margin-bottom-s">
+                    <div class="label layout-margin-bottom-m">
                         {{ $t('BrowserModule.YaraManagement.Label.Rules') }}
                     </div>
 
-                    <div class="layout-row-none layout-row layout-row-row layout-row-top layout-row-between">
+                    <div class="flex-none layout-row layout-align-space-between-start">
                         <div
-                            class="layout-row-auto layout-margin-bottom-s layout-row layout-row-row layout-row-top check__rules">
+                            class="flex-auto layout-margin-bottom-m layout-row layout-align-start-start check__rules">
                             <el-radio v-model="checkForm.rules.type" :label="CheckRules.Policy">
                                 {{ $t('BrowserModule.YaraManagement.RadioButtonLabel.RulesFromPolicy') }}
                             </el-radio>
@@ -103,10 +105,10 @@
 
                         <div
                             v-if="checkForm.rules.type === CheckRules.Custom"
-                            class="layout-row-none layout-margin-bottom-s layout-row layout-row-row layout-row-middle">
+                            class="flex-none layout-margin-bottom-m layout-row layout-align-start-center">
                             <el-link
                                 type="primary"
-                                class="layout-margin-left-s"
+                                class="layout-margin-left-m"
                                 :underline="false"
                                 @click="store()">
                                 {{ $t('BrowserModule.YaraManagement.LinkText.Store') }}
@@ -114,7 +116,7 @@
 
                             <el-link
                                 type="primary"
-                                class="layout-margin-left-s"
+                                class="layout-margin-left-m"
                                 :underline="false"
                                 @click="restore()">
                                 {{ $t('BrowserModule.YaraManagement.LinkText.Restore') }}
@@ -144,7 +146,7 @@
 
                             <el-link
                                 type="primary"
-                                class="layout-margin-left-s"
+                                class="layout-margin-left-m"
                                 :underline="false"
                                 @click="doExport">
                                 {{ $t('BrowserModule.YaraManagement.LinkText.Export') }}
@@ -152,16 +154,19 @@
                         </div>
                     </div>
 
-                    <el-divider class="check_rules-divider layout-row-none"></el-divider>
+                    <el-divider class="check_rules-divider flex-none"></el-divider>
 
-                    <div class="layout-row-auto rules-content">
-                        <div v-show="checkForm.rules.type === CheckRules.Custom" class="rules-editor">
+                    <div class="flex-auto rules-content">
+                        <div
+                            v-show="checkForm.rules.type === CheckRules.Custom"
+                            class="rules-editor"
+                            :class="{ 'form-item_error': hasFirstSave && !isValidEditor }">
                             <div id="editor"></div>
                         </div>
 
                         <div
                             v-show="checkForm.rules.type === CheckRules.Policy"
-                            class="layout-row layout-row-row layout-row-wrap layout-row-left rules-from-policy">
+                            class="layout-row layout-wrap layout-align-start rules-from-policy">
                             <div
                                 v-for="item of module.current_config.malware_class_items"
                                 class="rules-from-policy__item">
@@ -176,17 +181,17 @@
                 </div>
             </div>
 
-            <el-divider class="layout-row layout-row-none"></el-divider>
+            <el-divider class="flex-none"></el-divider>
 
-            <div class="layout-row-none layout-row layout-row-row layout-row-right check__footer">
-                <el-button type="primary" icon="el-icon-search" :disabled="!canStartCheck || !isValidPath" :loading="isSaving" @click="save()">
+            <div class="flex-none layout-row layout-align-end check__footer">
+                <el-button type="primary" icon="el-icon-search" :loading="isSaving" @click="save()">
                     {{ $t('BrowserModule.YaraManagement.ButtonText.StartCheck') }}
                 </el-button>
                 <el-button @click="reset()">
-                    {{ $t('Common.Pseudo.Button.Reset') }}
+                    {{ $t('Common.Pseudo.ButtonText.Reset') }}
                 </el-button>
                 <el-button @click="cancel()">
-                    {{ $t('Common.Pseudo.Button.Cancel') }}
+                    {{ $t('Common.Pseudo.ButtonText.Cancel') }}
                 </el-button>
             </div>
         </div>
@@ -293,6 +298,8 @@ module.exports = {
         return {
             checkForm: {},
             canShowQuickCheckParams: false,
+            editor: undefined,
+            hasFirstSave: false,
             isSaving: false
         };
     },
@@ -314,7 +321,13 @@ module.exports = {
             return this.checkForm.scope.type !== this.CheckScope.Scan || (this.checkForm.scope.type === this.CheckScope.Scan && (this.checkForm.scope.value || this.checkForm.scope.id));
         },
         isValidPath() {
-            return this.checkForm.scope.type !== this.CheckScope.Scan || (this.checkForm.scope.type === this.CheckScope.Scan && !(/(\/\/)|(\\\\)/g.test(this.checkForm.scope.value)));
+            return this.checkForm.scope.type !== this.CheckScope.Scan || (this.checkForm.scope.type === this.CheckScope.Scan && this.checkForm.scope.value && !(/(\/\/)|(\\\\)/g.test(this.checkForm.scope.value)));
+        },
+        isValidProcess() {
+            return this.checkForm.type === this.CheckType.Process && this.checkForm.scope.type === this.CheckScope.Scan ? this.checkForm.scope.id : true;
+        },
+        isValidEditor() {
+            return this.checkForm.rules.type === this.CheckRules.Custom ? this.editor.getValue() : true;
         }
     },
 
@@ -327,7 +340,7 @@ module.exports = {
         if (this.check) {
             this.reset();
 
-            if ( [this.TaskType.FullFs, this.TaskType.FastFs, this.TaskType.CustomFs].includes(this.check.task_type)) {
+            if ([this.TaskType.FullFs, this.TaskType.FastFs, this.TaskType.CustomFs].includes(this.check.task_type)) {
                 this.checkForm.type = this.CheckType.FolderOrFile;
                 this.checkForm.scope.type = this.check.task_type === this.TaskType.FullFs
                     ? this.CheckScope.FullScan
@@ -348,7 +361,7 @@ module.exports = {
                 }
             }
 
-            this.checkForm.rules.type =  this.check.custom_rules !== undefined ? this.CheckRules.Custom : this.CheckRules.Policy;
+            this.checkForm.rules.type = this.check.custom_rules !== undefined ? this.CheckRules.Custom : this.CheckRules.Policy;
             this.checkForm.rules.value = this.check.custom_rules || '';
         } else {
             this.reset();
@@ -431,10 +444,10 @@ module.exports = {
             const fileName = 'exported.yar';
             const data = this.editor.getValue();
             if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-                window.navigator.msSaveOrOpenBlob(new Blob([ data ],
+                window.navigator.msSaveOrOpenBlob(new Blob([data],
                     { type: 'text/plain' }), fileName);
             } else {
-                const url = window.URL.createObjectURL(new Blob([ data ],
+                const url = window.URL.createObjectURL(new Blob([data],
                     { type: 'text/plain' }));
                 const link = document.createElement('a');
                 link.href = url;
@@ -501,13 +514,16 @@ module.exports = {
         },
 
         async save() {
-            this.isSaving = true;
-            this.checkForm.rules.value = this.editor.getValue();
-            this.checkForm.scope.id = +this.checkForm.scope.id;
-            this.$emit('save', this.checkForm);
-            this.isSaving = false;
+            this.hasFirstSave = true;
+            if (this.canStartCheck && this.isValidPath && this.isValidProcess && this.isValidEditor) {
+                this.isSaving = true;
+                this.checkForm.rules.value = this.editor.getValue();
+                this.checkForm.scope.id = +this.checkForm.scope.id;
+                this.$emit('save', this.checkForm);
+                this.isSaving = false;
 
-            this.$emit('close');
+                this.$emit('close');
+            }
         }
     }
 };
