@@ -1,0 +1,35 @@
+{
+    "name": "shell_win",
+    "template": "responder",
+    "version": {
+        "major": 0,
+        "minor": 1,
+        "patch": 0
+    },
+    "os": {
+        "windows": [
+            "386",
+            "amd64"
+        ]
+    },
+    "system": false,
+    "actions": [
+        "shell_win_send_input",
+        "shell_win_start",
+        "shell_win_stop"
+    ],
+    "events": [
+        "shell_win_action_exec_failed",
+        "shell_win_action_exec_success",
+        "shell_win_output_produced"
+    ],
+    "fields": [
+        "cmdin",
+        "cmdout",
+        "reason",
+        "result"
+    ],
+    "tags": [
+        "responder"
+    ]
+}

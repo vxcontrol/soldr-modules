@@ -1,0 +1,105 @@
+{
+    "additionalProperties": false,
+    "properties": {
+        "shell_win_send_input": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/base.action"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "cmdin"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "cmdin"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 1,
+                            "minItems": 1,
+                            "type": "array"
+                        },
+                        "priority": {
+                            "default": 10,
+                            "maximum": 10,
+                            "minimum": 10,
+                            "type": "integer"
+                        }
+                    },
+                    "required": [
+                        "fields",
+                        "priority"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "shell_win_start": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/base.action"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [],
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        "priority": {
+                            "default": 10,
+                            "maximum": 10,
+                            "minimum": 10,
+                            "type": "integer"
+                        }
+                    },
+                    "required": [
+                        "fields",
+                        "priority"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "shell_win_stop": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/base.action"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [],
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        "priority": {
+                            "default": 10,
+                            "maximum": 10,
+                            "minimum": 10,
+                            "type": "integer"
+                        }
+                    },
+                    "required": [
+                        "fields",
+                        "priority"
+                    ],
+                    "type": "object"
+                }
+            ]
+        }
+    },
+    "required": [
+        "shell_win_send_input",
+        "shell_win_start",
+        "shell_win_stop"
+    ],
+    "type": "object"
+}

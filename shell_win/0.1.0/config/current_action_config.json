@@ -1,0 +1,16 @@
+{
+    "shell_win_send_input": {
+        "fields": [
+            "cmdin"
+        ],
+        "priority": 10
+    },
+    "shell_win_start": {
+        "fields": [],
+        "priority": 10
+    },
+    "shell_win_stop": {
+        "fields": [],
+        "priority": 10
+    }
+}

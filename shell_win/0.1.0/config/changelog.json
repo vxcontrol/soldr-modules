@@ -1,0 +1,14 @@
+{
+    "0.1.0": {
+        "en": {
+            "date": "12-13-2022",
+            "title": "Base functionality",
+            "description": "Added \u003c...\u003e\nChanged \u003c...\u003e\nFixed \u003c...\u003e\nRemoved \u003c...\u003e"
+        },
+        "ru": {
+            "date": "13.12.2022",
+            "title": "Базовая функциональность",
+            "description": "Добавлено \u003c...\u003e\nИменено \u003c...\u003e\nИсправлено \u003c...\u003e\nУдалено \u003c...\u003e"
+        }
+    }
+}
