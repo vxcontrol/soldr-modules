@@ -1,9 +1,9 @@
 require("engine")
-local lfs     = require("lfs")
 local glue    = require("glue")
 local cjson   = require("cjson.safe")
 local crc32   = require("crc32")
 local luapath = require("path")
+local fs      = require("fs")
 math.randomseed(crc32(tostring({})))
 
 -- correlator config
@@ -147,7 +147,7 @@ local function exec_action(dst, action_name, action_data)
 
     local result, reason
     local filename = luapath.file(object_value)
-    local filesize = lfs.attributes(object_value, "size")
+    local filesize = fs.attr(object_value, "size")
     local file_size_limit = get_option_config("file_size_limit") * 1024 * 1024
     if filesize == nil then
         reason = "file_not_found"
