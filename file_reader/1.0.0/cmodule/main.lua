@@ -37,6 +37,15 @@ local server_token = ""
 local queue_size = tonumber(__args["queue_size"][1])
 local is_send_messages = module_config.target_path ~= ""
 
+-- generate and return uuid
+local function make_uuid()
+    local template ='xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
+    return string.gsub(template, '[xy]', function (c)
+        local v = (c == 'x') and math.random(0, 0xf) or math.random(8, 0xb)
+        return string.format('%x', v)
+    end)
+end
+
 -- return number
 local function tablelength(T)
     local count = 0
@@ -44,24 +53,31 @@ local function tablelength(T)
     return count
 end
 
--- events executor by event name and data
-local function push_event(event_name, event_data)
+-- events executor by event name, action and action_data
+local function push_event(event_name, action_name, action_data)
     assert(type(event_name) == "string", "event_name must be a string")
-    assert(type(event_data) == "table", "event_data must be a table")
-    __log.debugf("push event to correlator: '%s'", event_name)
+    assert(type(action_name) == "string", "action_name must be a string")
+    assert(type(action_data) == "table", "action_data must be a table")
+    local actions = action_data.actions or {}
+    if action_name ~= "" then
+        local action_full_name = __config.ctx.name .. "." .. action_name
+        if glue.indexof(action_full_name, actions) == nil then
+            table.insert(actions, action_full_name)
+        end
+    end
 
-    -- push the event to the engine
+    -- push some event to the engine
     local info = {
         ["name"] = event_name,
-        ["data"] = event_data,
-        ["actions"] = {},
+        ["data"] = action_data.data,
+        ["actions"] = actions,
     }
     local result, list = event_engine:push_event(info)
 
     -- check result return variable as marker is there need to execute actions
     if result then
         for action_id, action_result in ipairs(action_engine:exec(__aid, list)) do
-            __log.debugf("action '%s' was requested: '%s'", action_id, action_result)
+            __log.infof("action '%s' was requested with result: %s", action_id, action_result)
         end
     end
 end
@@ -283,7 +299,7 @@ local function handler()
                 __log.info(glue.unpack(msg.data))
             elseif msg.type == "error" and type(msg.data) == "string" then
                 __log.errorf("catch error from file reader log collector: '%s': '%s'", msg.data, msg.err)
-                push_event("frd_module_internal_error", {reason = msg.data})
+                push_event("frd_module_internal_error", "", {["data"] = {reason = msg.data}})
             end
         end
         cnt = cnt + 1
@@ -298,6 +314,40 @@ local function handler()
     return q_e_quit:isset() and want_to_quit
 end
 
+local function exec_action(action_name, action_data)
+    local log_filepath
+    local set_failure = function(reason)
+        action_data.data.result = false
+        action_data.data.reason = reason
+        return false, "frd_module_internal_error"
+    end
+
+    if action_name == "frd_rewind_logfile" then
+        log_filepath = action_data.data["log.filepath"]
+    else
+        __log.errorf("unknown action '%s' was requested", action_name)
+        return set_failure("action_unknown")
+    end
+
+    if log_filepath == nil or log_filepath == "" then
+        __log.error("requested file path is empty")
+        return set_failure("file_path_is_empty")
+    end
+    action_data.data["uuid"] = action_data.data["uuid"] or make_uuid()
+
+    q_e_stop:set()
+    wm_e:wait()
+    wm_e:rewind(store_dir, log_filepath)
+    q_e_stop:clear()
+    q_e_quit:clear()
+    wm_e = CFileReader(q_in, q_out, q_e_stop, q_e_quit, get_profile(), store_dir)
+
+    action_data.data.result = true
+    action_data.data.reason = "rewind successful"
+    return true, "frd_logfile_rewinded_successful"
+
+end
+
 __api.add_cbs({
 
     -- data = function(src, data)
@@ -305,6 +355,32 @@ __api.add_cbs({
     -- text = function(src, text, name)
     -- msg = function(src, msg, mtype)
     -- action = function(src, data, name)
+
+    action = function(src, data, name)
+        __log.infof("receive action '%s' from '%s' with data %s", name, src, data)
+
+        -- execute received action
+        local action_data = cjson.decode(data) or {}
+        local action_result, event_name = exec_action(name, action_data)
+        push_event(event_name, name, action_data)
+
+        -- is internal communication from collector module
+        if __imc.is_exist(src) then
+            local mod_name, group_id = __imc.get_info(src)
+            __log.debugf("internal message received from module '%s' group %s", mod_name, group_id)
+        else
+            __log.debug("message received from the server")
+            __api.send_data_to(src, cjson.encode({
+                ["retaddr"] = action_data.retaddr,
+                ["status"] = tostring(action_result),
+                ["agent_id"] = __aid,
+                ["name"] = name,
+            }))
+        end
+
+        __log.infof("requested action '%s' was executed with result: %s", name, action_result)
+        return true
+    end,
 
     control = function(cmtype, data)
         __log.debugf("receive control msg '%s' with payload: %s", cmtype, data)
@@ -354,7 +430,7 @@ __api.add_cbs({
 
 __log.infof("module '%s' was started", __config.ctx.name)
 
-push_event("frd_module_started", {reason = "regular start"})
+push_event("frd_module_started", "", {["data"] = {reason = "regular start"}})
 
 update_receivers()
 
@@ -384,7 +460,7 @@ do
     end
 end
 
-push_event("frd_module_stopped", {reason = "regular stop"})
+push_event("frd_module_stopped", "", {["data"] = {reason = "regular stop"}})
 
 action_engine = nil
 event_engine = nil

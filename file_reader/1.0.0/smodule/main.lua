@@ -60,6 +60,16 @@ local function get_agent_id_by_dst(dst)
     return "", nil
 end
 
+-- getting agent source token by ID and agent type
+local function get_agent_src_by_id(id, atype)
+    for client_id, client_info in pairs(__agents.get_by_id(id)) do
+        if tostring(client_info.Type) == atype or atype == "any" then
+            return tostring(client_id), client_info
+        end
+    end
+    return "", {}
+end
+
 local function tcp_connect(host, port)
     local sock = socket.connect(host, port)
     if sock == nil then
@@ -198,6 +208,29 @@ __api.add_cbs({
             __log.debugf("receive enexpected message: '%s' and type '%s'",
                 msg_data["type"], type(msg_data["message"]))
         end
+        return true
+    end,
+
+    action = function(src, data, name)
+        __log.infof("receive action '%s' from '%s' with data %s", name, src, data)
+
+        local action_data = cjson.decode(data)
+        assert(type(action_data) == "table", "input action data type is invalid")
+        action_data.retaddr = src
+        local id, _ = get_agent_id_by_dst(src, "any")
+        local dst, _ = get_agent_src_by_id(id, "VXAgent")
+        if dst ~= "" then
+            __log.debugf("send action request to '%s'", dst)
+            __api.send_action_to(dst, cjson.encode(action_data), name)
+        else
+            local payload = {
+                status = "error",
+                error = "connection_error",
+            }
+            __log.debugf("send response data to '%s'", src)
+            __api.send_data_to(src, cjson.encode(payload))
+        end
+
         return true
     end,
 

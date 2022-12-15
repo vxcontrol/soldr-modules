@@ -1,6 +1,13 @@
 {
     "additionalProperties": true,
     "properties": {
+        "log.filepath": {
+            "rules": {},
+            "type": "string",
+            "ui": {
+                "widgetConfig": {}
+            }
+        },
         "reason": {
             "rules": {},
             "type": "string",

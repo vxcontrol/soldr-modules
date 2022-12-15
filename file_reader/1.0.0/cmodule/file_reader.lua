@@ -1,6 +1,7 @@
 require("yaci")
 local thread  = require("thread")
 local luapath = require("path")
+local cjson   = require("cjson.safe")
 
 CFileReader = newclass("CFileReader")
 
@@ -121,4 +122,19 @@ function CFileReader:wait()
         self.wrth:join()
         self.wrth = nil
     end
+end
+
+function CFileReader:rewind(store_dir, filename)
+    local svp_filename = luapath.combine(store_dir, "frd_sp")
+    local savepoint = {}
+    local file = io.open(svp_filename, "r")
+    if file then
+        local savepoint = cjson.decode(file:read("*a"));
+        io.close(file)
+    end
+    savepoint[filename] = {pos = -1}
+    file = io.open(svp_filename, "wb+")
+    file:write(cjson.encode(savepoint))
+    file:flush()
+    file:close()
 end
