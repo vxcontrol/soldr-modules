@@ -1,4 +1,16 @@
 {
+    "1.0.1": {
+        "en": {
+            "date": "12-15-2022",
+            "title": "Fix dependency on system module",
+            "description": "Fix dependency on system module."
+        },
+        "ru": {
+            "date": "15.12.2022",
+            "title": "Исправлена зависимость на модуль system",
+            "description": "Исправлена зависимость на модуль system"
+        }
+    },
     "1.0.0": {
         "en": {
             "date": "04-19-2022",
