@@ -1,11 +1,9 @@
 require("os")
 require("engine")
-require("system")
-local bit     = require("bit")
-local glue    = require("glue")
-local cjson   = require("cjson.safe")
-local lk32    = require("waffi.windows.kernel32")
-local sysinfo = CSystemInfo({})
+local bit   = require("bit")
+local glue  = require("glue")
+local cjson = require("cjson.safe")
+local lk32  = require("waffi.windows.kernel32")
 
 -- variables to initialize event and action engines
 local prefix_db = __gid .. "."
@@ -67,6 +65,14 @@ encoding.convert = function(str)
     return table.concat(result)
 end
 
+function exec(cmd)
+    __log.debugf("exec: %s", cmd)
+    local f = assert(io.popen(cmd, 'r'))
+    local s = assert(f:read('*a'))
+    f:close()
+    return s
+end
+
 -- events executor by event name and data
 local function push_event(event_name, event_data)
     assert(type(event_name) == "string", "event_name must be a string")
@@ -126,7 +132,7 @@ end
 
 -- return string of name or empty string if serive doesn't exists
 local function get_sysmon_service_name()
-    local out = sysinfo:exec_cmd("sc query state= all | findstr /i sysmon") or ""
+    local out = exec("sc query state= all | findstr /i sysmon") or ""
     local sysmon_service_name = string.match(string.lower(out), "(sysmon[^\r\n ]*)")
     if sysmon_service_name then return sysmon_service_name end
     __log.warnf("can't find sysmon service name in output: '%s'", out)
@@ -142,7 +148,7 @@ local function get_path_to_sysmon_binary(name)
     local cmd = "sc qc " .. name
     local regex_en = "BINARY_PATH_NAME[^A-Z]+([^\r\n]+)"
     local regex_ru = "Имя_двоичного_файла[^A-Z]+([^\r\n]+)"
-    local out = sysinfo:exec_cmd(cmd) or ""
+    local out = exec(cmd) or ""
     local sysmon_path = string.match(out, regex_en) or string.match(encoding.convert(out), regex_ru)
     if sysmon_path then return sysmon_path end
     __log.errorf("can't find path to sysmon binary by cmd '%s' in output: %s", cmd, out)
@@ -154,7 +160,7 @@ local function get_pid_of_sysmon_process(name)
     local cmd = "sc queryex " .. name
     local regex_en = "PID[^0-9]+([^\r\n ]+)"
     local regex_ru = "ID_процесса[^0-9]+([^\r\n ]+)"
-    local out = sysinfo:exec_cmd(cmd) or ""
+    local out = exec(cmd) or ""
     local pid = string.match(out, regex_en) or string.match(encoding.convert(out), regex_ru)
     if pid == nil then
         __log.warnf("can't find PID for sysmon service in output: %s", out)
@@ -168,7 +174,7 @@ local function check_sysmon_state(name)
     local cmd = "sc query " .. name
     local regex_en = "STATE[^A-Z]+([^\r\n ]+)"
     local regex_ru = "Состояние[^A-Z]+([^\r\n ]+)"
-    local out = sysinfo:exec_cmd(cmd) or ""
+    local out = exec(cmd) or ""
     local state = string.match(out, regex_en) or string.match(encoding.convert(out), regex_ru)
     if state == nil then
         __log.errorf("can't find sysmon state by cmd '%s' in output: %s", cmd, out)
@@ -191,7 +197,7 @@ end
 -- return string of version or nil if error
 local function get_sysmon_version(path)
     local regex = "system monitor ([^ ]+)"
-    local out = sysinfo:exec_cmd(path)
+    local out = exec(path)
     if type(out) ~= "string" then
         __log.errorf("can't run sysmon binary '%s' to get service version", path)
         return ""
@@ -226,7 +232,7 @@ local function sysmon_config_update(path)
         return false
     end
 
-    local out = sysinfo:exec_cmd(path .. " -c " .. data_sysmon_config_path)
+    local out = exec(path .. " -c " .. data_sysmon_config_path)
     if type(out) ~= "string" then
         __log.errorf("can't run sysmon binary '%s' to update service config", path)
         return false
@@ -243,7 +249,7 @@ local function sysmon_uninstall(path)
         return false
     end
 
-    local out = sysinfo:exec_cmd(path .. " -u force")
+    local out = exec(path .. " -u force")
     if type(out) ~= "string" then
         __log.errorf("can't run sysmon binary '%s' to uninstall service", path)
         return false
@@ -262,17 +268,17 @@ local function sysmon_install(path)
         return false
     end
 
-    local out = sysinfo:exec_cmd(path .. " -accepteula -i")
+    local out = exec(path .. " -accepteula -i")
     if type(out) ~= "string" then
         __log.errorf("can't run sysmon binary '%s' to install service", path)
         return false
     end
 
     if #glue.collect(string.gmatch(out, "already registered")) == 1 then
-        out = sysinfo:exec_cmd(path .. " -u force")
+        out = exec(path .. " -u force")
         __log.infof("sysmon already registered and should be removed before with output: %s", out or "")
         __api.await(3000)
-        out = sysinfo:exec_cmd(path .. " -accepteula -i")
+        out = exec(path .. " -accepteula -i")
         if type(out) ~= "string" then
             __log.errorf("can't run sysmon binary '%s' to install service after uninstall", path)
             return false
@@ -291,7 +297,7 @@ end
 -- return boolean
 local function sysmon_start(name)
     local cmd = "sc start " .. name
-    local out = sysinfo:exec_cmd(cmd) or ""
+    local out = exec(cmd) or ""
     if string.find(out, name) ~= nil then return true end
     __log.errorf("can't start sysmon service by name '%s' with output: %s", name, out)
     return false
