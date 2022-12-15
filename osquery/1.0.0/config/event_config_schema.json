@@ -1,0 +1,448 @@
+{
+    "additionalProperties": false,
+    "properties": {
+        "osquery_already_installed": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "reason",
+                                "version"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "reason",
+                                    "version"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 2,
+                            "minItems": 2,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "osquery_already_started": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "reason",
+                                "version"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "reason",
+                                    "version"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 2,
+                            "minItems": 2,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "osquery_config_updated_error": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "reason",
+                                "version"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "reason",
+                                    "version"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 2,
+                            "minItems": 2,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "osquery_config_updated_success": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "version"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "version"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 1,
+                            "minItems": 1,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "osquery_flagfile_updated_error": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "reason",
+                                "version"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "reason",
+                                    "version"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 2,
+                            "minItems": 2,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "osquery_flagfile_updated_success": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "version"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "version"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 1,
+                            "minItems": 1,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "osquery_installed_error": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "reason",
+                                "version"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "reason",
+                                    "version"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 2,
+                            "minItems": 2,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "osquery_installed_success": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "version"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "version"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 1,
+                            "minItems": 1,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "osquery_started_error": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "reason",
+                                "version"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "reason",
+                                    "version"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 2,
+                            "minItems": 2,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "osquery_started_success": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "reason",
+                                "version"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "reason",
+                                    "version"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 2,
+                            "minItems": 2,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "osquery_unexpected_stopped": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "reason",
+                                "version"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "reason",
+                                    "version"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 2,
+                            "minItems": 2,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "osquery_unexpected_uninstalled": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "reason",
+                                "version"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "reason",
+                                    "version"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 2,
+                            "minItems": 2,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "osquery_uninstalled_error": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "reason",
+                                "version"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "reason",
+                                    "version"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 2,
+                            "minItems": 2,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "osquery_uninstalled_success": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "version"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "version"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 1,
+                            "minItems": 1,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        }
+    },
+    "required": [
+        "osquery_already_installed",
+        "osquery_already_started",
+        "osquery_config_updated_error",
+        "osquery_config_updated_success",
+        "osquery_flagfile_updated_error",
+        "osquery_flagfile_updated_success",
+        "osquery_installed_error",
+        "osquery_installed_success",
+        "osquery_started_error",
+        "osquery_started_success",
+        "osquery_unexpected_stopped",
+        "osquery_unexpected_uninstalled",
+        "osquery_uninstalled_error",
+        "osquery_uninstalled_success"
+    ],
+    "type": "object"
+}

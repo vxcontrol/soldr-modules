@@ -1,0 +1,38 @@
+{
+    "name": "osquery",
+    "template": "empty",
+    "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 0
+    },
+    "os": {
+        "windows": [
+            "386",
+            "amd64"
+        ]
+    },
+    "system": false,
+    "actions": [],
+    "events": [
+        "osquery_already_installed",
+        "osquery_already_started",
+        "osquery_config_updated_error",
+        "osquery_config_updated_success",
+        "osquery_flagfile_updated_error",
+        "osquery_flagfile_updated_success",
+        "osquery_installed_error",
+        "osquery_installed_success",
+        "osquery_started_error",
+        "osquery_started_success",
+        "osquery_unexpected_stopped",
+        "osquery_unexpected_uninstalled",
+        "osquery_uninstalled_error",
+        "osquery_uninstalled_success"
+    ],
+    "fields": [
+        "reason",
+        "version"
+    ],
+    "tags": []
+}
