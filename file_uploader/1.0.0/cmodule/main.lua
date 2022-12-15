@@ -1,5 +1,4 @@
 require("engine")
-local lfs     = require("lfs")
 local glue    = require("glue")
 local cjson   = require("cjson.safe")
 local crc32   = require("crc32")
