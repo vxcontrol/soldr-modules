@@ -1,0 +1,8 @@
+{
+    "a1_brokers": "",
+    "a2_topic": "",
+    "b1_user": "",
+    "b2_password": "",
+    "c1_timeout": 60,
+    "c2_retries": 10
+}

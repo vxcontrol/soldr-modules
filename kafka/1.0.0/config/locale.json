@@ -1,0 +1,93 @@
+{
+    "module": {
+        "en": {
+            "title": "Kafka (cyberok)",
+            "description": "Writes the associated events to Kafka"
+        },
+        "ru": {
+            "title": "Kafka (cyberok)",
+            "description": "Записывает назначенные события в Kafka"
+        }
+    },
+    "config": {
+        "a1_brokers": {
+            "en": {
+                "title": "Bootstrap brokers",
+                "description": "Initial list of brokers. Format: host[:port][,...]"
+            },
+            "ru": {
+                "title": "Сервера для подключения",
+                "description": "Список серверов брокеров для подключения. Формат: host[:port][,...]"
+            }
+        },
+        "a2_topic": {
+            "en": {
+                "title": "Topic",
+                "description": ""
+            },
+            "ru": {
+                "title": "Топик",
+                "description": ""
+            }
+        },
+        "b1_user": {
+            "en": {
+                "title": "User",
+                "description": ""
+            },
+            "ru": {
+                "title": "Пользователь",
+                "description": ""
+            }
+        },
+        "b2_password": {
+            "en": {
+                "title": "Password",
+                "description": ""
+            },
+            "ru": {
+                "title": "Пароль",
+                "description": ""
+            }
+        },
+        "c1_timeout": {
+            "en": {
+                "title": "Message delivery timeout",
+                "description": "Message delivery timeout in seconds."
+            },
+            "ru": {
+                "title": "Время ожидания доставки",
+                "description": "Время ожидания доставки сообщения, в секундах."
+            }
+        },
+        "c2_retries": {
+            "en": {
+                "title": "Retries",
+                "description": "Max number of attemps to delivery a message"
+            },
+            "ru": {
+                "title": "Количество попыток",
+                "description": "Максимальное количество попыток доставки сообщения"
+            }
+        }
+    },
+    "fields": {},
+    "actions": {
+        "kafka_produce": {
+            "en": {
+                "title": "Write to Kafka",
+                "description": ""
+            },
+            "ru": {
+                "title": "Записать в Kafka",
+                "description": ""
+            }
+        }
+    },
+    "events": {},
+    "action_config": {
+        "kafka_produce": {}
+    },
+    "event_config": {},
+    "tags": {}
+}

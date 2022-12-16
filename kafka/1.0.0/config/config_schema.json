@@ -1,0 +1,56 @@
+{
+    "additionalProperties": false,
+    "properties": {
+        "a1_brokers": {
+            "rules": {},
+            "type": "string",
+            "ui": {
+                "widgetConfig": {}
+            }
+        },
+        "a2_topic": {
+            "rules": {},
+            "type": "string",
+            "ui": {
+                "widgetConfig": {}
+            }
+        },
+        "b1_user": {
+            "rules": {},
+            "type": "string",
+            "ui": {
+                "widgetConfig": {}
+            }
+        },
+        "b2_password": {
+            "rules": {},
+            "type": "string",
+            "ui": {
+                "widgetConfig": {
+                    "type": "password"
+                }
+            }
+        },
+        "c1_timeout": {
+            "rules": {},
+            "type": "number",
+            "ui": {
+                "widgetConfig": {}
+            }
+        },
+        "c2_retries": {
+            "rules": {},
+            "type": "number",
+            "ui": {
+                "widgetConfig": {}
+            }
+        }
+    },
+    "required": [
+        "a1_brokers",
+        "a2_topic",
+        "c1_timeout",
+        "c2_retries"
+    ],
+    "type": "object"
+}

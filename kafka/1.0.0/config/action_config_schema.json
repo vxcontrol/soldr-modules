@@ -1,0 +1,38 @@
+{
+    "additionalProperties": false,
+    "properties": {
+        "kafka_produce": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/base.action"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [],
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        "priority": {
+                            "default": 10,
+                            "maximum": 10,
+                            "minimum": 10,
+                            "type": "integer"
+                        }
+                    },
+                    "required": [
+                        "fields",
+                        "priority"
+                    ],
+                    "type": "object"
+                }
+            ]
+        }
+    },
+    "required": [
+        "kafka_produce"
+    ],
+    "type": "object"
+}

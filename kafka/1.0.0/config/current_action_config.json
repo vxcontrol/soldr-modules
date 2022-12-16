@@ -1,0 +1,6 @@
+{
+    "kafka_produce": {
+        "fields": [],
+        "priority": 10
+    }
+}
