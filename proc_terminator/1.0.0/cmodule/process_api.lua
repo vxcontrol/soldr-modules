@@ -3,11 +3,10 @@ local bit     = require("bit")
 local ffi     = require("ffi")
 local lfs     = require("lfs")
 local luapath = require("path")
+
 local lk32
 if ffi.os == "Windows" then
     lk32 = require("waffi.windows.kernel32")
-    lk32.TH32CS_SNAPPROCESS = 0x00000002
-    lk32.SYNCHRONIZE = 0x00100000
 else
     ffi.cdef[[
         typedef uint32_t pid_t;
@@ -53,7 +52,9 @@ if ffi.os == "Windows" then
 
         local proc_entry = ffi.new("PROCESSENTRY32[1]")
         proc_entry[0].dwSize = ffi.sizeof("PROCESSENTRY32")
-        local snap_handle = lk32.CreateToolhelp32Snapshot(lk32.TH32CS_SNAPPROCESS, 0)
+
+        local TH32CS_SNAPPROCESS = 0x00000002
+        local snap_handle = lk32.CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0)
 
         if (lk32.Process32First(snap_handle, proc_entry[0]) == 1) then
             while (lk32.Process32Next(snap_handle, proc_entry[0]) == 1) do
@@ -84,8 +85,9 @@ if ffi.os == "Windows" then
     end
 
     function api.windows.get_process_handle(pid)
+        local SYNCHRONIZE = 0x00100000
         local handle = lk32.OpenProcess(bit.bor(lk32.PROCESS_QUERY_LIMITED_INFORMATION, lk32.PROCESS_TERMINATE,
-            lk32.PROCESS_VM_READ, lk32.SYNCHRONIZE
+            lk32.PROCESS_VM_READ, SYNCHRONIZE
         ), false, pid)
         if handle == ffi.NULL then
             return nil, api.windows.get_last_error()
