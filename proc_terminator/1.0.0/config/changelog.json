@@ -1,4 +1,16 @@
 {
+    "1.0.1": {
+        "en": {
+            "date": "12-16-2022",
+            "title": "Fix constants",
+            "description": "Fix declaration of constants: TH32CS_SNAPPROCESS, SYNCHRONIZE, STILL_ALIVE"
+        },
+        "ru": {
+            "date": "16.12.2022",
+            "title": "Исправления в константах",
+            "description": "Исправлено объявление констант: TH32CS_SNAPPROCESS, SYNCHRONIZE, STILL_ALIVE"
+        }
+    },
     "1.0.0": {
         "en": {
             "date": "04-19-2022",
