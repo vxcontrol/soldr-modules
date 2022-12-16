@@ -85,7 +85,6 @@ module.exports = {
   }
 };
 </script>
-</script>
 <style scoped>
 .limit-length {
   max-width: 600px;
