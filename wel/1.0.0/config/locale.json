@@ -1,0 +1,86 @@
+{
+    "module": {
+        "en": {
+            "title": "WinEventLog (cyberok)",
+            "description": "Collects data from Windows Event Log"
+        },
+        "ru": {
+            "title": "WinEventLog (cyberok)",
+            "description": "Собирает данные из журнала событий Windows"
+        }
+    },
+    "config": {
+        "log_channels": {
+            "en": {
+                "title": "Log channels",
+                "description": "List of channels to collect"
+            },
+            "ru": {
+                "title": "Каналы журналов",
+                "description": "Список каналов сбора данных"
+            }
+        },
+        "receivers": {
+            "en": {
+                "title": "Resend to modules (for integration with Correlator)",
+                "description": "Modules that receive raw events from the event log"
+            },
+            "ru": {
+                "title": "Переслать в модули (для интеграции с Коррелятором)",
+                "description": "Модули, которые получат \"сырые\" события из журнала"
+            }
+        }
+    },
+    "fields": {
+        "message": {
+            "en": {
+                "title": "message",
+                "description": "Error text"
+            },
+            "ru": {
+                "title": "message",
+                "description": "Текст ошибки"
+            }
+        }
+    },
+    "actions": {},
+    "events": {
+        "cyberok_wel_entry": {
+            "en": {
+                "title": "Log entry",
+                "description": "Sent for each new entry from the event Log"
+            },
+            "ru": {
+                "title": "Событие из журнала",
+                "description": "Срабатывает для каждой новой записи из журнала событий"
+            }
+        },
+        "cyberok_wel_error": {
+            "en": {
+                "title": "Error",
+                "description": "An error occured in the module"
+            },
+            "ru": {
+                "title": "Ошибка",
+                "description": "В модуле произошла ошибка"
+            }
+        }
+    },
+    "action_config": {},
+    "event_config": {
+        "cyberok_wel_entry": {},
+        "cyberok_wel_error": {}
+    },
+    "tags": {
+        "collector": {
+            "en": {
+                "title": "collector",
+                "description": "Collects data about events on the end device and sends it to the detection modules and SIEM systems"
+            },
+            "ru": {
+                "title": "сборщик",
+                "description": "Собирает данные о событиях на конечном устройстве и передает их в модули обнаружения и в SIEM-системы"
+            }
+        }
+    }
+}

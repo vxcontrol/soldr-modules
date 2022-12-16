@@ -1,0 +1,21 @@
+{
+    "cyberok_wel_entry": {
+        "actions": [],
+        "fields": [],
+        "type": "atomic"
+    },
+    "cyberok_wel_error": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "message"
+        ],
+        "type": "atomic"
+    }
+}
