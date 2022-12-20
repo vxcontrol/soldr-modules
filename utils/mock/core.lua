@@ -145,7 +145,7 @@ check_lua_files_in_dir = function(dir)
     for file in lfs.dir(dir) do
         local result
         local file_path = combine_path(dir, file)
-        if not glue.indexof(file, {".", "..", ".gitkeep"}) then
+        if not glue.indexof(file, { ".", "..", ".gitkeep" }) then
             if lfs.attributes(file_path, "mode") == "file" then
                 result = luapath.ext(file) == "lua"
             elseif lfs.attributes(file_path, "mode") == "directory" then
@@ -163,7 +163,7 @@ local clean_dir
 clean_dir = function(dir)
     for file in lfs.dir(dir) do
         local file_path = combine_path(dir, file)
-        if not glue.indexof(file, {".", "..", ".gitkeep"}) then
+        if not glue.indexof(file, { ".", "..", ".gitkeep" }) then
             if lfs.attributes(file_path, "mode") == "file" then
                 os.remove(file_path)
             elseif lfs.attributes(file_path, "mode") == "directory" then
@@ -250,7 +250,8 @@ __mock.tmppath = function(...) return combine_path(__mock.tmpdir, ...) end
 ---------------------------------------------------
 -- MOCK change current directory to tmp folder
 ---------------------------------------------------
-__mock.cwd = __mock.cwd or combine_path(lfs.currentdir(), "tmpcwd")
+__mock.initial_cwd = lfs.currentdir()
+__mock.cwd = __mock.cwd or combine_path(__mock.initial_cwd, "tmpcwd")
 assert(type(__mock.cwd) == "string", "__mock.cwd must be string type")
 lfs.mkdir(__mock.cwd)
 lfs.mkdir(combine_path(__mock.cwd, "data"))
@@ -261,7 +262,7 @@ lfs.chdir(__mock.cwd)
 -- MOCK logging settings
 ---------------------------------------------------
 __mock.log_level = __mock.log_level or "error"
-assert(glue.indexof(__mock.log_level, {"error", "warn", "info", "debug", "trace"}),
+assert(glue.indexof(__mock.log_level, { "error", "warn", "info", "debug", "trace" }),
     "__mock.log_level must be in [error, warn, info, debug, trace]")
 
 __mock.trace = function(func_name, ...) -- return nil
@@ -282,7 +283,7 @@ local function repl(value)
 end
 
 local function rand(template)
-    return string.gsub(template, "[xy]", function (c)
+    return string.gsub(template, "[xy]", function(c)
         local v = (c == "x") and math.random(0, 0xf) or math.random(8, 0xb)
         return string.format("%x", v)
     end)
@@ -346,7 +347,7 @@ __mock.module_callbacks = {}
 
 local function check_os_type(os_type)
     if type(os_type) ~= "string" then return false end
-    return glue.indexof(os_type, {"windows", "linux", "darwin"}) ~= nil
+    return glue.indexof(os_type, { "windows", "linux", "darwin" }) ~= nil
 end
 
 local function check_os_name(os_name)
@@ -356,7 +357,7 @@ end
 
 local function check_os_arch(os_arch)
     if type(os_arch) ~= "string" then return false end
-    return glue.indexof(os_arch, {"386", "amd64"}) ~= nil
+    return glue.indexof(os_arch, { "386", "amd64" }) ~= nil
 end
 
 local function get_os_name_by_type(os_type)
@@ -422,7 +423,7 @@ end
 
 local function check_agent_type(atype)
     if type(atype) ~= "string" then return false end
-    return glue.indexof(atype, {"VXAgent", "Browser", "External"}) ~= nil
+    return glue.indexof(atype, { "VXAgent", "Browser", "External" }) ~= nil
 end
 
 local function check_agent_host(ahost)
@@ -436,8 +437,8 @@ local function check_agent_conn(conn)
     assert(__mock.check_ipv4_with_port(conn.ip), "agent conn ip must be IPv4 with port format")
     assert(type(conn.ips) == "table", "agent conn ips must be table type")
     assert(glue.indexof(false, glue.map(conn.ips, function(_, ip)
-            return __mock.check_cidr(ip)
-        end)) == nil, "agent conn ips each record must be CIDR format")
+        return __mock.check_cidr(ip)
+    end)) == nil, "agent conn ips each record must be CIDR format")
     assert(__mock.check_hash(conn.gid), "agent conn group id must be hash format")
     assert(check_agent_version(conn.ver), "agent conn version must be semver format")
     assert(__mock.check_token(conn.src), "agent conn src must be vxproto token format")
@@ -456,7 +457,7 @@ assert(type(__mock.agent_conn) == "table", "__mock.agent_conn must be table type
 __mock.agent_conn = {
     id      = __mock.agent_conn.id or __mock.agent_id,
     ip      = __mock.agent_conn.ip or string.format("127.0.0.1:%d", math.random(32768, 65535)),
-    ips     = __mock.agent_conn.ips or {"127.0.0.1/8"},
+    ips     = __mock.agent_conn.ips or { "127.0.0.1/8" },
     gid     = __mock.agent_conn.gid or __mock.group_id,
     ver     = __mock.agent_conn.ver or "v1.0.0.0",
     src     = __mock.agent_conn.src or __mock.module_token,
@@ -472,15 +473,15 @@ assert(check_agent_conn(__mock.agent_conn), "__mock.agent_conn must be valid con
 
 local function check_server_conn(conn)
     assert(type(conn) == "table", "server conn must be table type")
-    assert(glue.indexof(conn.scheme, {"ws", "wss"}),
+    assert(glue.indexof(conn.scheme, { "ws", "wss" }),
         "server conn scheme must be in [ws, wss]")
     assert(__mock.check_ipv4(conn.host) or __mock.check_domain(conn.host),
         "server conn host must be IPv4 or Domain format")
     assert(__mock.check_port(conn.port), "server conn port must be number format")
     assert(type(conn.ips) == "table", "server conn ips must be table type")
     assert(glue.indexof(false, glue.map(conn.ips, function(_, ip)
-            return __mock.check_ipv4(ip)
-        end)) == nil, "server conn ips each record must be IPv4 format")
+        return __mock.check_ipv4(ip)
+    end)) == nil, "server conn ips each record must be IPv4 format")
     return true
 end
 
@@ -491,7 +492,7 @@ __mock.server_conn = {
     scheme = __mock.server_conn.scheme or "wss",
     host   = __mock.server_conn.host or "server.local",
     port   = __mock.server_conn.port or "8443",
-    ips    = __mock.server_conn.ips or {"127.0.0.1"},
+    ips    = __mock.server_conn.ips or { "127.0.0.1" },
 }
 assert(check_server_conn(__mock.server_conn), "__mock.server_conn must be valid conn structure")
 ---------------------------------------------------
@@ -555,15 +556,15 @@ __mock.agents = glue.map(__mock.agents, function(_, conn)
     return patch_agent_conn(conn)
 end)
 assert(glue.indexof(false, glue.map(__mock.agents, function(_, conn)
-        return check_agent_conn(conn)
-    end)) == nil, "__mock.agents each record must be valid conn structure")
+    return check_agent_conn(conn)
+end)) == nil, "__mock.agents each record must be valid conn structure")
 table.insert(__mock.agents, 1, __mock.agent_conn)
 
 __mock.routes = __mock.routes or {}
 assert(type(__mock.routes) == "table", "__mock.routes must be table type")
 assert(glue.indexof(false, glue.map(__mock.routes, function(_, route)
-        return check_agent_route(route)
-    end)) == nil, "__mock.routes each record must be valid route structure")
+    return check_agent_route(route)
+end)) == nil, "__mock.routes each record must be valid route structure")
 
 __mock.modules = __mock.modules or {}
 assert(type(__mock.modules) == "table", "__mock.modules must be table type")
@@ -571,8 +572,8 @@ __mock.modules = glue.map(__mock.modules, function(_, module)
     return patch_module(module)
 end)
 assert(glue.indexof(false, glue.map(__mock.modules, function(_, module)
-        return check_module(module)
-    end)) == nil, "__mock.modules each record must be valid module structure")
+    return check_module(module)
+end)) == nil, "__mock.modules each record must be valid module structure")
 table.insert(__mock.modules, 1, {
     name  = __mock.module,
     gid   = __mock.group_id,
@@ -632,7 +633,7 @@ copy_dir = function(base, src, dst)
     if lfs.attributes(src, "mode") ~= "directory" then return end
     for file in lfs.dir(src) do
         local file_path = combine_path(src, file)
-        if not glue.indexof(file, {".", ".."}) then
+        if not glue.indexof(file, { ".", ".." }) then
             if lfs.attributes(file_path, "mode") == "file" then
                 copy_file(combine_path(src, file), combine_path(dst, file), true)
             elseif lfs.attributes(file_path, "mode") == "directory" then
@@ -660,7 +661,7 @@ local read_dir
 read_dir = function(files, base, dir)
     for file in lfs.dir(dir) do
         local file_path = combine_path(dir, file)
-        if not glue.indexof(file, {".", "..", "data", "clibs"}) then
+        if not glue.indexof(file, { ".", "..", "data", "clibs" }) then
             if lfs.attributes(file_path, "mode") == "file" then
                 files[combine_path(base, file)] = read_file(file_path)
             elseif lfs.attributes(file_path, "mode") == "directory" then
@@ -715,11 +716,11 @@ __mock.config.module_info = cjson.encode(__mock.module_info)
 __mock.sec = __mock.sec or {}
 assert(type(__mock.sec) == "table", "__mock.sec must be table type")
 assert(glue.indexof(false, glue.map(__mock.sec, function(tk)
-        return type(tk) == "string"
-    end)) == nil, "__mock.sec each record key must be string type")
+    return type(tk) == "string"
+end)) == nil, "__mock.sec each record key must be string type")
 assert(glue.indexof(false, glue.map(__mock.sec, function(_, tv)
-        return type(tv) == "string"
-    end)) == nil, "__mock.sec each record value must be string type")
+    return type(tv) == "string"
+end)) == nil, "__mock.sec each record value must be string type")
 ---------------------------------------------------
 
 ---------------------------------------------------
@@ -736,6 +737,7 @@ __mock.args = args_file_json
 ---------------------------------------------------
 -- MOCK setup package path to load module libraries
 ---------------------------------------------------
+__mock.initial_path = package.path
 package.path = table.concat({
     package.path,
     combine_path(__mock.module_code_path, "?.lua"),
@@ -746,17 +748,20 @@ package.path = table.concat({
 ---------------------------------------------------
 -- MOCK user code section and vars to test module
 ---------------------------------------------------
-local function lua_require(name)
-    local package, p_loaded = package, package.loaded
-    local module = p_loaded[name]
+local function require_module()
+    local module_main = 'main'
+    local module_name = __mock.module .. '.' .. __mock.version
+
+    local searchers, loaded = package.searchers, package.loaded
+    local module = loaded[module_name]
     if module then
         return module
     end
 
     local msg = {}
     local loader, param
-    for _, searcher in ipairs(package.searchers) do
-        loader, param = searcher(name)
+    for _, searcher in ipairs(searchers) do
+        loader, param = searcher(module_main)
         if type(loader) == "function" then
             break
         end
@@ -767,56 +772,60 @@ local function lua_require(name)
         loader = nil
     end
     if loader == nil then
-        error("module '" .. name .. "' not found: " .. table.concat(msg), 2)
+        local error_message = ("couldn't find '%s'.lua of '%s' module: %s"):format(module_main, module_name,
+            table.concat(msg))
+        error(error_message, 2)
     end
-    local res = loader(name, param)
+    local res = loader(module_name, param)
     if res ~= nil then
-        module = res
-    elseif not p_loaded[name] then
-        module = true
-    else
-	    module = p_loaded[name]
+        loaded[module_name] = res
+    elseif not loaded[module_name] then
+        loaded[module_name] = true
     end
 
-    p_loaded[name] = module
-    return module
+    return loaded[module_name]
 end
 
 __mock.stage.coro = __mock.stage.coro or coroutine.create(
     function()
-        local result = lua_require("main")
+        local result = require_module()
+
+        package.path = __mock.initial_path
+        __mock.cwd = __mock.initial_cwd
+        lfs.chdir(__mock.cwd)
+
         assert("success" == result, "module failed: " .. result)
     end
 )
 __mock.callbacks = __mock.callbacks or {
     data = function(self, dst, src, data)
-        self:add_context("data", {dst=dst,src=src,data=cjson.decode(data) or data})
+        self:add_context("data", { dst = dst, src = src, data = cjson.decode(data) or data })
         return true
     end,
     file = function(self, dst, src, path, name)
-        self:add_context("file", {dst=dst,src=src,path=path,data=glue.readfile(path),name=name})
+        self:add_context("file", { dst = dst, src = src, path = path, data = glue.readfile(path), name = name })
         return true
     end,
     text = function(self, dst, src, data, name)
-        self:add_context("text", {dst=dst,src=src,data=cjson.decode(data) or data,name=name})
+        self:add_context("text", { dst = dst, src = src, data = cjson.decode(data) or data, name = name })
         return true
     end,
     msg = function(self, dst, src, data, mtype)
-        self:add_context("msg", {dst=dst,src=src,data=cjson.decode(data) or data,mtype=mtype})
+        self:add_context("msg", { dst = dst, src = src, data = cjson.decode(data) or data, mtype = mtype })
         return true
     end,
     action = function(self, dst, src, data, name)
-        self:add_context("action", {dst=dst,src=src,data=cjson.decode(data) or data,name=name})
+        self:add_context("action", { dst = dst, src = src, data = cjson.decode(data) or data, name = name })
         return true
     end,
     push_event = function(self, aid, event)
-        self:add_context("event", {aid=aid,event=cjson.decode(event)})
+        self:add_context("event", { aid = aid, event = cjson.decode(event) })
         return true
     end,
 }
 assert(type(__mock.callbacks) == "table", "__mock.callbacks must be table type")
 for name, callback in pairs(__mock.callbacks) do
-    assert(glue.indexof(name, {"data", "file", "text", "msg", "action", "push_event", "trace"}),
+    assert(glue.indexof(name, { "data", "file", "text", "msg", "action", "push_event", "trace" }),
         "__mock.callbacks table key must be in [data, file, text, msg, action, push_event, trace]")
     assert(type(callback) == "function", "__mock.callbacks table value must be function type")
 end
@@ -874,11 +883,16 @@ __mock.pop_from_context = function(self, etype, filter)
     if not self.stage.ctx[etype] then return nil end
 
     for i, data in ipairs(self.stage.ctx[etype]) do
-        if filter(data) then
+        local no_errors, is_correct = pcall(filter, data)
+        if no_errors and is_correct then
             table.remove(self.stage.ctx[etype], i)
             return data
         end
     end
+end
+
+__mock.clear_expectations = function(self)
+    self.stage.ctx = {}
 end
 
 __mock.expect = function(self, etype, filter)
@@ -894,15 +908,15 @@ __mock.expect = function(self, etype, filter)
         local elapsed_time = os.difftime(os.time(), self.stage.time)
         local check_elapsed_time = os.difftime(os.time(), start_time)
         -- TODO: need to have global timeout but also check local for each expectation waiting period
-        assert(self.timeout == 0 or elapsed_time < self.timeout,
-            "expectation timed out after " .. check_elapsed_time .. " seconds")
-
+        if self.timeout ~= 0 and elapsed_time >= self.timeout then
+            return false, "expectation timed out after " .. check_elapsed_time .. " seconds"
+        end
         if coroutine.status(self.stage.coro) == "dead" then
-            return false
+            return false, "coroutine is dead"
         end
         local status, _ = coroutine.resume(self.stage.coro, self)
         if not status then
-            return false
+            return false, "failed to resume coroutine"
         end
     end
 end

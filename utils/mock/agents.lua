@@ -5,15 +5,15 @@ local agents = {}
 
 local function make_agent(agent)
     return {
-        ["ID"]   = agent.id,
-        ["GID"]  = agent.gid,
-        ["Ver"]  = agent.ver,
-        ["IP"]   = agent.ip,
-        ["Src"]  = agent.src,
-        ["Dst"]  = agent.dst,
-        ["Type"] = agent.type,
+        ["ID"]               = agent.id,
+        ["GID"]              = agent.gid,
+        ["Ver"]              = agent.ver,
+        ["IP"]               = agent.ip,
+        ["Src"]              = agent.src,
+        ["Dst"]              = agent.dst,
+        ["Type"]             = agent.type,
         ["IsOnlyForUpgrade"] = false,
-        ["Info"] = {
+        ["Info"]             = {
             ["Os"] = {
                 ["Type"] = agent.os_type,
                 ["Name"] = agent.os_name,
@@ -50,7 +50,7 @@ function agents.get_by_id(agent_id)
     local list = {}
     for _, agent in ipairs(__mock.agents) do
         if agent.id == agent_id then
-            table.insert(list, make_agent(agent))
+            list[agent.src] = make_agent(agent)
         end
     end
     return list
