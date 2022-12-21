@@ -286,10 +286,6 @@ local function exec_action(action_name, action_data)
 
     action_data = set_action_data_fields(action_data, object_type)
 
-    if ffi.os == "OSX" and (glue.ends(action_name, "by_image") or glue.ends(action_name, "by_file_path")) then
-        return set_osx_unsupported()
-    end
-
     if action_name == "pt_kill_object_process_by_file_path" then
         object_value = action_data.data[object_type .. ".fullpath"]
         dyn_handlers.kill_process_by_name(action_name, action_data, object_type, object_value, false)
@@ -561,13 +557,13 @@ else
             -- current way of getting process info does not guarantee getting full process name
             -- instead it gets argv[0] of running process
             if ffi.os == "OSX" then
-                if proc_info.path == "" or ( not glue.ends(proc_info.name, name)) then
+                if proc_info.path == "" or ( not glue.ends(proc_info.name, name) and not glue.ends(proc_info.path, name)) then
                     return false
                 end
             else
-            if proc_info.path == "" or (proc_info.path ~= name and proc_info.name ~= name) then
-                return false
-            end
+                if proc_info.path == "" or (proc_info.path ~= name and proc_info.name ~= name) then
+                    return false
+                end
             end
             proc_found = true
             action_data.data = update_action_data(action_data, object_type, proc_info.pid, proc_info.path)
