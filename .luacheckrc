@@ -74,6 +74,7 @@ globals = {
     "__mock",
 
     -- utils classes
+    "CSystemInfo",
     "CFileReader",
     "CReader",
 
