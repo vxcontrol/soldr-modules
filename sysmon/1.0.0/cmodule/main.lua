@@ -33,7 +33,7 @@ local version = "unknown"
 
 -- Module immutable global variables
 local arch = __api.get_arch()
-local def_sysmon_prefix = "sysmon_pt"
+local def_sysmon_prefix = "sysmon_vx"
 local def_sysmon_binary_name = def_sysmon_prefix .. "_" .. arch .. ".exe"
 local def_sysmon_config_name = "config.xml"
 local data_sysmon_binary_path = tostring(__tmpdir) .. "\\data\\binaries\\" .. def_sysmon_binary_name
