@@ -15,13 +15,18 @@
         ]
     },
     "system": false,
-    "actions": [],
+    "actions": [
+        "frd_rewind_logfile"
+    ],
     "events": [
         "frd_module_internal_error",
         "frd_module_started",
-        "frd_module_stopped"
+        "frd_module_stopped",
+        "frd_logfile_rewinded_successful",
+        "frd_logfile_rewinded_failed"
     ],
     "fields": [
+        "log.filepath",
         "reason"
     ],
     "tags": [

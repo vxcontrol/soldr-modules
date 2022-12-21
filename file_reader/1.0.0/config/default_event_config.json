@@ -1,4 +1,33 @@
 {
+    "frd_logfile_rewinded_failed": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "log.filepath",
+            "reason"
+        ],
+        "type": "atomic"
+    },
+    "frd_logfile_rewinded_successful": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "log.filepath"
+        ],
+        "type": "atomic"
+    },
     "frd_module_internal_error": {
         "actions": [
             {
