@@ -5,9 +5,10 @@ local cjson   = require("cjson.safe")
 local luapath = require("path")
 local process_api = require("process_api")
 local lk32
+local win_const = {}
 if ffi.os == "Windows" then
     lk32 = require("waffi.windows.kernel32")
-    lk32.STILL_ALIVE = 259
+    win_const.STILL_ALIVE = 259
 else
     ffi.cdef[[
         typedef uint32_t pid_t;
@@ -338,7 +339,7 @@ if ffi.os == "Windows" then
         elseif lk32.GetExitCodeProcess(proc_handle, exitCode) ~= 0 then
             __log.debugf("exit code from requested kill process: %d", tonumber(exitCode[0]))
 
-            if tonumber(exitCode[0]) ~= lk32.STILL_ALIVE then
+            if tonumber(exitCode[0]) ~= win_const.STILL_ALIVE then
                 action_data.data.result = true
                 action_data.data.reason = "already terminating"
                 push_event("pt_" .. object_type .. "_process_killed_successful", action_name, action_data)
