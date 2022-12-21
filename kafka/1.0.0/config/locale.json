@@ -50,6 +50,16 @@
                 "description": ""
             }
         },
+        "b3_sasl_mechanism": {
+            "en": {
+                "title": "SASL mechanism",
+                "description": "SASL mechanism to use for authentication. Supported: GSSAPI, PLAIN, SCRAM-SHA-256, SCRAM-SHA-512, OAUTHBEARER."
+            },
+            "ru": {
+                "title": "SASL mechanism",
+                "description": "SASL механизм используемый при подключении. Потдерживаются: GSSAPI, PLAIN, SCRAM-SHA-256, SCRAM-SHA-512, OAUTHBEARER."
+            }
+        },
         "c1_timeout": {
             "en": {
                 "title": "Message delivery timeout",
@@ -71,6 +81,7 @@
             }
         }
     },
+    "secure_config": {},
     "fields": {},
     "actions": {
         "kafka_produce": {

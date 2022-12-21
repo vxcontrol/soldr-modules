@@ -3,6 +3,7 @@
     "a2_topic": "",
     "b1_user": "",
     "b2_password": "",
+    "b3_sasl_mechanism": "PLAIN",
     "c1_timeout": 60,
     "c2_retries": 10
 }

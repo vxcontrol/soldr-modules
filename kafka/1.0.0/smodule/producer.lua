@@ -8,12 +8,13 @@ function Producer.new()
 end
 
 --:: {
---::   brokers  :: string
---::   topic    :: string
---::   user     :: string?
---::   password :: string?
---::   timeout  :: number, seconds
---::   retries  :: number
+--::   brokers        :: string
+--::   topic          :: string
+--::   user           :: string?
+--::   password       :: string?
+--::   sasl_mechanism :: string?
+--::   timeout        :: number, seconds
+--::   retries        :: number
 --:: } -> ()
 function Producer:configure(c)
 	self:close()
@@ -25,7 +26,7 @@ function Producer:configure(c)
 	}
 	if c.user and c.user ~= "" and c.password and c.password ~= "" then
 		props["security.protocol"] = "sasl_plaintext"
-		props["sasl.mechanisms"]   = "PLAIN"
+		props["sasl.mechanism"]    = c.sasl_mechanism or "PLAIN"
 		props["sasl.username"]     = c.user
 		props["sasl.password"]     = c.password
 	end

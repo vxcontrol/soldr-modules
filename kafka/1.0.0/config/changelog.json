@@ -10,5 +10,29 @@
             "title": "Новая версия",
             "description": " "
         }
+    },
+    "1.1.0": {
+        "en": {
+            "date": "12-20-2022",
+            "title": "SASL mechanism",
+            "description": "Support SASL mechanism"
+        },
+        "ru": {
+            "date": "20.12.2022",
+            "title": "SASL механизм",
+            "description": "Потдерживается SASL механизм"
+        }
+    },
+    "1.2.0": {
+        "en": {
+            "date": "12-20-2022",
+            "title": "Precompiled dependencies",
+            "description": "Provide librdkafka.so as a precompiled library"
+        },
+        "ru": {
+            "date": "20.12.2022",
+            "title": "Прекомпилированные зависимости",
+            "description": "librdkafka.so поставляется в виде прекомпилированной библиотеки"
+        }
     }
 }

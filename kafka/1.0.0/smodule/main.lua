@@ -6,12 +6,13 @@ local producer = require("producer").new()
 local function update_config()
 	local c = cjson.decode(__config.get_current_config())
 	producer:configure{
-		brokers  = c.a1_brokers,
-		topic    = c.a2_topic,
-		user     = c.b1_user,
-		password = c.b2_password,
-		timeout  = c.c1_timeout,
-		retries  = c.c2_retries,
+		brokers        = c.a1_brokers,
+		topic          = c.a2_topic,
+		user           = c.b1_user,
+		password       = c.b2_password,
+		sasl_mechanism = c.b3_sasl_mechanism,
+		timeout        = c.c1_timeout,
+		retries        = c.c2_retries,
 	}
 end
 update_config()

@@ -1,5 +1,11 @@
 local ffi = require "ffi"
 
+local function load_so(path)
+	local ok, res = pcall(function()
+		return ffi.load(__tmpdir .. "/sys/" .. path) end)
+	return (ok and res) or ffi.load(path)
+end
+
 ffi.cdef[[
 	typedef struct rd_kafka_s rd_kafka_t;
 	typedef struct rd_kafka_conf_s rd_kafka_conf_t;
@@ -88,7 +94,7 @@ ffi.cdef[[
 	                     size_t keylen,
 	                     void *msg_opaque);
 ]]
-local K = ffi.load("librdkafka.so.1")
+local K = load_so("librdkafka.so")
 
 local ERRLEN = 1024
 
