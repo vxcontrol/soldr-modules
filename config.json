@@ -37,8 +37,8 @@
             "reason",
             "version"
         ],
-        "last_module_update": "2022-12-08 00:00:00",
-        "last_update": "2022-12-08 00:00:00"
+        "last_module_update": "2022-12-20 00:00:00",
+        "last_update": "2022-12-20 00:00:00"
     },
     {
         "group_id": "",
@@ -181,8 +181,8 @@
             "subject.fullpath",
             "subject.process.fullpath"
         ],
-        "last_module_update": "2022-12-08 00:00:00",
-        "last_update": "2022-12-08 00:00:00"
+        "last_module_update": "2022-12-20 00:00:00",
+        "last_update": "2022-12-20 00:00:00"
     },
     {
         "group_id": "",
@@ -249,8 +249,8 @@
             "subject.process.id",
             "subject.process.name"
         ],
-        "last_module_update": "2022-12-08 00:00:00",
-        "last_update": "2022-12-08 00:00:00"
+        "last_module_update": "2022-12-20 00:00:00",
+        "last_update": "2022-12-20 00:00:00"
     },
     {
         "group_id": "",
@@ -419,8 +419,8 @@
             "subject.process.parent.id",
             "subject.process.path"
         ],
-        "last_module_update": "2022-12-08 12:52:12",
-        "last_update": "2022-12-08 12:52:12"
+        "last_module_update": "2022-12-20 00:00:00",
+        "last_update": "2022-12-20 00:00:00"
     },
     {
         "group_id": "",
@@ -511,7 +511,7 @@
         "fields": [
             "reason"
         ],
-        "last_module_update": "2022-12-08 00:00:00",
-        "last_update": "2022-12-08 00:00:00"
+        "last_module_update": "2022-12-20 00:00:00",
+        "last_update": "2022-12-20 00:00:00"
     }
 ]
