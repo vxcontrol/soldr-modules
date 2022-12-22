@@ -10,7 +10,8 @@ tools/sysmon.xml
 
 .idea/
 .venv/
-.vscode/
+.vscode/launch.json
+.vscode/settings.json
 
 tmpcwd/*
 tmpdir/*

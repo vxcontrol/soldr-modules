@@ -1,0 +1,17 @@
+{
+    "recommendations": [
+        "eriklynd.json-tools",
+        "nickdemayo.vscode-json-editor",
+        "bubuabu.busted-test-explorer",
+        "keyring.Lua",
+        "yinfei.luahelper",
+        "actboy168.lua-debug",
+        "satoren.lualint",
+        "octref.vetur",
+        "Vue.volar",
+        "sdras.vue-vscode-snippets",
+        "hollowtree.vue-snippets",
+        "ElemeFE.vscode-element-helper",
+        "infosec-intern.yara"
+    ]
+}
