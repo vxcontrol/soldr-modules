@@ -5,7 +5,7 @@ local socket = require("socket")
 math.randomseed(crc32(tostring({})))
 
 local module_config = cjson.decode(__config.get_current_config())
-local id = tostring(math.random(1000, 10000))
+local sid = tostring(math.random(1000, 10000))
 local last_connect = 0
 local limit_secs_connect = 10
 local last_sent = 0
@@ -131,7 +131,7 @@ local function send_logs(recn)
             local log_lines_m = {}
             for i=1,log_lines_s do
                 msg = string.format("<30>%s %s vxserver[%s]: %s",
-                    date, log_lines[i]["data"]["hostname"], id, log_lines[i]["message"])
+                    date, log_lines[i]["data"]["hostname"], sid, log_lines[i]["message"])
                 table.insert(log_lines_m, msg)
             end
             msg = table.concat(log_lines_m, "\n") .. "\n"

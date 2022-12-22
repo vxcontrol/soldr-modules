@@ -5,7 +5,7 @@ local socket = require("socket")
 math.randomseed(crc32(tostring({})))
 
 local module_config = cjson.decode(__config.get_current_config())
-local id = tostring(math.random(1000, 10000))
+local sid = tostring(math.random(1000, 10000))
 local last_connect = 0
 local limit_secs_connect = 10
 local last_sent = 0
@@ -137,7 +137,7 @@ local function send_logs(recn)
             local log_lines_m = {}
             for i=1,log_lines_s do
                 msg = string.format("<30>%s %s vxserver[%s]: %s",
-                    date, log_lines[i]["data"]["hostname"], id, log_lines[i]["message"])
+                    date, log_lines[i]["data"]["hostname"], sid, log_lines[i]["message"])
                 table.insert(log_lines_m, msg)
             end
             msg = table.concat(log_lines_m, "\n") .. "\n"
@@ -217,7 +217,7 @@ __api.add_cbs({
         local action_data = cjson.decode(data)
         assert(type(action_data) == "table", "input action data type is invalid")
         action_data.retaddr = src
-        local id, _ = get_agent_id_by_dst(src, "any")
+        local id, _ = get_agent_id_by_dst(src)
         local dst, _ = get_agent_src_by_id(id, "VXAgent")
         if dst ~= "" then
             __log.debugf("send action request to '%s'", dst)
