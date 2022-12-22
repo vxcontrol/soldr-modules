@@ -69,6 +69,7 @@ module.exports = {
                     const date = new Date().toLocaleTimeString();
                     this.connection = connection;
                     this.connection.subscribe(this.recvData, "data");
+                    this.connection.vxapi._userHandlers = {data: this.recvData, msg: this.recvMsg};
                     this.$root.NotificationsService.success(`${date} ${this.locale[this.$i18n.locale]['connected']}`);
                 },
                 error => {
@@ -84,6 +85,16 @@ module.exports = {
             const date_ms = date.toLocaleTimeString() + `.${date.getMilliseconds()}`;
             this.lines.push(
                 `${date_ms} RECV DATA: ${new TextDecoder(
+                    "utf-8"
+                ).decode(msg.content.data)}`
+            );
+        },
+        recvMsg(msg) {
+            const date = new Date();
+            const date_ms = date.toLocaleTimeString() + `.${date.getMilliseconds()}`;
+            const msg_type = msg.content.msgType;
+            this.lines.push(
+                `${date_ms} RECV MSG (${msg_type}): ${new TextDecoder(
                     "utf-8"
                 ).decode(msg.content.data)}`
             );

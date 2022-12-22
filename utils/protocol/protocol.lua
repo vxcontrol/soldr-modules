@@ -8,6 +8,15 @@ protocol.message_name.action_response = "Module.Common.ActionResponse"
 protocol.message_name.action_proxied = "Module.Сommon.ActionProxied"
 
 ----------------------------------------------
+-- Message types
+----------------------------------------------
+protocol.message_type = {}
+protocol.message_type.debug = 0
+protocol.message_type.info  = 1
+protocol.message_type.warn  = 2
+protocol.message_type.error = 3
+
+----------------------------------------------
 -- Connectivity errors
 ----------------------------------------------
 protocol.connection_errors = {}

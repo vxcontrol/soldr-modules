@@ -103,8 +103,8 @@ cmodule.load_dependencies = function()
 end
 
 cmodule.push_event_for_action = function(event_name, action_name, event_data, actions)
-    assert(action_name ~= "", "event name must be defined")
-    assert(action_name ~= "", "action name must be defined")
+    assert(event_name ~= nil and event_name ~= "", "event name must be defined")
+    assert(action_name ~= nil and action_name ~= "", "action name must be defined")
     event_data = event_data or {}
     actions = actions or {}
 
@@ -118,7 +118,7 @@ cmodule.push_event_for_action = function(event_name, action_name, event_data, ac
 end
 
 cmodule.push_event = function(event_name, event_data, actions)
-    assert(event_name ~= "", "event name must be defined")
+    assert(event_name ~= nil and event_name ~= "", "event name must be defined")
     event_data = event_data or {}
     actions = actions or {}
 

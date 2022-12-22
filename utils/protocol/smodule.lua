@@ -82,9 +82,10 @@ local function get_agent_src_by_id(id, atype)
     return "", {}
 end
 
-smodule.push_event_for_action = function(event_name, action_name, event_data, actions)
-    assert(action_name ~= "", "event name must be defined")
-    assert(action_name ~= "", "action name must be defined")
+smodule.push_event_for_action = function(agent_id, event_name, action_name, event_data, actions)
+    assert(agent_id ~= nil and agent_id ~= "", "agent id must be defined")
+    assert(event_name ~= nil and event_name ~= "", "event name must be defined")
+    assert(action_name ~= nil and action_name ~= "", "action name must be defined")
     event_data = event_data or {}
     actions = actions or {}
 
@@ -94,11 +95,12 @@ smodule.push_event_for_action = function(event_name, action_name, event_data, ac
             table.insert(actions, action_full_name)
         end
     end
-    smodule.push_event(event_name, event_data, actions)
+    smodule.push_event(agent_id, event_name, event_data, actions)
 end
 
-smodule.push_event = function(event_name, event_data, actions)
-    assert(event_name ~= "", "event name must be defined")
+smodule.push_event = function(agent_id, event_name, event_data, actions)
+    assert(agent_id ~= nil and agent_id ~= "", "agent id must be defined")
+    assert(event_name ~= nil and event_name ~= "", "event name must be defined")
     event_data = event_data or {}
     actions = actions or {}
 
@@ -111,7 +113,7 @@ smodule.push_event = function(event_name, event_data, actions)
 
     -- result value defines if there are actions that need to be executed
     if result then
-        for action_id, action_result in ipairs(smodule.action_engine:exec(__aid, actions_list)) do
+        for action_id, action_result in ipairs(smodule.action_engine:exec(agent_id, actions_list)) do
             __log.infof("action '%s' was requested and executed with result: %s", action_id, action_result)
         end
     end
@@ -143,7 +145,6 @@ smodule.start = function(action_handlers, data_callback, background_process)
             local response = {
                 __retaddr = action_data.__retaddr,
                 __cid = action_data.__cid,
-                __aid = __aid,
                 __msg_type = protocol.message_name.action_response,
                 name = action_name,
                 request_data = cjson.decode(cjson.encode(action_data)),
@@ -171,6 +172,8 @@ smodule.start = function(action_handlers, data_callback, background_process)
             if dst == "" then
                 response.status, response.error = "error", protocol.connection_errors.common
                 return __api.send_data_to(src, cjson.encode(response))
+            else
+                response.__aid = id
             end
 
             __log.debugf("action '%s' was proxied", action_name)
@@ -178,7 +181,7 @@ smodule.start = function(action_handlers, data_callback, background_process)
                 __msg_type = protocol.message_name.action_proxied,
                 __cid = action_data.__cid,
                 name = action_name,
-            }))
+            }), protocol.message_type.info)
 
             action_data.__retaddr = src
             return __api.send_action_to(dst, cjson.encode(action_data), action_name)
