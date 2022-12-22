@@ -1,7 +1,6 @@
 local cjson    = require("cjson.safe")
 local glue     = require("glue")
 local protocol = require("protocol/protocol")
-local tablex   = require("pl.tablex")
 local ffi      = require("ffi")
 
 require("engine")
@@ -152,7 +151,7 @@ cmodule.start = function(action_handlers, background_process)
                 __aid = __aid,
                 __msg_type = protocol.message_name.action_response,
                 name = action_name,
-                request_data = tablex.copy(action_data),
+                request_data = cjson.decode(cjson.encode(action_data)),
             }
 
             local result, error, reason = cmodule.action_validator:validate(action_name, action_data.data)

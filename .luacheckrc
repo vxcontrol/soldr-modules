@@ -81,6 +81,7 @@ globals = {
     -- correlator classes
     "CEventEngine",
     "CActionEngine",
+    "CActionsValidator",
     "CCorrEngine",
     "CBaseEngine",
 
