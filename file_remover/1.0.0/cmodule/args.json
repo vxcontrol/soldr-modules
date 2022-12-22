@@ -1,4 +1,4 @@
 {
-    "remove_file_retry_count": 5,
-    "remove_file_retry_interval": 100
+    "remove_file_retry_count": ["5"],
+    "remove_file_retry_interval": ["100"]
 }

@@ -6,8 +6,8 @@ local os_specific_functions = MODULE.require("file_remove")
 ---------------------------------------------------
 
 local config = {
-    remove_file_retry_count = __args["remove_file_retry_count"] or 5,
-    remove_file_retry_interval = __args["remove_file_retry_interval"] or 100
+    remove_file_retry_count = tonumber(__args["remove_file_retry_count"][1]) or 5,
+    remove_file_retry_interval = tonumber(__args["remove_file_retry_interval"][1]) or 100
 }
 
 ---------------------------------------------------
