@@ -1,0 +1,141 @@
+{
+    "module": {
+        "en": {
+            "title": "shell_win",
+            "description": "Starts interactive windows shell."
+        },
+        "ru": {
+            "title": "shell_win",
+            "description": "Запускает интерактивную командую оболочку для Windows."
+        }
+    },
+    "config": {},
+    "fields": {
+        "cmdin": {
+            "en": {
+                "title": "cmdin",
+                "description": "cmdin"
+            },
+            "ru": {
+                "title": "cmdin",
+                "description": "cmdin"
+            }
+        },
+        "cmdout": {
+            "en": {
+                "title": "cmdout",
+                "description": "cmdout"
+            },
+            "ru": {
+                "title": "cmdout",
+                "description": "cmdout"
+            }
+        },
+        "reason": {
+            "en": {
+                "title": "reason",
+                "description": "Event reason"
+            },
+            "ru": {
+                "title": "reason",
+                "description": "Причина возникновения события"
+            }
+        },
+        "result": {
+            "en": {
+                "title": "result",
+                "description": "Action result"
+            },
+            "ru": {
+                "title": "result",
+                "description": "Результат выполнения действия"
+            }
+        }
+    },
+    "actions": {
+        "shell_win_send_input": {
+            "en": {
+                "title": "shell_win_send_input",
+                "description": "shell_win_send_input"
+            },
+            "ru": {
+                "title": "shell_win_send_input",
+                "description": "shell_win_send_input"
+            }
+        },
+        "shell_win_start": {
+            "en": {
+                "title": "shell_win_start",
+                "description": "shell_win_start"
+            },
+            "ru": {
+                "title": "shell_win_start",
+                "description": "shell_win_start"
+            }
+        },
+        "shell_win_stop": {
+            "en": {
+                "title": "shell_win_stop",
+                "description": "shell_win_stop"
+            },
+            "ru": {
+                "title": "shell_win_stop",
+                "description": "shell_win_stop"
+            }
+        }
+    },
+    "events": {
+        "shell_win_action_exec_failed": {
+            "en": {
+                "title": "action_exec_failed",
+                "description": "{{{ json . }}}"
+            },
+            "ru": {
+                "title": "action_exec_failed",
+                "description": "{{{ json . }}}"
+            }
+        },
+        "shell_win_action_exec_success": {
+            "en": {
+                "title": "action_exec_success",
+                "description": "{{{ json . }}}"
+            },
+            "ru": {
+                "title": "action_exec_success",
+                "description": "{{{ json . }}}"
+            }
+        },
+        "shell_win_output_produced": {
+            "en": {
+                "title": "shell_win_output_produced",
+                "description": "shell_win_output_produced"
+            },
+            "ru": {
+                "title": "shell_win_output_produced",
+                "description": "shell_win_output_produced"
+            }
+        }
+    },
+    "action_config": {
+        "shell_win_send_input": {},
+        "shell_win_start": {},
+        "shell_win_stop": {}
+    },
+    "event_config": {
+        "shell_win_action_exec_failed": {},
+        "shell_win_action_exec_success": {},
+        "shell_win_output_produced": {}
+    },
+    "tags": {
+        "responder": {
+            "en": {
+                "title": "Responder",
+                "description": "Module that execute actions"
+            },
+            "ru": {
+                "title": "Исполнитель",
+                "description": "Модуль отвечающий за выполнение действий"
+            }
+        }
+    }
+}

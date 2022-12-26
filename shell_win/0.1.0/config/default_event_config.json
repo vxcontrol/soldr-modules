@@ -1,0 +1,39 @@
+{
+    "shell_win_action_exec_failed": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "reason",
+            "result"
+        ],
+        "type": "atomic"
+    },
+    "shell_win_action_exec_success": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "reason",
+            "result"
+        ],
+        "type": "atomic"
+    },
+    "shell_win_output_produced": {
+        "actions": [],
+        "fields": [
+            "cmdout"
+        ],
+        "type": "atomic"
+    }
+}
