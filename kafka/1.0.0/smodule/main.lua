@@ -11,8 +11,10 @@ local function update_config()
 		user           = c.b1_user,
 		password       = c.b2_password,
 		sasl_mechanism = c.b3_sasl_mechanism,
-		timeout        = c.c1_timeout,
-		retries        = c.c2_retries,
+		ssl            = c.c1_ssl,
+		ca_cert        = c.c2_ca_cert,
+		timeout        = c.d1_timeout,
+		retries        = c.d2_retries,
 	}
 end
 update_config()

@@ -1,9 +1,12 @@
 local ffi = require "ffi"
 
-local function load_so(path)
-	local ok, res = pcall(function()
-		return ffi.load(__tmpdir .. "/sys/" .. path) end)
-	return (ok and res) or ffi.load(path)
+local function ffi_load(paths)
+	local ok, res
+	for _, path in ipairs(paths) do
+		ok, res = pcall(function() return ffi.load(path) end)
+		if ok then return res end
+	end
+	assert(ok, res)
 end
 
 ffi.cdef[[
@@ -37,6 +40,20 @@ ffi.cdef[[
 
 	// Configuration
 
+	typedef enum rd_kafka_cert_type_t {
+	        RD_KAFKA_CERT_PUBLIC_KEY,
+	        RD_KAFKA_CERT_PRIVATE_KEY,
+	        RD_KAFKA_CERT_CA,
+	        RD_KAFKA_CERT__CNT,
+	} rd_kafka_cert_type_t;
+
+	typedef enum rd_kafka_cert_enc_t {
+	        RD_KAFKA_CERT_ENC_PKCS12,
+	        RD_KAFKA_CERT_ENC_DER,
+	        RD_KAFKA_CERT_ENC_PEM,
+	        RD_KAFKA_CERT_ENC__CNT,
+	} rd_kafka_cert_enc_t;
+
 	rd_kafka_conf_t *rd_kafka_conf_new(void);
 	rd_kafka_conf_t *rd_kafka_conf_dup(const rd_kafka_conf_t *conf);
 	void rd_kafka_conf_destroy(rd_kafka_conf_t *conf);
@@ -45,6 +62,13 @@ ffi.cdef[[
 	                                      const char *value,
 	                                      char *errstr,
 	                                      size_t errstr_size);
+	rd_kafka_conf_res_t rd_kafka_conf_set_ssl_cert(rd_kafka_conf_t *conf,
+	                                               rd_kafka_cert_type_t cert_type,
+	                                               rd_kafka_cert_enc_t cert_enc,
+	                                               const void *buffer,
+	                                               size_t size,
+	                                               char *errstr,
+	                                               size_t errstr_size);
 	void rd_kafka_conf_set_dr_msg_cb(
 	    rd_kafka_conf_t *conf,
 	    void (*dr_msg_cb)(rd_kafka_t *rk,
@@ -94,11 +118,14 @@ ffi.cdef[[
 	                     size_t keylen,
 	                     void *msg_opaque);
 ]]
-local K = load_so("librdkafka.so")
+local K = ffi_load{
+	"smodule/clibs/linux/amd64/sys/librdkafka.so",
+	(__tmpdir or "") .. "/sys/librdkafka.so",
+}
 
 local ERRLEN = 1024
 
--- :: rd_kafka_resp_err_t -> number, string
+--:: rd_kafka_resp_err_t -> number, string
 local function from_resp_err(err)
 	local errstr = K.rd_kafka_err2str(err)
 	return tonumber(err), ffi.string(errstr)
@@ -109,7 +136,7 @@ local Config = {}; Config.__index = Config
 
 -- Configuration properties:
 -- https://github.com/edenhill/librdkafka/blob/master/CONFIGURATION.md
--- :: {propertyA: valueA, ...} -> Config
+--:: {propertyA: valueA, ...} -> Config
 function Config.new(props)
 	local conf = K.rd_kafka_conf_new()
 	ffi.gc(conf, K.rd_kafka_conf_destroy)
@@ -123,7 +150,17 @@ function Config.new(props)
 	return setmetatable({_conf=conf}, Config)
 end
 
--- :: (code::number, message::string -> ()) -> ()
+-- Set CA certificate as a PEM-format string.
+--:: string -> ()
+function Config:set_ca_cert(cert)
+	local errstr = ffi.new("char[?]", ERRLEN)
+	local err = K.rd_kafka_conf_set_ssl_cert(
+		self._conf, K.RD_KAFKA_CERT_CA, K.RD_KAFKA_CERT_ENC_PEM,
+		cert, #cert, errstr, ERRLEN)
+	assert(err == K.RD_KAFKA_CONF_OK, ffi.string(errstr))
+end
+
+--:: (code::number, message::string -> ()) -> ()
 function Config:on_error(cb)
 	self._error_cb = cb
 
@@ -146,7 +183,7 @@ end
 local Producer = {}; Producer.__index = Producer
 
 -- Create a producer with the given configuration.
--- :: Config -> Producer
+--:: Config -> Producer
 function Producer.new(config)
 	local errstr = ffi.new("char[?]", ERRLEN)
 
@@ -154,7 +191,7 @@ function Producer.new(config)
 	ffi.gc(conf, K.rd_kafka_conf_destroy)
 
 	local rk = K.rd_kafka_new(K.RD_KAFKA_PRODUCER, conf, errstr, ERRLEN)
-	assert(rk, ffi.string(errstr))
+	assert(rk ~= nil, ffi.string(errstr))
 	ffi.gc(rk, K.rd_kafka_destroy)
 	ffi.gc(conf, nil)
 
@@ -171,7 +208,7 @@ function Producer:destroy()
 	end
 end
 
--- :: mseconds -> boolean
+--:: mseconds -> boolean
 function Producer:flush(timeout_ms)
 	assert(self._rk, "bad kafka handle")
 	local err = K.rd_kafka_flush(self._rk, timeout_ms)
@@ -182,23 +219,23 @@ function Producer:flush(timeout_ms)
 	return true
 end
 
--- :: mseconds? -> number
+--:: mseconds? -> number
 function Producer:poll(timeout_ms)
 	assert(self._rk, "bad kafka handle")
 	return K.rd_kafka_poll(self._rk, timeout_ms or 0)
 end
 
 -- Allocates a topic handle.
--- :: string -> Topic
+--:: string -> Topic
 function Producer:topic(name)
 	assert(self._rk, "bad kafka handle")
 	local rkt = K.rd_kafka_topic_new(self._rk, name, nil)
-	assert(rkt, "fail to make a topic handle")
+	assert(rkt ~= nil, "fail to make a topic handle")
 	ffi.gc(rkt, K.rd_kafka_topic_destroy)
 	return rkt
 end
 
--- :: Topic, string, string? -> boolean
+--:: Topic, string, string? -> boolean
 function Producer:produce(topic, payload, key)
 	assert(self._rk, "bad kafka handle")
 	assert(topic, "bad topic handle")

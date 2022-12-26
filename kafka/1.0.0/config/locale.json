@@ -53,14 +53,34 @@
         "b3_sasl_mechanism": {
             "en": {
                 "title": "SASL mechanism",
-                "description": "SASL mechanism to use for authentication. Supported: GSSAPI, PLAIN, SCRAM-SHA-256, SCRAM-SHA-512, OAUTHBEARER."
+                "description": "SASL mechanism to use for authentication."
             },
             "ru": {
-                "title": "SASL mechanism",
-                "description": "SASL механизм используемый при подключении. Потдерживаются: GSSAPI, PLAIN, SCRAM-SHA-256, SCRAM-SHA-512, OAUTHBEARER."
+                "title": "SASL механизм",
+                "description": "SASL механизм используемый при подключении."
             }
         },
-        "c1_timeout": {
+        "c1_ssl": {
+            "en": {
+                "title": "SSL",
+                "description": ""
+            },
+            "ru": {
+                "title": "SSL",
+                "description": ""
+            }
+        },
+        "c2_ca_cert": {
+            "en": {
+                "title": "CA certificate",
+                "description": "CA certificate string (PEM format) for verifying the broker's key."
+            },
+            "ru": {
+                "title": "Корневой сертификат",
+                "description": "Сертификат удостоверяющего центра в виде строки (PEM формат), используемый для верификации  kafka брокера."
+            }
+        },
+        "d1_timeout": {
             "en": {
                 "title": "Message delivery timeout",
                 "description": "Message delivery timeout in seconds."
@@ -70,14 +90,14 @@
                 "description": "Время ожидания доставки сообщения, в секундах."
             }
         },
-        "c2_retries": {
+        "d2_retries": {
             "en": {
                 "title": "Retries",
-                "description": "Max number of attemps to delivery a message"
+                "description": "Max number of attemps to delivery a message."
             },
             "ru": {
                 "title": "Количество попыток",
-                "description": "Максимальное количество попыток доставки сообщения"
+                "description": "Максимальное количество попыток доставки сообщения."
             }
         }
     },

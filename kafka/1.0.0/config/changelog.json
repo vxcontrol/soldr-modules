@@ -34,5 +34,17 @@
             "title": "Прекомпилированные зависимости",
             "description": "librdkafka.so поставляется в виде прекомпилированной библиотеки"
         }
+    },
+    "1.3.0": {
+        "en": {
+            "date": "12-24-2022",
+            "title": "Support SSL",
+            "description": "Support secure SSL connection to a broker"
+        },
+        "ru": {
+            "date": "24.12.2022",
+            "title": "Потдержка SSL",
+            "description": "Добавлена потдержка защищенного SSL подключения к брокеру"
+        }
     }
 }

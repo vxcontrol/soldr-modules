@@ -13,6 +13,8 @@ end
 --::   user           :: string?
 --::   password       :: string?
 --::   sasl_mechanism :: string?
+--::   ssl            :: boolean
+--::   ca_cert        :: string?
 --::   timeout        :: number, seconds
 --::   retries        :: number
 --:: } -> ()
@@ -21,17 +23,21 @@ function Producer:configure(c)
 
 	local props = {
 		["bootstrap.servers"]  = c.brokers,
+		["security.protocol"]  = (c.ssl and "ssl") or "plaintext",
 		["message.timeout.ms"] = tostring(c.timeout * 1000),
 		["retries"]            = tostring(c.retries),
 	}
 	if c.user and c.user ~= "" and c.password and c.password ~= "" then
-		props["security.protocol"] = "sasl_plaintext"
+		props["security.protocol"] = (c.ssl and "sasl_ssl") or "sasl_plaintext"
 		props["sasl.mechanism"]    = c.sasl_mechanism or "PLAIN"
 		props["sasl.username"]     = c.user
 		props["sasl.password"]     = c.password
 	end
 
 	local conf = rdkafka.Config.new(props)
+	if c.ca_cert and c.ca_cert ~= "" then
+		conf:set_ca_cert(c.ca_cert)
+	end
 	conf:on_error(function(err, msg)
 		__log.errorf("rdkafka: err=%d: %s", err, msg)
 	end)

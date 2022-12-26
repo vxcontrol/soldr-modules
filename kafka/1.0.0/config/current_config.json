@@ -3,7 +3,9 @@
     "a2_topic": "",
     "b1_user": "",
     "b2_password": "",
-    "b3_sasl_mechanism": "PLAIN",
-    "c1_timeout": 60,
-    "c2_retries": 10
+    "b3_sasl_mechanism": "SCRAM-SHA-512",
+    "c1_ssl": false,
+    "c2_ca_cert": "",
+    "d1_timeout": 60,
+    "d2_retries": 10
 }
