@@ -1,21 +1,22 @@
 require("yaci")
-local thread  = require("thread")
+local thread = require("thread")
 local luapath = require("path")
-local cjson   = require("cjson.safe")
+local cjson = require("cjson.safe")
+local fs_notify = require("fs_notify")
 
 CFileReader = newclass("CFileReader")
 
 local worker_safe = function(ctx, q_in, q_out, e_stop, e_quit)
-    local pp      = require("pp")
-    local glue    = require("glue")
-    local lpath   = require("path")
-    local socket  = require("socket")
+    local pp = require("pp")
+    local glue = require("glue")
+    local lpath = require("path")
+    local socket = require("socket")
 
     -- custom module loader to take module from __files valiable per module
     local function load(modulename)
         local errmsg = ""
         local modulepath = string.gsub(modulename, "%.", "/")
-        local filenames = {modulepath .. "/init.lua", modulepath .. ".lua"}
+        local filenames = { modulepath .. "/init.lua", modulepath .. ".lua" }
         for _, filename in ipairs(filenames) do
             local filedata = ctx.__files[filename]
             if filedata then
@@ -49,8 +50,12 @@ local worker_safe = function(ctx, q_in, q_out, e_stop, e_quit)
         local mdl = CModule(lpath.combine(ctx.tmpdir, "SysLog"), lpath.combine(ctx.tmpdir, "lib"), print)
         local callbacks = {
             result = function(data)
-                if not data then return end
-                while q_out:length() == q_out:maxlength() do e_stop:wait(os.time() + 0.1) end
+                if not data then
+                    return
+                end
+                while q_out:length() == q_out:maxlength() do
+                    e_stop:wait(os.time() + 0.1)
+                end
                 q_out:push({
                     type = "result",
                     data = data,
@@ -73,7 +78,7 @@ local worker_safe = function(ctx, q_in, q_out, e_stop, e_quit)
                         print("new incoming message to worker", msg.type)
                     end
                 until not status
-            end
+            end,
         }
 
         mdl:register(ctx.profile, callbacks, ctx.svp_filename)
@@ -106,14 +111,117 @@ local worker_safe = function(ctx, q_in, q_out, e_stop, e_quit)
     e_quit:set()
 end
 
-function CFileReader:init(q_in, q_out, e_stop, e_quit, profile, store_dir)
+local function get_profile(log_entries)
+    local params = {
+        scope_id = "00000000-0000-0000-0000-000000000005",
+        tenant_id = "00000000-0000-0000-0000-000000000000",
+    }
+    local config_json = string.format(
+        [[{
+        "servers": {
+            "tcp_and_udp": {
+                "tcp": {
+                    "binding": {
+                        "FQDN": "0.0.0.0"
+                    },
+                    "port": 0,
+                    "message_size_max": 1048576
+                },
+                "udp": {
+                    "binding": {
+                        "IP4": "0.0.0.0"
+                    },
+                    "port": 0,
+                    "read_buffer_size": 65536
+                }
+            }
+        },
+        "event_buffer_size": 512,
+        "output_format": "JSON",
+        "special_events_assembly_settings": {
+            "assembly_interval": 1,
+            "event_record_groups": {
+                "auditd": {
+                    "key_includes_src_ip": false,
+                    "key_fields_from_records": [
+                        "timestamp",
+                        "eventid"
+                    ],
+                    "filter_regexps": [
+                        ".*type=(?P<type>\\S+)\\s.*audit.*\\((?P<timestamp>[0-9]*[.,]?[0-9]+):(?P<eventid>[0-9]+)\\):\\s*(?P<value>.*)"
+                    ],
+                    "group_by_field_settings": {
+                        "regex_group_for_field_name": "type",
+                        "regex_group_for_value": "value"
+                    }
+                }
+            }
+        },
+        "inputs": {
+            "00000000-0000-0000-0000-000000000000": {
+                "description": {
+                    "expected_datetime_formats": [
+                        "DATETIME_ISO8601",
+                        "DATETIME_YYYYMMDD_HHMMSS"
+                    ]
+                }
+            }
+        },
+        "result_package": {
+            "package_quantity": 100,
+            "send_interval": 500
+        },
+        "module_settings": {
+            "keepalive_interval": 500,
+            "metric": false,
+            "scope_id": "%s",
+            "tenant_id": "%s",
+            "logging": "<?xml version='1.0' encoding='utf-8'?><config><root><Logger level='ERROR'/><Metric level='ERROR'/><SysLog level='ERROR'/><ModuleRunner level='ERROR'/><ModuleHost level='ERROR'/></root></config>",
+            "agent_id": "",
+            "task_id": "",
+            "historical": false
+        },
+        "memory_settings": {
+            "chunk_size": 1024,
+            "pre_allocated_memory": 3,
+            "max_allowed_memory": 64
+        }
+    }]],
+        tostring(params.scope_id),
+        tostring(params.tenant_id)
+    )
+
+    local config = cjson.decode(config_json)
+    local log_files = {}
+    for _, fl in ipairs(log_entries or {}) do
+        local filepath = fl["filepath"]
+        if fs_notify.is_glob_pattern(filepath) then
+            for _, found_file in ipairs(fs_notify.find_all_files(filepath)) do
+                log_files[found_file] = {
+                    ["select"] = fl["select"] or "*",
+                    ["suppress"] = fl["suppress"] or "",
+                }
+            end
+        else
+            log_files[filepath] = {
+                ["select"] = fl["select"] or "*",
+                ["suppress"] = fl["suppress"] or "",
+            }
+        end
+    end
+    config["log_channels"] = log_files
+
+    return cjson.encode(config)
+end
+
+function CFileReader:init(q_in, q_out, e_stop, e_quit, log_entries, store_dir)
     self.wrth = thread.new(worker_safe, {
         tmpdir = __tmpdir,
-        profile = profile,
+        profile = get_profile(log_entries),
         svp_filename = luapath.combine(store_dir, "frd_sp"),
         __files = __files,
         __debug = __args["debug_engine"][1] == "true",
-        __module_id = tostring(__config.ctx.name)
+        __module_id = tostring(__config.ctx.name),
     }, q_in, q_out, e_stop, e_quit)
 end
 
@@ -129,10 +237,10 @@ function CFileReader:rewind(store_dir, filename)
     local savepoint = {}
     local file = io.open(svp_filename, "r")
     if file then
-        local savepoint = cjson.decode(file:read("*a"));
+        savepoint = cjson.decode(file:read("*a"))
         io.close(file)
     end
-    savepoint[filename] = {pos = -1}
+    savepoint[filename] = { pos = -1 }
     file = io.open(svp_filename, "wb+")
     file:write(cjson.encode(savepoint))
     file:flush()

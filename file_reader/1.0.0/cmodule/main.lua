@@ -170,102 +170,12 @@ local function send_log(msgs)
     end
 end
 
--- return string
-local function get_profile()
-    local params = {
-        scope_id  = "00000000-0000-0000-0000-000000000005",
-        tenant_id = "00000000-0000-0000-0000-000000000000",
-    }
-    local config_json = string.format([[{
-        "servers": {
-            "tcp_and_udp": {
-                "tcp": {
-                    "binding": {
-                        "FQDN": "0.0.0.0"
-                    },
-                    "port": 0,
-                    "message_size_max": 1048576
-                },
-                "udp": {
-                    "binding": {
-                        "IP4": "0.0.0.0"
-                    },
-                    "port": 0,
-                    "read_buffer_size": 65536
-                }
-            }
-        },
-        "event_buffer_size": 512,
-        "output_format": "JSON",
-        "special_events_assembly_settings": {
-            "assembly_interval": 1,
-            "event_record_groups": {
-                "auditd": {
-                    "key_includes_src_ip": false,
-                    "key_fields_from_records": [
-                        "timestamp",
-                        "eventid"
-                    ],
-                    "filter_regexps": [
-                        ".*type=(?P<type>\\S+)\\s.*audit.*\\((?P<timestamp>[0-9]*[.,]?[0-9]+):(?P<eventid>[0-9]+)\\):\\s*(?P<value>.*)"
-                    ],
-                    "group_by_field_settings": {
-                        "regex_group_for_field_name": "type",
-                        "regex_group_for_value": "value"
-                    }
-                }
-            }
-        },
-        "inputs": {
-            "00000000-0000-0000-0000-000000000000": {
-                "description": {
-                    "expected_datetime_formats": [
-                        "DATETIME_ISO8601",
-                        "DATETIME_YYYYMMDD_HHMMSS"
-                    ]
-                }
-            }
-        },
-        "result_package": {
-            "package_quantity": 100,
-            "send_interval": 500
-        },
-        "module_settings": {
-            "keepalive_interval": 500,
-            "metric": false,
-            "scope_id": "%s",
-            "tenant_id": "%s",
-            "logging": "<?xml version='1.0' encoding='utf-8'?><config><root><Logger level='ERROR'/><Metric level='ERROR'/><SysLog level='ERROR'/><ModuleRunner level='ERROR'/><ModuleHost level='ERROR'/></root></config>",
-            "agent_id": "",
-            "task_id": "",
-            "historical": false
-        },
-        "memory_settings": {
-            "chunk_size": 1024,
-            "pre_allocated_memory": 3,
-            "max_allowed_memory": 64
-        }
-    }]], tostring(params.scope_id), tostring(params.tenant_id))
-
-    local config = cjson.decode(config_json)
-    local log_files = {}
-    for _, fl in ipairs(module_config.log_files or {}) do
-        log_files[fl["filepath"]] = {
-            ["select"] = fl["select"] or "*",
-            ["suppress"] = fl["suppress"] or "",
-        }
-    end
-    config["log_channels"] = log_files
-
-    return cjson.encode(config)
-end
-
 local want_to_quit = false
 local q_in = thread.queue(100)
 local q_out = thread.queue(100)
 local q_e_stop = thread.event()
 local q_e_quit = thread.event()
-local wm_e = CFileReader(q_in, q_out, q_e_stop, q_e_quit, get_profile(), store_dir)
+local wm_e = CFileReader(q_in, q_out, q_e_stop, q_e_quit, module_config.log_files, store_dir)
 
 -- return nil
 local function handler()
@@ -340,7 +250,7 @@ local function exec_action(action_name, action_data)
     wm_e:rewind(store_dir, log_filepath)
     q_e_stop:clear()
     q_e_quit:clear()
-    wm_e = CFileReader(q_in, q_out, q_e_stop, q_e_quit, get_profile(), store_dir)
+    wm_e = CFileReader(q_in, q_out, q_e_stop, q_e_quit, module_config.log_files, store_dir)
 
     action_data.data.result = true
     action_data.data.reason = "rewind successful"
@@ -422,7 +332,7 @@ __api.add_cbs({
             wm_e:wait()
             q_e_stop:clear()
             q_e_quit:clear()
-            wm_e = CFileReader(q_in, q_out, q_e_stop, q_e_quit, get_profile(), store_dir)
+            wm_e = CFileReader(q_in, q_out, q_e_stop, q_e_quit, module_config.log_files, store_dir)
         end
         return true
     end,
