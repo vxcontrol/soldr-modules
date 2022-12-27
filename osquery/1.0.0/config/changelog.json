@@ -1,0 +1,14 @@
+{
+    "1.0.0": {
+        "en": {
+            "date": "12-07-2022",
+            "title": "Base functionality",
+            "description": "Added installation and configure osquery on agent"
+        },
+        "ru": {
+            "date": "07.12.2022",
+            "title": "Базовая функциональность",
+            "description": "Добавлена возможность установки и конфигурирования osquery на агенте"
+        }
+    }
+}

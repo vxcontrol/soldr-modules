@@ -1,0 +1,208 @@
+{
+    "osquery_already_installed": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "reason",
+            "version"
+        ],
+        "type": "atomic"
+    },
+    "osquery_already_started": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "reason",
+            "version"
+        ],
+        "type": "atomic"
+    },
+    "osquery_config_updated_error": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "reason",
+            "version"
+        ],
+        "type": "atomic"
+    },
+    "osquery_config_updated_success": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "version"
+        ],
+        "type": "atomic"
+    },
+    "osquery_flagfile_updated_error": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "reason",
+            "version"
+        ],
+        "type": "atomic"
+    },
+    "osquery_flagfile_updated_success": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "version"
+        ],
+        "type": "atomic"
+    },
+    "osquery_installed_error": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "reason",
+            "version"
+        ],
+        "type": "atomic"
+    },
+    "osquery_installed_success": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "version"
+        ],
+        "type": "atomic"
+    },
+    "osquery_started_error": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "reason",
+            "version"
+        ],
+        "type": "atomic"
+    },
+    "osquery_started_success": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "reason",
+            "version"
+        ],
+        "type": "atomic"
+    },
+    "osquery_unexpected_stopped": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "reason",
+            "version"
+        ],
+        "type": "atomic"
+    },
+    "osquery_unexpected_uninstalled": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "reason",
+            "version"
+        ],
+        "type": "atomic"
+    },
+    "osquery_uninstalled_error": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "reason",
+            "version"
+        ],
+        "type": "atomic"
+    },
+    "osquery_uninstalled_success": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "version"
+        ],
+        "type": "atomic"
+    }
+}

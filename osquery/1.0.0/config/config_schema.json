@@ -1,0 +1,54 @@
+{
+    "additionalProperties": false,
+    "properties": {
+        "osquery_config": {
+            "rules": {},
+            "type": "string",
+            "ui": {
+                "widget": "textarea",
+                "widgetConfig": {
+                    "autoSize": {
+                        "maxRows": 20,
+                        "minRows": 10
+                    },
+                    "rows": 10
+                }
+            }
+        },
+        "osquery_flagfile": {
+            "rules": {},
+            "type": "string",
+            "ui": {
+                "widget": "textarea",
+                "widgetConfig": {
+                    "autoSize": {
+                        "maxRows": 20,
+                        "minRows": 10
+                    },
+                    "rows": 10
+                }
+            }
+        },
+        "replace_current_osquery_config": {
+            "rules": {},
+            "type": "boolean",
+            "ui": {
+                "widgetConfig": {}
+            }
+        },
+        "replace_current_osquery_flagfile": {
+            "rules": {},
+            "type": "boolean",
+            "ui": {
+                "widgetConfig": {}
+            }
+        }
+    },
+    "required": [
+        "osquery_config",
+        "osquery_flagfile",
+        "replace_current_osquery_config",
+        "replace_current_osquery_flagfile"
+    ],
+    "type": "object"
+}
