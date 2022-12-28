@@ -10,6 +10,9 @@ end
 __api.add_cbs{
 	-- Resend the content of action to a server.
 	action = function(src, data, name)
+		data = cjson.decode(data)
+		data.aid = __aid
+		data = cjson.encode(data)
 		return __api.send_data_to(get_server_token(), data)
 	end,
 
@@ -19,7 +22,7 @@ __api.add_cbs{
 		local records = cjson.decode(data)
 		local result = true
 		for _, r in ipairs(records or {}) do
-			local data = cjson.encode{data=r}
+			local data = cjson.encode{aid = __aid, data = r}
 			result = result and __api.send_data_to(token, data)
 		end
 		return result

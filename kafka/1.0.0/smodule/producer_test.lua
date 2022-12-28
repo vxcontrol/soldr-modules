@@ -1,10 +1,4 @@
 local producer = require "producer"
-local sleep = require "sleep"
-
-function log(...)
-	print(...)
-	io.flush()
-end
 
 -- Anonymous producer
 
@@ -14,11 +8,11 @@ prod:configure{
 	topic   = "test",
 	timeout = 1,
 	retries = 1,
+	on_error = function(...) error(...) end,
 }
 for i = 1,3 do
-	log("anon:", prod:produce("anon_" .. i))
+	prod:produce("anon_" .. i)
 	prod:poll()
-	sleep(1000)
 end
 prod:close()
 
@@ -32,10 +26,10 @@ prod:configure{
 	password = "password",
 	timeout  = 1,
 	retries  = 1,
+	on_error = function(...) error(...) end,
 }
 for i = 1,3 do
-	log("sasl_plain:", prod:produce("sasl_plain_" .. i))
+	prod:produce("sasl_plain_" .. i)
 	prod:poll()
-	sleep(1000)
 end
 prod:close()

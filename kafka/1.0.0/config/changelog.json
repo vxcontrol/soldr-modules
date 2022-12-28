@@ -46,5 +46,17 @@
             "title": "Потдержка SSL",
             "description": "Добавлена потдержка защищенного SSL подключения к брокеру"
         }
+    },
+    "1.4.0": {
+        "en": {
+            "date": "12-27-2022",
+            "title": "Agent ID",
+            "description": "Enrich an event with agent ID on write"
+        },
+        "ru": {
+            "date": "27.12.2022",
+            "title": "Идентификатор агента",
+            "description": "Вместе с событием записывается идентификатор агента"
+        }
     }
 }

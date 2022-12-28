@@ -15,6 +15,7 @@ local function update_config()
 		ca_cert        = c.c2_ca_cert,
 		timeout        = c.d1_timeout,
 		retries        = c.d2_retries,
+		on_error       = __log.error,
 	}
 end
 update_config()
@@ -26,6 +27,7 @@ local function produce(src, data, name)
 	local m = cjson.decode(data)
 	local payload = cjson.encode{
 		id    = m.data.id or m.data.uuid or uuid(),
+		aid   = m.aid,
 		event = m.name,
 		data  = m.data,
 	}

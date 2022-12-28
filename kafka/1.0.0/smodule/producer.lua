@@ -17,6 +17,7 @@ end
 --::   ca_cert        :: string?
 --::   timeout        :: number, seconds
 --::   retries        :: number
+--::   on_error       :: (err::string -> ())?
 --:: } -> ()
 function Producer:configure(c)
 	self:close()
@@ -38,9 +39,11 @@ function Producer:configure(c)
 	if c.ca_cert and c.ca_cert ~= "" then
 		conf:set_ca_cert(c.ca_cert)
 	end
-	conf:on_error(function(err, msg)
-		__log.errorf("rdkafka: err=%d: %s", err, msg)
-	end)
+	if c.on_error then
+		conf:on_error(function(err, msg)
+			c.on_error(string.format("rdkafka: err=%d: %s", err, msg))
+		end)
+	end
 
 	self._prod = rdkafka.Producer.new(conf)
 	self._topic = self._prod:topic(c.topic)
@@ -58,8 +61,7 @@ end
 function Producer:close()
 	if self._prod then
 		-- TODO: What timeout shall be used to not lock the module?
-		-- self._prod:flush(self.timeout_ms or 0)
-		self._prod:flush(1000)
+		self._prod:flush(10e3)
 		self._prod:destroy()
 		self._prod = nil
 	end
