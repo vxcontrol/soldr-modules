@@ -1,0 +1,23 @@
+services:
+  zookeeper:
+    image: docker.io/bitnami/zookeeper
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+
+  kafka:
+    image: bitnami/kafka
+    ports:
+      - 9092:9092
+      - 9093:9093
+    environment:
+      - ALLOW_PLAINTEXT_LISTENER=true
+      - KAFKA_CFG_LISTENERS=ANONYMOUS://:9092,CLIENT://:9093,
+      - KAFKA_CFG_ADVERTISED_LISTENERS=ANONYMOUS://127.0.0.1:9092,CLIENT://127.0.0.1:9093
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=ANONYMOUS:PLAINTEXT,CLIENT:SASL_PLAINTEXT
+      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=ANONYMOUS
+      - KAFKA_CLIENT_USERS=user
+      - KAFKA_CLIENT_PASSWORDS=password
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true
+    depends_on:
+      - zookeeper

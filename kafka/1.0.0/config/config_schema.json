@@ -1,0 +1,107 @@
+{
+    "additionalProperties": false,
+    "properties": {
+        "a1_brokers": {
+            "rules": {},
+            "type": "string",
+            "ui": {
+                "widgetConfig": {}
+            }
+        },
+        "a2_topic": {
+            "rules": {},
+            "type": "string",
+            "ui": {
+                "widgetConfig": {}
+            }
+        },
+        "b1_user": {
+            "rules": {},
+            "type": "string",
+            "ui": {
+                "columns": 4,
+                "widgetConfig": {}
+            }
+        },
+        "b2_password": {
+            "rules": {},
+            "type": "string",
+            "ui": {
+                "columns": 4,
+                "widgetConfig": {
+                    "type": "password"
+                }
+            }
+        },
+        "b3_sasl_mechanism": {
+            "rules": {},
+            "type": "string",
+            "ui": {
+                "columns": 4,
+                "widget": "select",
+                "widgetConfig": {
+                    "enumSource": [
+                        {
+                            "value": "GSSAPI"
+                        },
+                        {
+                            "value": "PLAIN"
+                        },
+                        {
+                            "value": "SCRAM-SHA-256"
+                        },
+                        {
+                            "value": "SCRAM-SHA-512"
+                        },
+                        {
+                            "value": "OAUTHBEARER"
+                        }
+                    ]
+                }
+            }
+        },
+        "c1_ssl": {
+            "rules": {},
+            "type": "boolean",
+            "ui": {
+                "columns": 1,
+                "widget": "switch"
+            }
+        },
+        "c2_ca_cert": {
+            "rules": {},
+            "type": "string",
+            "ui": {
+                "columns": 11,
+                "widget": "textarea",
+                "widgetConfig": {
+                    "rows": 3
+                }
+            }
+        },
+        "d1_timeout": {
+            "rules": {},
+            "type": "number",
+            "ui": {
+                "columns": 4,
+                "widgetConfig": {}
+            }
+        },
+        "d2_retries": {
+            "rules": {},
+            "type": "number",
+            "ui": {
+                "columns": 4,
+                "widgetConfig": {}
+            }
+        }
+    },
+    "required": [
+        "a1_brokers",
+        "a2_topic",
+        "c1_ssl",
+        "d1_timeout",
+        "d2_retries"
+    ],
+    "type": "object"
+}

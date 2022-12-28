@@ -1,0 +1,29 @@
+{
+    "name": "cyberok_kafka",
+    "template": "empty",
+    "version": {
+        "major": 1,
+        "minor": 4,
+        "patch": 0
+    },
+    "os": {
+        "darwin": [
+            "amd64"
+        ],
+        "linux": [
+            "386",
+            "amd64"
+        ],
+        "windows": [
+            "386",
+            "amd64"
+        ]
+    },
+    "system": false,
+    "actions": [
+        "kafka_produce"
+    ],
+    "events": [],
+    "fields": [],
+    "tags": []
+}
