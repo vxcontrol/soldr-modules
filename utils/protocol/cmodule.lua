@@ -84,6 +84,8 @@ cmodule.load_dependencies = function()
     local fields_schema = __config.get_fields_schema()
     local module_info = __config.get_module_info()
 
+    cmodule.module_config = cjson.decode(__config.get_current_config()) or {}
+
     cmodule.unload_dependencies()
 
     cmodule.action_engine = CActionEngine(
@@ -102,36 +104,27 @@ cmodule.load_dependencies = function()
     cmodule.fields = create_strict_strings_set(cmodule.action_validator.fields_validators, "field")
 end
 
-cmodule.push_event_for_action = function(event_name, action_name, event_data, actions)
-    assert(event_name ~= nil and event_name ~= "", "event name must be defined")
-    assert(action_name ~= nil and action_name ~= "", "action name must be defined")
-    event_data = event_data or {}
-    actions = actions or {}
-
-    if action_name ~= "" then
-        local action_full_name = __config.ctx.name .. "." .. action_name
-        if glue.indexof(action_full_name, actions) == nil then
-            table.insert(actions, action_full_name)
-        end
-    end
-    cmodule.push_event(event_name, event_data, actions)
-end
-
 cmodule.push_event = function(event_name, event_data, actions)
     assert(event_name ~= nil and event_name ~= "", "event name must be defined")
     event_data = event_data or {}
     actions = actions or {}
 
-    local event = {
+    -- This is small "hack" that fills real event data with actions list that was performed.
+    -- It is needed to be filled for next modules wol will receive _action_ requests to know
+    -- what actions was already in a chain and be able to do a circuit break.
+    event_data.actions = actions
+
+    local result, next_actions_list = cmodule.event_engine:push_event({
         __module = __config.ctx.name,
-        name = event_name, data = event_data,
+        name = event_name,
+        data = event_data,
         actions = actions,
-    }
-    local result, actions_list = cmodule.event_engine:push_event(event)
+    })
 
     -- result value defines if there are actions that need to be executed
+    -- configuration of the following actions is done in "security policy".
     if result then
-        for action_id, action_result in ipairs(cmodule.action_engine:exec(__aid, actions_list)) do
+        for action_id, action_result in ipairs(cmodule.action_engine:exec(__aid, next_actions_list)) do
             __log.infof("action '%s' was requested and executed with result: %s", action_id, action_result)
         end
     end
@@ -142,6 +135,8 @@ cmodule.start = function(action_handlers, background_process)
 
         action = function(src, data, action_name)
             local action_data = cjson.decode(data) or {}
+            -- actions is a set of full action names (module_name.acton_name) that was already performed
+            local actions = action_data.actions or {}
 
             action_data.__cid = action_data.__cid or make_uuid()
 
@@ -159,6 +154,7 @@ cmodule.start = function(action_handlers, background_process)
                 response.status = "error"
                 response.error = error
                 response.reason = reason
+                __log.errorf("%s: %s", error, reason)
                 return __api.send_data_to(src, cjson.encode(response))
             end
 
@@ -166,10 +162,12 @@ cmodule.start = function(action_handlers, background_process)
             if action_handler == nil then
                 response.status = "error"
                 response.error = protocol.implementation_errors.action_handler_not_defined
+                __log.errorf("%s: action handler '%s' is not defined", response.error, action_name)
                 return __api.send_data_to(src, cjson.encode(response))
             end
 
-            local action_handler_result, event_data = action_handler.handler(action_data.data)
+            -- handler can mutate actions list if it is required by the business logic
+            local action_handler_result, event_data = action_handler.handler(action_data.data, actions)
             local event_name = action_handler.success
             if not action_handler_result then
                 event_name = action_handler.failure
@@ -178,15 +176,23 @@ cmodule.start = function(action_handlers, background_process)
             event_data.__cid = action_data.__cid
             event_data.uuid = action_data.uuid or make_uuid()
 
-            cmodule.push_event_for_action(event_name, action_name, event_data)
+
+            -- before sending the event, take list of actions that was already performed and add current action
+            local action_full_name = __config.ctx.name .. "." .. action_name
+            if glue.indexof(action_full_name, actions) == nil then
+                table.insert(actions, action_full_name)
+            end
+            -- try to send an event
+            cmodule.push_event(event_name, event_data, actions)
 
             response.data = event_data
             if action_handler_result then
                 response.status = "success"
             else
                 response.status = "error"
-                response.error = protocol.implementation_errors.action_handler_error
+                response.error = protocol.business_logic_errors.action_handler_error
                 response.reason = event_data.reason
+                __log.errorf("%s: %s", response.error, response.reason)
             end
             return __api.send_data_to(src, cjson.encode(response))
         end,
