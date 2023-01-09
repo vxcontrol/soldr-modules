@@ -19,5 +19,6 @@ tmpdir/*
 
 luacov-html
 luacov.*
+!luacov.lua
 coverage-report
 junit.xml
