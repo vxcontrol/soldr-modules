@@ -1,0 +1,386 @@
+{
+    "additionalProperties": false,
+    "properties": {
+        "osquery_linux_already_installed": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "reason",
+                                "version"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "reason",
+                                    "version"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 2,
+                            "minItems": 2,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "osquery_linux_already_started": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "reason",
+                                "version"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "reason",
+                                    "version"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 2,
+                            "minItems": 2,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "osquery_linux_config_updated_error": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "reason",
+                                "version"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "reason",
+                                    "version"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 2,
+                            "minItems": 2,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "osquery_linux_config_updated_success": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "version"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "version"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 1,
+                            "minItems": 1,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "osquery_linux_installed_error": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "reason",
+                                "version"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "reason",
+                                    "version"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 2,
+                            "minItems": 2,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "osquery_linux_installed_success": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "version"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "version"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 1,
+                            "minItems": 1,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "osquery_linux_started_error": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "reason",
+                                "version"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "reason",
+                                    "version"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 2,
+                            "minItems": 2,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "osquery_linux_started_success": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "reason",
+                                "version"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "reason",
+                                    "version"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 2,
+                            "minItems": 2,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "osquery_linux_unexpected_stopped": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "reason",
+                                "version"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "reason",
+                                    "version"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 2,
+                            "minItems": 2,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "osquery_linux_unexpected_uninstalled": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "reason",
+                                "version"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "reason",
+                                    "version"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 2,
+                            "minItems": 2,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "osquery_linux_uninstalled_error": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "reason",
+                                "version"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "reason",
+                                    "version"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 2,
+                            "minItems": 2,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "osquery_linux_uninstalled_success": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "version"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "version"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 1,
+                            "minItems": 1,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        }
+    },
+    "required": [
+        "osquery_linux_already_installed",
+        "osquery_linux_already_started",
+        "osquery_linux_config_updated_error",
+        "osquery_linux_config_updated_success",
+        "osquery_linux_installed_error",
+        "osquery_linux_installed_success",
+        "osquery_linux_started_error",
+        "osquery_linux_started_success",
+        "osquery_linux_unexpected_stopped",
+        "osquery_linux_unexpected_uninstalled",
+        "osquery_linux_uninstalled_error",
+        "osquery_linux_uninstalled_success"
+    ],
+    "type": "object"
+}
