@@ -1,0 +1,38 @@
+{
+    "name": "osquery_linux",
+    "template": "empty",
+    "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 0
+    },
+    "os": {
+        "linux": [
+            "386",
+            "amd64"
+        ]
+    },
+    "system": false,
+    "actions": [],
+    "events": [
+        "osquery_linux_already_installed",
+        "osquery_linux_already_started",
+        "osquery_linux_config_updated_error",
+        "osquery_linux_config_updated_success",
+        "osquery_linux_installed_error",
+        "osquery_linux_installed_success",
+        "osquery_linux_started_error",
+        "osquery_linux_started_success",
+        "osquery_linux_unexpected_stopped",
+        "osquery_linux_unexpected_uninstalled",
+        "osquery_linux_uninstalled_error",
+        "osquery_linux_uninstalled_success"
+    ],
+    "fields": [
+        "reason",
+        "version"
+    ],
+    "tags": [
+        "osquery"
+    ]
+}

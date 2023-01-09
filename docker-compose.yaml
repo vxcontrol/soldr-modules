@@ -1,0 +1,12 @@
+version: "3"
+services:
+  tests:
+    tty: true
+    entrypoint:
+      bash -c "cd soldr-modules && ./tests_framework/lua/bin/busted.linux64.cmd tests/."
+    build:
+      context: .
+      dockerfile: tests/Dockerfile
+    volumes:
+      - .:/soldr-modules
+#    command: tail -f /dev/null
