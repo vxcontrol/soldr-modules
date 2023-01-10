@@ -15,7 +15,7 @@ describe('file_remover server', function()
             module = "file_remover",
             version = "1.0.0",
             side = "server",
-            log_level = os.getenv("LOG_LEVEL") or "debug",
+            log_level = os.getenv("LOG_LEVEL"),
             agent_conn = { type = "VXAgent", src = _G.vxagent_src, dst = _G.vxagent_dst, }
         }
         require("mock")
