@@ -70,10 +70,11 @@ describe('file_remover agent', function()
     end)
 
     describe('single file removal', function()
-        local src, dst = __mock.mock_token, __mock.module_token
-        local test_file_path = new_test_file()
-
-        local action_data = filepath_to_json('object.fullpath', test_file_path)
+        setup(function()
+            src, dst = __mock.mock_token, __mock.module_token
+            test_file_path = new_test_file()
+            action_data = filepath_to_json('object.fullpath', test_file_path)
+        end)
 
         it('should successfully create file on file system', function()
             assert.is_true(file_exists(test_file_path), "test file is not found")
@@ -109,8 +110,10 @@ describe('file_remover agent', function()
     end)
 
     describe('file that does not exist', function()
-        local src, dst = __mock.mock_token, __mock.module_token
-        local never_existed_file = __mock.tmppath(__mock.rand_uuid() .. ".txt")
+        setup(function()
+            src, dst = __mock.mock_token, __mock.module_token
+            never_existed_file = __mock.tmppath(__mock.rand_uuid() .. ".txt")
+        end)
 
         it('should not be found on the FS', function()
             assert.is_false(file_exists(never_existed_file), "random file somehow exists in FS")
@@ -137,47 +140,49 @@ describe('file_remover agent', function()
     end)
 
     describe('file removal', function()
-        local src, dst = __mock.mock_token, __mock.module_token
-        local test_cases = {
-            {
-                create_file = true,
-                action = "fr_remove_object_file", param = "object.fullpath",
-                type = "object", subtype = "file", result_data = "fr_remove_object_file",
-                result_event = "fr_object_file_removed_successful"
-            },
-            {
-                create_file = true,
-                action = "fr_remove_object_proc_image", param = "object.process.fullpath",
-                type = "object", subtype = "proc_image", result_data = "fr_remove_object_proc_image",
-                result_event = "fr_object_proc_image_removed_successful"
-            },
-            {
-                create_file = true,
-                action = "fr_remove_subject_proc_image", param = "subject.process.fullpath",
-                type = "subject", subtype = "proc_image", result_data = "fr_remove_subject_proc_image",
-                result_event = "fr_subject_proc_image_removed_successful"
-            },
-            {
-                create_file = false,
-                action = "fr_remove_object_file", param = "object.fullpath",
-                type = "object", subtype = "file", result_data = "fr_remove_object_file",
-                result_event = "fr_object_file_removed_failed"
-            },
-            {
-                create_file = false,
-                action = "fr_remove_object_proc_image", param = "object.process.fullpath",
-                type = "object", subtype = "proc_image", result_data = "fr_remove_object_proc_image",
-                result_event = "fr_object_proc_image_removed_failed"
-            },
-            {
-                create_file = false,
-                action = "fr_remove_subject_proc_image", param = "subject.process.fullpath",
-                type = "subject", subtype = "proc_image", result_data = "fr_remove_subject_proc_image",
-                result_event = "fr_subject_proc_image_removed_failed"
-            },
-        }
+        setup(function()
+            src, dst = __mock.mock_token, __mock.module_token
+        end)
 
         it('should be possible to call public actions list', function()
+            local test_cases = {
+                {
+                    create_file = true,
+                    action = "fr_remove_object_file", param = "object.fullpath",
+                    type = "object", subtype = "file", result_data = "fr_remove_object_file",
+                    result_event = "fr_object_file_removed_successful"
+                },
+                {
+                    create_file = true,
+                    action = "fr_remove_object_proc_image", param = "object.process.fullpath",
+                    type = "object", subtype = "proc_image", result_data = "fr_remove_object_proc_image",
+                    result_event = "fr_object_proc_image_removed_successful"
+                },
+                {
+                    create_file = true,
+                    action = "fr_remove_subject_proc_image", param = "subject.process.fullpath",
+                    type = "subject", subtype = "proc_image", result_data = "fr_remove_subject_proc_image",
+                    result_event = "fr_subject_proc_image_removed_successful"
+                },
+                {
+                    create_file = false,
+                    action = "fr_remove_object_file", param = "object.fullpath",
+                    type = "object", subtype = "file", result_data = "fr_remove_object_file",
+                    result_event = "fr_object_file_removed_failed"
+                },
+                {
+                    create_file = false,
+                    action = "fr_remove_object_proc_image", param = "object.process.fullpath",
+                    type = "object", subtype = "proc_image", result_data = "fr_remove_object_proc_image",
+                    result_event = "fr_object_proc_image_removed_failed"
+                },
+                {
+                    create_file = false,
+                    action = "fr_remove_subject_proc_image", param = "subject.process.fullpath",
+                    type = "subject", subtype = "proc_image", result_data = "fr_remove_subject_proc_image",
+                    result_event = "fr_subject_proc_image_removed_failed"
+                },
+            }
             for _, test_case in ipairs(test_cases) do
                 -- create test file
                 local file_path = __mock.tmppath(__mock.rand_uuid() .. ".txt")
