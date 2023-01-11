@@ -261,7 +261,7 @@ lfs.chdir(__mock.cwd)
 ---------------------------------------------------
 -- MOCK logging settings
 ---------------------------------------------------
-__mock.log_level = __mock.log_level or "error"
+__mock.log_level = __mock.log_level or os.getenv("LOG_LEVEL") or "error"
 assert(glue.indexof(__mock.log_level, { "error", "warn", "info", "debug", "trace" }),
     "__mock.log_level must be in [error, warn, info, debug, trace]")
 
