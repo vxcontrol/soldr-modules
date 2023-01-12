@@ -47,7 +47,7 @@ if ffi.os == "Windows" then
         it("returns all files matching pattern", function()
             local files = fs_notify.find_all_files("tests/data/file_reader_client/test*.txt")
 
-            assert.are.same({ "test1.txt", "test2.txt" }, files)
+            assert.are.same({ "tests/data/file_reader_client/test1.txt", "tests/data/file_reader_client/test2.txt" }, files)
         end)
     end)
 elseif ffi.os == "Linux" then

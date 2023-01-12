@@ -51,7 +51,7 @@ function fs_notify.find_all_files(pattern)
     local files = {}
     for file in lfs.dir(pattern_dir) do
         if fs_notify.filename_matching_pattern(file, pattern_file) then
-            table.insert(files, file)
+            table.insert(files, path.combine(pattern_dir, file))
         end
     end
     return files
