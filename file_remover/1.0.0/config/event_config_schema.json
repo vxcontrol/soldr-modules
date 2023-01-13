@@ -1,50 +1,6 @@
 {
     "additionalProperties": false,
     "properties": {
-        "fr_module_started": {
-            "allOf": [
-                {
-                    "$ref": "#/definitions/events.atomic"
-                },
-                {
-                    "properties": {
-                        "fields": {
-                            "default": [],
-                            "items": {
-                                "type": "string"
-                            },
-                            "type": "array"
-                        }
-                    },
-                    "required": [
-                        "fields"
-                    ],
-                    "type": "object"
-                }
-            ]
-        },
-        "fr_module_stopped": {
-            "allOf": [
-                {
-                    "$ref": "#/definitions/events.atomic"
-                },
-                {
-                    "properties": {
-                        "fields": {
-                            "default": [],
-                            "items": {
-                                "type": "string"
-                            },
-                            "type": "array"
-                        }
-                    },
-                    "required": [
-                        "fields"
-                    ],
-                    "type": "object"
-                }
-            ]
-        },
         "fr_object_file_removed_failed": {
             "allOf": [
                 {
@@ -169,35 +125,6 @@
                 }
             ]
         },
-        "fr_remove_internal_error": {
-            "allOf": [
-                {
-                    "$ref": "#/definitions/events.atomic"
-                },
-                {
-                    "properties": {
-                        "fields": {
-                            "default": [
-                                "reason"
-                            ],
-                            "items": {
-                                "enum": [
-                                    "reason"
-                                ],
-                                "type": "string"
-                            },
-                            "maxItems": 1,
-                            "minItems": 1,
-                            "type": "array"
-                        }
-                    },
-                    "required": [
-                        "fields"
-                    ],
-                    "type": "object"
-                }
-            ]
-        },
         "fr_subject_proc_image_removed_failed": {
             "allOf": [
                 {
@@ -264,13 +191,10 @@
         }
     },
     "required": [
-        "fr_module_started",
-        "fr_module_stopped",
         "fr_object_file_removed_failed",
         "fr_object_file_removed_successful",
         "fr_object_proc_image_removed_failed",
         "fr_object_proc_image_removed_successful",
-        "fr_remove_internal_error",
         "fr_subject_proc_image_removed_failed",
         "fr_subject_proc_image_removed_successful"
     ],
