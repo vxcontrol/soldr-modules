@@ -51,7 +51,6 @@ describe('file_remover agent', function()
             module = "file_remover",
             version = "1.0.0",
             side = "agent",
-            log_level = os.getenv("LOG_LEVEL") or "debug",
         }
         -- load mocked environment
         require("mock")

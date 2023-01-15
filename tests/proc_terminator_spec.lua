@@ -136,7 +136,6 @@ describe('proc_terminator agent', function()
             module = "proc_terminator",
             version = "1.0.0",
             side = "agent", -- server
-            log_level = os.getenv("LOG_LEVEL") or "debug", -- error, warn, info, debug, trace
             sec = {siem="{}", waf="{}", nad="{}", sandbox="{}"},
         }
         -- load mocked environment
