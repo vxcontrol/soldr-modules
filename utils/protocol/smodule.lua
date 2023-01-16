@@ -1,5 +1,4 @@
 local cjson    = require("cjson.safe")
-local glue     = require("glue")
 local protocol = require("protocol/protocol")
 
 require("engine")
@@ -80,22 +79,6 @@ local function get_agent_src_by_id(id, atype)
         end
     end
     return "", {}
-end
-
-smodule.push_event_for_action = function(agent_id, event_name, action_name, event_data, actions)
-    assert(agent_id ~= nil and agent_id ~= "", "agent id must be defined")
-    assert(event_name ~= nil and event_name ~= "", "event name must be defined")
-    assert(action_name ~= nil and action_name ~= "", "action name must be defined")
-    event_data = event_data or {}
-    actions = actions or {}
-
-    if action_name ~= "" then
-        local action_full_name = __config.ctx.name .. "." .. action_name
-        if glue.indexof(action_full_name, actions) == nil then
-            table.insert(actions, action_full_name)
-        end
-    end
-    smodule.push_event(agent_id, event_name, event_data, actions)
 end
 
 smodule.push_event = function(agent_id, event_name, event_data, actions)

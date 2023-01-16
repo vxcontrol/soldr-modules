@@ -100,7 +100,7 @@ describe('file_remover agent', function()
                     "failed to send file remove action")
                 -- wait for expected result to arrive (in any order)
                 assert.is_true(__mock:expect("event", function(o)
-                        return o.event and o.event.name == "fr_object_file_removed_failed"
+                    return o.event and o.event.name == "fr_object_file_removed_failed"
                 end))
                 assert.is_true(__mock:expect("data",
                     function(o) return o.data and o.data.name == "fr_remove_object_file" end))
@@ -190,7 +190,8 @@ describe('file_remover agent', function()
                     file_path = new_test_file()
                     assert.is_true(file_exists(file_path), "file was not created on FS")
                 end
-                local expected_reason = test_case.create_file and "removed successful" or file_path .. ": No such file or directory"
+                local expected_reason = test_case.create_file and "removed successful" or
+                    file_path .. ": No such file or directory"
                 local expected_uniq = "fr_" ..
                     test_case.type ..
                     "_" .. test_case.subtype ..
@@ -333,6 +334,26 @@ describe('file_remover agent', function()
                     return false
                 end))
         end)
+
+        it('actions list should be preserved in events', function()
+            local test_file_path         = new_test_file(__mock.rand_uuid())
+            local data                   = { data = {}, actions = { "some_action" } }
+            data.data['object.fullpath'] = test_file_path
+            local action_data            = cjson.encode(data)
+
+            assert(__mock:send_action(__mock.mock_token, __mock.module_token, action_data, "fr_remove_object_file"))
+            assert.is_true(__mock:expect("event",
+                function(o)
+                    if o.event and o.event.name == "fr_object_file_removed_successful" then
+                        assert.not_nil(o.event.actions)
+                        assert.equal(2, #o.event.actions)
+                        assert.equal('some_action', o.event.actions[1])
+                        assert.equal('file_remover.fr_remove_object_file', o.event.actions[2])
+                        return true
+                    end
+                    return false
+                end))
+        end)
     end)
 
     describe('file removal bug fixes', function()
@@ -355,4 +376,5 @@ describe('file_remover agent', function()
             assert.is_false(file_exists(test_file_path), "test file was not removed by a module")
         end)
     end)
+
 end)
