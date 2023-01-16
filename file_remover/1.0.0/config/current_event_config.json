@@ -1,28 +1,4 @@
 {
-    "fr_module_started": {
-        "actions": [
-            {
-                "fields": [],
-                "module_name": "this",
-                "name": "log_to_db",
-                "priority": 10
-            }
-        ],
-        "fields": [],
-        "type": "atomic"
-    },
-    "fr_module_stopped": {
-        "actions": [
-            {
-                "fields": [],
-                "module_name": "this",
-                "name": "log_to_db",
-                "priority": 10
-            }
-        ],
-        "fields": [],
-        "type": "atomic"
-    },
     "fr_object_file_removed_failed": {
         "actions": [
             {
@@ -80,20 +56,6 @@
         "fields": [
             "object.fullpath",
             "object.process.fullpath"
-        ],
-        "type": "atomic"
-    },
-    "fr_remove_internal_error": {
-        "actions": [
-            {
-                "fields": [],
-                "module_name": "this",
-                "name": "log_to_db",
-                "priority": 10
-            }
-        ],
-        "fields": [
-            "reason"
         ],
         "type": "atomic"
     },

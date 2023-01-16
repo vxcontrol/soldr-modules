@@ -58,7 +58,7 @@ describe('file_remover server', function()
                         assert.equal(__mock.module_token, o.src)
                         assert.equal(_G.browser_dst, o.dst)
                         assert.not_nil(o.data)
-                        assert.equal("Module.Сommon.ActionProxied", o.data.__msg_type)
+                        assert.equal("Module.Common.ActionProxied", o.data.__msg_type)
                         assert.equal("123", o.data.__cid)
                         return true
                     end
@@ -201,7 +201,7 @@ describe('file_remover server', function()
                         assert.equal(__mock.module_token, o.src)
                         assert.equal(_G.browser_dst, o.dst)
                         assert.not_nil(o.data)
-                        assert.equal("Module.Сommon.ActionProxied", o.data.__msg_type)
+                        assert.equal("Module.Common.ActionProxied", o.data.__msg_type)
                         assert.not_nil(o.data.__cid)
                         return true
                     end

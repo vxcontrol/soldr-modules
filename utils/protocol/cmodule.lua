@@ -7,9 +7,22 @@ require("engine")
 require("protocol/actions_validator")
 
 local cmodule = {}
-cmodule.quit_handler = function() end
+
+--- Module quit trigger handler.
+-- @param reason Defines reason for a module stop (agent_stop, module_remove, module_update).
+cmodule.quit_handler = function(_) end
+
+--- New agent connected handler.
+-- @param dst Connected agent token.
 cmodule.agent_connected_handler = function(_) end
+
+--- Agent disconnected handler.
+-- @param dst Disconnected agent token.
 cmodule.agent_disconnected_handler = function(_) end
+
+--- Module configuration update handler.
+-- @param previous_config Previous config object.
+-- @param new_config New config object.
 cmodule.update_config_handler = function(_, _) end
 
 -- TODO: use common shared uuid library
@@ -130,8 +143,52 @@ cmodule.push_event = function(event_name, event_data, actions)
     end
 end
 
-cmodule.start = function(action_handlers, background_process)
+cmodule.start = function(action_handlers, data_handlers, background_process)
     __api.add_cbs({
+
+        data = function(src, data)
+            local msg_data = cjson.decode(data) or {}
+
+            msg_data.__cid = msg_data.__cid or make_uuid()
+
+            local action_name = msg_data.name
+
+            local response = {
+                __retaddr = msg_data.__retaddr,
+                __cid = msg_data.__cid,
+                __aid = __aid,
+                __msg_type = protocol.message_name.data_response,
+                name = action_name,
+                -- NOTE(mkochegarov): Request data can be quite large for 'data' requests
+                --                    that's why it was decided not to copy it back into response
+                -- request_data = cjson.decode(cjson.encode(msg_data)),
+            }
+
+            -- TODO: it is not possible to do a validation of the "data" messages
+            --       as we don't have schemas for them, once schemas are introduced
+            --       validation can be added here
+
+            local data_handler = (data_handlers or {})[action_name]
+            if data_handler == nil then
+                response.status = "error"
+                response.error = protocol.implementation_errors.data_handler_not_defined
+                __log.errorf("%s: action handler '%s' is not defined", response.error, action_name)
+                return __api.send_data_to(src, cjson.encode(response))
+            end
+
+            local data_handler_result, response_data = data_handler.handler(msg_data.data)
+
+            response.data = response_data
+            if data_handler_result then
+                response.status = "success"
+            else
+                response.status = "error"
+                response.error = protocol.implementation_errors.data_handler_error
+                response.reason = response_data.reason
+                __log.errorf("%s: %s", response.error, response.reason)
+            end
+            return __api.send_data_to(src, cjson.encode(response))
+        end,
 
         action = function(src, data, action_name)
             local action_data = cjson.decode(data) or {}
@@ -208,7 +265,7 @@ cmodule.start = function(action_handlers, background_process)
             end
             if cmtype == "quit" then
                 if cmodule.quit_handler then
-                    cmodule.quit_handler()
+                    cmodule.quit_handler(data)
                 end
             end
             if cmtype == "agent_connected" then
@@ -229,8 +286,14 @@ cmodule.start = function(action_handlers, background_process)
 
     if background_process ~= nil then
         while not __api.is_close() do
-            background_process()
-            __api.await(1000)
+            local result, await_time = background_process()
+            if not result then
+                __log.errorf("module '%s' background process failed it's execution")
+                break
+            end
+            -- default await time is 1 second, which can be changed by a background_process()
+            await_time = await_time or 1000
+            __api.await(await_time)
         end
     else
         __api.await(-1)

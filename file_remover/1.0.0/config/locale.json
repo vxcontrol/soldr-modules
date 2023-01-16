@@ -96,26 +96,6 @@
         }
     },
     "events": {
-        "fr_module_started": {
-            "en": {
-                "title": "The \"File remover\" module is started",
-                "description": "The module is started successfully"
-            },
-            "ru": {
-                "title": "Модуль «Удаление файлов» запущен",
-                "description": "Модуль успешно запущен"
-            }
-        },
-        "fr_module_stopped": {
-            "en": {
-                "title": "The \"File remover\" module is stopped",
-                "description": "The module is stopped successfully"
-            },
-            "ru": {
-                "title": "Модуль «Удаление файлов» остановлен",
-                "description": "Модуль успешно остановлен"
-            }
-        },
         "fr_object_file_removed_failed": {
             "en": {
                 "title": "The module failed to remove the object file: an error occurred",
@@ -156,16 +136,6 @@
                 "description": "'{{[object.process.fullpath]}}' был удален успешно"
             }
         },
-        "fr_remove_internal_error": {
-            "en": {
-                "title": "The module failed to remove the file: not enough data to perform the operation",
-                "description": "Internal error occurred by '{{ reason }}' for '{{ filepath }}'"
-            },
-            "ru": {
-                "title": "Файл не удален модулем: недостаточно данных для выполнения операции",
-                "description": "Возникла внутренняя ошибка удаления '{{ filepath }}' по причине '{{ reason }}'"
-            }
-        },
         "fr_subject_proc_image_removed_failed": {
             "en": {
                 "title": "The module failed to remove the executable file of the subject process: an error occurred",
@@ -193,13 +163,10 @@
         "fr_remove_subject_proc_image": {}
     },
     "event_config": {
-        "fr_module_started": {},
-        "fr_module_stopped": {},
         "fr_object_file_removed_failed": {},
         "fr_object_file_removed_successful": {},
         "fr_object_proc_image_removed_failed": {},
         "fr_object_proc_image_removed_successful": {},
-        "fr_remove_internal_error": {},
         "fr_subject_proc_image_removed_failed": {},
         "fr_subject_proc_image_removed_successful": {}
     },

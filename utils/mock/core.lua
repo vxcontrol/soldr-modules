@@ -731,6 +731,13 @@ local args_file_data = read_file(args_file_path)
 assert(type(args_file_data) == "string", "args.json file must be exist")
 local args_file_json = cjson.decode(args_file_data)
 assert(type(args_file_json) == "table", "args.json file must be JSON format")
+for k, v in pairs(args_file_json) do
+    assert(type(k) == "string", "args.json root object must contain string keys")
+    assert(type(v) == "table", "args.json root object must contain table values")
+    for i, vv in ipairs(v) do
+        assert(type(i) == "number" and type(vv) == "string", "args.json values must contain array of strings")
+    end
+end
 __mock.args = args_file_json
 ---------------------------------------------------
 

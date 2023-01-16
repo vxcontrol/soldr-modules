@@ -5,10 +5,24 @@ require("engine")
 require("protocol/actions_validator")
 
 local smodule = {}
-smodule.quit_handler = function() end
+
+--- Module quit trigger handler.
+-- @param reason Defines reason for a module stop (agent_stop, module_remove, module_update).
+smodule.quit_handler = function(_) end
+
+--- New agent connected handler.
+-- @param dst Connected agent token.
 smodule.agent_connected_handler = function(_) end
+
+--- Agent disconnected handler.
+-- @param dst Disconnected agent token.
 smodule.agent_disconnected_handler = function(_) end
+
+--- Module configuration update handler.
+-- @param previous_config Previous config object.
+-- @param new_config New config object.
 smodule.update_config_handler = function(_, _) end
+
 
 -- TODO: use common shared uuid library
 local crc32 = require("crc32")
@@ -37,6 +51,23 @@ smodule.unload_dependencies = function()
     collectgarbage("collect")
 end
 
+local function create_strict_strings_set(table, key_type)
+    local result = {}
+    for key, value in pairs(table or {}) do
+        if type(key) == "number" then
+            result[value] = value
+            result[value:gsub("[.]", "_")] = value
+        else
+            result[key] = key
+            result[key:gsub("[.]", "_")] = key
+        end
+    end
+    setmetatable(result, { __index = function(_, key)
+        error("unknown " .. key_type .. " '" .. key .. "' requested", 2)
+    end, })
+    return result
+end
+
 smodule.load_dependencies = function()
     local action_config_schema = __config.get_action_config_schema()
     local current_event_config = __config.get_current_event_config()
@@ -57,6 +88,10 @@ smodule.load_dependencies = function()
     )
     smodule.action_validator = CActionsValidator(
         fields_schema, action_config_schema)
+
+    smodule.actions = create_strict_strings_set(smodule.action_validator.actions, "action")
+    smodule.events = create_strict_strings_set(smodule.event_engine.event_name_list, "event")
+    smodule.fields = create_strict_strings_set(smodule.action_validator.fields_validators, "field")
 end
 
 -- getting agent ID by dst token and agent type
@@ -102,22 +137,63 @@ smodule.push_event = function(agent_id, event_name, event_data, actions)
     end
 end
 
-smodule.start = function(action_handlers, data_callback, background_process)
+smodule.start = function(action_handlers, data_handlers, background_process)
     __api.add_cbs({
         data = function(src, data)
             local msg_data = cjson.decode(data) or {}
             local return_dst = msg_data.__retaddr
+            msg_data.__cid = msg_data.__cid or make_uuid()
+
+            -- If message is a valid response then it need to be proxied back to initial caller
             local vxagent_id = get_agent_id_by_dst(src, "VXAgent")
             if vxagent_id ~= "" and return_dst ~= nil and return_dst ~= "" then
                 msg_data.__retaddr = nil
                 return __api.send_data_to(return_dst, cjson.encode(msg_data))
             end
 
-            -- msg from browser or external
-            if data_callback ~= nil then
-                return data_callback(src, nil)
+            local action_name = msg_data.name
+
+            local response = {
+                __retaddr = return_dst,
+                __cid = msg_data.__cid,
+                __aid = __aid,
+                __msg_type = protocol.message_name.internal_data_response,
+                name = action_name,
+                -- NOTE(mkochegarov): Request data can be quite large for 'data' requests
+                --                    that's why it was decided not to copy it back into response
+                -- request_data = cjson.decode(cjson.encode(msg_data)),
+            }
+
+            -- TODO: it is not possible to do a validation of the "data" messages
+            --       as we don't have schemas for them, once schemas are introduced
+            --       validation can be added here
+
+            -- Server module can handle data request on it's own
+            local data_handler = (data_handlers or {})[action_name]
+            if data_handler ~= nil then
+                response.error, response.data = data_handler.handler(msg_data.data)
+                response.status = (response.error == nil) and "success" or "error"
+                return __api.send_data_to(src, cjson.encode(response))
             end
-            return false
+
+            -- Server module can't handle action so it need to be proxied to the agent
+            local id, _ = get_agent_id_by_dst(src, "any")
+            local dst, _ = get_agent_src_by_id(id, "VXAgent")
+            if dst == "" then
+                response.status, response.error = "error", protocol.connection_errors.common
+                return __api.send_data_to(src, cjson.encode(response))
+            end
+
+            __log.debugf("data message '%s' was proxied", action_name)
+            __api.send_msg_to(src, cjson.encode({
+                __msg_type = protocol.message_name.data_proxied,
+                __cid = msg_data.__cid,
+                name = action_name,
+            }), protocol.message_type.info)
+
+            msg_data.__msg_type = msg_data.__msg_type or protocol.message_name.data_request
+            msg_data.__retaddr = src
+            return __api.send_data_to(dst, cjson.encode(msg_data))
         end,
 
         action = function(src, data, action_name)
@@ -138,13 +214,14 @@ smodule.start = function(action_handlers, data_callback, background_process)
                 response.status = "error"
                 response.error = error
                 response.reason = reason
+                __log.errorf("%s: %s", error, reason)
                 return __api.send_data_to(src, cjson.encode(response))
             end
 
             -- Server module can handle action on it's own
             local action_handler = (action_handlers or {})[action_name]
             if action_handler ~= nil then
-                response.error, response.response_data = action_handler(action_data.data)
+                response.error, response.data = action_handler.handler(action_data.data)
                 response.status = (response.error == nil) and "success" or "error"
                 return __api.send_data_to(src, cjson.encode(response))
             end
@@ -154,6 +231,7 @@ smodule.start = function(action_handlers, data_callback, background_process)
             local dst, _ = get_agent_src_by_id(id, "VXAgent")
             if dst == "" then
                 response.status, response.error = "error", protocol.connection_errors.common
+                __log.errorf("%s: connected agent not found, src: %s", response.error, src)
                 return __api.send_data_to(src, cjson.encode(response))
             else
                 response.__aid = id
@@ -166,6 +244,7 @@ smodule.start = function(action_handlers, data_callback, background_process)
                 name = action_name,
             }), protocol.message_type.info)
 
+            action_data.__msg_type = action_data.__msg_type or protocol.message_name.action_request
             action_data.__retaddr = src
             return __api.send_action_to(dst, cjson.encode(action_data), action_name)
         end,
@@ -182,7 +261,7 @@ smodule.start = function(action_handlers, data_callback, background_process)
             end
             if cmtype == "quit" then
                 if smodule.quit_handler then
-                    smodule.quit_handler()
+                    smodule.quit_handler(data)
                 end
             end
             if cmtype == "agent_connected" then
@@ -199,14 +278,18 @@ smodule.start = function(action_handlers, data_callback, background_process)
         end,
     })
 
-    smodule.load_dependencies()
-
     __log.infof("module '%s' was started", __config.ctx.name)
 
     if background_process ~= nil then
         while not __api.is_close() do
-            background_process()
-            __api.await(1000)
+            local result, await_time = background_process()
+            if not result then
+                __log.errorf("module '%s' background process failed it's execution")
+                break
+            end
+            -- default await time is 1 second, which can be changed by a background_process()
+            await_time = await_time or 1000
+            __api.await(await_time)
         end
     else
         __api.await(-1)
@@ -218,5 +301,10 @@ smodule.start = function(action_handlers, data_callback, background_process)
 
     return "success"
 end
+
+-- NOTE: initial module dependencies are gonna be loaded automatically
+-- even before "start" is called, that is done in this way to make it
+-- possible to use data from actions/events/fields in module code
+smodule.load_dependencies()
 
 return smodule

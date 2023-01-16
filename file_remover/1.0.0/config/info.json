@@ -26,13 +26,10 @@
         "fr_remove_subject_proc_image"
     ],
     "events": [
-        "fr_module_started",
-        "fr_module_stopped",
         "fr_object_file_removed_failed",
         "fr_object_file_removed_successful",
         "fr_object_proc_image_removed_failed",
         "fr_object_proc_image_removed_successful",
-        "fr_remove_internal_error",
         "fr_subject_proc_image_removed_failed",
         "fr_subject_proc_image_removed_successful"
     ],
