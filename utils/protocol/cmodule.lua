@@ -176,7 +176,6 @@ cmodule.start = function(action_handlers, background_process)
             event_data.__cid = action_data.__cid
             event_data.uuid = action_data.uuid or make_uuid()
 
-
             -- before sending the event, take list of actions that was already performed and add current action
             local action_full_name = __config.ctx.name .. "." .. action_name
             if glue.indexof(action_full_name, actions) == nil then

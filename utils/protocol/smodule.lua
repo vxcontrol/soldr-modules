@@ -1,5 +1,4 @@
 local cjson    = require("cjson.safe")
-local glue     = require("glue")
 local protocol = require("protocol/protocol")
 
 require("engine")
