@@ -178,8 +178,14 @@ local q_e_stop = thread.event()
 local q_e_quit = thread.event()
 local wm_e = nil
 local current_files = {}
+local last_time = os.time()
 
 local function look_for_new_files()
+    if os.time() < last_time + module_config.period then
+        return
+    end
+    last_time = os.time()
+
     local new_files = {}
     for _, fl in ipairs(module_config.log_files or {}) do
         local filepath = fl["filepath"]

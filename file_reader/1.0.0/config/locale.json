@@ -20,6 +20,16 @@
                 "description": "Список файлов для сбора данных"
             }
         },
+        "period": {
+            "en": {
+                "title": "Frequency of updating the file list in seconds",
+                "description": ""
+            },
+            "ru": {
+                "title": "Частота обновления списка файлов в секундах",
+                "description": ""
+            }
+        },
         "receivers": {
             "en": {
                 "title": "Modules that receive raw events from log files",
