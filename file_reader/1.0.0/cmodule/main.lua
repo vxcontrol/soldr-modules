@@ -5,6 +5,7 @@ local glue    = require("glue")
 local cjson   = require("cjson.safe")
 local thread  = require("thread")
 local luapath = require("path")
+local fs_notify = require("fs_notify")
 
 -- variables to initialize event and action engines
 local prefix_db = __gid .. "."
@@ -175,7 +176,67 @@ local q_in = thread.queue(100)
 local q_out = thread.queue(100)
 local q_e_stop = thread.event()
 local q_e_quit = thread.event()
-local wm_e = CFileReader(q_in, q_out, q_e_stop, q_e_quit, module_config.log_files, store_dir)
+local wm_e = nil
+local current_files = {}
+
+local function look_for_new_files()
+    local new_files = {}
+    for _, fl in ipairs(module_config.log_files or {}) do
+        local filepath = fl["filepath"]
+        if fs_notify.is_glob_pattern(filepath) then
+            for _, found_file in ipairs(fs_notify.find_all_files(filepath)) do
+                if current_files[found_file] == nil then
+                    new_files[found_file] = {
+                        ["select"] = fl["select"] or "*",
+                        ["suppress"] = fl["suppress"] or "",
+                    }
+                end
+            end
+        end
+    end
+    if next(new_files) == nil then
+        return
+    end
+    q_e_stop:set()
+    if wm_e then
+        wm_e:wait()
+    end
+    for filepath, filter in pairs(new_files) do
+        current_files[filepath] = filter
+        wm_e:rewind(store_dir, filepath)
+    end
+    q_e_stop:clear()
+    q_e_quit:clear()
+    wm_e = CFileReader(q_in, q_out, q_e_stop, q_e_quit, current_files, store_dir)
+end
+
+local function configure()
+    q_e_stop:set()
+    if wm_e then
+        wm_e:wait()
+    end
+    q_e_stop:clear()
+    q_e_quit:clear()
+    for _, fl in ipairs(module_config.log_files or {}) do
+        local filepath = fl["filepath"]
+        if fs_notify.is_glob_pattern(filepath) then
+            for _, found_file in ipairs(fs_notify.find_all_files(filepath)) do
+                current_files[found_file] = {
+                    ["select"] = fl["select"] or "*",
+                    ["suppress"] = fl["suppress"] or "",
+                }
+            end
+        else
+            current_files[filepath] = {
+                ["select"] = fl["select"] or "*",
+                ["suppress"] = fl["suppress"] or "",
+            }
+        end
+    end
+    wm_e = CFileReader(q_in, q_out, q_e_stop, q_e_quit, current_files, store_dir)
+end
+
+configure()
 
 -- return nil
 local function handler()
@@ -250,7 +311,7 @@ local function exec_action(action_name, action_data)
     wm_e:rewind(store_dir, log_filepath)
     q_e_stop:clear()
     q_e_quit:clear()
-    wm_e = CFileReader(q_in, q_out, q_e_stop, q_e_quit, module_config.log_files, store_dir)
+    wm_e = CFileReader(q_in, q_out, q_e_stop, q_e_quit, current_files, store_dir)
 
     action_data.data.result = true
     action_data.data.reason = "rewind successful"
@@ -328,11 +389,7 @@ __api.add_cbs({
             is_send_messages = module_config.target_path ~= ""
 
             -- reload configuration for file reader library
-            q_e_stop:set()
-            wm_e:wait()
-            q_e_stop:clear()
-            q_e_quit:clear()
-            wm_e = CFileReader(q_in, q_out, q_e_stop, q_e_quit, module_config.log_files, store_dir)
+            configure()
         end
         return true
     end,
@@ -345,6 +402,7 @@ push_event("frd_module_started", "", {["data"] = {reason = "regular start"}})
 update_receivers()
 
 while not handler() do
+    look_for_new_files()
     __metric.add_int_gauge_counter("frd_agent_mem_usage", collectgarbage("count")*1024)
     __api.await(300)
 end

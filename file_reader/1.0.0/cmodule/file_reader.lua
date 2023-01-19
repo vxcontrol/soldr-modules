@@ -2,7 +2,6 @@ require("yaci")
 local thread = require("thread")
 local luapath = require("path")
 local cjson = require("cjson.safe")
-local fs_notify = require("fs_notify")
 
 CFileReader = newclass("CFileReader")
 
@@ -192,24 +191,7 @@ local function get_profile(log_entries)
     )
 
     local config = cjson.decode(config_json)
-    local log_files = {}
-    for _, fl in ipairs(log_entries or {}) do
-        local filepath = fl["filepath"]
-        if fs_notify.is_glob_pattern(filepath) then
-            for _, found_file in ipairs(fs_notify.find_all_files(filepath)) do
-                log_files[found_file] = {
-                    ["select"] = fl["select"] or "*",
-                    ["suppress"] = fl["suppress"] or "",
-                }
-            end
-        else
-            log_files[filepath] = {
-                ["select"] = fl["select"] or "*",
-                ["suppress"] = fl["suppress"] or "",
-            }
-        end
-    end
-    config["log_channels"] = log_files
+    config["log_channels"] = log_entries
 
     return cjson.encode(config)
 end
