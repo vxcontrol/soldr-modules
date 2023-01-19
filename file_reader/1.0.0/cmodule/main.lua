@@ -223,6 +223,7 @@ local function configure()
     end
     q_e_stop:clear()
     q_e_quit:clear()
+    current_files = {}
     for _, fl in ipairs(module_config.log_files or {}) do
         local filepath = fl["filepath"]
         if fs_notify.is_glob_pattern(filepath) then
@@ -327,11 +328,26 @@ end
 
 __api.add_cbs({
 
-    -- data = function(src, data)
     -- file = function(src, path, name)
     -- text = function(src, text, name)
     -- msg = function(src, msg, mtype)
-    -- action = function(src, data, name)
+
+    data = function(src, data)
+        __log.debugf("received data message from '%s' with data %s", src, data)
+        local msg = cjson.decode(data) or {}
+        if msg.type == "update_file_list_req" then
+            local files = {}
+            for file in pairs(current_files) do
+                table.insert(files, file)
+            end
+            table.sort(files)
+            __api.send_data_to(src, cjson.encode({
+                ["type"] = "update_file_list_resp",
+                ["retaddr"] = msg.retaddr,
+                ["files"] = files,
+            }))
+        end
+    end,
 
     action = function(src, data, name)
         __log.infof("receive action '%s' from '%s' with data %s", name, src, data)

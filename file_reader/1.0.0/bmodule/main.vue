@@ -3,12 +3,12 @@
     <el-tabs tab-position="left" v-model="leftTab">
       <el-tab-pane name="api" :label="locale[$i18n.locale]['api']" v-if="viewMode === 'agent'">
         <div class="layout-margin-xl limit-length">
-          <el-input :key="file.filepath" v-for="file in module.current_config.log_files" :value="file.filepath" readonly>
+          <el-input :key="file" v-for="file in files" :value="file" readonly>
             <el-button
               slot="append"
               icon="el-icon-s-promotion"
               class="layout-row-none"
-              @click="readFromBegining(file.filepath)"
+              @click="readFromBegining(file)"
             >{{ module.locale.actions['frd_rewind_logfile'][$i18n.locale].title }}
             </el-button>
           </el-input>
@@ -33,6 +33,7 @@ module.exports = {
     leftTab: undefined,
     connection: {},
     lines: [],
+    files: [],
     locale: {
       ru: {
         api: "VX API",
@@ -54,6 +55,8 @@ module.exports = {
           connection => {
             const date = new Date().toLocaleTimeString();
             this.connection = connection;
+            this.connection.subscribe(this.recvData, "data");
+            this.requestFiles();
             this.$root.NotificationsService.success(`${date} ${this.locale[this.$i18n.locale]['connected']}`);
           },
           error => {
@@ -67,6 +70,19 @@ module.exports = {
     this.leftTab = this.viewMode === 'agent' ? 'api' : undefined;
   },
   methods: {
+    requestFiles() {
+      let data = JSON.stringify({
+        type: "update_file_list_req",
+      });
+      this.connection.sendData(data);
+    },
+    recvData(msg) {
+      let data = new TextDecoder("utf-8").decode(msg.content.data);
+      let msg_data = JSON.parse(data);
+      if (msg_data.type == "update_file_list_resp") {
+        this.files = msg_data.files
+      }
+    },
     readFromBegining(logfile) {
       const date = new Date();
       const date_ms = date.toLocaleTimeString() + `.${date.getMilliseconds()}`;

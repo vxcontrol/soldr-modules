@@ -14,11 +14,6 @@ local limit_nums = tonumber(__args["sender_limits"][2])
 local target_path, target_sock, target_proto, target_host, target_port, target_connect
 local log_lines = {}
 
--- variables to cache data into lua state
-local agents_cache = require("lrucache")()
-agents_cache.initialized = true
-agents_cache.max_size = tonumber(__args["agents_cache_size"][1])
-
 -- return number value that present events amount inside
 local function get_log_lines(num)
     local size = 0
@@ -41,23 +36,15 @@ local function get_option_config(opt)
 end
 
 -- getting agent ID by dst token and agent type
-local function get_agent_id_by_dst(dst)
-    local val = agents_cache:get(dst)
-    if type(val) == "table" then
-        return val._value.id, val._value.hostname
-    end
-
+local function get_agent_id_by_dst(dst, atype)
     for client_id, client_info in pairs(__agents.get_by_dst(dst)) do
         if client_id == dst then
-            local aid, hostname = tostring(client_info.ID), nil
-            if client_info.Info ~= nil and client_info.Info.Net ~= nil then
-                hostname = tostring(client_info.Info.Net.Hostname)
+            if tostring(client_info.Type) == atype then
+                return tostring(client_info.ID), client_info
             end
-            agents_cache:put(dst, {_value = {hostname = hostname, id = aid}})
-            return aid, hostname
         end
     end
-    return "", nil
+    return "", {}
 end
 
 -- getting agent source token by ID and agent type
@@ -185,28 +172,46 @@ configure_socket()
 
 __api.add_cbs({
     data = function(src, data)
-        local aid, hostname = get_agent_id_by_dst(src)
         local msg_data = cjson.decode(data)
-        if type(msg_data["data"]) ~= "table" then
-            msg_data["data"] = {}
-        end
-        msg_data["data"]["hostname"] = hostname or aid or src
-        if msg_data["type"] == "log" and type(msg_data["message"]) == "table" then
-            __metric.add_int_counter("frd_server_events_recv_count", #msg_data["message"])
-            __metric.add_int_counter("frd_server_events_recv_size", #data)
-            if target_path ~= "" then
-                for _, msg in ipairs(msg_data["message"]) do
-                    table.insert(log_lines, {
-                        message = msg,
-                        data = msg_data.data,
-                    })
+        local vxagent_id, client_info = get_agent_id_by_dst(src, "VXAgent")
+        local bagent_id = get_agent_id_by_dst(src, "Browser")
+        local eagent_id = get_agent_id_by_dst(src, "External")
+        if vxagent_id ~= "" then
+            if type(msg_data["data"]) ~= "table" then
+                msg_data["data"] = {}
+            end
+            local aid, hostname = tostring(client_info.ID), nil
+            if client_info.Info ~= nil and client_info.Info.Net ~= nil then
+                hostname = tostring(client_info.Info.Net.Hostname)
+            end
+            msg_data["data"]["hostname"] = hostname or aid or src
+            if msg_data["type"] == "log" and type(msg_data["message"]) == "table" then
+                __metric.add_int_counter("frd_server_events_recv_count", #msg_data["message"])
+                __metric.add_int_counter("frd_server_events_recv_size", #data)
+                if target_path ~= "" then
+                    for _, msg in ipairs(msg_data["message"]) do
+                        table.insert(log_lines, {
+                            message = msg,
+                            data = msg_data.data,
+                        })
+                    end
+                else
+                    __log.debugf("receive log message (events amount): '%d'", #msg_data["message"])
                 end
+            elseif msg_data["type"] == "update_file_list_resp" then
+                local browser_id = msg_data.retaddr
+                msg_data.retaddr = nil
+                __api.send_data_to(browser_id, cjson.encode(msg_data))
             else
-                __log.debugf("receive log message (events amount): '%d'", #msg_data["message"])
+                __log.debugf("receive enexpected message: '%s' and type '%s'",
+                msg_data["type"], type(msg_data["message"]))
             end
         else
-            __log.debugf("receive enexpected message: '%s' and type '%s'",
-                msg_data["type"], type(msg_data["message"]))
+            -- msg from browser or external...
+            local agent_id = bagent_id ~= "" and bagent_id or eagent_id
+            local dst, _ = get_agent_src_by_id(agent_id, "VXAgent")
+            msg_data.retaddr = src
+            __api.send_data_to(dst, cjson.encode(msg_data))
         end
         return true
     end,
@@ -217,7 +222,7 @@ __api.add_cbs({
         local action_data = cjson.decode(data)
         assert(type(action_data) == "table", "input action data type is invalid")
         action_data.retaddr = src
-        local id, _ = get_agent_id_by_dst(src)
+        local id, _ = get_agent_id_by_dst(src, "Browser")
         local dst, _ = get_agent_src_by_id(id, "VXAgent")
         if dst ~= "" then
             __log.debugf("send action request to '%s'", dst)
