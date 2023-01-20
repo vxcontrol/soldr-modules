@@ -37,6 +37,42 @@
                 }
             ]
         },
+        "fu_download_object_file": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/base.action"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "object.fullpath"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "object.fullpath"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 1,
+                            "minItems": 1,
+                            "type": "array"
+                        },
+                        "priority": {
+                            "default": 37,
+                            "maximum": 37,
+                            "minimum": 37,
+                            "type": "integer"
+                        }
+                    },
+                    "required": [
+                        "fields",
+                        "priority"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
         "fu_upload_object_proc_image": {
             "allOf": [
                 {
@@ -112,6 +148,7 @@
     },
     "required": [
         "fu_upload_object_file",
+        "fu_download_object_file",
         "fu_upload_object_proc_image",
         "fu_upload_subject_proc_image"
     ],

@@ -9,6 +9,13 @@
                     @click="submitReqToExecAction"
                 >{{ locale[$i18n.locale]['buttonExecAction'] }}
                 </el-button>
+                <el-button
+                    slot="append"
+                    icon="el-icon-s-promotion"
+                    class="flex-none"
+                    @click="submitDownloadFile"
+                >{{ locale[$i18n.locale]['buttonDownloadFile'] }}
+                </el-button>
             </el-input>
             <div id="error" v-if="lastExecError" class="invalid-feedback">
                 {{ lastExecError }}
@@ -108,7 +115,7 @@ module.exports = {
     data: () => ({
         height: 100,
         timerId: undefined,
-        sqlQuery: `SELECT * FROM files ORDER BY id DESC;`,
+        sqlQuery: `SELECT * FROM files ORDER BY id DESC LIMIT 0, 100;`,
         filepath: "",
         connection: undefined,
         queryColumns: [],
@@ -124,6 +131,7 @@ module.exports = {
         locale: {
             ru: {
                 buttonExec: "Выполнить запрос",
+                buttonDownloadFile: "Загрузить файл",
                 buttonSave: "Сохранить запрос",
                 buttonLoad: "Загрузить изменения",
                 buttonReset: "Сбросить фильтр",
@@ -135,6 +143,7 @@ module.exports = {
                 fileNotFoundError: "Файл не найден или недоступен",
                 fileSizeError: "Превышен максимальный размер файла",
                 filePathError: "Путь к файлу задан некорректно",
+                fileInProcess: "Началась загрузка файла во внешнюю систему",
                 checkSuccess: "Файл отправлен во внешнюю систему",
                 recvError: "Не удалось выполнить SQL-запрос",
                 allFields: "Все",
@@ -144,10 +153,13 @@ module.exports = {
                 rgServerSide: "Выполнить на сервере",
                 searchPl: "Поиск по файлам",
                 queryPl: "SQL-запрос для выборки",
-                filePl: "Путь к файлу"
+                filePl: "Путь к файлу",
+                prepareFile: "Подготовка файла",
+                uploadRespWait: 'Не удалось загрузить файл на удалнный сервер. Повторная попытка будет выполнена позже.'
             },
             en: {
                 buttonExec: "Execute query",
+                buttonDownloadFile: "DownloadFile",
                 buttonSave: "Save query",
                 buttonLoad: "Load query",
                 buttonReset: "Reset filter",
@@ -159,6 +171,7 @@ module.exports = {
                 fileNotFoundError: "File not found or not available",
                 fileSizeError: "File size exceeded",
                 filePathError: "Invalid file path",
+                fileInProcess: "Started uploading a file to an external system",
                 checkSuccess: "File is sent to external system",
                 recvError: "Failed to execute SQL query",
                 allFields: "All",
@@ -168,7 +181,9 @@ module.exports = {
                 rgServerSide: "Execute on server side",
                 searchPl: "Search by file",
                 queryPl: "SQL query for selection",
-                filePl: "File path"
+                filePl: "File path",
+                prepareFile: "Prepare file",
+                uploadRespWait: 'Unable to upload file to remote server. Will try again later.'
             }
         }
     }),
@@ -237,24 +252,51 @@ module.exports = {
                     this.lastSqlError += ": " + result.error;
                 }
             } else if (result.type == "exec_sql_resp") {
-                this.queryColumns = result.cols
-                    .map((c, i) => ({
-                        prop: c,
-                        width: this.getColWidth(result.rows
-                            .map(r => (r[i] || "null").toString().length), c.length),
-                        filters: result.rows
-                            .map(r => r[i])
-                            .sort()
-                            .filter((v, i, a) => a.indexOf(v) === i)
-                            .map(v => ({
-                                text: (v || "null").toString().substring(0, 40),
-                                value: v,
-                            })),
-                    }));
-                this.queryData = result.rows.map((r) => r.reduce((a, x, i) => ({...a, [result.cols[i]]: x}), {}));
-                this.resizeTable();
+                if (result.rows.length != 0) {
+                    this.queryColumns = result.cols
+                        .map((c, i) => ({
+                            prop: c,
+                            width: this.getColWidth(result.rows
+                                .map(r => (r[i] || "null").toString().length), c.length),
+                            filters: result.rows
+                                .map(r => r[i])
+                                .sort()
+                                .filter((v, i, a) => a.indexOf(v) === i)
+                                .map(v => ({
+                                    text: (v || "null").toString().substring(0, 40),
+                                    value: v,
+                                })),
+                        }));
+                    this.queryData = result.rows.map((r) => r.reduce((a, x, i) => ({...a, [result.cols[i]]: x}), {}));
+                    let h = this.$refs.boxTable.clientHeight;
+                    if (h === 0) {
+                      this.height = 100;
+                    }
+                    this.height = this.height + 70 * result.rows.length + 20;
+                }
             } else if (result.type == "exec_upload_resp") {
-                this.$root.NotificationsService.success(`${this.locale[this.$i18n.locale]['checkSuccess']}`);
+                console.log(result);
+                if (result.stage == "process") {
+                  this.$root.NotificationsService.success(`${this.locale[this.$i18n.locale]['fileInProcess']}`)
+                }
+                if (result.stage == "success") {
+                  this.$root.NotificationsService.success(`${this.locale[this.$i18n.locale]['checkSuccess']}`);
+                }
+                if (result.stage == "wait") {
+                  this.$root.NotificationsService.error(`${this.locale[this.$i18n.locale]['uploadRespWait']}`);
+                }
+            } else if (result.type == "prepare_upload_resp") {
+                this.$root.NotificationsService.success(`${this.locale[this.$i18n.locale]['prepareFile']}`)
+            } else if (result.type == "exec_download_resp") {
+                console.log(result)
+                if (result.existing_file != 'undefined') {
+
+                } else {
+                    console.log("existing_file - undefined")
+                }
+
+
+
             } else {
                 console.log("received unknown message type from server", result)
             }
@@ -272,6 +314,21 @@ module.exports = {
                     actions: [`${this.module.info.name}.${actionName}`]
                 });
                 this.connection.sendAction(data, actionName);
+            }
+        },
+        submitDownloadFile() {
+            this.lastExecError = "";
+            let filepath = this.filepath.trim();
+            if (filepath === "" || filepath.length > 256) {
+                this.lastExecError = this.locale[this.$i18n.locale]['filePathError'];
+                this.$root.NotificationsService.error(this.lastExecError);
+            } else {
+                let actionName = "fu_download_object_file";
+                let data = JSON.stringify({
+                    data: {"object.fullpath": filepath},
+                    actions: [`${this.module.info.name}.${actionName}`]
+                });
+                this.connection.sendAction(data, actionName)
             }
         },
         execSQL() {
@@ -296,9 +353,6 @@ module.exports = {
                 this.queryData = [];
                 this.execSQL();
             }
-        },
-        resizeTable() {
-            this.height = this.$refs.boxTable.clientHeight;
         },
         getColWidth(array, min) {
             const n = array.length;

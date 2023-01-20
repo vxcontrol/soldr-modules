@@ -105,6 +105,16 @@
                 "description": "Отправка файла-объекта во внешнюю систему по протоколу HTTP"
             }
         },
+        "fu_download_object_file": {
+            "en": {
+                "title": "Download an object file",
+                "description": "Downloading an object file"
+            },
+            "ru": {
+                "title": "Скачать файл-объект",
+                "description": "Загрузка файла-объекта"
+            }
+        },
         "fu_upload_object_proc_image": {
             "en": {
                 "title": "Send an executable file of the object process to an exetrnal system",
@@ -167,6 +177,16 @@
                 "description": "'{{[object.fullpath]}}' успешно отправлен во внешнюю систему"
             }
         },
+        "fu_object_file_download_successful": {
+            "en": {
+                "title": "The module download the object file to the local system",
+                "description": "'{{[object.fullpath]}}' was sent successfully"
+            },
+            "ru": {
+                "title": "Файл-объект загружен модулем в локальную систему",
+                "description": "'{{[object.fullpath]}}' успешно отправлен во внешнюю систему"
+            }
+        },
         "fu_object_proc_image_upload_failed": {
             "en": {
                 "title": "The module failed to send the executable file of the object process to the exetrnal system: an error occurred",
@@ -220,6 +240,7 @@
     },
     "action_config": {
         "fu_upload_object_file": {},
+        "fu_download_object_file": {},
         "fu_upload_object_proc_image": {},
         "fu_upload_subject_proc_image": {}
     },
@@ -228,6 +249,7 @@
         "fu_module_stopped": {},
         "fu_object_file_upload_failed": {},
         "fu_object_file_upload_successful": {},
+        "fu_object_file_download_successful": {},
         "fu_object_proc_image_upload_failed": {},
         "fu_object_proc_image_upload_successful": {},
         "fu_subject_proc_image_upload_failed": {},

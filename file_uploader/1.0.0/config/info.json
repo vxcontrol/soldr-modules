@@ -22,6 +22,7 @@
     "system": false,
     "actions": [
         "fu_upload_object_file",
+        "fu_download_object_file",
         "fu_upload_object_proc_image",
         "fu_upload_subject_proc_image"
     ],
@@ -30,6 +31,7 @@
         "fu_module_stopped",
         "fu_object_file_upload_failed",
         "fu_object_file_upload_successful",
+        "fu_object_file_download_successful",
         "fu_object_proc_image_upload_failed",
         "fu_object_proc_image_upload_successful",
         "fu_subject_proc_image_upload_failed",
