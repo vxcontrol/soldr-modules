@@ -2,8 +2,6 @@ require("uploader")
 require("storage")
 local cjson   = require("cjson.safe")
 
-print("##### FU 1.0.0 #####")
-
 -- uploader variables
 local fu_db
 local uploader

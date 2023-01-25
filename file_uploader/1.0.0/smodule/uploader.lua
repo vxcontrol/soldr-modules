@@ -100,11 +100,11 @@ local function worker(ctx, q_in, q_out, e_stop)
     }
 
     local g_print = print
-    --[[local print = function(...)
+    local print = function(...)
         if ctx.is_debug then
             g_print(...);
         end
-    end]]
+    end
 
     while true do
         if e_stop:isset() then break end
