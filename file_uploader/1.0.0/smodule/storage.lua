@@ -81,10 +81,10 @@ end
 
 FileUploaderStorage.__index = FileUploaderStorage
 
-function NewFileUploaderStorage(cfg)
+function NewFileUploaderStorage()
     local fuStorage = {}
     setmetatable(fuStorage, FileUploaderStorage)
-    fuStorage.db = assert(cfg.db) or ""
+    fuStorage.db = assert(GetDB()) or ""
     fuStorage.is_debug = true
     fuStorage.migrations = newMigrations(fuStorage.tables, fuStorage.tables_fields)
     fuStorage.queries = newQueries()
@@ -98,10 +98,16 @@ function FileUploaderStorage:FilesToUpload()
     )
 end
 
+function FileUploaderStorage:UpdateFileActionStatus(status, id)
+    return self:exec_query(
+        self.queries:update_file_action_status(self.tables.file_action), status, id
+    )
+end
+
 function FileUploaderStorage:GetFilesFromFilename(filename)
     self:print("exec_get_files_from_filename CUploaderResp", filename)
     return self:select_query(
-        self.queries:GetFileFromFilename(self.tables.files, self.put_file_fields),
+        self.queries:get_file_from_filename(self.tables.files, self.put_file_fields),
         filename
     )
 end

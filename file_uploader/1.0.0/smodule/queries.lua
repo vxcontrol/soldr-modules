@@ -39,9 +39,10 @@ function Queries:get_incomplete_upload()
             , fa.upload_code
             , f.agent_id
             , f.group_id
+            , fa.id as file_action_id
         from files f
         left join file_action fa on f.id = fa.file_id
-        where f.group_id = ? and fa.result = ?
+        where f.group_id = ? and fa.result = ? and (strftime('%s', 'now') - (strftime('%s', fa.time))) > 60
         order by f.id desc;
     ]]
 end
@@ -119,7 +120,7 @@ function Queries:put_file(t, fields)
     ]]
 end
 
-function Queries:GetFileFromFilename(t)
+function Queries:get_file_from_filename(t)
     return [[
         select id, uuid, filename, filesize, md5_hash, sha256_hash, local_path
         from ]] .. t .. [[
@@ -133,8 +134,17 @@ function Queries:upload_file_resp(t)
         UPDATE ]] .. t .. [[ SET
             upload_code = ?,
             upload_response = ?,
-            result = ?
+            result = ?,
+            time = strftime('%Y-%m-%d %H:%M:%f', 'now', 'localtime')
         WHERE file_id = ? and (result = ? or result = ?);
+    ]]
+end
+
+function Queries:update_file_action_status(t)
+    return [[
+        UPDATE ]] .. t .. [[ SET
+            result = ?
+        WHERE id = ?;
     ]]
 end
 

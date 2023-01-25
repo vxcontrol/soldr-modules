@@ -35,7 +35,7 @@ end
     * debug_curl - boolean to run curl library client in debug mode
 ]]
 function CUploaderResp:init(cfg)
-    self.storage = NewFileUploaderStorage(cfg)
+    self.storage = NewFileUploaderStorage()
     self.storage.is_debug = cfg.debug
 
     self.request_config = cfg.request_config or {method="PUT", url=""}
@@ -158,9 +158,6 @@ function CUploaderResp:worker_start()
             self.w_q_out,
             self.w_e_stop
         )
-        if self.w_rth ~= nil then
-            self:continue_incomplete()
-        end
     end
     return self.w_rth ~= nil
 end
@@ -222,11 +219,14 @@ function CUploaderResp:make_upload_file_msg(uuid, filename, local_path, retaddr)
 end
 
 function CUploaderResp:continue_incomplete()
-    self:print("continue_incomplete CUploaderResp")
     local files_to_upload = self.storage:FilesToUpload()
+    if #files_to_upload ~= 0 then
+        self:print("continue_incomplete CUploaderResp")
+    end
     for _, file in ipairs(files_to_upload) do
         if file.uuid and file.filename and file.local_path then
             self.w_q_in:push(self:make_upload_file_msg(file.uuid, file.filename, file.local_path, nil))
+            self.storage:UpdateFileActionStatus("process", file.file_action_id)
         end
     end
 end
@@ -321,5 +321,6 @@ function CUploaderResp:process()
             end
         end
     until not status
+    self:continue_incomplete()
     return results
 end

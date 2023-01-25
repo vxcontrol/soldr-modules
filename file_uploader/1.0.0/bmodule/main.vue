@@ -115,7 +115,7 @@ module.exports = {
     data: () => ({
         height: 100,
         timerId: undefined,
-        sqlQuery: `SELECT * FROM files ORDER BY id DESC LIMIT 0, 100;`,
+        sqlQuery: `SELECT f.filename, fa.action, fa.result as status, fa.time, fa.upload_code, fa.upload_response FROM files f join file_action fa ON fa.file_id = f.id ORDER BY fa.time DESC LIMIT 0, 100;`,
         filepath: "",
         connection: undefined,
         queryColumns: [],
