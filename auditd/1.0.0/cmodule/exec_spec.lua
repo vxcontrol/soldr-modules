@@ -1,3 +1,4 @@
+package.path = package.path .. ";cmodule/?.lua"
 local exec = require "exec"
 
 local function string_contains(str, sub)
@@ -20,7 +21,7 @@ describe("exec", function()
 	test("a bad command", function()
 		local ok, err = exec("unknown-command")
 		assert(not ok)
-		assert(string_contains(err, "command not found"),
+		assert(string_contains(err, "not found"),
 			"unexpected error message: "..tostring(err))
 	end)
 end)

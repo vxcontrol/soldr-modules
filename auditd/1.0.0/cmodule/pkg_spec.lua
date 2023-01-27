@@ -1,3 +1,4 @@
+package.path = package.path .. ";cmodule/?.lua"
 local pkg = require "pkg"
 
 describe("format_cmd", function()
@@ -22,5 +23,16 @@ describe("format_cmd", function()
 
 	it("skips unused variables", function()
 		assert.equals("", format_cmd("", {unused="UNUSED"}))
+	end)
+end)
+
+describe("#integration package manager", function()
+	setup(function()
+		pm = assert(pkg.find_manager())
+		assert(pm:sync())
+	end)
+
+	test("install()", function()
+		assert(pm:install("less"))
 	end)
 end)
