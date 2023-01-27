@@ -1,16 +1,16 @@
 test:
 	soldr-busted --exclude-tags=integration .
 
-test-docker: DOCKER_IMAGE := debian:10
-test-docker:
+OS_LIST :=$(subst docker/Dockerfile.,,$(wildcard docker/Dockerfile.*))
+test-inside-all: $(OS_LIST:%=test-inside-%)
+
+test-inside-%: docker-build-%
+	@echo Run testing inside: $*
 	@docker run --rm \
-		-v $(SOLDR_MODULES):/src:ro \
 		-e SOLDR_MODULES=/src \
+		-v $(SOLDR_MODULES):/src:ro \
 		-w /src/auditd/1.0.0 \
-		$(DOCKER_IMAGE) /src/bin/soldr-busted .
+		test/$* /src/bin/soldr-busted .
 
-test-docker-all:
-	make -s test-docker DOCKER_IMAGE=debian:10
-	make -s test-docker DOCKER_IMAGE=debian:11
-
-.PHONY: test test-docker test-docker-all
+docker-build-%: docker/Dockerfile.%
+	docker build -q -t test/$* -f docker/Dockerfile.$* . >&-
