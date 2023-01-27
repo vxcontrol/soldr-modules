@@ -1,7 +1,9 @@
 #!/bin/sh
 
+# Configurable by user:
 SOLDR_MODULES="${SOLDR_MODULES:-$PWD}"
-SOLDR_PLATFORM=${SOLDR_PLATFORM:-linux64}
+SOLDR_PLATFORM="${SOLDR_PLATFORM:-linux64}"
+
 LUA_BIN="$SOLDR_MODULES/luapower/bin/$SOLDR_PLATFORM/luajit-bin"
 
 export LUA_PATH="\
