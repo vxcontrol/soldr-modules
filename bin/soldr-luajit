@@ -1,0 +1,21 @@
+#!/bin/sh
+
+SOLDR_MODULES="${SOLDR_MODULES:-$PWD}"
+SOLDR_PLATFORM=${SOLDR_PLATFORM:-linux64}
+LUA_BIN="$SOLDR_MODULES/luapower/bin/$SOLDR_PLATFORM/luajit-bin"
+
+export LUA_PATH="\
+$SOLDR_MODULES/tests_framework/lua/?.lua;\
+$SOLDR_MODULES/tests_framework/lua/?/init.lua;\
+$SOLDR_MODULES/luapower/?.lua;\
+$SOLDR_MODULES/luapower/?/init.lua;\
+$SOLDR_MODULES/utils/?.lua;\
+$SOLDR_MODULES/utils/?/init.lua;\
+$LUA_PATH"
+
+export LUA_CPATH="\
+$SOLDR_MODULES/luapower/bin/$SOLDR_PLATFORM/lib?.dylib;\
+$SOLDR_MODULES/luapower/bin/$SOLDR_PLATFORM/clib/?.so;\
+$LUA_CPATH"
+
+exec "$LUA_BIN" "$@"

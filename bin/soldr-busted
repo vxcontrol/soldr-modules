@@ -1,0 +1,3 @@
+#!/bin/sh
+SOLDR_MODULES="${SOLDR_MODULES:-$PWD}"
+exec soldr-luajit "$SOLDR_MODULES/tests_framework/lua/bin/busted" "$@"

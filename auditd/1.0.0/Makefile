@@ -1,6 +1,6 @@
 export LUA_PATH = cmodule/?.lua;;
 
 test:
-	busted .
+	soldr-busted .
 
 .PHONY: test
