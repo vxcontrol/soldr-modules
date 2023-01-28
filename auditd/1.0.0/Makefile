@@ -1,16 +1,14 @@
 test:
-	soldr-busted --exclude-tags=integration .
+	$(SOLDR_MODULES)/bin/busted --exclude-tags=root .
 
-OS_LIST :=$(subst docker/Dockerfile.,,$(wildcard docker/Dockerfile.*))
+OS_LIST := $(subst docker/Dockerfile.,,$(wildcard docker/Dockerfile.*))
 test-inside-all: $(OS_LIST:%=test-inside-%)
 
-test-inside-%: docker-build-%
+test-inside-%: docker/Dockerfile.%
 	@echo Run testing inside: $*
+	@docker build -q -t test/$* -f docker/Dockerfile.$* . >&-
 	@docker run --rm \
 		-e SOLDR_MODULES=/src \
 		-v $(SOLDR_MODULES):/src:ro \
 		-w /src/auditd/1.0.0 \
-		test/$* /src/bin/soldr-busted .
-
-docker-build-%: docker/Dockerfile.%
-	docker build -q -t test/$* -f docker/Dockerfile.$* . >&-
+		test/$* /src/bin/busted .

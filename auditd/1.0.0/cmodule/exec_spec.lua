@@ -7,8 +7,7 @@ end
 
 describe("exec", function()
 	it("runs a given command", function()
-		local ok, err = exec("true")
-		assert(ok, "unexpected error: "..tostring(err))
+		assert(exec("true"))
 	end)
 
 	it("must fail unless the exit code is 0", function()

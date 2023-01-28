@@ -1,5 +1,10 @@
 package.path = package.path .. ";cmodule/?.lua"
 local pkg = require "pkg"
+local exec = require "exec"
+
+local function is_installed(name)
+	return exec("type "..name)
+end
 
 describe("format_cmd", function()
 	local format_cmd = pkg.testing.format_cmd
@@ -26,13 +31,17 @@ describe("format_cmd", function()
 	end)
 end)
 
-describe("#integration package manager", function()
+describe("package manager #root", function()
 	setup(function()
 		pm = assert(pkg.find_manager())
 		assert(pm:sync())
 	end)
 
 	test("install()", function()
-		assert(pm:install("less"))
+		local package = "less"
+		assert(not is_installed(package),
+			string.format("expected %q to be not installed", package))
+		assert(pm:install(package))
+		assert(is_installed(package))
 	end)
 end)

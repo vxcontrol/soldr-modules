@@ -1,7 +1,0 @@
-#!/bin/sh
-
-# Configurable by user:
-SOLDR_MODULES="${SOLDR_MODULES:-$PWD}"
-
-PATH="$SOLDR_MODULES/bin:$PATH" exec \
-	soldr-luajit "$SOLDR_MODULES/tests_framework/lua/bin/busted" "$@"
