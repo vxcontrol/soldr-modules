@@ -53,13 +53,21 @@ end
 
 -- List of supported package managers.
 local managers = {
+	Manager.new("APT", "apt-get", {
+		sync    = "{bin} update --quiet",
+		install = "{bin} install --quiet --yes {package}",
+	}),
+	Manager.new("DNF", "dnf", {
+		sync    = "{bin} --quiet makecache",
+		install = "{bin} --quiet -y install {package}",
+	}),
+	Manager.new("YUM", "yum", {
+		sync    = "{bin} --quiet makecache fast",
+		install = "{bin} --quiet -y install {package}",
+	}),
 	Manager.new("Pacman", "pacman", {
 		sync    = "{bin} -Sy --noconfirm",
 		install = "{bin} -S --asdpes --noconfirm {package}",
-	}),
-	Manager.new("Advanced package tool (APT)", "apt-get", {
-		sync    = "{bin} update --quiet",
-		install = "{bin} install --quiet --yes {package}",
 	}),
 }
 
