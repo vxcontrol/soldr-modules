@@ -41,7 +41,7 @@ describe("package manager #root", function()
 		local package = "less"
 		assert(not is_installed(package),
 			string.format("expected %q to be not installed", package))
-		assert(pm:install(package))
+		assert(pm:install("alternative", package))
 		assert(is_installed(package))
 	end)
 end)

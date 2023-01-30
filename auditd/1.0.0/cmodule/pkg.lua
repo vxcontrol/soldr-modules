@@ -47,11 +47,17 @@ function Manager:sync()
 end
 
 -- Performs installation procedure for the given package.
---:: string -> ok::boolean, err::string?
-function Manager:install(package)
-	local cmd = format_cmd(self._cmd.install,
-			{name=self.name, bin=self.bin, package=package})
-	return exec(cmd)
+-- `...` is a list of alternative names of the package.
+--:: string... -> ok::boolean, err::string?
+function Manager:install(package, ...)
+	local ok, err
+	for _, package in ipairs{package, ...} do
+		local cmd = format_cmd(self._cmd.install,
+				{name=self.name, bin=self.bin, package=package})
+		ok, err = exec(cmd)
+		if ok then return true end
+	end
+	return false, err
 end
 
 -- List of supported package managers.
@@ -70,7 +76,7 @@ local managers = {
 	}),
 	Manager.new("Pacman", "pacman", {
 		sync    = "{bin} -Sy --noconfirm",
-		install = "{bin} -S --asdpes --noconfirm {package}",
+		install = "{bin} -S --asdeps --noconfirm {package}",
 	}),
 }
 
@@ -80,7 +86,7 @@ local function find_manager()
 	for _, manager in ipairs(managers) do
 		if manager:test() then return manager end
 	end
-	return nil, "unsupported package manager / linux distro"
+	return nil, "unsupported linux distro: package manager not found"
 end
 
 return {

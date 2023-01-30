@@ -14,13 +14,13 @@ describe("exec", function()
 		local ok, err = exec("echo ERROR; false")
 		assert(not ok)
 		assert(string_contains(err, 'exit=1: ERROR'),
-			"unexpected error message: "..tostring(err))
+			string.format("unexpected error message: %s", err))
 	end)
 
 	test("a bad command", function()
 		local ok, err = exec("unknown-command")
 		assert(not ok)
 		assert(string_contains(err, "not found"),
-			"unexpected error message: "..tostring(err))
+			string.format("unexpected error message: %s", err))
 	end)
 end)
