@@ -34,11 +34,14 @@ end)
 describe("package manager #root", function()
 	setup(function()
 		pm = assert(pkg.find_manager())
+	end)
+
+	test("sync() #network", function()
 		assert(pm:sync())
 	end)
 
-	test("install()", function()
-		local package = "less"
+	test("install() #network", function()
+		local package = "lsof"
 		assert(not is_installed(package),
 			string.format("expected %q to be not installed", package))
 		assert(pm:install("alternative", package))

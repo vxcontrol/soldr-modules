@@ -1,2 +1,3 @@
 FROM oraclelinux:8
-RUN dnf makecache
+RUN dnf makecache;
+RUN dnf install -y --downloadonly audit;
