@@ -34,6 +34,14 @@ end
 -- Up-down mechanism is not realized.
 function Migrations:get_migrations()
     return {
-        ["add_file_action_table"] = self:create_table(self.tables.file_action, self.fields.file_action_fields)
+        ["add_file_action_table"] = self:create_table(self.tables.file_action, self.fields.file_action_fields),
+        ['add_place_field_to_file_action_table'] = self:add_place_field_to_file_action_table(self.tables.file_action)
     }
+end
+
+function Migrations:add_place_field_to_file_action_table(t)
+    return [[
+        alter table ]] .. t .. [[
+        add place varchar(256);
+    ]]
 end

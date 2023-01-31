@@ -141,13 +141,13 @@ function FileUploaderStorage:ExecPutFile(uuid, filename, filesize, md5_hash, sha
     )
 end
 
-function FileUploaderStorage:ExecUploadFile(uuid, code, resp, result)
+function FileUploaderStorage:ExecUploadFile(uuid, code, resp, result, place)
     self:print("exec_upload_file CUploaderResp", uuid, code, result)
     local file = self.GetFileInfoByUUID(self, uuid)
 
     return self:exec_query(
         self.queries:upload_file_resp(self.tables.file_action),
-        code, resp, result, file.id, "process", "wait"
+        code, resp, result, place, file.id, "process", "wait"
     )
 end
 

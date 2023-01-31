@@ -72,6 +72,110 @@
                 }
             }
         },
+        "request_to_minio_config": {
+            "default": {
+                "method": "PUT",
+                "url": "http://minio.local:9000"
+            },
+            "properties": {},
+            "required": [],
+            "rules": {
+                "customRule": [
+                    {
+                        "errMsg": "It must match to (http|https)://HOST:PORT regexp or be empty",
+                        "script": "dx: /^((http|https):\\/\\/)?([^:\\/ ]*(:[0-9]{2,5})?)[^ ]*$/.test({{$root.request_config.url}})"
+                    }
+                ]
+            },
+            "type": "object",
+            "ui": {
+                "widget": "input",
+                "widgetConfig": {
+                    "compound": {
+                        "prependSelect": {
+                            "enumSource": [
+                                {
+                                    "label": "HTTP PUT",
+                                    "value": "PUT"
+                                },
+                                {
+                                    "label": "HTTP POST",
+                                    "value": "POST"
+                                }
+                            ],
+                            "itemLabelField": "label",
+                            "itemValueField": "value",
+                            "modelField": "method"
+                        }
+                    },
+                    "modelField": "url",
+                    "placeholder": "https://example.com"
+                }
+            }
+        },
+        "s3_access_key": {
+            "default": "accesskey",
+            "rules": {
+                "customRule": [
+                    {
+                        "errMsg": "Common.Pseudo.ValidationText.Required",
+                        "script": "dx: {{$root.analysis_depth}} !== ''"
+                    }
+                ],
+                "required": {
+                    "errMsg": "Common.Pseudo.ValidationText.Required",
+                    "value": true
+                }
+            },
+            "type": "string",
+            "ui": {
+                "widgetConfig": {
+                    "placeholder": "dx: window.__$ncform.lang == 'en' ? 'S3 access key [default \"access key\"]' : 'S3 access key [по-умолчанию \"access key\"]'"
+                }
+            }
+        },
+        "s3_secret_key": {
+            "default": "secretkey",
+            "rules": {
+                "customRule": [
+                    {
+                        "errMsg": "Common.Pseudo.ValidationText.Required",
+                        "script": "dx: {{$root.analysis_depth}} !== ''"
+                    }
+                ],
+                "required": {
+                    "errMsg": "Common.Pseudo.ValidationText.Required",
+                    "value": true
+                }
+            },
+            "type": "string",
+            "ui": {
+                "widgetConfig": {
+                    "placeholder": "dx: window.__$ncform.lang == 'en' ? 'S3 secret key [default \"secret key\"]' : 'S3 secret key [по-умолчанию \"secret key\"]'"
+                }
+            }
+        },
+        "s3_bucket": {
+            "default": "soldr-file-uploader",
+            "rules": {
+                "customRule": [
+                    {
+                        "errMsg": "Common.Pseudo.ValidationText.Required",
+                        "script": "dx: {{$root.analysis_depth}} !== ''"
+                    }
+                ],
+                "required": {
+                    "errMsg": "Common.Pseudo.ValidationText.Required",
+                    "value": true
+                }
+            },
+            "type": "string",
+            "ui": {
+                "widgetConfig": {
+                    "placeholder": "dx: window.__$ncform.lang == 'en' ? 'S3 bucket name [default \"soldr-file-uploader\"]' : 'название директории S3 [по-умолчанию \"soldr-file-uploader\"]'"
+                }
+            }
+        },
         "request_headers": {
             "items": {
                 "properties": {

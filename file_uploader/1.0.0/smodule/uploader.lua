@@ -39,6 +39,10 @@ function CUploaderResp:init(cfg)
     self.storage.is_debug = cfg.debug
 
     self.request_config = cfg.request_config or {method="PUT", url=""}
+    self.request_to_minio_config = cfg.request_to_minio_config or {method="PUT", url=""}
+    self.s3_access_key = cfg.s3_access_key or ""
+    self.s3_secret_key = cfg.s3_secret_key or ""
+    self.s3_bucket = cfg.s3_bucket or ""
     self.request_headers = cfg.request_headers or {}
     self.is_debug = cfg.debug
     self.debug_curl = cfg.debug_curl
@@ -57,7 +61,12 @@ function CUploaderResp:init(cfg)
         debug_curl = self.debug_curl,
         url = self.request_config.url or "",
         method = self.request_config.method or "PUT",
-        headers = self.request_headers,
+        url_to_minio = self.request_to_minio_config.url or "",
+        method_to_minio = self.request_to_minio_config.method or "PUT",
+        s3_access_key = self.s3_access_key or "",
+        s3_secret_key = self.s3_secret_key or "",
+        s3_bucket = self.s3_bucket or "",
+        headers = self.request_headers
     }
 
     -- create engine table to collect raw events
@@ -73,24 +82,9 @@ local function worker(ctx, q_in, q_out, e_stop)
     local ffi     = require("ffi")
     local lcurl   = require("libcurl")
     local lglue   = require("glue")
+    local hmac = require("openssl").hmac
     local url     = ctx.url
     local method  = ctx.method
-    local headers = {}
-
-    -- update headers list by default values
-    local headers_map = {
-        ["User-Agent"] = "SOLDR/1.0",
-        ["Content-Type"] = "application/octet-stream",
-        ["Expect"] = "",
-    }
-    lglue.map(ctx.headers, function(_, row)
-        headers_map[row.name] = row.value
-    end)
-    lglue.map(headers_map, function(name, value)
-        name = tostring(name) or ""
-        value = tostring(value) or ""
-        table.insert(headers, name .. ":" .. (value ~= "" and " " .. value or ""))
-    end)
 
     local easy = lcurl.easy{
         post = true,
@@ -106,44 +100,174 @@ local function worker(ctx, q_in, q_out, e_stop)
         end
     end
 
+    local function base64_encode(data)
+        local b='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+
+        return ((data:gsub('.', function(x)
+            local r,b='',x:byte()
+            for i=8,1,-1 do r=r..(b%2^i-b%2^(i-1)>0 and '1' or '0') end
+            return r;
+        end)..'0000'):gsub('%d%d%d?%d?%d?%d?', function(x)
+            if (#x < 6) then return '' end
+            local c=0
+            for i=1,6 do c=c+(x:sub(i,i)=='1' and 2^(6-i) or 0) end
+            return b:sub(c+1,c+1)
+        end)..({ '', '==', '=' })[#data%3+1])
+    end
+
+    local function upload_file_to_external_server(task)
+        local headers = {}
+        local headers_map = {
+            ["User-Agent"] = "SOLDR/1.0",
+            ["Content-Type"] = "application/octet-stream",
+            ["Expect"] = "",
+        }
+        lglue.map(ctx.headers, function(_, row)
+            headers_map[row.name] = row.value
+        end)
+        lglue.map(headers_map, function(name, value)
+            name = tostring(name) or ""
+            value = tostring(value) or ""
+            table.insert(headers, name .. ":" .. (value ~= "" and " " .. value or ""))
+        end)
+
+        local f = io.open(task.path, "rb")
+        local ec = easy:clone()
+        task.result = ""
+
+        ec:set("httpheader", headers)
+        ec:set("customrequest", method)
+        ec:set("url", url)
+        ec:set("writefunction", function(raw)
+            local res = ffi.string(ffi.cast("char*", raw))
+            task.result = task.result .. res
+            return #res
+        end)
+        ec:set("readfunction", function(buf, size, nitems)
+            local bytes = f:read(tonumber(size * nitems))
+            if not bytes then
+                return 0
+            end
+            ffi.copy(buf, bytes, #bytes)
+            return #bytes
+        end)
+
+        local _, err, ecode = ec:perform()
+        if err ~= nil then
+            print("err=", err, "ecode=", ecode)
+            task.result_task = "wait"
+        else
+            task.result_task = "success"
+        end
+
+        task.code = tonumber(ec:info("response_code")) or 0
+        q_out:push(task)
+
+        ec:close()
+        f:close()
+        headers = {}
+    end
+
+    local function upload_file_to_minio(task)
+        local headers = {}
+        local header_content_type = "application/octet-stream"
+        local path_in_minio = string.format(
+            "/%s/%s/%s/%s",
+            ctx.s3_bucket,
+            os.date("!%Y_%m_%d"),
+            os.date("!%H_%M_%S"),
+            task.name
+        )
+        local task_date = os.date("!%a, %d %b %Y %T %z")
+
+        local signature = string.format(
+            "%s\n\n%s\n%s\n%s",
+            ctx.method_to_minio,
+            header_content_type,
+            task_date,
+            path_in_minio
+        )
+
+        local sha = hmac.hmac("sha1", signature, ctx.s3_secret_key, true)
+        local b64 = base64_encode(sha)
+
+        local f = io.open(task.path, "rb")
+        local ec = easy:clone()
+        task.result = ""
+
+        local function fsize(file)
+            local current = file:seek()
+            local size = file:seek("end")
+            file:seek("set", current)
+            return size
+        end
+
+        local headers_map = {
+            ["User-Agent"] = "SOLDR/1.0",
+            ["Content-Type"] = header_content_type,
+            ["Date"] = task_date,
+            ["Host"] = "127.0.0.1:9000",
+            ["Authorization"] = string.format( "AWS %s:%s", ctx.s3_access_key, b64)
+        }
+
+        lglue.map(ctx.headers, function(_, row)
+            headers_map[row.name] = row.value
+        end)
+        lglue.map(headers_map, function(name, value)
+            name = tostring(name) or ""
+            value = tostring(value) or ""
+            table.insert(headers, name .. ":" .. (value ~= "" and " " .. value or ""))
+        end)
+
+        ec:set("infilesize", fsize(f))
+        ec:set("upload", true)
+        ec:set("httpheader", headers)
+        ec:set("customrequest", ctx.method_to_minio)
+        ec:set("url", string.format("%s%s", ctx.url_to_minio, path_in_minio))
+        ec:set("writefunction", function(raw)
+            local res = ffi.string(ffi.cast("char*", raw))
+            task.result = task.result .. res
+            return #res
+        end)
+        ec:set("readfunction", function(buf, size, nitems)
+            local bytes = f:read(tonumber(size * nitems))
+            if not bytes then
+                return 0
+            end
+            ffi.copy(buf, bytes, #bytes)
+            return #bytes
+        end)
+
+        local _, err, ecode = ec:perform()
+        if err ~= nil then
+            print("err=", err, "ecode=", ecode)
+            task.result_task = "wait"
+        else
+            task.result_task = "success"
+        end
+
+        task.code = tonumber(ec:info("response_code")) or 0
+        task.place = string.format("%s%s", ctx.url_to_minio, path_in_minio)
+        q_out:push(task)
+
+        ec:close()
+        f:close()
+        headers = {}
+    end
+
     while true do
         if e_stop:isset() then break end
         local status, task = q_in:shift(os.time() + 1.0)
         if status then
-            local f = io.open(task.path, "rb")
-            local ec = easy:clone()
-            task.result = ""
 
-            ec:set("httpheader", headers)
-            ec:set("customrequest", method)
-            ec:set("url", url)
-            ec:set("writefunction", function(raw)
-                local res = ffi.string(ffi.cast("char*", raw))
-                task.result = task.result .. res
-                return #res
-            end)
-            ec:set("readfunction", function(buf, size, nitems)
-                local bytes = f:read(tonumber(size * nitems))
-                if not bytes then
-                    return 0
-                end
-                ffi.copy(buf, bytes, #bytes)
-                return #bytes
-            end)
-
-            local _, err, ecode = ec:perform()
-            if err ~= nil then
-                print("err=", err, "ecode=", ecode)
-                task.result_task = "wait"
-            else
-                task.result_task = "success"
+            if task.action_name == "fu_upload_object_file" then
+                upload_file_to_external_server(task)
             end
 
-            task.code = tonumber(ec:info("response_code")) or 0
-            q_out:push(task)
+            if task.action_name == "fu_download_object_file" then
+                upload_file_to_minio(task)
+            end
 
-            ec:close()
-            f:close()
         end
     end
 end
@@ -207,13 +331,14 @@ function CUploaderResp:make_uuid()
     end)
 end
 
-function CUploaderResp:make_upload_file_msg(uuid, filename, local_path, retaddr)
+function CUploaderResp:make_upload_file_msg(uuid, filename, local_path, action_name, retaddr)
     self:print("make_upload_file_msg CUploaderResp", uuid, filename, local_path)
     return {
         ["uuid"] = uuid,
         ["type"] = "upload",
         ["path"] = local_path,
         ["name"] = filename,
+        ["action_name"] = action_name,
         ["retaddr"] = retaddr
     }
 end
@@ -225,7 +350,7 @@ function CUploaderResp:continue_incomplete()
     end
     for _, file in ipairs(files_to_upload) do
         if file.uuid and file.filename and file.local_path then
-            self.w_q_in:push(self:make_upload_file_msg(file.uuid, file.filename, file.local_path, nil))
+            self.w_q_in:push(self:make_upload_file_msg(file.uuid, file.filename, file.local_path, file.action, nil))
             self.storage:UpdateFileActionStatus("process", file.file_action_id)
         end
     end
@@ -265,14 +390,14 @@ function CUploaderResp:put_file(filename, local_path, aid)
     return true
 end
 
-function CUploaderResp:start_upload_file(filename, md5_hash, sha256_hash, retaddr)
+function CUploaderResp:start_upload_file(filename, md5_hash, sha256_hash, action_name, retaddr)
     local file = self.storage:GetFileForUpload(filename, md5_hash, sha256_hash)
     if file.id == nil then
         self:print("file not found: ", filename)
         return false
     end
 
-    self.storage:SetNewFileOperation(file.id, "fu_upload_object_file")
+    self.storage:SetNewFileOperation(file.id, action_name)
 
     if self.request_config.url == "" then
         self:print("external system url is not set so the record will store only to local DB")
@@ -282,13 +407,13 @@ function CUploaderResp:start_upload_file(filename, md5_hash, sha256_hash, retadd
         self:print("failed to run file process, worker has already stopped")
         return false
     end
-    self.w_q_in:push(self:make_upload_file_msg(file.uuid, filename, file.local_path, retaddr))
+    self.w_q_in:push(self:make_upload_file_msg(file.uuid, filename, file.local_path, action_name, retaddr))
     return true
 end
 
-function CUploaderResp:upload_file(uuid, filename, local_path, code, resp, result)
+function CUploaderResp:upload_file(uuid, filename, local_path, code, resp, result, place)
     self:print("upload_file CUploaderResp", uuid, filename, local_path, code)
-    local status, err = self.storage:ExecUploadFile(uuid, code, resp, result)
+    local status, err = self.storage:ExecUploadFile(uuid, code, resp, result, place)
     if not status then
         self:print("failed to update (upload) file record in local DB", err)
         return false
@@ -312,12 +437,17 @@ function CUploaderResp:process()
             elseif resp.type == "upload" then
                 if resp.retaddr ~= nil then
                     local msg_data = {
-                        type = "exec_upload_resp",
                         stage = resp.result_task
                     }
+                    if resp.action_name == "fu_upload_object_file" then
+                        msg_data.type = "exec_upload_resp"
+                    elseif resp.action_name == "fu_download_object_file" then
+                        msg_data.type = "exec_download_resp"
+                        msg_data.place = resp.place
+                    end
                     __api.send_data_to(resp.retaddr, cjson.encode(msg_data))
                 end
-                self:upload_file(resp.uuid, resp.name, resp.path, resp.code, resp.result, resp.result_task)
+                self:upload_file(resp.uuid, resp.name, resp.path, resp.code, resp.result, resp.result_task, resp.place)
             end
         end
     until not status

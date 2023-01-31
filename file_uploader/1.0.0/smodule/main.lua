@@ -47,6 +47,10 @@ local function init_uploader()
         debug = __args["debug_uploader"][1] == "true",
         debug_curl = __args["debug_curl"][1] == "true",
         request_config = get_option_config("request_config"),
+        request_to_minio_config = get_option_config("request_to_minio_config"),
+        s3_access_key = get_option_config("s3_access_key"),
+        s3_secret_key = get_option_config("s3_secret_key"),
+        s3_bucket = get_option_config("s3_bucket"),
         request_headers = get_option_config("request_headers"),
     })
     if not uploader:worker_start() then
@@ -84,6 +88,7 @@ __api.add_cbs({
                             msg_data.existing_file["filename"],
                             msg_data.existing_file["md5_hash"],
                             msg_data.existing_file["sha256_hash"],
+                            "fu_upload_object_file",
                             dst
                         )
                     else
@@ -91,12 +96,12 @@ __api.add_cbs({
                             msg_data.data["object.name"],
                             msg_data.data["md5_hash"],
                             msg_data.data["sha256_hash"],
+                            "fu_upload_object_file",
                             dst
                         )
                     end
                     msg_data.stage = "process"
                     local send_res = __api.send_data_to(dst, cjson.encode(msg_data))
-                    __log.infof("response routed to '%s' with result %s", dst, send_res)
                     __log.debugf("response routed to '%s' with result %s", dst, send_res)
                 elseif msg_data.name == "fu_download_object_file" then
                     msg_data.type = "exec_download_resp"
@@ -104,12 +109,15 @@ __api.add_cbs({
                         local fl = uploader.storage:GetFileInfoByHash(msg_data.data.md5_hash, msg_data.data.sha256_hash)
                         msg_data.existing_file = fl
                     end
-                    local send_res = __api.send_data_to(dst, cjson.encode(msg_data))
-                    __log.infof("response routed to '%s' with result %s", dst, send_res)
-                    __log.debugf("response routed to '%s' with result %s", dst, send_res)
+
+                    uploader:start_upload_file(
+                        msg_data.existing_file["filename"],
+                        msg_data.existing_file["md5_hash"],
+                        msg_data.existing_file["sha256_hash"],
+                        "fu_download_object_file",
+                        dst
+                    )
                 end
-
-
             else
                 __log.debugf("receive unknown type message '%s' from agent", msg_data["type"])
             end

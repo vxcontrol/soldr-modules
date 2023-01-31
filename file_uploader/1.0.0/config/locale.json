@@ -30,6 +30,46 @@
                 "description": ""
             }
         },
+        "request_to_minio_config": {
+            "en": {
+                "title": "Minio address and HTTP request method",
+                "description": ""
+            },
+            "ru": {
+                "title": "Адрес minio и метод HTTP-запроса",
+                "description": ""
+            }
+        },
+        "s3_access_key": {
+            "en": {
+                "title": "S3 access key",
+                "description": ""
+            },
+            "ru": {
+                "title": "S3 access key",
+                "description": ""
+            }
+        },
+        "s3_secret_key": {
+            "en": {
+                "title": "S3 secret key",
+                "description": ""
+            },
+            "ru": {
+                "title": "S3 secret key",
+                "description": ""
+            }
+        },
+        "s3_bucket": {
+            "en": {
+                "title": "S3 bucket name",
+                "description": ""
+            },
+            "ru": {
+                "title": "Название директории в S3",
+                "description": ""
+            }
+        },
         "request_headers": {
             "en": {
                 "title": "List of request headers",

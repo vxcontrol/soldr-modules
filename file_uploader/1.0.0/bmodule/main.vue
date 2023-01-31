@@ -115,7 +115,7 @@ module.exports = {
     data: () => ({
         height: 100,
         timerId: undefined,
-        sqlQuery: `SELECT f.filename, fa.action, fa.result as status, fa.time, fa.upload_code, fa.upload_response FROM files f join file_action fa ON fa.file_id = f.id ORDER BY fa.time DESC LIMIT 0, 100;`,
+        sqlQuery: `SELECT f.filename, fa.action, fa.result as status, fa.place, fa.time, fa.upload_code, fa.upload_response FROM files f join file_action fa ON fa.file_id = f.id ORDER BY fa.time DESC LIMIT 0, 100;`,
         filepath: "",
         connection: undefined,
         queryColumns: [],
@@ -145,6 +145,8 @@ module.exports = {
                 filePathError: "Путь к файлу задан некорректно",
                 fileInProcess: "Началась загрузка файла во внешнюю систему",
                 checkSuccess: "Файл отправлен во внешнюю систему",
+                downloadSuccess: "Файл загружен в minio: ",
+                downloadInProcess: "Началась загрузка файла в minio",
                 recvError: "Не удалось выполнить SQL-запрос",
                 allFields: "Все",
                 chgFixedFirst: "Закрепить первый столбец",
@@ -155,7 +157,8 @@ module.exports = {
                 queryPl: "SQL-запрос для выборки",
                 filePl: "Путь к файлу",
                 prepareFile: "Подготовка файла",
-                uploadRespWait: 'Не удалось загрузить файл на удалнный сервер. Повторная попытка будет выполнена позже.'
+                uploadRespWait: 'Не удалось загрузить файл на удалнный сервер. Повторная попытка будет выполнена позже.',
+                downloadRespWait: 'Не удалось загрузить файл в minio. Повторная попытка будет выполнена позже.'
             },
             en: {
                 buttonExec: "Execute query",
@@ -173,6 +176,8 @@ module.exports = {
                 filePathError: "Invalid file path",
                 fileInProcess: "Started uploading a file to an external system",
                 checkSuccess: "File is sent to external system",
+                downloadSuccess: "File is downloaded to minio: ",
+                downloadInProcess: "Started uploading a file to a minio",
                 recvError: "Failed to execute SQL query",
                 allFields: "All",
                 chgFixedFirst: "Fix first column",
@@ -183,7 +188,8 @@ module.exports = {
                 queryPl: "SQL query for selection",
                 filePl: "File path",
                 prepareFile: "Prepare file",
-                uploadRespWait: 'Unable to upload file to remote server. Will try again later.'
+                uploadRespWait: 'Unable to upload file to remote server. Will try again later.',
+                downloadRespWait: 'Unable to upload file to minio. Will try again later.'
             }
         }
     }),
@@ -275,28 +281,27 @@ module.exports = {
                     this.height = this.height + 70 * result.rows.length + 20;
                 }
             } else if (result.type == "exec_upload_resp") {
-                console.log(result);
                 if (result.stage == "process") {
-                  this.$root.NotificationsService.success(`${this.locale[this.$i18n.locale]['fileInProcess']}`)
+                    this.$root.NotificationsService.success(`${this.locale[this.$i18n.locale]['fileInProcess']}`)
                 }
                 if (result.stage == "success") {
-                  this.$root.NotificationsService.success(`${this.locale[this.$i18n.locale]['checkSuccess']}`);
+                    this.$root.NotificationsService.success(`${this.locale[this.$i18n.locale]['checkSuccess']}`);
                 }
                 if (result.stage == "wait") {
-                  this.$root.NotificationsService.error(`${this.locale[this.$i18n.locale]['uploadRespWait']}`);
+                    this.$root.NotificationsService.error(`${this.locale[this.$i18n.locale]['uploadRespWait']}`);
                 }
             } else if (result.type == "prepare_upload_resp") {
                 this.$root.NotificationsService.success(`${this.locale[this.$i18n.locale]['prepareFile']}`)
             } else if (result.type == "exec_download_resp") {
-                console.log(result)
-                if (result.existing_file != 'undefined') {
-
-                } else {
-                    console.log("existing_file - undefined")
+                if (result.stage == "process") {
+                    this.$root.NotificationsService.success(`${this.locale[this.$i18n.locale]['downloadInProcess']}`)
                 }
-
-
-
+                if (result.stage == "success") {
+                    this.$root.NotificationsService.success(`${this.locale[this.$i18n.locale]['downloadSuccess']}` + result.place)
+                }
+                if (result.stage == "wait") {
+                    this.$root.NotificationsService.error(`${this.locale[this.$i18n.locale]['downloadRespWait']}`);
+                }
             } else {
                 console.log("received unknown message type from server", result)
             }

@@ -37,6 +37,7 @@ function Queries:get_incomplete_upload()
             , f.local_path
             , fa.upload_response
             , fa.upload_code
+            , fa.action
             , f.agent_id
             , f.group_id
             , fa.id as file_action_id
@@ -135,7 +136,8 @@ function Queries:upload_file_resp(t)
             upload_code = ?,
             upload_response = ?,
             result = ?,
-            time = strftime('%Y-%m-%d %H:%M:%f', 'now', 'localtime')
+            time = strftime('%Y-%m-%d %H:%M:%f', 'now', 'localtime'),
+            place = ?
         WHERE file_id = ? and (result = ? or result = ?);
     ]]
 end
