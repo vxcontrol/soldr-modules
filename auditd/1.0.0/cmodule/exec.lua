@@ -5,9 +5,13 @@ local function show_output(s)
 	return s
 end
 
+local function trim_end(s)
+	return string.gsub(s, "%s+$", "")
+end
+
 -- Executes the given command in a shell.
 -- NOTE: stderr is redirected to stdout.
---:: string -> ok::boolean, err::string?
+--:: string -> ok::boolean, output|err::string
 local function exec(cmd)
 	local f = io.popen("exec 2>&1;" .. cmd)
 	if not f then
@@ -17,9 +21,9 @@ local function exec(cmd)
 	local ok, status, code = f:close()
 	if not ok then
 		return false, string.format(
-			"exec: %q: %s=%d: %s", cmd, status, code, show_output(output))
+			"exec(%s): %s=%d: %s", cmd, status, code, show_output(output))
 	end
-	return true
+	return true, trim_end(output)
 end
 
 return exec
