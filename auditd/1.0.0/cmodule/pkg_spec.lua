@@ -1,4 +1,3 @@
-package.path = package.path .. ";cmodule/?.lua"
 local pkg = require "pkg"
 local exec = require "exec"
 

@@ -1,4 +1,3 @@
-package.path = package.path .. ";cmodule/?.lua"
 local exec = require "exec"
 
 local function string_contains(str, sub)
