@@ -9,7 +9,7 @@ describe("exec", function()
 		assert(exec("true"))
 	end)
 
-	it("must fail unless the exit code is 0", function()
+	it("must fail if exit code != 0", function()
 		local ok, err = exec("echo ERROR; false")
 		assert(not ok)
 		assert(string_contains(err, 'exit=1: ERROR'),

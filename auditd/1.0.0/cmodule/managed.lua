@@ -4,8 +4,11 @@ local File = {}; File.__index = File
 
 local MODIFIED = {}
 
--- Introduces a managed file.
--- NOTE: `mode` is a string of format of `chmod` command, see: man chmod(1).
+-- Introduces a "managed" file.
+--   1. Set the required access `mode` to the file.
+--   2. Set the required content of the file with `set`.
+--   3. Then use `ensure` to adjust the file on disk to required state.
+-- NOTE: `mode` is a string in `chmod` format, see: chmod(1).
 --:: string, string -> File
 function File.new(path, mode)
 	return setmetatable({
@@ -15,16 +18,16 @@ function File.new(path, mode)
 	}, File)
 end
 
--- Sets target content of the managed file.
+-- Sets target content of the file.
 --:: string -> ()
 function File:set(data)
 	self._data = data
 end
 
--- Adjust the managed file state on disk.
--- Does nothing if the file content equals to the target data.
+-- Adjust the file on disk to required state.
+-- Does nothing if the file on disk matches the required state.
 --:: () -> true|MODIFIED, err::string?
-function File:adjust()
+function File:ensure()
 	if self:compare() == MODIFIED then
 		local ok, err = self:write()
 		return ok and MODIFIED,
@@ -33,7 +36,7 @@ function File:adjust()
 	return true
 end
 
--- Overwrite the managed file with the target data.
+-- Entirely overwrites the file on disk with the required content.
 --:: () -> ok::boolean, err::string?
 function File:write()
 	local ok, err = exec(
@@ -53,7 +56,7 @@ function File:write()
 		string.format("chmod %q %q", self._mode, self._path))
 end
 
--- Compares content of the managed file with the target value.
+-- Compares the required content with the file's content on disk.
 --:: () -> true|MODIFIED
 function File:compare()
 	local data
