@@ -16,7 +16,7 @@ local Manager = {}; Manager.__index = Manager
 
 local backend_commands = {
 	test    = "type {bin}",
-	sync    = "false",
+	sync    = "true",
 	install = "false",
 }
 
@@ -67,11 +67,9 @@ local managers = {
 		install = "{bin} install --quiet --yes {package}",
 	}),
 	Manager.new("DNF", "dnf", {
-		sync    = "{bin} --quiet makecache",
 		install = "{bin} --quiet -y install {package}",
 	}),
 	Manager.new("YUM", "yum", {
-		sync    = "{bin} --quiet makecache fast",
 		install = "{bin} --quiet -y install {package}",
 	}),
 	Manager.new("Pacman", "pacman", {
