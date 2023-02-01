@@ -2,7 +2,7 @@ local managed = require "managed"
 local exec = require "exec"
 
 local function rm(path)
-	local cmd = string.format("rm -r %q", path)
+	local cmd = string.format("rm -rf %q", path)
 	assert(exec(cmd))
 end
 
@@ -22,9 +22,7 @@ describe("Managed file #write", function()
 		tmp = assert(exec("mktemp -d"))
 		f_name = tmp .. "/sub/file"
 	end)
-	teardown(function()
-		rm(tmp)
-	end)
+	teardown(function() rm(tmp) end)
 
 	describe("ensure()", function()
 		it("should create a file unless it exists", function()
