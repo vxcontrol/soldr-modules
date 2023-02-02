@@ -16,6 +16,12 @@ describe("exec", function()
 			string.format("unexpected error message: %s", err))
 	end)
 
+	it("stdin should be closed to avoid blocking", function()
+		assert.has_error(function()
+			assert(exec("cat"))
+		end)
+	end)
+
 	test("a bad command", function()
 		local ok, err = exec("unknown-command")
 		assert(not ok)

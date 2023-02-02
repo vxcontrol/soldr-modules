@@ -13,7 +13,7 @@ end
 -- NOTE: stderr is redirecting to stdout.
 --:: string -> output::string?, err::string?
 local function exec(cmd)
-	local f = io.popen("exec 2>&1;" .. cmd)
+	local f = io.popen("exec <&- 2>&1;" .. cmd)
 	if not f then
 		return nil, string.format("exec(%s): io.popen failed", cmd, err)
 	end
