@@ -73,7 +73,24 @@ function File:compare()
 	return self._data == data or MODIFIED
 end
 
+-- Calls `ensure` for every item of `list`.
+-- Returns MODIFIED if any of list returns MODIFIED.
+-- Immediately returns false if any of list failed.
+--:: File... -> boolean|MODIFIED, err::string?
+local function ensure_all(list)
+	local status = true
+	for _, item in ipairs(list) do
+		local result, err = item:ensure()
+		if not result then
+			return false, err end
+		if result == MODIFIED then
+			status = MODIFIED end
+	end
+	return status
+end
+
 return {
-	file     = file,
-	MODIFIED = MODIFIED,
+	MODIFIED   = MODIFIED,
+	file       = file,
+	ensure_all = ensure_all,
 }

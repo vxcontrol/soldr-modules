@@ -17,7 +17,7 @@ local function read_mode(filename)
 	return assert(exec(cmd))
 end
 
-describe("Managed file #write", function()
+describe("managed File #write", function()
 	setup(function()
 		tmp = assert(exec("mktemp -d"))
 		f_name = tmp .. "/sub/file"
@@ -52,5 +52,36 @@ describe("Managed file #write", function()
 			assert.equals("UPDATE", read_file(f_name))
 			assert.equals("-r--------", read_mode(f_name))
 		end)
+	end)
+end)
+
+describe("ensure_all() #write", function()
+	setup(function()
+		tmp = assert(exec("mktemp -d"))
+		file_a = managed.file(tmp.."/a", "a=rw")
+		file_b = managed.file(tmp.."/b", "a=rw")
+	end)
+	teardown(function() rm(tmp) end)
+
+	it("should call ensure() for every item", function()
+		file_a:set("CREATE")
+		file_b:set("CREATE")
+
+		local status = managed.ensure_all{file_a, file_b}
+		assert.equals(managed.MODIFIED, status)
+		assert.equals("CREATE", read_file(file_a:path()))
+		assert.equals("CREATE", read_file(file_b:path()))
+	end)
+
+	it("should not return MODIFIED if any of item is modified", function()
+		file_a:set("UPDATE")
+		assert.equals(managed.MODIFIED, managed.ensure_all{file_a, file_b})
+
+		file_b:set("UPDATE")
+		assert.equals(managed.MODIFIED, managed.ensure_all{file_a, file_b})
+	end)
+
+	it("otherwise returns `true`", function()
+		 assert.is_true(managed.ensure_all{file_a, file_b})
 	end)
 end)
