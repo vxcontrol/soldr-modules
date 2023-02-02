@@ -73,7 +73,7 @@ describe("ensure_all() #write", function()
 		assert.equals("CREATE", read_file(file_b:path()))
 	end)
 
-	it("should not return MODIFIED if any of item is modified", function()
+	it("should return MODIFIED if any of item is modified", function()
 		file_a:set("UPDATE")
 		assert.equals(managed.MODIFIED, managed.ensure_all{file_a, file_b})
 
