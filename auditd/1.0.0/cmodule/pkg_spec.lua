@@ -5,7 +5,7 @@ local function is_installed(name)
 	return exec("type "..name)
 end
 
-describe("format_cmd", function()
+describe("format_cmd()", function()
 	local format_cmd = pkg.testing.format_cmd
 
 	it("replaces {name} placeholders", function()

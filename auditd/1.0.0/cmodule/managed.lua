@@ -1,8 +1,8 @@
 local exec = require "exec"
 
-local File = {}; File.__index = File
-
 local MODIFIED = {}
+
+local File = {}; File.__index = File
 
 -- Introduces a "managed" file.
 --   1. Set the required access `mode` to the file.
@@ -10,12 +10,16 @@ local MODIFIED = {}
 --   3. Then use `ensure` to adjust the file on disk to required state.
 -- NOTE: `mode` is a string in `chmod` format, see: chmod(1).
 --:: string, string -> File
-function File.new(path, mode)
+local function file(path, mode)
 	return setmetatable({
 		_path = path,
 		_mode = mode,
 		_data = "",
 	}, File)
+end
+
+function File:path()
+	return self._path
 end
 
 -- Sets target content of the file.
@@ -26,12 +30,12 @@ end
 
 -- Adjust the file on disk to required state.
 -- Does nothing if the file on disk matches the required state.
---:: () -> true|MODIFIED, err::string?
+--:: () -> boolean|MODIFIED, err::string?
 function File:ensure()
 	if self:compare() == MODIFIED then
 		local ok, err = self:write()
 		return ok and MODIFIED,
-			string.format("file %q: %s", self._path, err)
+			string.format("%s: %s", self._path, err)
 	end
 	return true
 end
@@ -52,8 +56,9 @@ function File:write()
 	if not w then
 		return false, err end
 
-	return exec(
+	local ok, err = exec(
 		string.format("chmod %q %q", self._mode, self._path))
+	return ok and true, err
 end
 
 -- Compares the required content with the file's content on disk.
@@ -69,6 +74,6 @@ function File:compare()
 end
 
 return {
-	File     = File,
+	file     = file,
 	MODIFIED = MODIFIED,
 }

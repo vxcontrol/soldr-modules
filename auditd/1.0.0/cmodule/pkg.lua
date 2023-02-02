@@ -33,21 +33,21 @@ function Manager.new(name, bin, commands)
 end
 
 -- Tests if the manager is available on current OS.
---:: () -> ok::boolean, err::string?
+--:: () -> ok?, err::string?
 function Manager:test()
 	local cmd = format_cmd(self._cmd.test, {name=self.name, bin=self.bin})
 	return exec(cmd)
 end
 
 -- Used to synchronize the package index files from their sources.
---:: () -> ok::boolean, err::string?
+--:: () -> ok?, err::string?
 function Manager:sync()
 	local cmd = format_cmd(self._cmd.sync, {name=self.name, bin=self.bin})
 	return exec(cmd)
 end
 
 -- Performs installation procedure for the given package.
--- `...` is a list of alternative names of the package.
+-- Additional args are used as alternative names of the package.
 --:: string... -> ok::boolean, err::string?
 function Manager:install(package, ...)
 	local ok, err

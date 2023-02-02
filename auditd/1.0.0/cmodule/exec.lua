@@ -11,16 +11,16 @@ end
 
 -- Executes the given command in a shell.
 -- NOTE: stderr is redirecting to stdout.
---:: string -> string?, err::string
+--:: string -> output::string?, err::string?
 local function exec(cmd)
 	local f = io.popen("exec 2>&1;" .. cmd)
 	if not f then
-		return false, string.format("exec: %q: io.popen returned nil", cmd, err)
+		return nil, string.format("exec(%s): io.popen failed", cmd, err)
 	end
 	local output = f:read("a") or ""
 	local ok, status, code = f:close()
 	if not ok then
-		return false, string.format(
+		return nil, string.format(
 			"exec(%s): %s=%d: %s", cmd, status, code, show_output(output))
 	end
 	return trim_end(output)
