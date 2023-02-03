@@ -8,6 +8,7 @@ test-inside-%: docker/Dockerfile.%
 	@echo === $* ===
 	@docker build -t test/$* -f docker/Dockerfile.$* . >&-
 	@docker run --rm \
-		-e SOLDR_MODULES=/src -e BUSTED_FLAGS \
+		-e SOLDR_MODULES=/src \
 		-v $(SOLDR_MODULES):/src:ro \
-		test/$* make test -sC /src/auditd/1.0.0
+		-w /src/auditd/1.0.0 \
+		test/$* /src/bin/busted --exclude-tags=systemd $(BUSTED_FLAGS) .
