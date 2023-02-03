@@ -39,7 +39,7 @@ function CUploaderResp:init(cfg)
     self.storage.is_debug = cfg.debug
 
     self.request_config = cfg.request_config or {method="PUT", url=""}
-    self.request_to_minio_config = cfg.request_to_minio_config or {method="PUT", url=""}
+    self.request_to_minio_config = cfg.request_to_minio_config or {url=""}
     self.s3_access_key = cfg.s3_access_key or ""
     self.s3_secret_key = cfg.s3_secret_key or ""
     self.s3_bucket = cfg.s3_bucket or ""
@@ -62,7 +62,7 @@ function CUploaderResp:init(cfg)
         url = self.request_config.url or "",
         method = self.request_config.method or "PUT",
         url_to_minio = self.request_to_minio_config.url or "",
-        method_to_minio = self.request_to_minio_config.method or "PUT",
+        method_to_minio = "PUT",
         s3_access_key = self.s3_access_key or "",
         s3_secret_key = self.s3_secret_key or "",
         s3_bucket = self.s3_bucket or "",

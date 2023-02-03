@@ -115,7 +115,7 @@ module.exports = {
     data: () => ({
         height: 100,
         timerId: undefined,
-        sqlQuery: `SELECT f.filename, fa.action, fa.result as status, fa.place, fa.time, fa.upload_code, fa.upload_response FROM files f join file_action fa ON fa.file_id = f.id ORDER BY fa.time DESC LIMIT 0, 100;`,
+        sqlQuery: `SELECT f.filename, f.agent_id, fa.action, fa.result as status, fa.place, fa.time, fa.upload_code, fa.upload_response FROM files f join file_action fa ON fa.file_id = f.id ORDER BY fa.time DESC LIMIT 0, 100;`,
         filepath: "",
         connection: undefined,
         queryColumns: [],
@@ -131,11 +131,11 @@ module.exports = {
         locale: {
             ru: {
                 buttonExec: "Выполнить запрос",
-                buttonDownloadFile: "Загрузить файл",
+                buttonDownloadFile: "Отправить в minio",
                 buttonSave: "Сохранить запрос",
                 buttonLoad: "Загрузить изменения",
                 buttonReset: "Сбросить фильтр",
-                buttonExecAction: "Отправить файл",
+                buttonExecAction: "Отправить на удалённый сервер",
                 connected: "— подключение к серверу установлено",
                 connAgentError: "Не удалось подключиться к агенту",
                 connServerError: "Не удалось подключиться к серверу",
@@ -162,11 +162,11 @@ module.exports = {
             },
             en: {
                 buttonExec: "Execute query",
-                buttonDownloadFile: "DownloadFile",
+                buttonDownloadFile: "Send to minio",
                 buttonSave: "Save query",
                 buttonLoad: "Load query",
                 buttonReset: "Reset filter",
-                buttonExecAction: "Send file",
+                buttonExecAction: "Send to external server",
                 connected: "— connection to the server established",
                 connAgentError: "Failed to connect to the agent",
                 connServerError: "Failed to connect to the server",

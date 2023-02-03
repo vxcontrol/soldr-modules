@@ -74,7 +74,6 @@
         },
         "request_to_minio_config": {
             "default": {
-                "method": "PUT",
                 "url": "http://minio.local:9000"
             },
             "properties": {},
@@ -91,23 +90,6 @@
             "ui": {
                 "widget": "input",
                 "widgetConfig": {
-                    "compound": {
-                        "prependSelect": {
-                            "enumSource": [
-                                {
-                                    "label": "HTTP PUT",
-                                    "value": "PUT"
-                                },
-                                {
-                                    "label": "HTTP POST",
-                                    "value": "POST"
-                                }
-                            ],
-                            "itemLabelField": "label",
-                            "itemValueField": "value",
-                            "modelField": "method"
-                        }
-                    },
                     "modelField": "url",
                     "placeholder": "https://example.com"
                 }
