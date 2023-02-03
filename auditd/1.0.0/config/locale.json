@@ -1,0 +1,20 @@
+{
+    "module": {
+        "en": {
+            "title": "Auditd (cyberok)",
+            "description": ""
+        },
+        "ru": {
+            "title": "Auditd (cyberok)",
+            "description": ""
+        }
+    },
+    "config": {},
+    "secure_config": {},
+    "fields": {},
+    "actions": {},
+    "events": {},
+    "action_config": {},
+    "event_config": {},
+    "tags": {}
+}
