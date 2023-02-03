@@ -9,7 +9,38 @@
             "description": ""
         }
     },
-    "config": {},
+    "config": {
+        "audit_rules": {
+            "en": {
+                "title": "Audit rules",
+                "description": "/etc/audit/audit.rules"
+            },
+            "ru": {
+                "title": "Правила аудита",
+                "description": "/etc/audit/audit.rules"
+            }
+        },
+        "auditd_conf": {
+            "en": {
+                "title": "Audit daemon configuration",
+                "description": "/etc/audit/auditd.conf"
+            },
+            "ru": {
+                "title": "Конфигурация демона auditd",
+                "description": "/etc/audit/auditd.conf"
+            }
+        },
+        "check_interval_sec": {
+            "en": {
+                "title": "Check interval, seconds",
+                "description": "Module is checking audit configuration every given interval of time"
+            },
+            "ru": {
+                "title": "Интервал проверки, ceкунды",
+                "description": "Проверять конфигурацию аудита через указанный интервал времени"
+            }
+        }
+    },
     "secure_config": {},
     "fields": {},
     "actions": {},

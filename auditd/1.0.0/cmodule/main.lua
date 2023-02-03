@@ -45,9 +45,10 @@ __api.add_cbs{
 }
 
 while not __api.is_close() do
-	if os.time() - last_check > check_interval_sec then
+	local now = os.time()
+	if now - last_check > check_interval_sec then
+		last_check = now
 		setup_audit()
-		last_check = os.time()
 	end
 	__api.await(1000)
 end
