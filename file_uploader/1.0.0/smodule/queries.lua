@@ -47,7 +47,6 @@ function Queries:get_incomplete_upload()
             f.group_id = ?
             and fa.result = ?
             and (strftime('%s', 'now') - (strftime('%s', fa.time))) > 60
-            and deleted is null
         order by f.id desc;
     ]]
 end

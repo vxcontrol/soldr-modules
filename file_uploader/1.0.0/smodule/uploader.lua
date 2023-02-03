@@ -349,7 +349,10 @@ function CUploaderResp:continue_incomplete()
         self:print("continue_incomplete CUploaderResp")
     end
     for _, file in ipairs(files_to_upload) do
-        if file.uuid and file.filename and file.local_path then
+        if not self:isExistsFileInFS(file.local_path) then
+            self.storage:UpdateFileActionStatus("cancel", file.file_action_id)
+            self.storage:DeleteFile(file.id)
+        elseif file.uuid and file.filename and file.local_path then
             self.w_q_in:push(self:make_upload_file_msg(file.uuid, file.filename, file.local_path, file.action, nil))
             self.storage:UpdateFileActionStatus("process", file.file_action_id)
         end
