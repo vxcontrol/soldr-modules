@@ -28,7 +28,7 @@ local function setup(pm, files)
 		local status = assert(managed.ensure_all(files))
 		if status == managed.MODIFIED then
 			assert(exec("systemctl daemon-reload"))
-			assert(exec("systemctl reload-or-restart auditd"))
+			assert(exec("systemctl reload-or-restart auditd.service"))
 		end
 
 		assert(exec("systemctl start auditd.service"))
