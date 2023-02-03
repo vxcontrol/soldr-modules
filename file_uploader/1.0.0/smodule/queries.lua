@@ -43,7 +43,11 @@ function Queries:get_incomplete_upload()
             , fa.id as file_action_id
         from files f
         left join file_action fa on f.id = fa.file_id
-        where f.group_id = ? and fa.result = ? and (strftime('%s', 'now') - (strftime('%s', fa.time))) > 60
+        where
+            f.group_id = ?
+            and fa.result = ?
+            and (strftime('%s', 'now') - (strftime('%s', fa.time))) > 60
+            and deleted is null
         order by f.id desc;
     ]]
 end
@@ -59,6 +63,7 @@ function Queries:get_file_for_upload(t)
         where
             filename = ?
             and md5_hash = ?
+            and deleted is null
             and sha256_hash = ?;
     ]]
 end
@@ -94,7 +99,7 @@ function Queries:check_duplicate_file_by_hash(t)
         SELECT filename, filesize, md5_hash, sha256_hash
         FROM ]] .. t .. [[
         WHERE (md5_hash LIKE ? OR sha256_hash LIKE ?) AND
-            time >= datetime('now', '-7 days')
+            time >= datetime('now', '-7 days') AND deleted is null
         ORDER BY time DESC;
     ]]
 end
@@ -125,7 +130,7 @@ function Queries:get_file_from_filename(t)
     return [[
         select id, uuid, filename, filesize, md5_hash, sha256_hash, local_path
         from ]] .. t .. [[
-        where filename = ?
+        where filename = ? and deleted is null
         order by time DESC;
     ]]
 end
@@ -157,5 +162,11 @@ function Queries:set_file_action(t)
         ) VALUES (
             ?, ?, ?
         );
+    ]]
+end
+
+function Queries:delete_file(t)
+    return [[
+        UPDATE ]] .. t .. [[ SET deleted = 1 WHERE id = ?;
     ]]
 end

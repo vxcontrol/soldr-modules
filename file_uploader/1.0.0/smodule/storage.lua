@@ -200,6 +200,11 @@ function FileUploaderStorage:GetUploadedFiles()
     ))
 end
 
+function FileUploaderStorage:DeleteFile(file_id)
+    self:print("delete file CUploaderResp, file_id: ", file_id)
+    return self:exec_query(self.queries:delete_file(self.tables.files), file_id)
+end
+
 function FileUploaderStorage:print(...)
     if self.is_debug then
         local t = glue.pack(...)

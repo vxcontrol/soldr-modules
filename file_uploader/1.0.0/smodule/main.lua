@@ -178,6 +178,8 @@ __api.add_cbs({
                                     ["md5_hash"] = file.md5_hash,
                                     ["local_path"] = file.local_path
                                 }
+                            else
+                                uploader.storage:DeleteFile(file.id)
                             end
                         end
                     end

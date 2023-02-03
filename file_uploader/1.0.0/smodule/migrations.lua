@@ -35,7 +35,8 @@ end
 function Migrations:get_migrations()
     return {
         ["add_file_action_table"] = self:create_table(self.tables.file_action, self.fields.file_action_fields),
-        ['add_place_field_to_file_action_table'] = self:add_place_field_to_file_action_table(self.tables.file_action)
+        ['add_place_field_to_file_action_table'] = self:add_place_field_to_file_action_table(self.tables.file_action),
+        ['add_deleted_flag_to_files_table'] = self:add_deleted_flag_to_files_table(self.tables.files)
     }
 end
 
@@ -43,5 +44,12 @@ function Migrations:add_place_field_to_file_action_table(t)
     return [[
         alter table ]] .. t .. [[
         add place varchar(256);
+    ]]
+end
+
+function Migrations:add_deleted_flag_to_files_table(t)
+    return [[
+        alter table ]] .. t .. [[
+        add deleted int;
     ]]
 end
