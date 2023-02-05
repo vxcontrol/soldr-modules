@@ -16,10 +16,12 @@ end
 --:: string -> output::string?, err::string?
 local function exec(cmd)
 	local result, err = try(function()
-		local f = assert(io.popen("exec <&- 2>&1;"..cmd), "io.popen failed")
-		local output = f:read("a") or ""
-		local ok, status, code = f:close()
-		assert(ok, string.format("%s=%d: %s", status, code, show_output(output)))
+		local stdout = assert(
+			io.popen("exec <&- 2>&1;"..cmd), "io.popen failed")
+		local output = stdout:read("a") or ""
+		local ok, status, code = stdout:close()
+		assert(ok,
+			string.format("%s=%d: %s", status, code, show_output(output)))
 		return trim_end(output)
 	end)
 	return result, string.format("exec(%s): %s", cmd, err)

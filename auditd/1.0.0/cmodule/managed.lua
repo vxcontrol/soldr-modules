@@ -74,7 +74,7 @@ end
 -- Calls `ensure` for every item of `list`.
 -- Returns MODIFIED if any of list returns MODIFIED.
 -- Immediately returns false if any of list failed.
---:: File... -> boolean|MODIFIED, err::string?
+--:: [File] -> boolean|MODIFIED, err::string?
 local function ensure_all(list)
 	return try(function()
 		local status = true

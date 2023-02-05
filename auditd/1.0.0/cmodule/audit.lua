@@ -24,7 +24,7 @@ local function ensure_audit(pm)
 	return ok, string.format("audit not available: %s", err)
 end
 
---:: pkg.Manager, {managed.File,...} -> ok?, err::string?
+--:: pkg.Manager, [managed.File] -> ok?, err::string?
 local function setup(pm, files)
 	return try(function()
 		assert(ensure_audit(pm))

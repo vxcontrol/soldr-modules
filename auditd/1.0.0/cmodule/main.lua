@@ -18,8 +18,8 @@ if not pm then
 end
 
 local function update_config()
-	local c = cjson.decode(__config.get_current_config())
 	event.update_config()
+	local c = cjson.decode(__config.get_current_config())
 	audit.file_auditd_conf:set(c.auditd_conf)
 	audit.file_audit_rules:set(c.audit_rules)
 	watcher:reset(c.check_interval)
