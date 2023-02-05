@@ -1,4 +1,5 @@
 local exec = require "exec"
+local try  = require "try"
 
 local MODIFIED = {}
 
@@ -43,22 +44,19 @@ end
 -- Entirely overwrites the file on disk with the required content.
 --:: () -> ok::boolean, err::string?
 function File:write()
-	local ok, err = exec(
-		string.format("mkdir -p $(dirname %q)", self._path))
-	if not ok then return false, err end
+	return try(function()
+		assert(exec(
+			string.format("mkdir -p $(dirname %q)", self._path)))
 
-	local f = io.open(self._path, "wb")
-	if not f then
-		return false, string.format("failed to open") end
+		local f = assert(io.open(self._path, "wb"), "failed to open")
+		local w, err = f:write(self._data);
+		f:close()
+		assert(w, err)
 
-	local w, err = f:write(self._data)
-	f:close()
-	if not w then
-		return false, err end
-
-	local ok, err = exec(
-		string.format("chmod %q %q", self._mode, self._path))
-	return ok and true, err
+		assert(exec(
+			string.format("chmod %q %q", self._mode, self._path)))
+		return true
+	end)
 end
 
 -- Compares the required content with the file's content on disk.
@@ -78,15 +76,14 @@ end
 -- Immediately returns false if any of list failed.
 --:: File... -> boolean|MODIFIED, err::string?
 local function ensure_all(list)
-	local status = true
-	for _, item in ipairs(list) do
-		local result, err = item:ensure()
-		if not result then
-			return false, err end
-		if result == MODIFIED then
-			status = MODIFIED end
-	end
-	return status
+	return try(function()
+		local status = true
+		for _, item in ipairs(list) do
+			if assert(item:ensure()) == MODIFIED then
+				status = MODIFIED end
+		end
+		return status
+	end)
 end
 
 return {

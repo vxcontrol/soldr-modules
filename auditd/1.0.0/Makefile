@@ -2,7 +2,7 @@ test:
 	$(SOLDR_MODULES)/bin/busted $(BUSTED_FLAGS) .
 
 OS_LIST := $(subst docker/Dockerfile.,,$(wildcard docker/Dockerfile.*))
-test-inside-all: $(OS_LIST:%=test-inside-%)
+test-inside-docker: $(OS_LIST:%=test-inside-%)
 
 test-inside-%: docker/Dockerfile.%
 	@echo === $* ===

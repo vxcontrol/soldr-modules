@@ -9,6 +9,11 @@ describe("exec", function()
 		assert(exec("true"))
 	end)
 
+	it("should return stdout+stderr", function()
+		local output = assert(exec("echo OUTPUT"))
+		assert.equals("OUTPUT", output)
+	end)
+
 	it("must fail if exit code != 0", function()
 		local ok, err = exec("echo ERROR; false")
 		assert(not ok)

@@ -15,8 +15,6 @@ end
 
 function Watcher:run(f)
 	self._last_run = 0
-	self._interval = self._interval or 1
-
 	while not __api.is_close() do
 		local now = os.time()
 		if now - self._last_run >= self._interval then
