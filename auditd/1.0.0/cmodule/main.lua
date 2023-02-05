@@ -1,25 +1,25 @@
 local audit = require "audit"
 local pkg   = require "pkg"
 local cjson = require "cjson"
+local event = require "event"
+
+local watcher = require("watcher").new()
 
 local ok, err = audit.check_systemd()
 if not ok then
-	__log.error(err)
-	__api.await(-1)
-	return "success"
+	event.error(err)
+	__api.await(-1); return "success"
 end
 
 local pm, err = pkg.find_manager()
 if not pm then
-	__log.error(err)
-	__api.await(-1)
-	return "success"
+	event.error(err)
+	__api.await(-1); return "success"
 end
-
-local watcher = require("watcher").new()
 
 local function update_config()
 	local c = cjson.decode(__config.get_current_config())
+	event.update_config()
 	audit.file_auditd_conf:set(c.auditd_conf)
 	audit.file_audit_rules:set(c.audit_rules)
 	watcher:reset(c.check_interval)
@@ -39,6 +39,6 @@ watcher:run(function()
 		audit.file_auditd_conf,
 		audit.file_audit_rules,
 	})
-	if not ok then __log.error(err) end
+	if not ok then event.error(err) end
 end)
 return "success"

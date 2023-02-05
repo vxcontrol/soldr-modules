@@ -14,7 +14,11 @@
     },
     "system": false,
     "actions": [],
-    "events": [],
-    "fields": [],
+    "events": [
+        "cyberok_auditd_error"
+    ],
+    "fields": [
+        "message"
+    ],
     "tags": []
 }

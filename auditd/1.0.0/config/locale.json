@@ -42,10 +42,34 @@
         }
     },
     "secure_config": {},
-    "fields": {},
+    "fields": {
+        "message": {
+            "en": {
+                "title": "message",
+                "description": "message"
+            },
+            "ru": {
+                "title": "message",
+                "description": "message"
+            }
+        }
+    },
     "actions": {},
-    "events": {},
+    "events": {
+        "cyberok_auditd_error": {
+            "en": {
+                "title": "cyberok_auditd_error",
+                "description": "cyberok_auditd_error"
+            },
+            "ru": {
+                "title": "cyberok_auditd_error",
+                "description": "cyberok_auditd_error"
+            }
+        }
+    },
     "action_config": {},
-    "event_config": {},
+    "event_config": {
+        "cyberok_auditd_error": {}
+    },
     "tags": {}
 }
