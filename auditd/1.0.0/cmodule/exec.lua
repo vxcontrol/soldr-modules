@@ -1,7 +1,7 @@
 local function show_output(s)
 	local MAX_LENGTH = 1024
 	s = string.gsub(s, "\n", "\\n")
-	s = string.sub(s, 1, MAX_OUTPUT_LENGTH)
+	s = string.sub(s, 1, MAX_LENGTH)
 	return s
 end
 
