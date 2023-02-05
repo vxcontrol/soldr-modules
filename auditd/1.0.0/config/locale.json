@@ -30,7 +30,7 @@
                 "description": "/etc/audit/auditd.conf"
             }
         },
-        "check_interval_sec": {
+        "check_interval": {
             "en": {
                 "title": "Check interval, seconds",
                 "description": "Module is checking audit configuration every given interval of time"

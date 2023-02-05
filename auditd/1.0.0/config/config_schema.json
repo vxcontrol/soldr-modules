@@ -23,7 +23,7 @@
                 }
             }
         },
-        "check_interval_sec": {
+        "check_interval": {
             "rules": {},
             "type": "integer",
             "ui": {
@@ -35,7 +35,7 @@
     "required": [
         "audit_rules",
         "auditd_conf",
-        "check_interval_sec"
+        "check_interval"
     ],
     "type": "object"
 }

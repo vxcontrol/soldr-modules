@@ -1,5 +1,5 @@
 {
     "audit_rules": "# Managed by SOLDR(auditd)\n-D",
     "auditd_conf": "# Managed by SOLDR(auditd)",
-    "check_interval_sec": 600
+    "check_interval": 600
 }
