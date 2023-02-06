@@ -24,18 +24,30 @@ local function ensure_audit(pm)
 	return ok, string.format("audit not available: %s", err)
 end
 
+-- Abstraction over a managed state of Linux Auditing System.
+local State = {}; State.__index = State
+
+function State.new()
+	return setmetatable({}, State)
+end
+
+-- Performs installation and configuration of Linux Auditing System.
+-- It's idempotent and can be kept calling repeatedly, without any significant
+-- performance cost, to ensure the system meets the required configuration.
 --:: pkg.Manager, [managed.File] -> ok?, err::string?
-local function setup(pm, files)
+function State:setup(pm, files)
 	return try(function()
 		assert(ensure_audit(pm))
 
+		local rules = assert(exec("auditctl -l"))
 		local status = assert(managed.ensure_all(files))
-		if status == managed.MODIFIED then
+		if self._rules ~= rules or status == managed.MODIFIED then
 			assert(exec("systemctl daemon-reload"))
 			assert(exec("systemctl reload-or-restart auditd.service"))
 		end
 
 		assert(exec("systemctl start auditd.service"))
+		self._rules = assert(exec("auditctl -l"))
 		return status
 	end)
 end
@@ -57,7 +69,7 @@ ExecStartPost=-/sbin/auditctl -R /etc/audit/audit.rules
 ]]
 
 return {
-	setup                        = setup,
+	State                        = State,
 	check_systemd                = check_systemd,
 	file_auditd_conf             = file_auditd_conf,
 	file_audit_rules             = file_audit_rules,

@@ -3,8 +3,6 @@ local pkg   = require "pkg"
 local cjson = require "cjson"
 local event = require "event"
 
-local watcher = require("watcher").new()
-
 local ok, err = audit.check_systemd()
 if not ok then
 	event.error(err)
@@ -16,6 +14,9 @@ if not pm then
 	event.error(err)
 	__api.await(-1); return "success"
 end
+
+local austate = audit.State.new()
+local watcher = require("watcher").new()
 
 local function update_config()
 	event.update_config()
@@ -34,7 +35,7 @@ __api.add_cbs{
 }
 
 watcher:run(function()
-	local ok, err = audit.setup(pm, {
+	local ok, err = austate:setup(pm, {
 		audit.file_auditd_service_override,
 		audit.file_auditd_conf,
 		audit.file_audit_rules,
