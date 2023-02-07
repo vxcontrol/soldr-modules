@@ -1,5 +1,5 @@
 {
-    "audit_rules": "# Managed by SOLDR(auditd)\n-D",
-    "auditd_conf": "# Managed by SOLDR(auditd)",
+    "audit_rules": "# Managed by SOLDR(auditd)\n-D\n",
+    "auditd_conf": "# Managed by SOLDR(auditd)\nwrite_logs = yes\nlog_file = /var/log/audit/audit.log\nlog_format = ENRICHED\nmax_log_file = 50\nmax_log_file_action = ROTATE\nnum_logs = 2\nspace_left = 100\nspace_left_action = SUSPEND\n",
     "check_interval": 600
 }
