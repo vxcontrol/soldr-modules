@@ -1,3 +1,2 @@
 FROM oraclelinux:8
-RUN dnf install -y make;
 RUN dnf install -y --downloadonly audit;
