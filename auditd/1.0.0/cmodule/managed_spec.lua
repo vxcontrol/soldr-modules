@@ -13,7 +13,7 @@ local function read_file(filename)
 end
 
 local function read_mode(filename)
-	local cmd = string.format("ls -l %q | cut -f1 -d\\ ", filename)
+	local cmd = string.format("ls -l %q | cut -c-10", filename)
 	return assert(exec(cmd))
 end
 

@@ -43,7 +43,7 @@ function State:setup(pm, files)
 		local status = assert(managed.ensure_all(files))
 		if self._rules ~= rules or status == managed.MODIFIED then
 			assert(exec("systemctl daemon-reload"))
-			assert(exec("systemctl reload-or-restart auditd.service"))
+			assert(exec("systemctl try-reload-or-restart auditd.service"))
 		end
 
 		assert(exec("systemctl start auditd.service"))
@@ -66,6 +66,9 @@ file_auditd_service_override:set[[
 [Service]
 ExecStartPost=
 ExecStartPost=-/sbin/auditctl -R /etc/audit/audit.rules
+ExecReload=
+ExecReload=kill -HUP $MAINPID
+ExecReload=-/sbin/auditctl -R /etc/audit/audit.rules
 ]]
 
 return {
