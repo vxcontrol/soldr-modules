@@ -1,0 +1,10 @@
+{
+    "shell_start": {
+        "fields": [],
+        "priority": 10
+    },
+    "shell_stop": {
+        "fields": [],
+        "priority": 10
+    }
+}

@@ -1,0 +1,68 @@
+{
+    "additionalProperties": false,
+    "properties": {
+        "shell_start": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/base.action"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [],
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        "priority": {
+                            "default": 10,
+                            "maximum": 10,
+                            "minimum": 10,
+                            "type": "integer"
+                        }
+                    },
+                    "required": [
+                        "fields",
+                        "priority"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "shell_stop": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/base.action"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [],
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        "priority": {
+                            "default": 10,
+                            "maximum": 10,
+                            "minimum": 10,
+                            "type": "integer"
+                        }
+                    },
+                    "required": [
+                        "fields",
+                        "priority"
+                    ],
+                    "type": "object"
+                }
+            ]
+        }
+    },
+    "required": [
+        "shell_start",
+        "shell_stop"
+    ],
+    "type": "object"
+}

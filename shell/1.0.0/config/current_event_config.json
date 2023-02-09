@@ -1,0 +1,12 @@
+{
+    "shell_action_exec_failed": {
+        "actions": [],
+        "fields": [],
+        "type": "atomic"
+    },
+    "shell_action_exec_success": {
+        "actions": [],
+        "fields": [],
+        "type": "atomic"
+    }
+}
