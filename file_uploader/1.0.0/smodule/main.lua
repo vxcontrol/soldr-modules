@@ -1,10 +1,12 @@
 require("uploader")
 require("storage")
+require("ui")
 local cjson   = require("cjson.safe")
 
 -- uploader variables
 local fu_db
 local uploader
+local ui
 local module_config = cjson.decode(__config.get_current_config()) or {}
 
 -- return value of requested config option
@@ -64,6 +66,7 @@ end
 fu_db = GetDB()
 if fu_db ~= nil then
     init_uploader()
+    ui = newUI()
 end
 
 -- set default timeout to wait exit on blocking of recv_* functions
@@ -126,6 +129,50 @@ __api.add_cbs({
             if msg_data["type"] == "exec_sql_req" then
                 __log.debugf("server module got request to exec SQL query")
                 exec_query(src, msg_data, fu_db)
+            elseif msg_data["type"] == "fu_get_files" then
+                local files = ui:getFiles(msg_data["search"], msg_data["page"], msg_data["pageSize"])
+                local count_of_files = ui:getCountOfFiles(msg_data["search"])
+                local response, jerr = cjson.encode({
+                    type = "fu_get_files",
+                    files = files,
+                    total = count_of_files
+                })
+                if not response then
+                    __log.errorf("failed to encode files by exec: %s", jerr)
+                end
+                __api.send_data_to(src, response)
+            elseif msg_data["type"] == "fu_get_files_actions" then
+                local files_actions = ui:getFilesActions(msg_data["search"], msg_data["page"], msg_data["pageSize"])
+                local count_of_files_actions = ui:getCountOfFilesActions(msg_data["search"])
+                local response, jerr = cjson.encode({
+                    type = "fu_get_files_actions",
+                    filesActions = files_actions,
+                    total = count_of_files_actions
+                })
+                if not response then
+                    __log.errorf("failed to encode files actions by exec: %s", jerr)
+                end
+                __api.send_data_to(src, response)
+            elseif msg_data["type"] == "fu_delete_file" then
+                local file = uploader.storage:GetFileLocalPathByFileId(msg_data["id"])
+                if file ~= nil then
+                    for _, f in ipairs(file) do
+                        local err = os.remove(f.local_path)
+                        if err ~= true and err ~= nil then
+                            __log.errorf("failed to delete file with id %s in local_path %s: %s", msg_data["id"], f.local_path, err)
+                        else
+                            uploader.storage:DeleteFile(msg_data["id"])
+                            local response, jerr = cjson.encode({
+                                type = "fu_delete_file",
+                                id = msg_data["id"]
+                            })
+                            if not response then
+                                __log.errorf("failed to encode response about deleted file: %s", jerr)
+                            end
+                            __api.send_data_to(src, response)
+                        end
+                    end
+                end
             else
                 __log.debugf("receive unknown type message '%s' from browser", msg_data["type"])
             end

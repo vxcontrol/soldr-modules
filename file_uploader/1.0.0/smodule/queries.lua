@@ -169,3 +169,85 @@ function Queries:delete_file(t)
         UPDATE ]] .. t .. [[ SET deleted = 1 WHERE id = ?;
     ]]
 end
+
+function Queries:get_files(t, search_params)
+    return [[
+        select
+            id
+            , uuid
+            , time
+            , filename
+            , filesize
+            , md5_hash
+            , sha256_hash
+            , local_path
+            , agent_id
+            , group_id
+            , deleted
+        from ]] .. t .. [[
+        where deleted is null
+            and (case when ']] .. search_params['name'] .. [[' <> '' then filename like '%]] .. search_params['name'] .. [[%' else true end)
+            and (case when ']] .. search_params['agent_id'] .. [[' <> '' then agent_id like '%]] .. search_params['agent_id'] .. [[%' else true end)
+            and (case when ']] .. search_params['group_id'] .. [[' <> '' then group_id like '%]] .. search_params['group_id'] .. [[%' else true end)
+            and (case when ']] .. search_params['md5'] .. [[' <> '' then md5_hash = ']] .. search_params['md5'] .. [[' else true end)
+            and (case when ']] .. search_params['sha256'] .. [[' <> '' then sha256_hash = ']] .. search_params['sha256'] .. [[' else true end)
+        order by id desc
+        limit ?, ?;
+    ]]
+end
+
+function Queries:count_files(t, search_params)
+    return [[
+        select count(*) as count from ]] .. t .. [[
+        where deleted is null
+            and (case when ']] .. search_params['name'] .. [[' <> '' then filename like '%]] .. search_params['name'] .. [[%' else true end)
+            and (case when ']] .. search_params['agent_id'] .. [[' <> '' then agent_id like '%]] .. search_params['agent_id'] .. [[%' else true end)
+            and (case when ']] .. search_params['group_id'] .. [[' <> '' then group_id like '%]] .. search_params['group_id'] .. [[%' else true end)
+            and (case when ']] .. search_params['md5'] .. [[' <> '' then md5_hash = ']] .. search_params['md5'] .. [[' else true end)
+            and (case when ']] .. search_params['sha256'] .. [[' <> '' then sha256_hash = ']] .. search_params['sha256'] .. [[' else true end)
+        ;
+    ]]
+end
+
+function Queries:get_file_local_path_by_file_id(t)
+    return [[
+        SELECT local_path
+        FROM ]] .. t .. [[
+        WHERE id = ?;
+    ]]
+end
+
+function Queries:get_files_actions(t1, t2, search_params)
+    return [[
+        select
+            f.filename
+            , f.agent_id
+            , fa.action
+            , fa.result as status
+            , fa.place
+            , fa.time
+            , fa.upload_code
+            , fa.upload_response
+        from ]] .. t1 .. [[ f join ]] .. t2 .. [[ fa on fa.file_id = f.id
+        where
+            (case when ']] .. search_params['name'] .. [[' <> '' then f.filename like '%]] .. search_params['name'] .. [[%' else true end)
+            and (case when ']] .. search_params['agent_id'] .. [[' <> '' then f.agent_id like '%]] .. search_params['agent_id'] .. [[%' else true end)
+            and (case when ']] .. search_params['action'] .. [[' <> '' then fa.action like '%]] .. search_params['action'] .. [[%' else true end)
+            and (case when ']] .. search_params['status'] .. [[' <> '' then fa.result like '%]] .. search_params['status'] .. [[%' else true end)
+        order by fa.time desc
+        limit ?, ?;
+    ]]
+end
+
+function Queries:count_files_actions(t1, t2, search_params)
+    return [[
+        select count(*) as count
+        from ]] .. t1 .. [[ f join ]] .. t2 .. [[ fa on fa.file_id = f.id
+        where
+            (case when ']] .. search_params['name'] .. [[' <> '' then f.filename like '%]] .. search_params['name'] .. [[%' else true end)
+            and (case when ']] .. search_params['agent_id'] .. [[' <> '' then f.agent_id like '%]] .. search_params['agent_id'] .. [[%' else true end)
+            and (case when ']] .. search_params['action'] .. [[' <> '' then fa.action like '%]] .. search_params['action'] .. [[%' else true end)
+            and (case when ']] .. search_params['status'] .. [[' <> '' then fa.result like '%]] .. search_params['status'] .. [[%' else true end)
+        order by fa.time desc;
+    ]]
+end

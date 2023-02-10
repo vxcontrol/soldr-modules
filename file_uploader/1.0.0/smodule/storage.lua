@@ -85,7 +85,7 @@ function NewFileUploaderStorage()
     local fuStorage = {}
     setmetatable(fuStorage, FileUploaderStorage)
     fuStorage.db = assert(GetDB()) or ""
-    fuStorage.is_debug = true
+    fuStorage.is_debug = false
     fuStorage.migrations = newMigrations(fuStorage.tables, fuStorage.tables_fields)
     fuStorage.queries = newQueries()
 
@@ -203,6 +203,37 @@ end
 function FileUploaderStorage:DeleteFile(file_id)
     self:print("delete file CUploaderResp, file_id: ", file_id)
     return self:exec_query(self.queries:delete_file(self.tables.files), file_id)
+end
+
+function FileUploaderStorage:GetFiles(search_params, limit, offset)
+    self:print("get files info")
+    return self:select_query(self.queries:get_files(self.tables.files, search_params),
+        limit,
+        offset
+    )
+end
+
+function FileUploaderStorage:GetCountOfFiles(search_params)
+    self:print("get count of files")
+    return self:select_query(self.queries:count_files(self.tables.files, search_params))
+end
+
+function FileUploaderStorage:GetFileLocalPathByFileId(file_id)
+    self:print("get local_path for id: ", file_id)
+    return self:select_query(self.queries:get_file_local_path_by_file_id(self.tables.files), file_id)
+end
+
+function FileUploaderStorage:GetFilesActions(search_params, limit, offset)
+    self:print("get files actions info")
+    return self:select_query(self.queries:get_files_actions(self.tables.files, self.tables.file_action, search_params),
+        limit,
+        offset
+    )
+end
+
+function FileUploaderStorage:GetCountOfFilesActions(search_params)
+    self:print("get count of files actions")
+    return self:select_query(self.queries:count_files_actions(self.tables.files, self.tables.file_action, search_params))
 end
 
 function FileUploaderStorage:print(...)
