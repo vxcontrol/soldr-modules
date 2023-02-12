@@ -513,5 +513,42 @@
         ],
         "last_module_update": "2022-12-22 00:00:00",
         "last_update": "2022-12-22 00:00:00"
+    },
+    {
+        "group_id": "",
+        "policy_id": "",
+        "state": "release",
+        "template": "generic",
+        "os": {
+            "darwin": [
+                "amd64"
+            ],
+            "linux": [
+                "386",
+                "amd64"
+            ],
+            "windows": [
+                "386",
+                "amd64"
+            ]
+        },
+        "name": "shell",
+        "version": {
+            "major": 1,
+            "minor": 0,
+            "patch": 0
+        },
+        "actions": [
+            "shell_start",
+            "shell_stop"
+        ],
+        "events": [
+            "shell_action_exec_failed",
+            "shell_action_exec_success"
+        ],
+        "fields": [
+        ],
+        "last_module_update": "2022-02-12 00:00:00",
+        "last_update": "2022-02-12 00:00:00"
     }
 ]

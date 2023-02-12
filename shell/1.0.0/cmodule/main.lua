@@ -32,10 +32,8 @@ __api.add_cbs({
 
     action = function(src, data, name)
         __log.debugf("receive action '%s' from '%s' with data %s", name, src, data)
-        
-        print(string.format("receive action '%s' from '%s' with data %s", name, src, data))
+
         assert(acts_engine ~= nil, "actions engine instance is not initialized")
-        print(type(data))
 
         local action_result = acts_engine:recv_action(src, data, name)
         __log.infof("requested action '%s' was executed: %s", name, action_result)

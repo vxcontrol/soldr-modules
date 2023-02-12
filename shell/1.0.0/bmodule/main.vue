@@ -97,13 +97,11 @@
     },
     methods: {
       recvData(msg) {
-        console.log(msg);
         let out = JSON.parse(new TextDecoder("utf-8").decode(msg.content.data));
         if (out == null) {
           return;
         }
         
-        console.log(out, out.length);
         this.terminal.write(out);
       },
       checkActionData() {
@@ -136,7 +134,7 @@
           data: JSON.parse(actionData),
           actions: [`${this.module.info.name}.shell_start`]
         });
-        console.log(data);
+
         this.connection.sendAction(data, 'shell_start');
       },
       stopShell() {

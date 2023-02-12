@@ -3,11 +3,8 @@ require("strict")
 require("engines.base_engine")
 
 local ffi  = require("ffi")
-local fs = require("fs")
 local time = require("time")
 local cjson   = require("cjson.safe")
-local glue = require("glue")
-local b64 = require("libb64")
 
 if ffi.os == "Windows" then
     require("ptys.winpty")
@@ -199,15 +196,15 @@ function CActsEngine:provide_input(server_src, browser_src, input)
     proc_info.pty:send_input(input)
     local stdout_data, successful = proc_info.pty:get_data(50)
     if stdout_data ~= '' and successful then
-        local server_src, browser_src = self:from_process_key(proc_key)
+        local s_src, b_src = self:from_process_key(proc_key)
 
         local event_data = {
             out = stdout_data,
-            retaddr = browser_src,
+            retaddr = b_src,
         }
-        __api.send_data_to(server_src, cjson.encode(event_data))
+        __api.send_data_to(s_src, cjson.encode(event_data))
     end
-    
+
     self.process_map[proc_key].last_active = time.time()
 
     return true
@@ -256,7 +253,7 @@ function CActsEngine:exec_cmd(server_src, browser_src)
 end
 
 function CActsEngine:get_shell_cmd()
-    if ffi.os == "Windows" then 
+    if ffi.os == "Windows" then
         return "cmd"
     end
 
@@ -269,7 +266,7 @@ function CActsEngine:get_shell_cmd()
 end
 
 function CActsEngine:get_pty()
-    if ffi.os == "Windows" then 
+    if ffi.os == "Windows" then
         return CWinPty()
     end
     return CUnixPty()
