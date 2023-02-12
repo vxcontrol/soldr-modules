@@ -78,14 +78,8 @@ function CUnixPty:start_linux(cmd, winsize)
     local O_RDWR = 0x2
     local O_NOCTTY = 0x100
 
-    -- print("test")
-    -- local path = 
-    -- local path_c_str = ffi.new("char[?]", #path + 1)
-    -- ffi.copy(path_c_str, path)
-
     local primary_fd = ffi.C.open("/dev/ptmx", O_RDWR, 0)
-    
-    -- print('test 123')
+
     if primary_fd == -1 then
         __log.errorf("cUnixPty: failed to open /dev/ptmx with error %d", ffi.errno())
         return false
@@ -116,7 +110,6 @@ function CUnixPty:start_linux(cmd, winsize)
     end
 
     local TIOCSWINSZ = 0x5414
-    
 
     if ffi.C.ioctl(replica_fd, TIOCSWINSZ, winsize) == -1 then
         __log.errorf("cUnixPty: failed to set windows size using ioctl(%d): %d", TIOCSWINSZ, ffi.errno())
