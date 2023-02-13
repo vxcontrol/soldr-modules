@@ -31,7 +31,7 @@ if ffi.os == "Windows" then
         return shlw.PathMatchSpecW(wfilename, wpattern) ~= 0
     end
 else
-    function ifs_notify.filename_matching_pattern(filename, pattern)
+    function fs_notify.filename_matching_pattern(filename, pattern)
         return false
     end
 end
