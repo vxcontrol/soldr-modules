@@ -1,7 +1,7 @@
 require("busted.runner")()
 package.path = package.path .. ";./file_reader/1.0.0/cmodule/?.lua"
-local ffi = require("ffi")
 local fs_notify = require("fs_notify")
+local ffi = require("ffi")
 
 describe("is_glob_pattern", function()
     it("returns false for empty strings", function()
@@ -14,25 +14,25 @@ describe("is_glob_pattern", function()
         assert.is_true(fs_notify.is_glob_pattern("/usr/bin/lua*"))
         assert.is_true(fs_notify.is_glob_pattern("/usr/bin/lua?"))
     end)
-    it("returns false for glob not in filenames", function()
+    it("returns false for glob not in filename", function()
         assert.is_false(fs_notify.is_glob_pattern("/*/*/file.txt"))
     end)
 end)
 
-describe("filename_matching", function()
+describe("is_filename_match_pattern", function()
     if ffi.os ~= "Windows" then
         pending("Linux")
         pending("OSX")
         return
     end
     it("returns true for empty pattern", function()
-        assert.is_true(fs_notify.filename_matching_pattern("test.txt", ""))
+        assert.is_true(fs_notify.is_filename_match_pattern("test.txt", ""))
     end)
     it("returns false for not matching pattern", function()
-        assert.is_false(fs_notify.filename_matching_pattern("test.txt", "not*.jpj"))
+        assert.is_false(fs_notify.is_filename_match_pattern("test.txt", "not*.jpj"))
     end)
     it("returns true for matching pattern", function()
-        assert.is_true(fs_notify.filename_matching_pattern("test.txt", "te*.txt"))
+        assert.is_true(fs_notify.is_filename_match_pattern("test.txt", "te*.txt"))
     end)
 end)
 
