@@ -85,9 +85,11 @@ __api.add_cbs({
                 msg_data.retaddr = nil
                 msg_data.status = msg_data.status and "success" or "error"
 
+                local start_upload_file_result = nil
+
                 if msg_data.name == "fu_upload_object_file" then
                     if #msg_data.existing_file ~= 0 then
-                        uploader:start_upload_file(
+                        start_upload_file_result = uploader:start_upload_file(
                             msg_data.existing_file["filename"],
                             msg_data.existing_file["md5_hash"],
                             msg_data.existing_file["sha256_hash"],
@@ -95,7 +97,7 @@ __api.add_cbs({
                             dst
                         )
                     else
-                        uploader:start_upload_file(
+                        start_upload_file_result = uploader:start_upload_file(
                             msg_data.data["object.name"],
                             msg_data.data["md5_hash"],
                             msg_data.data["sha256_hash"],
@@ -103,9 +105,11 @@ __api.add_cbs({
                             dst
                         )
                     end
-                    msg_data.stage = "process"
-                    local send_res = __api.send_data_to(dst, cjson.encode(msg_data))
-                    __log.debugf("response routed to '%s' with result %s", dst, send_res)
+                    if start_upload_file_result == nil then
+                        msg_data.stage = "process"
+                        local send_res = __api.send_data_to(dst, cjson.encode(msg_data))
+                        __log.debugf("response routed to '%s' with result %s", dst, send_res)
+                    end
                 elseif msg_data.name == "fu_download_object_file" then
                     msg_data.type = "exec_download_resp"
                     if #msg_data.existing_file == 0 then
@@ -113,13 +117,21 @@ __api.add_cbs({
                         msg_data.existing_file = fl
                     end
 
-                    uploader:start_upload_file(
+                    start_upload_file_result = uploader:start_upload_file(
                         msg_data.existing_file["filename"],
                         msg_data.existing_file["md5_hash"],
                         msg_data.existing_file["sha256_hash"],
                         "fu_download_object_file",
                         dst
                     )
+                end
+
+                if start_upload_file_result ~= nil then
+                    local payload = {
+                        status = "error_upload",
+                        error = start_upload_file_result,
+                    }
+                    __api.send_data_to(dst, cjson.encode(payload))
                 end
             else
                 __log.debugf("receive unknown type message '%s' from agent", msg_data["type"])

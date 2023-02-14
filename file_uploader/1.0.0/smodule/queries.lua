@@ -142,7 +142,7 @@ function Queries:upload_file_resp(t)
             result = ?,
             time = strftime('%Y-%m-%d %H:%M:%f', 'now', 'localtime'),
             place = ?
-        WHERE file_id = ? and (result = ? or result = ?);
+        WHERE file_id = ? and (result = ? or result = ?) and action = ?;
     ]]
 end
 

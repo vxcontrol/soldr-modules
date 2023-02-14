@@ -91,6 +91,7 @@ local function worker(ctx, q_in, q_out, e_stop)
         verbose = ctx.debug_curl,
         ssl_verifyhost = false,
         ssl_verifypeer = false,
+        timeout = 15,
     }
 
     local g_print = print
@@ -397,26 +398,27 @@ function CUploaderResp:start_upload_file(filename, md5_hash, sha256_hash, action
     local file = self.storage:GetFileForUpload(filename, md5_hash, sha256_hash)
     if file.id == nil then
         self:print("file not found: ", filename)
-        return false
+        return nil
+    end
+
+    if self.request_config.url == "" then
+        self:print("external system url is not set so the record will store only to local DB")
+        return "external system url is not set so the record will store only to local DB"
+    end
+    if self.w_q_in == nil then
+        self:print("failed to run file process, worker has already stopped")
+        return nil
     end
 
     self.storage:SetNewFileOperation(file.id, action_name)
 
-    if self.request_config.url == "" then
-        self:print("external system url is not set so the record will store only to local DB")
-        return true
-    end
-    if self.w_q_in == nil then
-        self:print("failed to run file process, worker has already stopped")
-        return false
-    end
     self.w_q_in:push(self:make_upload_file_msg(file.uuid, filename, file.local_path, action_name, retaddr))
-    return true
+    return nil
 end
 
-function CUploaderResp:upload_file(uuid, filename, local_path, code, resp, result, place)
+function CUploaderResp:upload_file(uuid, filename, local_path, code, resp, result, place, action_name)
     self:print("upload_file CUploaderResp", uuid, filename, local_path, code)
-    local status, err = self.storage:ExecUploadFile(uuid, code, resp, result, place)
+    local status, err = self.storage:ExecUploadFile(uuid, code, resp, result, place, action_name)
     if not status then
         self:print("failed to update (upload) file record in local DB", err)
         return false
@@ -450,7 +452,7 @@ function CUploaderResp:process()
                     end
                     __api.send_data_to(resp.retaddr, cjson.encode(msg_data))
                 end
-                self:upload_file(resp.uuid, resp.name, resp.path, resp.code, resp.result, resp.result_task, resp.place)
+                self:upload_file(resp.uuid, resp.name, resp.path, resp.code, resp.result, resp.result_task, resp.place, resp.action_name)
             end
         end
     until not status

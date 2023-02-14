@@ -325,6 +325,7 @@ module.exports = {
         constants: {
             agentViewMode: "agent",
             resultStatusError: "error",
+            resultUploadError: "error_upload",
             resultConnectionError: "connection_error",
             resultInternalError: "internal_error",
             resultFileNotFoundError: "file_not_found",
@@ -411,6 +412,9 @@ module.exports = {
                     this.$root.NotificationsService.error(this.lastSqlError);
                     this.lastSqlError += ": " + result.error;
                 }
+            } else if (result.status == this.constants.resultUploadError) {
+                this.lastExecError = result.error;
+                this.$root.NotificationsService.error(this.lastExecError);
             } else if (result.type === this.constants.resultTypeExecSQLResp) {
                 if (result.rows.length != 0) {
                     this.queryColumns = result.cols
