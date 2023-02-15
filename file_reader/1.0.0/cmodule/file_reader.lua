@@ -221,6 +221,9 @@ function CFileReader:rewind(store_dir, filename)
     if file then
         savepoint = cjson.decode(file:read("*a"))
         io.close(file)
+        if not savepoint then
+            savepoint = {}
+        end
     end
     savepoint[filename] = { pos = -1 }
     file = io.open(svp_filename, "wb+")
