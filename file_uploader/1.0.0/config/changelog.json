@@ -10,5 +10,17 @@
             "title": "Базовая функциональность",
             "description": "Добавлена возможность отправлять файлы во внешние системы по протоколу HTTP."
         }
+    },
+    "1.1.0": {
+        "en": {
+            "date": "04-21-2023",
+            "title": "Module update",
+            "description": "Support downloading big files, with size 1 GB and more.\nNow it's possible to reupload a file to a remote server.\nA file can be transfered to a minio server and after be downloaded from there to a localhost."
+        },
+        "ru": {
+            "date": "21.04.2023",
+            "title": "Обновление модуля",
+            "description": "Потдерживается загрузка файлов размером 1Гб и более.\nРеализована возможность повторной отправки файла на удалённый сервер.\nДобавлена возможность отправки файла в minio для последующего скачивания файла на локальную машину."
+        }
     }
 }
