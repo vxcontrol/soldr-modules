@@ -10,5 +10,17 @@
             "title": "Базовая функциональность",
             "description": "Добавлена возможность отправлять данные из заданных файлов журналов в модули обнаружения, MaxPatrol SIEM и на syslog-сервер."
         }
+    },
+    "1.1.0": {
+        "en": {
+            "date": "04-21-2023",
+            "title": "Glob pattern",
+            "description": "Log files can now be specified using glob patterns."
+        },
+        "ru": {
+            "date": "21.04.2023",
+            "title": "Шаблон поиска",
+            "description": "При указании имени файла можно использовать шаблон поиска."
+        }
     }
 }
