@@ -6,6 +6,7 @@
             "suppress": "(cwd=\"\\\\w{0,}vxagent\\\\w{0,}\")or(comm=\"\\\\w{0,}vxagent\\\\w{0,}\")or(name=\"\\\\w{0,}vxagent\\\\w{0,}\")or(name=\"/var/log/audit/audit.log\")"
         }
     ],
+    "period": 60,
     "receivers": [],
     "target_path": ""
 }

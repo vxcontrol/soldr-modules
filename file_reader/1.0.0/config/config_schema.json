@@ -77,6 +77,13 @@
                 }
             }
         },
+        "period": {
+            "rules": {},
+            "type": "integer",
+            "ui": {
+                "widgetConfig": {}
+            }
+        },
         "receivers": {
             "items": {
                 "rules": {
@@ -133,7 +140,8 @@
         }
     },
     "required": [
-        "log_files"
+        "log_files",
+        "period"
     ],
     "type": "object"
 }

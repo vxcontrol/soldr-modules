@@ -5,6 +5,7 @@ local glue    = require("glue")
 local cjson   = require("cjson.safe")
 local thread  = require("thread")
 local luapath = require("path")
+local fs_notify = require("fs_notify")
 
 -- variables to initialize event and action engines
 local prefix_db = __gid .. "."
@@ -170,102 +171,79 @@ local function send_log(msgs)
     end
 end
 
--- return string
-local function get_profile()
-    local params = {
-        scope_id  = "00000000-0000-0000-0000-000000000005",
-        tenant_id = "00000000-0000-0000-0000-000000000000",
-    }
-    local config_json = string.format([[{
-        "servers": {
-            "tcp_and_udp": {
-                "tcp": {
-                    "binding": {
-                        "FQDN": "0.0.0.0"
-                    },
-                    "port": 0,
-                    "message_size_max": 1048576
-                },
-                "udp": {
-                    "binding": {
-                        "IP4": "0.0.0.0"
-                    },
-                    "port": 0,
-                    "read_buffer_size": 65536
-                }
-            }
-        },
-        "event_buffer_size": 512,
-        "output_format": "JSON",
-        "special_events_assembly_settings": {
-            "assembly_interval": 1,
-            "event_record_groups": {
-                "auditd": {
-                    "key_includes_src_ip": false,
-                    "key_fields_from_records": [
-                        "timestamp",
-                        "eventid"
-                    ],
-                    "filter_regexps": [
-                        ".*type=(?P<type>\\S+)\\s.*audit.*\\((?P<timestamp>[0-9]*[.,]?[0-9]+):(?P<eventid>[0-9]+)\\):\\s*(?P<value>.*)"
-                    ],
-                    "group_by_field_settings": {
-                        "regex_group_for_field_name": "type",
-                        "regex_group_for_value": "value"
-                    }
-                }
-            }
-        },
-        "inputs": {
-            "00000000-0000-0000-0000-000000000000": {
-                "description": {
-                    "expected_datetime_formats": [
-                        "DATETIME_ISO8601",
-                        "DATETIME_YYYYMMDD_HHMMSS"
-                    ]
-                }
-            }
-        },
-        "result_package": {
-            "package_quantity": 100,
-            "send_interval": 500
-        },
-        "module_settings": {
-            "keepalive_interval": 500,
-            "metric": false,
-            "scope_id": "%s",
-            "tenant_id": "%s",
-            "logging": "<?xml version='1.0' encoding='utf-8'?><config><root><Logger level='ERROR'/><Metric level='ERROR'/><SysLog level='ERROR'/><ModuleRunner level='ERROR'/><ModuleHost level='ERROR'/></root></config>",
-            "agent_id": "",
-            "task_id": "",
-            "historical": false
-        },
-        "memory_settings": {
-            "chunk_size": 1024,
-            "pre_allocated_memory": 3,
-            "max_allowed_memory": 64
-        }
-    }]], tostring(params.scope_id), tostring(params.tenant_id))
-
-    local config = cjson.decode(config_json)
-    local log_files = {}
-    for _, fl in ipairs(module_config.log_files or {}) do
-        log_files[fl["filepath"]] = {
-            ["select"] = fl["select"] or "*",
-            ["suppress"] = fl["suppress"] or "",
-        }
-    end
-    config["log_channels"] = log_files
-
-    return cjson.encode(config)
-end
-
 local want_to_quit = false
 local q_in = thread.queue(100)
 local q_out = thread.queue(100)
 local q_e_stop = thread.event()
 local q_e_quit = thread.event()
-local wm_e = CFileReader(q_in, q_out, q_e_stop, q_e_quit, get_profile(), store_dir)
+local wm_e = nil
+local current_files = {}
+local last_time = os.time()
+
+local function look_for_new_files()
+    if os.time() < last_time + module_config.period then
+        return
+    end
+    last_time = os.time()
+
+    local new_files = {}
+    for _, fl in ipairs(module_config.log_files or {}) do
+        local filepath = fl["filepath"]
+        if fs_notify.is_glob_pattern(filepath) then
+            for _, found_file in ipairs(fs_notify.find_all_files(filepath)) do
+                if current_files[found_file] == nil then
+                    new_files[found_file] = {
+                        ["select"] = fl["select"] or "*",
+                        ["suppress"] = fl["suppress"] or "",
+                    }
+                end
+            end
+        end
+    end
+    if next(new_files) == nil then
+        return
+    end
+    q_e_stop:set()
+    if wm_e then
+        wm_e:wait()
+    end
+    for filepath, filter in pairs(new_files) do
+        current_files[filepath] = filter
+        wm_e:rewind(store_dir, filepath)
+    end
+    q_e_stop:clear()
+    q_e_quit:clear()
+    wm_e = CFileReader(q_in, q_out, q_e_stop, q_e_quit, current_files, store_dir)
+end
+
+local function configure()
+    q_e_stop:set()
+    if wm_e then
+        wm_e:wait()
+    end
+    q_e_stop:clear()
+    q_e_quit:clear()
+    current_files = {}
+    for _, fl in ipairs(module_config.log_files or {}) do
+        local filepath = fl["filepath"]
+        if fs_notify.is_glob_pattern(filepath) then
+            for _, found_file in ipairs(fs_notify.find_all_files(filepath)) do
+                current_files[found_file] = {
+                    ["select"] = fl["select"] or "*",
+                    ["suppress"] = fl["suppress"] or "",
+                }
+            end
+        else
+            current_files[filepath] = {
+                ["select"] = fl["select"] or "*",
+                ["suppress"] = fl["suppress"] or "",
+            }
+        end
+    end
+    wm_e = CFileReader(q_in, q_out, q_e_stop, q_e_quit, current_files, store_dir)
+end
+
+configure()
 
 -- return nil
 local function handler()
@@ -340,7 +318,7 @@ local function exec_action(action_name, action_data)
     wm_e:rewind(store_dir, log_filepath)
     q_e_stop:clear()
     q_e_quit:clear()
-    wm_e = CFileReader(q_in, q_out, q_e_stop, q_e_quit, get_profile(), store_dir)
+    wm_e = CFileReader(q_in, q_out, q_e_stop, q_e_quit, current_files, store_dir)
 
     action_data.data.result = true
     action_data.data.reason = "rewind successful"
@@ -350,11 +328,26 @@ end
 
 __api.add_cbs({
 
-    -- data = function(src, data)
     -- file = function(src, path, name)
     -- text = function(src, text, name)
     -- msg = function(src, msg, mtype)
-    -- action = function(src, data, name)
+
+    data = function(src, data)
+        __log.debugf("received data message from '%s' with data %s", src, data)
+        local msg = cjson.decode(data) or {}
+        if msg.type == "update_file_list_req" then
+            local files = {}
+            for file in pairs(current_files) do
+                table.insert(files, file)
+            end
+            table.sort(files)
+            __api.send_data_to(src, cjson.encode({
+                ["type"] = "update_file_list_resp",
+                ["retaddr"] = msg.retaddr,
+                ["files"] = files,
+            }))
+        end
+    end,
 
     action = function(src, data, name)
         __log.infof("receive action '%s' from '%s' with data %s", name, src, data)
@@ -418,11 +411,7 @@ __api.add_cbs({
             is_send_messages = module_config.target_path ~= ""
 
             -- reload configuration for file reader library
-            q_e_stop:set()
-            wm_e:wait()
-            q_e_stop:clear()
-            q_e_quit:clear()
-            wm_e = CFileReader(q_in, q_out, q_e_stop, q_e_quit, get_profile(), store_dir)
+            configure()
         end
         return true
     end,
@@ -435,6 +424,7 @@ push_event("frd_module_started", "", {["data"] = {reason = "regular start"}})
 update_receivers()
 
 while not handler() do
+    look_for_new_files()
     __metric.add_int_gauge_counter("frd_agent_mem_usage", collectgarbage("count")*1024)
     __api.await(300)
 end
