@@ -1,7 +1,18 @@
 {
     "action_config": {},
     "actions": {},
-    "config": {},
+    "config": {
+        "excludes": {
+            "en": {
+                "description": "Exclusions list",
+                "title": "Exclusions"
+            },
+            "ru": {
+                "description": "Список исключений",
+                "title": "Исключения"
+            }
+        }
+    },
     "event_config": {
         "Malware_Exploit_Elf_CVE_2021_4034_a": {},
         "Suspicious_Create_File_Boot_Modification": {},

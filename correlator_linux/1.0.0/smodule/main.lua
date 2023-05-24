@@ -25,4 +25,4 @@ __api.await(-1)
 
 __log.infof("module '%s' was stopped", __config.ctx.name)
 
-return 'success'
+return "success"
