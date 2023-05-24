@@ -30,6 +30,7 @@ COPY correlator_linux /opt/vxmodules/mon/correlator_linux
 COPY yara_scanner /opt/vxmodules/mon/yara_scanner
 COPY lua_interpreter /opt/vxmodules/mon/lua_interpreter
 COPY osquery /opt/vxmodules/mon/osquery
+COPY osquery_linux /opt/vxmodules/mon/osquery_linux
 COPY shell /opt/vxmodules/mon/shell
 COPY utils /opt/vxmodules/mon/utils
 COPY config.json /opt/vxmodules/mon/
