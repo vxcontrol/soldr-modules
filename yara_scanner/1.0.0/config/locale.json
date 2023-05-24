@@ -89,6 +89,16 @@
                 "title": "Классы вредоносного ПО",
                 "description": "Файл признается вредоносным, если он принадлежит к одному из классов"
             }
+        },
+        "yara_process_caching_time": {
+            "en": {
+                "title": "Storage period for process scan results (in minutes)",
+                "description": ""
+            },
+            "ru": {
+                "title": "Время хранения результатов сканирования процесса (в минутах)",
+                "description": ""
+            }
         }
     },
     "secure_config": {},
@@ -225,6 +235,16 @@
                 "description": "Проверка процесса-объекта YARA-правилами в синхронном режиме"
             }
         },
+        "yr_object_scan_proc_non_cached": {
+            "en": {
+                "title": "Scan an object process with YARA rules in priority order (do not use results from cache)",
+                "description": "Synchronous scanning of an object process with YARA rules. Results from cache will not be used"
+            },
+            "ru": {
+                "title": "Проверить процесс-объект YARA-правилами в приоритетном порядке (не брать результаты из кэша)",
+                "description": "Проверка процесса-объекта YARA-правилами в синхронном режиме, результаты из кэша учитываться не будут"
+            }
+        },
         "yr_object_task_scan_proc": {
             "en": {
                 "title": "Start a scan task of an object process with YARA rules",
@@ -253,6 +273,16 @@
             "ru": {
                 "title": "Проверить процесс-субъект YARA-правилами в приоритетном порядке",
                 "description": "Проверка процесса-субъекта YARA-правилами в синхронном режиме"
+            }
+        },
+        "yr_subject_scan_proc_non_cached": {
+            "en": {
+                "title": "Scan a subject process with YARA rules in priority order (do not use results from cache)",
+                "description": "Synchronous scanning of a subject process with YARA rules. Results from cache will not be used"
+            },
+            "ru": {
+                "title": "Проверить процесс-субъект YARA-правилами в приоритетном порядке (не брать результаты из кэша)",
+                "description": "Проверка процесса-субъекта YARA-правилами в синхронном режиме, результаты из кэша учитываться не будут"
             }
         },
         "yr_subject_task_scan_proc": {
@@ -387,6 +417,16 @@
                 "description": ""
             }
         },
+        "yr_object_process_matched_high_cached": {
+            "en": {
+                "title": "[Cache] The module detected a malicious object process. Severity: high",
+                "description": ""
+            },
+            "ru": {
+                "title": "[Кэш] Модуль обнаружил вредоносный процесс-объект. Уровень опасности: высокий",
+                "description": ""
+            }
+        },
         "yr_object_process_matched_low": {
             "en": {
                 "title": "The module detected a suspicious object process. Severity: low",
@@ -397,6 +437,16 @@
                 "description": ""
             }
         },
+        "yr_object_process_matched_low_cached": {
+            "en": {
+                "title": "[Cache] The module detected a suspicious object process. Severity: low",
+                "description": ""
+            },
+            "ru": {
+                "title": "[Кэш] Модуль обнаружил подозрительный процесс-объект. Уровень опасности: низкий",
+                "description": ""
+            }
+        },
         "yr_object_process_matched_medium": {
             "en": {
                 "title": "The module detected a suspicious object process. Severity: medium",
@@ -404,6 +454,16 @@
             },
             "ru": {
                 "title": "Модуль обнаружил подозрительный процесс-объект. Уровень опасности: средний",
+                "description": ""
+            }
+        },
+        "yr_object_process_matched_medium_cached": {
+            "en": {
+                "title": "[Cache] The module detected a suspicious object process. Severity: medium",
+                "description": ""
+            },
+            "ru": {
+                "title": "[Кэш] Модуль обнаружил подозрительный процесс-объект. Уровень опасности: средний",
                 "description": ""
             }
         },
@@ -427,6 +487,16 @@
                 "description": ""
             }
         },
+        "yr_subject_process_matched_high_cached": {
+            "en": {
+                "title": "[Cache] The module detected a malicious subject process. Severity: high",
+                "description": ""
+            },
+            "ru": {
+                "title": "[Кэш] Модуль обнаружил вредоносный процесс-субъект. Уровень опасности: высокий",
+                "description": ""
+            }
+        },
         "yr_subject_process_matched_low": {
             "en": {
                 "title": "The module detected a suspicious subject process. Severity: low",
@@ -434,6 +504,16 @@
             },
             "ru": {
                 "title": "Модуль обнаружил подозрительный процесс-субъект. Уровень опасности: низкий",
+                "description": ""
+            }
+        },
+        "yr_subject_process_matched_low_cached": {
+            "en": {
+                "title": "[Cache] The module detected a suspicious subject process. Severity: low",
+                "description": ""
+            },
+            "ru": {
+                "title": "[Кэш] Модуль обнаружил подозрительный процесс-субъект. Уровень опасности: низкий",
                 "description": ""
             }
         },
@@ -446,13 +526,25 @@
                 "title": "Модуль обнаружил подозрительный процесс-субъект. Уровень опасности: средний",
                 "description": ""
             }
+        },
+        "yr_subject_process_matched_medium_cached": {
+            "en": {
+                "title": "[Cache] The module detected a suspicious subject process. Severity: medium",
+                "description": ""
+            },
+            "ru": {
+                "title": "[Кэш] Модуль обнаружил подозрительный процесс-субъект. Уровень опасности: средний",
+                "description": ""
+            }
         }
     },
     "action_config": {
         "yr_object_scan_proc": {},
+        "yr_object_scan_proc_non_cached": {},
         "yr_object_task_scan_proc": {},
         "yr_scan_fs": {},
         "yr_subject_scan_proc": {},
+        "yr_subject_scan_proc_non_cached": {},
         "yr_subject_task_scan_proc": {},
         "yr_task_fastscan_fs": {},
         "yr_task_fastscan_proc": {},
@@ -468,12 +560,18 @@
         "yr_module_started": {},
         "yr_module_stopped": {},
         "yr_object_process_matched_high": {},
+        "yr_object_process_matched_high_cached": {},
         "yr_object_process_matched_low": {},
+        "yr_object_process_matched_low_cached": {},
         "yr_object_process_matched_medium": {},
+        "yr_object_process_matched_medium_cached": {},
         "yr_process_matched_custom": {},
         "yr_subject_process_matched_high": {},
+        "yr_subject_process_matched_high_cached": {},
         "yr_subject_process_matched_low": {},
-        "yr_subject_process_matched_medium": {}
+        "yr_subject_process_matched_low_cached": {},
+        "yr_subject_process_matched_medium": {},
+        "yr_subject_process_matched_medium_cached": {}
     },
     "tags": {
         "responder": {

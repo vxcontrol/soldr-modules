@@ -324,7 +324,7 @@ module.exports = {
             return this.checkForm.scope.type !== this.CheckScope.Scan || (this.checkForm.scope.type === this.CheckScope.Scan && this.checkForm.scope.value && !(/(\/\/)|(\\\\)/g.test(this.checkForm.scope.value)));
         },
         isValidProcess() {
-            return this.checkForm.type === this.CheckType.Process && this.checkForm.scope.type === this.CheckScope.Scan ? this.checkForm.scope.id : true;
+            return this.checkForm.type === this.CheckType.Process && this.checkForm.scope.type === this.CheckScope.Scan ? (this.checkForm.scope.value ? true : this.checkForm.scope.id) : true;
         },
         isValidEditor() {
             return this.checkForm.rules.type === this.CheckRules.Custom ? this.editor.getValue() : true;
@@ -515,7 +515,7 @@ module.exports = {
 
         async save() {
             this.hasFirstSave = true;
-            if (this.canStartCheck && this.isValidPath && this.isValidProcess && this.isValidEditor) {
+            if (this.canStartCheck && (this.isValidPath || this.isValidProcess) && this.isValidEditor) {
                 this.isSaving = true;
                 this.checkForm.rules.value = this.editor.getValue();
                 this.checkForm.scope.id = +this.checkForm.scope.id;

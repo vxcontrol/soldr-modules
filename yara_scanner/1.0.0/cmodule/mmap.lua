@@ -2,73 +2,94 @@ local ffi = require("ffi")
 
 local M = {}
 
-if ffi.os == 'Linux' then
+local function init_if_linux()
+    if ffi.os ~= "Linux" then
+        return
+    end
+    ffi.cdef [[
+        typedef int64_t off64_t;
 
-ffi.cdef [[
-    typedef int64_t off64_t;
+        int open(const char *pathname, int flags);
+        int close(int fd);
 
-    int open(const char *pathname, int flags);
-    int close(int fd);
+        void* mmap(void *addr, size_t length, int prot, int flags, int fd, off64_t offset);
+        int munmap(void *addr, size_t length);
+    ]]
 
-    void* mmap(void *addr, size_t length, int prot, int flags, int fd, off64_t offset);
-    int munmap(void *addr, size_t length);
-]]
+    local function try_to_cdef_stat_x64()
+        if ffi.arch ~= "x64" then
+            return false
+        end
+        if pcall(ffi.typeof, "struct stat") then
+            -- struct "stat" was already defined
+            return false
+        end
+        ffi.cdef [[
+            struct stat {
+                uint64_t st_dev;
+                uint64_t st_ino;
+                uint64_t st_nlink;
+                uint32_t st_mode;
+                uint32_t st_uid;
+                uint32_t st_gid;
+                uint32_t __pad0;
+                uint64_t st_rdev;
+                int64_t  st_size;
+                int64_t  st_blksize;
+                int64_t  st_blocks;
+                uint64_t st_atime;
+                uint64_t st_atime_nsec;
+                uint64_t st_mtime;
+                uint64_t st_mtime_nsec;
+                uint64_t st_ctime;
+                uint64_t st_ctime_nsec;
+                int64_t  __unused[3];
+            };
+        ]]
+        return true
+    end
 
-if ffi.arch == 'x64' then
-ffi.cdef [[
-    struct stat {
-        uint64_t st_dev;
-        uint64_t st_ino;
-        uint64_t st_nlink;
-        uint32_t st_mode;
-        uint32_t st_uid;
-        uint32_t st_gid;
-        uint32_t __pad0;
-        uint64_t st_rdev;
-        int64_t  st_size;
-        int64_t  st_blksize;
-        int64_t  st_blocks;
-        uint64_t st_atime;
-        uint64_t st_atime_nsec;
-        uint64_t st_mtime;
-        uint64_t st_mtime_nsec;
-        uint64_t st_ctime;
-        uint64_t st_ctime_nsec;
-        int64_t  __unused[3];
-    };
-]]
+    local function try_to_cdef_stat_non_x64()
+        if ffi.arch == "x64" then
+            return false
+        end
+        if pcall(ffi.typeof, "struct stat") then
+            -- struct "stat" was already defined
+            return false
+        end
+        ffi.cdef [[
+            struct stat {
+                uint64_t st_dev;
+                uint8_t  __pad0[4];
+                uint32_t __st_ino;
+                uint32_t st_mode;
+                uint32_t st_nlink;
+                uint32_t st_uid;
+                uint32_t st_gid;
+                uint64_t st_rdev;
+                uint8_t  __pad3[4];
+                int64_t  st_size;
+                uint32_t st_blksize;
+                uint64_t st_blocks;
+                uint32_t st_atime;
+                uint32_t st_atime_nsec;
+                uint32_t st_mtime;
+                uint32_t st_mtime_nsec;
+                uint32_t st_ctime;
+                uint32_t st_ctime_nsec;
+                uint64_t st_ino;
+            };
+        ]]
+        return true
+    end
 
-else
+    if not try_to_cdef_stat_x64() then
+        try_to_cdef_stat_non_x64()
+    end
 
-ffi.cdef [[
-    struct stat {
-        uint64_t st_dev;
-        uint8_t  __pad0[4];
-        uint32_t __st_ino;
-        uint32_t st_mode;
-        uint32_t st_nlink;
-        uint32_t st_uid;
-        uint32_t st_gid;
-        uint64_t st_rdev;
-        uint8_t  __pad3[4];
-        int64_t  st_size;
-        uint32_t st_blksize;
-        uint64_t st_blocks;
-        uint32_t st_atime;
-        uint32_t st_atime_nsec;
-        uint32_t st_mtime;
-        uint32_t st_mtime_nsec;
-        uint32_t st_ctime;
-        uint32_t st_ctime_nsec;
-        uint64_t st_ino;
-    };
-]]
-
-end
-
-ffi.cdef [[
-    int fstat(int fd, struct stat *buf);
-]]
+    ffi.cdef [[
+        int fstat(int fd, struct stat *buf);
+    ]]
 
     local MAP_FAILED = -1;
 
@@ -77,7 +98,6 @@ ffi.cdef [[
     local MAP_PRIVATE = 2
 
     function M.mmap_ro(filepath)
-
         local fd = ffi.C.open(filepath, O_RDONLY)
         if fd < 0 then
             return nil
@@ -99,19 +119,23 @@ ffi.cdef [[
             return nil;
         end
 
-        return {fd = fd, addr = addr, size = size}
+        return { fd = fd, addr = addr, size = size }
     end
 
     function M.munmap(map)
         assert(ffi.C.munmap(map.addr, map.size) == 0)
         assert(ffi.C.close(map.fd))
     end
+end
 
-elseif ffi.abi'win' then
+local function init_if_windows()
+    if not (ffi.abi "win") then
+        return
+    end
 
     local lk32 = require("waffi.windows.kernel32")
 
-    local INVALID_HANDLE_VALUE = -1;
+    local INVALID_HANDLE_VALUE = ffi.cast("HANDLE", -1);
 
     local FILE_ATTRIBUTE_NORMAL = 0x00000080
     local PAGE_READONLY = 0x02
@@ -131,7 +155,6 @@ elseif ffi.abi'win' then
     end
 
     function M.mmap_ro(filepath)
-
         local hFile = lk32.CreateFileW(
             wcs(filepath),
             lk32.GENERIC_READ,
@@ -173,14 +196,18 @@ elseif ffi.abi'win' then
             return nil;
         end
 
-        return {hMap = hMap, addr = addr, size = size}
+        return { hMap = hMap, addr = addr, size = size }
     end
 
     function M.munmap(map)
         assert(lk32.UnmapViewOfFile(map.addr))
         assert(lk32.CloseHandle(map.hMap))
     end
-
 end
+
+-- TODO extract separate script files for Windows, Linux
+
+init_if_linux()
+init_if_windows()
 
 return M

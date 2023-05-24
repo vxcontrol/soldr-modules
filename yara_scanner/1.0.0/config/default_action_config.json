@@ -6,6 +6,13 @@
         ],
         "priority": 78
     },
+    "yr_object_scan_proc_non_cached": {
+        "fields": [
+            "object.process.fullpath",
+            "object.process.id"
+        ],
+        "priority": 78
+    },
     "yr_object_task_scan_proc": {
         "fields": [
             "object.process.fullpath",
@@ -20,6 +27,13 @@
         "priority": 35
     },
     "yr_subject_scan_proc": {
+        "fields": [
+            "subject.process.fullpath",
+            "subject.process.id"
+        ],
+        "priority": 78
+    },
+    "yr_subject_scan_proc_non_cached": {
         "fields": [
             "subject.process.fullpath",
             "subject.process.id"

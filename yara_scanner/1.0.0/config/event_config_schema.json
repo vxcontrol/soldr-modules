@@ -250,6 +250,45 @@
                 }
             ]
         },
+        "yr_object_process_matched_high_cached": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "malware_class",
+                                "object.process.fullpath",
+                                "object.process.id",
+                                "rule_name",
+                                "rule_precision",
+                                "rule_type"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "malware_class",
+                                    "object.process.fullpath",
+                                    "object.process.id",
+                                    "rule_name",
+                                    "rule_precision",
+                                    "rule_type"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 6,
+                            "minItems": 6,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
         "yr_object_process_matched_low": {
             "allOf": [
                 {
@@ -289,7 +328,85 @@
                 }
             ]
         },
+        "yr_object_process_matched_low_cached": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "malware_class",
+                                "object.process.fullpath",
+                                "object.process.id",
+                                "rule_name",
+                                "rule_precision",
+                                "rule_type"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "malware_class",
+                                    "object.process.fullpath",
+                                    "object.process.id",
+                                    "rule_name",
+                                    "rule_precision",
+                                    "rule_type"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 6,
+                            "minItems": 6,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
         "yr_object_process_matched_medium": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "malware_class",
+                                "object.process.fullpath",
+                                "object.process.id",
+                                "rule_name",
+                                "rule_precision",
+                                "rule_type"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "malware_class",
+                                    "object.process.fullpath",
+                                    "object.process.id",
+                                    "rule_name",
+                                    "rule_precision",
+                                    "rule_type"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 6,
+                            "minItems": 6,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "yr_object_process_matched_medium_cached": {
             "allOf": [
                 {
                     "$ref": "#/definitions/events.atomic"
@@ -402,7 +519,85 @@
                 }
             ]
         },
+        "yr_subject_process_matched_high_cached": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "malware_class",
+                                "rule_name",
+                                "rule_precision",
+                                "rule_type",
+                                "subject.process.fullpath",
+                                "subject.process.id"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "malware_class",
+                                    "rule_name",
+                                    "rule_precision",
+                                    "rule_type",
+                                    "subject.process.fullpath",
+                                    "subject.process.id"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 6,
+                            "minItems": 6,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
         "yr_subject_process_matched_low": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "malware_class",
+                                "rule_name",
+                                "rule_precision",
+                                "rule_type",
+                                "subject.process.fullpath",
+                                "subject.process.id"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "malware_class",
+                                    "rule_name",
+                                    "rule_precision",
+                                    "rule_type",
+                                    "subject.process.fullpath",
+                                    "subject.process.id"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 6,
+                            "minItems": 6,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "yr_subject_process_matched_low_cached": {
             "allOf": [
                 {
                     "$ref": "#/definitions/events.atomic"
@@ -479,6 +674,45 @@
                     "type": "object"
                 }
             ]
+        },
+        "yr_subject_process_matched_medium_cached": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "malware_class",
+                                "rule_name",
+                                "rule_precision",
+                                "rule_type",
+                                "subject.process.fullpath",
+                                "subject.process.id"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "malware_class",
+                                    "rule_name",
+                                    "rule_precision",
+                                    "rule_type",
+                                    "subject.process.fullpath",
+                                    "subject.process.id"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 6,
+                            "minItems": 6,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
         }
     },
     "required": [
@@ -489,12 +723,18 @@
         "yr_module_started",
         "yr_module_stopped",
         "yr_object_process_matched_high",
+        "yr_object_process_matched_high_cached",
         "yr_object_process_matched_low",
+        "yr_object_process_matched_low_cached",
         "yr_object_process_matched_medium",
+        "yr_object_process_matched_medium_cached",
         "yr_process_matched_custom",
         "yr_subject_process_matched_high",
+        "yr_subject_process_matched_high_cached",
         "yr_subject_process_matched_low",
-        "yr_subject_process_matched_medium"
+        "yr_subject_process_matched_low_cached",
+        "yr_subject_process_matched_medium",
+        "yr_subject_process_matched_medium_cached"
     ],
     "type": "object"
 }

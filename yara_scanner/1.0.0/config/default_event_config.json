@@ -120,6 +120,25 @@
         ],
         "type": "atomic"
     },
+    "yr_object_process_matched_high_cached": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "malware_class",
+            "object.process.fullpath",
+            "object.process.id",
+            "rule_name",
+            "rule_precision",
+            "rule_type"
+        ],
+        "type": "atomic"
+    },
     "yr_object_process_matched_low": {
         "actions": [
             {
@@ -139,7 +158,45 @@
         ],
         "type": "atomic"
     },
+    "yr_object_process_matched_low_cached": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "malware_class",
+            "object.process.fullpath",
+            "object.process.id",
+            "rule_name",
+            "rule_precision",
+            "rule_type"
+        ],
+        "type": "atomic"
+    },
     "yr_object_process_matched_medium": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "malware_class",
+            "object.process.fullpath",
+            "object.process.id",
+            "rule_name",
+            "rule_precision",
+            "rule_type"
+        ],
+        "type": "atomic"
+    },
+    "yr_object_process_matched_medium_cached": {
         "actions": [
             {
                 "fields": [],
@@ -194,6 +251,25 @@
         ],
         "type": "atomic"
     },
+    "yr_subject_process_matched_high_cached": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "malware_class",
+            "rule_name",
+            "rule_precision",
+            "rule_type",
+            "subject.process.fullpath",
+            "subject.process.id"
+        ],
+        "type": "atomic"
+    },
     "yr_subject_process_matched_low": {
         "actions": [
             {
@@ -213,7 +289,45 @@
         ],
         "type": "atomic"
     },
+    "yr_subject_process_matched_low_cached": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "malware_class",
+            "rule_name",
+            "rule_precision",
+            "rule_type",
+            "subject.process.fullpath",
+            "subject.process.id"
+        ],
+        "type": "atomic"
+    },
     "yr_subject_process_matched_medium": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "malware_class",
+            "rule_name",
+            "rule_precision",
+            "rule_type",
+            "subject.process.fullpath",
+            "subject.process.id"
+        ],
+        "type": "atomic"
+    },
+    "yr_subject_process_matched_medium_cached": {
         "actions": [
             {
                 "fields": [],

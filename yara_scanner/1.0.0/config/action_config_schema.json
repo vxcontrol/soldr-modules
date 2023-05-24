@@ -39,6 +39,44 @@
                 }
             ]
         },
+        "yr_object_scan_proc_non_cached": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/base.action"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "object.process.fullpath",
+                                "object.process.id"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "object.process.fullpath",
+                                    "object.process.id"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 2,
+                            "minItems": 2,
+                            "type": "array"
+                        },
+                        "priority": {
+                            "default": 78,
+                            "maximum": 78,
+                            "minimum": 78,
+                            "type": "integer"
+                        }
+                    },
+                    "required": [
+                        "fields",
+                        "priority"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
         "yr_object_task_scan_proc": {
             "allOf": [
                 {
@@ -114,6 +152,44 @@
             ]
         },
         "yr_subject_scan_proc": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/base.action"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "subject.process.fullpath",
+                                "subject.process.id"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "subject.process.fullpath",
+                                    "subject.process.id"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 2,
+                            "minItems": 2,
+                            "type": "array"
+                        },
+                        "priority": {
+                            "default": 78,
+                            "maximum": 78,
+                            "minimum": 78,
+                            "type": "integer"
+                        }
+                    },
+                    "required": [
+                        "fields",
+                        "priority"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "yr_subject_scan_proc_non_cached": {
             "allOf": [
                 {
                     "$ref": "#/definitions/base.action"
@@ -344,9 +420,11 @@
     },
     "required": [
         "yr_object_scan_proc",
+        "yr_object_scan_proc_non_cached",
         "yr_object_task_scan_proc",
         "yr_scan_fs",
         "yr_subject_scan_proc",
+        "yr_subject_scan_proc_non_cached",
         "yr_subject_task_scan_proc",
         "yr_task_fastscan_fs",
         "yr_task_fastscan_proc",

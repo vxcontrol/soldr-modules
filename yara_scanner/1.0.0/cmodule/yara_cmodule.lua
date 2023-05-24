@@ -122,7 +122,6 @@ yara_error_t yara_scan_task_stop(int task_id);
 ]]
 
 function CYaraModule:init(library_filename)
-
     assert(type(library_filename) == "string", "library filename must be a string")
 
     self.module = ffi.load(library_filename)
@@ -143,8 +142,10 @@ end
 
 function CYaraModule:set_callbacks(callback_result, callback_complete)
     assert(self.module ~= nil, "module is not loaded")
-    assert(type(callback_result) == "nil" or type(callback_result) == "function", "callback_result must be a function or nil")
-    assert(type(callback_complete) == "nil" or type(callback_complete) == "function", "callback_complete must be a function or nil")
+    assert(type(callback_result) == "nil" or type(callback_result) == "function",
+        "callback_result must be a function or nil")
+    assert(type(callback_complete) == "nil" or type(callback_complete) == "function",
+        "callback_complete must be a function or nil")
 
     local cbs = ffi.new("yara_callbacks_t[1]")
     cbs[0].scan_task_result = callback_result
@@ -201,26 +202,26 @@ function CYaraModule:reload_rules(rules)
 
     local rules_opened = {}
 
-    for tag,t in pairs(rules) do
+    for tag, t in pairs(rules) do
 
         local map, own
 
         if t.string ~= nil then
             map = {
                 addr = ffi.cast("const void*", t.string),
-                size = #t.string
+                size = #t.string,
             }
         elseif t.filepath ~= nil then
             map = assert(mmap.mmap_ro(t.filepath))
             own = true
         end
 
-        table.insert(rules_opened, {tag = tag, map = map, own = own})
+        table.insert(rules_opened, { tag = tag, map = map, own = own })
     end
 
     local load_items = ffi.new("yara_rule_load_item_t[?]", #rules_opened)
 
-    for i,rule in ipairs(rules_opened) do
+    for i, rule in ipairs(rules_opened) do
         load_items[i - 1].tag = rule.tag
         load_items[i - 1].string_data = rule.map.addr
         load_items[i - 1].string_size = rule.map.size
@@ -228,7 +229,7 @@ function CYaraModule:reload_rules(rules)
 
     local err = self.api.reload_rules(load_items, #rules_opened)
 
-    for _,rule in ipairs(rules_opened) do
+    for _, rule in ipairs(rules_opened) do
         if rule.own then
             --rule.map:free()
             mmap.munmap(rule.map)
@@ -248,7 +249,7 @@ function CYaraModule:unload_rules(tags)
 
     local unload_tags = ffi.new("uint32_t[?]", #tags)
 
-    for i,tag in ipairs(tags) do
+    for i, tag in ipairs(tags) do
         unload_tags[i - 1] = tag
     end
 
@@ -286,7 +287,7 @@ function CYaraModule:decode_result(result)
 
     res.rules = {}
     if result.rules_count ~= 0 then
-        for i=1,result.rules_count do
+        for i = 1, result.rules_count do
             table.insert(res.rules, ffi.string(result.rule_names[i - 1]))
         end
     end
@@ -309,7 +310,7 @@ function CYaraModule:decode_error(err)
 
     local msg
 
-    local decode_error_callback_c = ffi.cast("pfn_yara_cb_decode_error_t", function(str, _)
+    local decode_error_callback_c = ffi.cast("pfn_yara_cb_decode_error_t", function (str, _)
         msg = ffi.string(str)
     end)
 
@@ -324,7 +325,6 @@ function CYaraModule:decode_error(err)
 end
 
 function CYaraModule:prepare_process_path(path)
-
     local _ = self
 
     if path == nil then
@@ -349,15 +349,14 @@ function CYaraModule:scan_fs(filepath, recursive, tag, excludes)
 
     local results = {}
 
-    local result_callback_c = ffi.cast("pfn_yara_cb_scan_result_file_t", function(err, result, _)
-
+    local result_callback_c = ffi.cast("pfn_yara_cb_scan_result_file_t", function (err, result, _)
         local msg
         if err ~= nil then
             msg = self:decode_error(err[0])
         end
 
         local data = self:decode_result(result)
-        table.insert(results, {error = msg, filepath = data.filepath, sha256_filehash = data.sha256, rules = data.rules})
+        table.insert(results, { error = msg, filepath = data.filepath, sha256_filehash = data.sha256, rules = data.rules })
     end)
 
     local params = ffi.new("yara_scan_fs_params_t[1]")
@@ -365,11 +364,10 @@ function CYaraModule:scan_fs(filepath, recursive, tag, excludes)
     params[0].recursive = recursive
 
     if excludes ~= nil and #excludes ~= 0 then
-
         params[0].excludes.size = #excludes
         params[0].excludes.items = ffi.new("const char*[?]", #excludes)
 
-        for i,exclude in ipairs(excludes) do
+        for i, exclude in ipairs(excludes) do
             params[0].excludes.items[i - 1] = exclude
         end
     else
@@ -395,15 +393,14 @@ function CYaraModule:scan_proc(pid, imagename, tag, excludes)
 
     local results = {}
 
-    local result_callback_c = ffi.cast("pfn_yara_cb_scan_result_process_t", function(err, result, _)
-
+    local result_callback_c = ffi.cast("pfn_yara_cb_scan_result_process_t", function (err, result, _)
         local msg
         if err ~= nil then
             msg = self:decode_error(err[0])
         end
 
         local data = self:decode_result(result)
-        table.insert(results, {error = msg, proc_image = data.imagepath, proc_id = data.pid, rules = data.rules})
+        table.insert(results, { error = msg, proc_image = data.imagepath, proc_id = data.pid, rules = data.rules })
     end)
 
     local params = ffi.new("yara_scan_proc_params_t[1]")
@@ -411,11 +408,10 @@ function CYaraModule:scan_proc(pid, imagename, tag, excludes)
     params[0].imagename_pattern = self:prepare_process_path(imagename)
 
     if excludes ~= nil and #excludes ~= 0 then
-
         params[0].excludes.size = #excludes
         params[0].excludes.items = ffi.new("const char*[?]", #excludes)
 
-        for i,exclude in ipairs(excludes) do
+        for i, exclude in ipairs(excludes) do
             params[0].excludes.items[i - 1] = exclude
         end
     else
@@ -444,11 +440,10 @@ function CYaraModule:task_scan_fs(filepath, recursive, tag, excludes)
     params[0].recursive = recursive
 
     if excludes ~= nil and #excludes ~= 0 then
-
         params[0].excludes.size = #excludes
         params[0].excludes.items = ffi.new("const char*[?]", #excludes)
 
-        for i,exclude in ipairs(excludes) do
+        for i, exclude in ipairs(excludes) do
             params[0].excludes.items[i - 1] = exclude
         end
     else
@@ -477,11 +472,10 @@ function CYaraModule:task_scan_proc(pid, imagename, tag, excludes)
     params[0].imagename_pattern = self:prepare_process_path(imagename)
 
     if excludes ~= nil and #excludes ~= 0 then
-
         params[0].excludes.size = #excludes
         params[0].excludes.items = ffi.new("const char*[?]", #excludes)
 
-        for i,exclude in ipairs(excludes) do
+        for i, exclude in ipairs(excludes) do
             params[0].excludes.items[i - 1] = exclude
         end
     else

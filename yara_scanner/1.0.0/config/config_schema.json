@@ -321,6 +321,25 @@
                     "itemCollapse": true
                 }
             }
+        },
+        "yara_process_caching_time": {
+            "default": 60,
+            "rules": {
+                "number": true,
+                "required": true
+            },
+            "type": "number",
+            "ui": {
+                "columns": 10,
+                "widget": "input-number",
+                "widgetConfig": {
+                    "clearable": false,
+                    "columns": 10,
+                    "max": 240,
+                    "min": 0,
+                    "step": 1
+                }
+            }
         }
     },
     "required": [],

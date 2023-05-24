@@ -19,9 +19,11 @@
     "system": false,
     "actions": [
         "yr_object_scan_proc",
+        "yr_object_scan_proc_non_cached",
         "yr_object_task_scan_proc",
         "yr_scan_fs",
         "yr_subject_scan_proc",
+        "yr_subject_scan_proc_non_cached",
         "yr_subject_task_scan_proc",
         "yr_task_fastscan_fs",
         "yr_task_fastscan_proc",
@@ -37,12 +39,18 @@
         "yr_module_started",
         "yr_module_stopped",
         "yr_object_process_matched_high",
+        "yr_object_process_matched_high_cached",
         "yr_object_process_matched_low",
+        "yr_object_process_matched_low_cached",
         "yr_object_process_matched_medium",
+        "yr_object_process_matched_medium_cached",
         "yr_process_matched_custom",
         "yr_subject_process_matched_high",
+        "yr_subject_process_matched_high_cached",
         "yr_subject_process_matched_low",
-        "yr_subject_process_matched_medium"
+        "yr_subject_process_matched_low_cached",
+        "yr_subject_process_matched_medium",
+        "yr_subject_process_matched_medium_cached"
     ],
     "fields": [
         "malware_class",
