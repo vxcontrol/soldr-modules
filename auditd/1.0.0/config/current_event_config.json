@@ -1,0 +1,16 @@
+{
+    "auditd_error": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "message"
+        ],
+        "type": "atomic"
+    }
+}

@@ -87,15 +87,15 @@ function CCorrEngine:init(receiveEvents, restore)
     self.callbacks = {
         receive = function(type, data, size)
             if type == 1 and receiveEvents then
-                receiveEvents(ffi.string(data,size))
+                receiveEvents(ffi.string(data, size))
             elseif type == 2 then
-                self.statistics = json.decode(ffi.string(data,size))
+                self.statistics = json.decode(ffi.string(data, size))
             elseif type == 3 then
-                __log.errorf("caught error from corr lib: '%s'", ffi.string(data,size))
+                __log.errorf("caught error from corr lib: '%s'", ffi.string(data, size))
             end
 
             return size
-        end
+        end,
     }
 
     self.statistics = {}
@@ -179,12 +179,12 @@ function CCorrEngine.get_file_hash_md5(filepath)
 end
 
 function CCorrEngine.copyFile(src, dst, force)
-    local f, err = io.open(src, 'rb')
+    local f, err = io.open(src, "rb")
     if not f then return nil, err end
 
     local t, ok
     if not force then
-        t = io.open(dst, 'rb')
+        t = io.open(dst, "rb")
         if t then
             f:close()
             t:close()
@@ -192,7 +192,7 @@ function CCorrEngine.copyFile(src, dst, force)
         end
     end
 
-    t, err = io.open(dst, 'w+b')
+    t, err = io.open(dst, "w+b")
     if not t then
         f:close()
         return nil, err

@@ -1,0 +1,68 @@
+{
+    "module": {
+        "en": {
+            "title": "Interactive shell",
+            "description": "Module that will spawn interactive shell on specified agent."
+        },
+        "ru": {
+            "title": "Командная оболочка (shell)",
+            "description": "Модуль для запуска интерактивной командой оболочки на агенте."
+        }
+    },
+    "config": {},
+    "secure_config": {},
+    "fields": {},
+    "actions": {
+        "shell_start": {
+            "en": {
+                "title": "shell_start",
+                "description": "shell_start"
+            },
+            "ru": {
+                "title": "shell_start",
+                "description": "shell_start"
+            }
+        },
+        "shell_stop": {
+            "en": {
+                "title": "shell_stop",
+                "description": "shell_stop"
+            },
+            "ru": {
+                "title": "shell_stop",
+                "description": "shell_stop"
+            }
+        }
+    },
+    "events": {
+        "shell_action_exec_failed": {
+            "en": {
+                "title": "shell_action_exec_failed",
+                "description": "shell_action_exec_failed"
+            },
+            "ru": {
+                "title": "shell_action_exec_failed",
+                "description": "shell_action_exec_failed"
+            }
+        },
+        "shell_action_exec_success": {
+            "en": {
+                "title": "shell_action_exec_success",
+                "description": "shell_action_exec_success"
+            },
+            "ru": {
+                "title": "shell_action_exec_success",
+                "description": "shell_action_exec_success"
+            }
+        }
+    },
+    "action_config": {
+        "shell_start": {},
+        "shell_stop": {}
+    },
+    "event_config": {
+        "shell_action_exec_failed": {},
+        "shell_action_exec_success": {}
+    },
+    "tags": {}
+}

@@ -1,0 +1,75 @@
+{
+    "module": {
+        "en": {
+            "title": "Auditd (cyberok)",
+            "description": "Module for auditd installation on agent side"
+        },
+        "ru": {
+            "title": "Auditd (cyberok)",
+            "description": "Модуль для установки auditd на стороне агента"
+        }
+    },
+    "config": {
+        "audit_rules": {
+            "en": {
+                "title": "Audit rules",
+                "description": "/etc/audit/audit.rules"
+            },
+            "ru": {
+                "title": "Правила аудита",
+                "description": "/etc/audit/audit.rules"
+            }
+        },
+        "auditd_conf": {
+            "en": {
+                "title": "Audit daemon configuration",
+                "description": "/etc/audit/auditd.conf"
+            },
+            "ru": {
+                "title": "Конфигурация демона auditd",
+                "description": "/etc/audit/auditd.conf"
+            }
+        },
+        "check_interval": {
+            "en": {
+                "title": "Check interval, seconds",
+                "description": "Module is checking audit configuration every given interval of time"
+            },
+            "ru": {
+                "title": "Интервал проверки, ceкунды",
+                "description": "Проверять конфигурацию аудита через указанный интервал времени"
+            }
+        }
+    },
+    "secure_config": {},
+    "fields": {
+        "message": {
+            "en": {
+                "title": "message",
+                "description": "message"
+            },
+            "ru": {
+                "title": "message",
+                "description": "message"
+            }
+        }
+    },
+    "actions": {},
+    "events": {
+        "auditd_error": {
+            "en": {
+                "title": "Error in auditd installer module",
+                "description": "Caught error while installing auditd service"
+            },
+            "ru": {
+                "title": "Ошибка в модуле установщика аудита",
+                "description": "Обнаружена ошибка при установке службы аудита"
+            }
+        }
+    },
+    "action_config": {},
+    "event_config": {
+        "auditd_error": {}
+    },
+    "tags": {}
+}

@@ -6,11 +6,11 @@ self = false
 files["**/*_spec.lua"].std = "+busted"
 files["**/tests/*_spec.lua"].std = "+busted"
 
-max_line_length=160
-max_string_line_length=250
-max_comment_line_length=320
+max_line_length = 160
+max_string_line_length = 250
+max_comment_line_length = 320
 
-exclude_files = {"tests_framework/*"}
+exclude_files = { "tests_framework/*" }
 
 read_globals = {
     -- table
@@ -22,6 +22,9 @@ read_globals = {
     -- assert
     "assert.is_true",
     "assert.is_false",
+    "assert.equal",
+    "assert.not_nil",
+    "assert.is_nil",
 
     -- yaci API
     "newclass",
@@ -109,5 +112,6 @@ globals = {
     "teardown",
     "setup",
     "it",
+    "before_each"
 }
 

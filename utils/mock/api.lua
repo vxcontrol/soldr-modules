@@ -1,10 +1,12 @@
 local glue   = require("glue")
 local socket = require("socket")
+local protocol = require("protocol/protocol")
 ---------------------------------------------------
-local api = {unsafe={}}
+local api      = { unsafe = {} }
 ---------------------------------------------------
 
 function api.unsafe.lock() end
+
 function api.unsafe.unlock() end
 
 function api.add_cbs(cbs)
@@ -69,6 +71,12 @@ function api.send_text_to(dst, data, name)
 end
 
 function api.send_msg_to(dst, data, mtype)
+    assert(dst ~= nil and dst ~= "", "message destination must be defined")
+    assert(data ~= nil and data ~= "", "message data must be defined")
+    assert(mtype ~= nil and mtype ~= "", "message mtype must be defined")
+    assert(mtype >= protocol.message_type.debug and mtype <= protocol.message_type.error,
+        "message mtype must contain suppoted value")
+
     __mock.trace("__api.send_msg_to", dst, data, mtype)
     if __mock.callbacks.msg then
         return __mock.callbacks.msg(__mock, dst, __mock.module_token, data, mtype)
@@ -157,11 +165,11 @@ end
 function api.await(time)
     __mock.trace("__api.await", time)
     if coroutine.running() then
-        local stime, etime = socket.gettime()*1000, 0 -- in milliseconds
+        local stime, etime = socket.gettime() * 1000, 0 -- in milliseconds
         while not api.is_close() and (etime < time or time == -1) do
             coroutine.yield(false)
             socket.sleep(0.1)
-            etime = socket.gettime()*1000 - stime
+            etime = socket.gettime() * 1000 - stime
         end
     end
 end

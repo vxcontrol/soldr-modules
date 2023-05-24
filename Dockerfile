@@ -17,6 +17,7 @@ COPY startup.sh /opt/vxmodules/
 # SQL file generator script
 COPY gen_sql.py /opt/vxmodules/
 # Content for test loading modules from S3
+COPY auditd /opt/vxmodules/mon/auditd
 COPY syslog /opt/vxmodules/mon/syslog
 COPY sysmon /opt/vxmodules/mon/sysmon
 COPY file_remover /opt/vxmodules/mon/file_remover
@@ -29,6 +30,7 @@ COPY correlator_linux /opt/vxmodules/mon/correlator_linux
 COPY yara_scanner /opt/vxmodules/mon/yara_scanner
 COPY lua_interpreter /opt/vxmodules/mon/lua_interpreter
 COPY osquery /opt/vxmodules/mon/osquery
+COPY shell /opt/vxmodules/mon/shell
 COPY utils /opt/vxmodules/mon/utils
 COPY config.json /opt/vxmodules/mon/
 

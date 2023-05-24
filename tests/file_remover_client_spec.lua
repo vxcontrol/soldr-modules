@@ -51,7 +51,6 @@ describe('file_remover agent', function()
             module = "file_remover",
             version = "1.0.0",
             side = "agent",
-            log_level = os.getenv("LOG_LEVEL") or "debug",
         }
         -- load mocked environment
         require("mock")
@@ -70,10 +69,11 @@ describe('file_remover agent', function()
     end)
 
     describe('single file removal', function()
-        local src, dst = __mock.mock_token, __mock.module_token
-        local test_file_path = new_test_file()
-
-        local action_data = filepath_to_json('object.fullpath', test_file_path)
+        setup(function()
+            src, dst = __mock.mock_token, __mock.module_token
+            test_file_path = new_test_file()
+            action_data = filepath_to_json('object.fullpath', test_file_path)
+        end)
 
         it('should successfully create file on file system', function()
             assert.is_true(file_exists(test_file_path), "test file is not found")
@@ -100,7 +100,7 @@ describe('file_remover agent', function()
                     "failed to send file remove action")
                 -- wait for expected result to arrive (in any order)
                 assert.is_true(__mock:expect("event", function(o)
-                        return o.event and o.event.name == "fr_object_file_removed_failed"
+                    return o.event and o.event.name == "fr_object_file_removed_failed"
                 end))
                 assert.is_true(__mock:expect("data",
                     function(o) return o.data and o.data.name == "fr_remove_object_file" end))
@@ -109,8 +109,10 @@ describe('file_remover agent', function()
     end)
 
     describe('file that does not exist', function()
-        local src, dst = __mock.mock_token, __mock.module_token
-        local never_existed_file = __mock.tmppath(__mock.rand_uuid() .. ".txt")
+        setup(function()
+            src, dst = __mock.mock_token, __mock.module_token
+            never_existed_file = __mock.tmppath(__mock.rand_uuid() .. ".txt")
+        end)
 
         it('should not be found on the FS', function()
             assert.is_false(file_exists(never_existed_file), "random file somehow exists in FS")
@@ -137,47 +139,49 @@ describe('file_remover agent', function()
     end)
 
     describe('file removal', function()
-        local src, dst = __mock.mock_token, __mock.module_token
-        local test_cases = {
-            {
-                create_file = true,
-                action = "fr_remove_object_file", param = "object.fullpath",
-                type = "object", subtype = "file", result_data = "fr_remove_object_file",
-                result_event = "fr_object_file_removed_successful"
-            },
-            {
-                create_file = true,
-                action = "fr_remove_object_proc_image", param = "object.process.fullpath",
-                type = "object", subtype = "proc_image", result_data = "fr_remove_object_proc_image",
-                result_event = "fr_object_proc_image_removed_successful"
-            },
-            {
-                create_file = true,
-                action = "fr_remove_subject_proc_image", param = "subject.process.fullpath",
-                type = "subject", subtype = "proc_image", result_data = "fr_remove_subject_proc_image",
-                result_event = "fr_subject_proc_image_removed_successful"
-            },
-            {
-                create_file = false,
-                action = "fr_remove_object_file", param = "object.fullpath",
-                type = "object", subtype = "file", result_data = "fr_remove_object_file",
-                result_event = "fr_object_file_removed_failed"
-            },
-            {
-                create_file = false,
-                action = "fr_remove_object_proc_image", param = "object.process.fullpath",
-                type = "object", subtype = "proc_image", result_data = "fr_remove_object_proc_image",
-                result_event = "fr_object_proc_image_removed_failed"
-            },
-            {
-                create_file = false,
-                action = "fr_remove_subject_proc_image", param = "subject.process.fullpath",
-                type = "subject", subtype = "proc_image", result_data = "fr_remove_subject_proc_image",
-                result_event = "fr_subject_proc_image_removed_failed"
-            },
-        }
+        setup(function()
+            src, dst = __mock.mock_token, __mock.module_token
+        end)
 
         it('should be possible to call public actions list', function()
+            local test_cases = {
+                {
+                    create_file = true,
+                    action = "fr_remove_object_file", param = "object.fullpath",
+                    type = "object", subtype = "file", result_data = "fr_remove_object_file",
+                    result_event = "fr_object_file_removed_successful"
+                },
+                {
+                    create_file = true,
+                    action = "fr_remove_object_proc_image", param = "object.process.fullpath",
+                    type = "object", subtype = "proc_image", result_data = "fr_remove_object_proc_image",
+                    result_event = "fr_object_proc_image_removed_successful"
+                },
+                {
+                    create_file = true,
+                    action = "fr_remove_subject_proc_image", param = "subject.process.fullpath",
+                    type = "subject", subtype = "proc_image", result_data = "fr_remove_subject_proc_image",
+                    result_event = "fr_subject_proc_image_removed_successful"
+                },
+                {
+                    create_file = false,
+                    action = "fr_remove_object_file", param = "object.fullpath",
+                    type = "object", subtype = "file", result_data = "fr_remove_object_file",
+                    result_event = "fr_object_file_removed_failed"
+                },
+                {
+                    create_file = false,
+                    action = "fr_remove_object_proc_image", param = "object.process.fullpath",
+                    type = "object", subtype = "proc_image", result_data = "fr_remove_object_proc_image",
+                    result_event = "fr_object_proc_image_removed_failed"
+                },
+                {
+                    create_file = false,
+                    action = "fr_remove_subject_proc_image", param = "subject.process.fullpath",
+                    type = "subject", subtype = "proc_image", result_data = "fr_remove_subject_proc_image",
+                    result_event = "fr_subject_proc_image_removed_failed"
+                },
+            }
             for _, test_case in ipairs(test_cases) do
                 -- create test file
                 local file_path = __mock.tmppath(__mock.rand_uuid() .. ".txt")
@@ -186,7 +190,8 @@ describe('file_remover agent', function()
                     file_path = new_test_file()
                     assert.is_true(file_exists(file_path), "file was not created on FS")
                 end
-                local expected_reason = test_case.create_file and "removed successful" or file_path .. ": No such file or directory"
+                local expected_reason = test_case.create_file and "removed successful" or
+                    file_path .. ": No such file or directory"
                 local expected_uniq = "fr_" ..
                     test_case.type ..
                     "_" .. test_case.subtype ..
@@ -329,6 +334,26 @@ describe('file_remover agent', function()
                     return false
                 end))
         end)
+
+        it('actions list should be preserved in events', function()
+            local test_file_path         = new_test_file(__mock.rand_uuid())
+            local data                   = { data = {}, actions = { "some_action" } }
+            data.data['object.fullpath'] = test_file_path
+            local action_data            = cjson.encode(data)
+
+            assert(__mock:send_action(__mock.mock_token, __mock.module_token, action_data, "fr_remove_object_file"))
+            assert.is_true(__mock:expect("event",
+                function(o)
+                    if o.event and o.event.name == "fr_object_file_removed_successful" then
+                        assert.not_nil(o.event.actions)
+                        assert.equal(2, #o.event.actions)
+                        assert.equal('some_action', o.event.actions[1])
+                        assert.equal('file_remover.fr_remove_object_file', o.event.actions[2])
+                        return true
+                    end
+                    return false
+                end))
+        end)
     end)
 
     describe('file removal bug fixes', function()
@@ -351,4 +376,5 @@ describe('file_remover agent', function()
             assert.is_false(file_exists(test_file_path), "test file was not removed by a module")
         end)
     end)
+
 end)

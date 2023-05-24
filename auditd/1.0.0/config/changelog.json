@@ -1,0 +1,14 @@
+{
+    "1.0.0": {
+        "en": {
+          "date": "02-03-2023",
+          "title": "New version",
+          "description": " "
+        },
+        "ru": {
+          "date": "03.02.2023",
+          "title": "Новая версия",
+          "description": " "
+        }
+    }
+}

@@ -1,0 +1,24 @@
+{
+    "name": "auditd",
+    "template": "empty",
+    "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 0
+    },
+    "os": {
+        "linux": [
+            "386",
+            "amd64"
+        ]
+    },
+    "system": false,
+    "actions": [],
+    "events": [
+        "auditd_error"
+    ],
+    "fields": [
+        "message"
+    ],
+    "tags": []
+}

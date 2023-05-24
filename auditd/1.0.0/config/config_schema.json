@@ -1,0 +1,41 @@
+{
+    "additionalProperties": false,
+    "properties": {
+        "audit_rules": {
+            "rules": {},
+            "type": "string",
+            "ui": {
+                "columns": 6,
+                "widget": "textarea",
+                "widgetConfig": {
+                    "rows": 8
+                }
+            }
+        },
+        "auditd_conf": {
+            "rules": {},
+            "type": "string",
+            "ui": {
+                "columns": 6,
+                "widget": "textarea",
+                "widgetConfig": {
+                    "rows": 8
+                }
+            }
+        },
+        "check_interval": {
+            "rules": {},
+            "type": "integer",
+            "ui": {
+                "columns": 4,
+                "widgetConfig": {}
+            }
+        }
+    },
+    "required": [
+        "audit_rules",
+        "auditd_conf",
+        "check_interval"
+    ],
+    "type": "object"
+}

@@ -5,7 +5,10 @@ local protocol = {}
 ----------------------------------------------
 protocol.message_name = {}
 protocol.message_name.action_response = "Module.Common.ActionResponse"
-protocol.message_name.action_proxied = "Module.Сommon.ActionProxied"
+protocol.message_name.action_proxied = "Module.Common.ActionProxied"
+protocol.message_name.data_request = "Module.Common.DataRequest"
+protocol.message_name.data_response = "Module.Common.DataResponse"
+protocol.message_name.data_proxied = "Module.Common.DataProxied"
 
 ----------------------------------------------
 -- Message types
@@ -37,11 +40,13 @@ protocol.validation_errors.validation_error = "Module.Common.ValidationError"
 ----------------------------------------------
 protocol.implementation_errors = {}
 protocol.implementation_errors.action_handler_not_defined = "Module.Common.ActionHandlerNotDefined"
+protocol.implementation_errors.data_handler_not_defined = "Module.Common.DataHandlerNotDefined"
 
 ----------------------------------------------
 -- Business logic errors
 ----------------------------------------------
 protocol.business_logic_errors = {}
 protocol.business_logic_errors.action_handler_error = "Module.Common.ActionHandlerError"
+protocol.business_logic_errors.data_handler_error = "Module.Common.DataHandlerError"
 
 return protocol

@@ -314,8 +314,8 @@
             "subject.process.fullpath",
             "subject.process.id"
         ],
-        "last_module_update": "2022-12-08 09:11:39",
-        "last_update": "2022-12-08 09:11:39"
+        "last_module_update": "2023-01-26 00:00:00",
+        "last_update": "2023-01-26 00:00:00"
     },
     {
         "group_id": "",
@@ -480,8 +480,8 @@
             "subject.process.name",
             "subject.process.path"
         ],
-        "last_module_update": "2022-12-08 00:00:00",
-        "last_update": "2022-12-08 00:00:00"
+        "last_module_update": "2023-05-24 00:00:00",
+        "last_update": "2023-05-24 00:00:00"
     },
     {
         "group_id": "",
@@ -513,6 +513,71 @@
         ],
         "last_module_update": "2022-12-22 00:00:00",
         "last_update": "2022-12-22 00:00:00"
+    },
+    {
+        "group_id": "",
+        "policy_id": "",
+        "state": "release",
+        "template": "generic",
+        "os": {
+            "darwin": [
+                "amd64"
+            ],
+            "linux": [
+                "386",
+                "amd64"
+            ],
+            "windows": [
+                "386",
+                "amd64"
+            ]
+        },
+        "name": "shell",
+        "version": {
+            "major": 1,
+            "minor": 0,
+            "patch": 0
+        },
+        "actions": [
+            "shell_start",
+            "shell_stop"
+        ],
+        "events": [
+            "shell_action_exec_failed",
+            "shell_action_exec_success"
+        ],
+        "fields": [
+        ],
+        "last_module_update": "2022-02-12 00:00:00",
+        "last_update": "2022-02-12 00:00:00"
+    },
+    {
+        "group_id": "",
+        "policy_id": "",
+        "state": "release",
+        "template": "empty",
+        "os": {
+            "linux": [
+                "386",
+                "amd64"
+            ]
+        },
+        "name": "auditd",
+        "version": {
+            "major": 1,
+            "minor": 0,
+            "patch": 0
+        },
+        "actions": [],
+        "events": [
+            "auditd_error"
+        ],
+        "fields": [
+            "message"
+        ],
+        "tags": [],
+        "last_module_update": "2023-05-24 00:00:00",
+        "last_update": "2023-05-24 00:00:00"
     },
     {
         "group_id": "",

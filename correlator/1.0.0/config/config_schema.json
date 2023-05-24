@@ -1,6 +1,95 @@
 {
     "additionalProperties": false,
-    "properties": {},
+    "properties": {
+        "excludes": {
+            "items": {
+                "items": {
+                    "properties": {
+                        "fields": {
+                            "rules": {
+                                "required": true
+                            },
+                            "type": "array",
+                            "ui": {
+                                "columns": 6,
+                                "label": "dx: window.__$ncform.lang === 'en' ? 'Variables' : 'Переменные'",
+                                "widget": "select",
+                                "widgetConfig": {
+                                    "allowCreate": true,
+                                    "clearable": true,
+                                    "defaultFirstOption": false,
+                                    "enumSourceRemote": {
+                                        "otherParams": {
+                                            "filters[]": "{\"field\": \"module_name\", \"value\": [\"correlator\"]}",
+                                            "group": "name",
+                                            "lang": "en",
+                                            "page": 1,
+                                            "pageSize": -1,
+                                            "type": "init"
+                                        },
+                                        "remoteUrl": "/api/v1/options/fields",
+                                        "resField": "data.fields"
+                                    },
+                                    "filterLocal": true,
+                                    "filterable": true,
+                                    "itemDataKey": "item",
+                                    "itemLabelField": "name",
+                                    "itemValueField": "name",
+                                    "multiple": true
+                                }
+                            },
+                            "value": []
+                        },
+                        "regex": {
+                            "rules": {
+                                "customRule": [
+                                    {
+                                        "errMsg": "regexp format required",
+                                        "script": "dx: ((val) =\u003e { try { const v = new RegExp(val); return typeof(v) !== undefined } catch(e) { return false } })(__get({{$root}}, {{$path}}))"
+                                    }
+                                ],
+                                "required": true
+                            },
+                            "type": "string",
+                            "ui": {
+                                "columns": 6,
+                                "label": "dx: window.__$ncform.lang === 'en' ? 'Regular expression' : 'Регулярное выражение'"
+                            }
+                        }
+                    },
+                    "required": [],
+                    "type": "object",
+                    "ui": {
+                        "label": "dx: ((fields) =\u003e { const or = (window.__$ncform.lang === 'en' ? ' OR ' : ' ИЛИ '); const retIsArray = ((val, def) =\u003e (typeof val === 'object' \u0026\u0026 Array.isArray(val) ? val : def)); fields = retIsArray(fields, []); switch(fields.length) { case 0: return (window.__$ncform.lang === 'en' ? 'empty' : 'пустой список'); case 1: return fields[0]; default: return '(' + [...new Set(fields.map(f =\u003e '...' + f.split('.').slice(-1)[0]))].join(or) + ')'; } })(__get({{$root}}, {{$path}} + '.fields'))"
+                    }
+                },
+                "type": "array",
+                "ui": {
+                    "label": "dx: (() =\u003e { const and = (window.__$ncform.lang === 'en' ? ' AND ' : ' И '); const or = (window.__$ncform.lang === 'en' ? ' OR ' : ' ИЛИ '); const retIsArray = ((val, def) =\u003e (typeof val === 'object' \u0026\u0026 Array.isArray(val) ? val : def)); const getLabel = ((fields) =\u003e { fields = retIsArray(fields, []); switch(fields.length) { case 0: return (window.__$ncform.lang === 'en' ? 'empty' : 'пустой список'); case 1: return JSON.stringify(fields[0]); default: return '(' + [...new Set(fields.map(f =\u003e JSON.stringify('...' + f.split('.').slice(-1)[0])))].join(or) + ')'; } }); return retIsArray(__get({{$root}}, {{$path}}), []).map(e =\u003e getLabel(e.fields)).join(and);})()",
+                    "noLabelSpace": true,
+                    "showIdxLabel": false,
+                    "showLegend": false,
+                    "widget": "array-tabs",
+                    "widgetConfig": {
+                        "showOneIfEmpty": true
+                    }
+                }
+            },
+            "rules": {},
+            "type": "array",
+            "ui": {
+                "noLabelSpace": true,
+                "showIdxLabel": false,
+                "showLabel": false,
+                "showLegend": true,
+                "widgetConfig": {
+                    "collapsed": true,
+                    "disableReorder": true,
+                    "itemCollapse": true
+                }
+            }
+        }
+    },
     "required": [],
     "type": "object"
 }

@@ -136,7 +136,6 @@ describe('proc_terminator agent', function()
             module = "proc_terminator",
             version = "1.0.0",
             side = "agent", -- server
-            log_level = os.getenv("LOG_LEVEL") or "debug", -- error, warn, info, debug, trace
             sec = {siem="{}", waf="{}", nad="{}", sandbox="{}"},
         }
         -- load mocked environment
@@ -167,9 +166,9 @@ describe('proc_terminator agent', function()
     end)
 
     describe('process terminator', function()
-        local src, dst = __mock.mock_token, __mock.module_token
-
         local function kill_process_test(kill_process_action)
+            local src, dst = __mock.mock_token, __mock.module_token
+
             local object_type = select(3, kill_process_action:find("^pt_kill_(.-)_process"))
             local need_kill_subprocess = kill_process_action:match("_tree_") ~= nil
             assert.is_true(object_type ~= nil, "unsupported action")
