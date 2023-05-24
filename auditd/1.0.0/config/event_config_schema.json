@@ -1,7 +1,7 @@
 {
     "additionalProperties": false,
     "properties": {
-        "cyberok_auditd_error": {
+        "auditd_error": {
             "allOf": [
                 {
                     "$ref": "#/definitions/events.atomic"
@@ -32,7 +32,7 @@
         }
     },
     "required": [
-        "cyberok_auditd_error"
+        "auditd_error"
     ],
     "type": "object"
 }

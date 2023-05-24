@@ -25,7 +25,7 @@ end
 
 function M.error(err)
 	__log.error(err)
-	send_event("cyberok_auditd_error", {message=tostring(err)})
+	send_event("auditd_error", {message=tostring(err)})
 end
 
 return M

@@ -17,6 +17,7 @@ COPY startup.sh /opt/vxmodules/
 # SQL file generator script
 COPY gen_sql.py /opt/vxmodules/
 # Content for test loading modules from S3
+COPY auditd /opt/vxmodules/mon/auditd
 COPY syslog /opt/vxmodules/mon/syslog
 COPY sysmon /opt/vxmodules/mon/sysmon
 COPY file_remover /opt/vxmodules/mon/file_remover

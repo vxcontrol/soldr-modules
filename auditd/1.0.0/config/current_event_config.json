@@ -1,5 +1,5 @@
 {
-    "cyberok_auditd_error": {
+    "auditd_error": {
         "actions": [
             {
                 "fields": [],

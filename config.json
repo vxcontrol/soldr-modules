@@ -550,5 +550,33 @@
         ],
         "last_module_update": "2022-02-12 00:00:00",
         "last_update": "2022-02-12 00:00:00"
+    },
+    {
+        "group_id": "",
+        "policy_id": "",
+        "state": "release",
+        "template": "empty",
+        "os": {
+            "linux": [
+                "386",
+                "amd64"
+            ]
+        },
+        "name": "auditd",
+        "version": {
+            "major": 1,
+            "minor": 0,
+            "patch": 0
+        },
+        "actions": [],
+        "events": [
+            "auditd_error"
+        ],
+        "fields": [
+            "message"
+        ],
+        "tags": [],
+        "last_module_update": "2023-05-24 00:00:00",
+        "last_update": "2023-05-24 00:00:00"
     }
 ]

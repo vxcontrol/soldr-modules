@@ -2,11 +2,11 @@
     "module": {
         "en": {
             "title": "Auditd (cyberok)",
-            "description": ""
+            "description": "Module for auditd installation on agent side"
         },
         "ru": {
             "title": "Auditd (cyberok)",
-            "description": ""
+            "description": "Модуль для установки auditd на стороне агента"
         }
     },
     "config": {
@@ -56,20 +56,20 @@
     },
     "actions": {},
     "events": {
-        "cyberok_auditd_error": {
+        "auditd_error": {
             "en": {
-                "title": "cyberok_auditd_error",
-                "description": "cyberok_auditd_error"
+                "title": "Error in auditd installer module",
+                "description": "Caught error while installing auditd service"
             },
             "ru": {
-                "title": "cyberok_auditd_error",
-                "description": "cyberok_auditd_error"
+                "title": "Ошибка в модуле установщика аудита",
+                "description": "Обнаружена ошибка при установке службы аудита"
             }
         }
     },
     "action_config": {},
     "event_config": {
-        "cyberok_auditd_error": {}
+        "auditd_error": {}
     },
     "tags": {}
 }
