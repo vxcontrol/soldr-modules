@@ -578,5 +578,46 @@
         "tags": [],
         "last_module_update": "2023-05-24 00:00:00",
         "last_update": "2023-05-24 00:00:00"
+    },
+    {
+        "group_id": "",
+        "policy_id": "",
+        "state": "release",
+        "template": "empty",
+        "os": {
+          "windows": [
+            "386",
+            "amd64"
+          ]
+        },
+        "name": "osquery",
+        "version": {
+          "major": 1,
+          "minor": 0,
+          "patch": 0
+        },
+        "actions": [],
+        "events": [
+          "osquery_already_installed",
+          "osquery_already_started",
+          "osquery_config_updated_error",
+          "osquery_config_updated_success",
+          "osquery_flagfile_updated_error",
+          "osquery_flagfile_updated_success",
+          "osquery_installed_error",
+          "osquery_installed_success",
+          "osquery_started_error",
+          "osquery_started_success",
+          "osquery_unexpected_stopped",
+          "osquery_unexpected_uninstalled",
+          "osquery_uninstalled_error",
+          "osquery_uninstalled_success"
+        ],
+        "fields": [
+          "reason",
+          "version"
+        ],
+        "last_module_update": "2022-12-27 00:00:00",
+        "last_update": "2022-12-27 00:00:00"
     }
 ]
