@@ -50,9 +50,8 @@ function CModule:init(moduleName)
     self.api = {
         create = self.module.module_create,
         destroy = self.module.module_destroy,
-        version = nil,--self.module.Module__Version,
-
-        is_inited = false
+        version = nil, --self.module.Module__Version,
+        is_inited = false,
     }
     self.transport = ffi.new("api_module_transport[1]", {})
 end
@@ -116,7 +115,7 @@ function CModule:register(profile, callbacks)
     local ctmpdir = ffi.new("char[?]", 256)
     lk32.GetDllDirectoryA(256, ctmpdir)
     lk32.SetDllDirectoryA(__tmpdir)
-    self.api.is_inited = self.module_i.init(self.transport,self.profile, #profile)
+    self.api.is_inited = self.module_i.init(self.transport, self.profile, #profile)
     lk32.SetDllDirectoryA(ctmpdir)
 
     return self.api.is_inited, ""
@@ -131,7 +130,7 @@ function CModule:start()
     self.module_i.start(self.transport)
 end
 
-function CModule:send(type,data)
+function CModule:send(type, data)
     if self.transport[0].to_module == nil then
         return
     end

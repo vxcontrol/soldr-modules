@@ -1,7 +1,18 @@
 {
     "action_config": {},
     "actions": {},
-    "config": {},
+    "config": {
+        "excludes": {
+            "en": {
+                "description": "Exclusion list",
+                "title": "Exclusions"
+            },
+            "ru": {
+                "description": "Список исключений",
+                "title": "Исключения"
+            }
+        }
+    },
     "event_config": {
         "Suspicious_Create_Process_BitsAdmin_RestrictionBypass": {},
         "Suspicious_Create_Process_NetSh_NetShell": {},

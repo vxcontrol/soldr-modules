@@ -61,6 +61,7 @@ __api.add_cbs({
 
 __log.infof("module '%s' was started", __config.ctx.name)
 acts_engine:run()
+__api.del_cbs({ "data", "file", "action", "control" })
 __log.infof("module '%s' was stopped", __config.ctx.name)
 
 -- explicit destroy engine
