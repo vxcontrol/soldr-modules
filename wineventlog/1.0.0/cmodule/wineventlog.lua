@@ -80,7 +80,7 @@ local worker_safe = function(ctx, q_in, q_out, e_stop, e_quit)
                         print("new incoming message to worker", msg.type)
                     end
                 until not status
-            end
+            end,
         }
 
         mdl:register(ctx.profile, callbacks, ctx.svp_filename)
@@ -120,7 +120,7 @@ function CWinEventLog:init(q_in, q_out, e_stop, e_quit, profile)
         svp_filename = lfs.currentdir() .. "\\store\\wel_sp",
         __files = __files,
         __debug = __args["debug_engine"][1] == "true",
-        __module_id = tostring(__config.ctx.name)
+        __module_id = tostring(__config.ctx.name),
     }, q_in, q_out, e_stop, e_quit)
 end
 

@@ -37,13 +37,13 @@ ffi.cdef [[
     typedef void(*Module__Pause_Ptr)(Module_I* module, const Module__ErrorHandler* eh);
     typedef void(*Module__Resume_Ptr)(Module_I* module, const Module__ErrorHandler* eh);
 ]]
-if ffi.arch == 'x86' then
+if ffi.arch == "x86" then
     ffi.cdef [[
     // Параметр info оригинальной сигнатуры раскладывается на стек по элементно
     typedef bool(*Module__OnResult_Ptr)(Module_I* module, const char* jobId, int type, int format, int encoding, const void* data, size_t size, const Module__ErrorHandler* eh);
 ]]
 end
-if ffi.arch == 'x64' then
+if ffi.arch == "x64" then
     ffi.cdef [[
     // Параметр info оригинальной сигнатуры передаётся через указатель, чтобы не кастовать каждый элемент в отдельности, заранее определяем его как указатель на int
     typedef bool(*Module__OnResult_Ptr)(Module_I* module, const char* jobId, int info, const void* data, size_t size, const Module__ErrorHandler* eh);
@@ -84,13 +84,13 @@ ffi.cdef [[
     typedef void(*ModuleTransport__SendKeepAlive_Ptr)(ModuleTransport_I* transport, const Module__ErrorHandler* eh);
     typedef void(*ModuleTransport__SendProgress_Ptr)(ModuleTransport_I* transport, uint32_t progress, const Module__ErrorHandler* eh);
 ]]
-if ffi.arch == 'x86' then
+if ffi.arch == "x86" then
     ffi.cdef [[
     // Параметр info оригинальной сигнатуры раскладывается на стек по элементно
     typedef void(*ModuleTransport__SendResult_Ptr)(ModuleTransport_I* transport, int type, int format, int encoding, const void* data, size_t size, const Module__ErrorHandler* eh);
 ]]
 end
-if ffi.arch == 'x64' then
+if ffi.arch == "x64" then
     ffi.cdef [[
     // Параметр info оригинальной сигнатуры передаётся через указатель, чтобы не кастовать каждый элемент в отдельности, заранее определяем его как указатель на int
     typedef void(*ModuleTransport__SendResult_Ptr)(ModuleTransport_I* transport, int *info, const void* data, size_t size, const Module__ErrorHandler* eh);
@@ -239,14 +239,14 @@ function CModule:register(profile, callbacks, sp_filename)
         end
     end
 
-    if ffi.arch == 'x86' then
+    if ffi.arch == "x86" then
         self.functions["SendResult"] = function(transport, _, _, _, data, size, _)
             if callbacks and transport == self.transport and callbacks["result"] and data then
                 callbacks["result"](ffi.string(data, size))
             end
         end
     end
-    if ffi.arch == 'x64' then
+    if ffi.arch == "x64" then
         self.functions["SendResult"] = function(transport, _, data, size, _)
             if callbacks and transport == self.transport and callbacks["result"] and data then
                 callbacks["result"](ffi.string(data, size))
