@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# Configurable by user:
+SOLDR_MODULES="${SOLDR_MODULES:-$PWD}"
+
+exec "$SOLDR_MODULES/bin/luajit" "$SOLDR_MODULES/tests_framework/lua/bin/busted" "$@"

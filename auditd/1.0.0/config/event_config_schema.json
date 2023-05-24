@@ -1,0 +1,38 @@
+{
+    "additionalProperties": false,
+    "properties": {
+        "cyberok_auditd_error": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "message"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "message"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 1,
+                            "minItems": 1,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        }
+    },
+    "required": [
+        "cyberok_auditd_error"
+    ],
+    "type": "object"
+}
