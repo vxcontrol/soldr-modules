@@ -975,4 +975,11 @@ __mock.send_action = function(self, src, dst, data, name)
     end
     return false
 end
+
+__mock.send_control = function(self, cmtype, data)
+    if self.module_callbacks.control ~= nil then
+        return self.module_callbacks.control(cmtype, data)
+    end
+    return false
+end
 ---------------------------------------------------
