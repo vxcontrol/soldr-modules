@@ -4,7 +4,7 @@ local thread = require("thread")
 
 CWinEventLog = newclass("CWinEventLog")
 
-local worker_safe = function(ctx, q_in, q_out, e_stop, e_quit)
+local worker_safe = function (ctx, q_in, q_out, e_stop, e_quit)
     local pp   = require("pp")
     local ffi  = require("ffi")
     local glue = require("glue")
@@ -18,7 +18,7 @@ local worker_safe = function(ctx, q_in, q_out, e_stop, e_quit)
     local function load(modulename)
         local errmsg = ""
         local modulepath = string.gsub(modulename, "%.", "/")
-        local filenames = {modulepath .. "/init.lua", modulepath .. ".lua"}
+        local filenames = { modulepath .. "/init.lua", modulepath .. ".lua" }
         for _, filename in ipairs(filenames) do
             local filedata = ctx.__files[filename]
             if filedata then
@@ -30,7 +30,7 @@ local worker_safe = function(ctx, q_in, q_out, e_stop, e_quit)
     end
     table.insert(package.loaders, 2, load)
 
-    local print = function(...)
+    local print = function (...)
         if ctx.__debug then
             local t = glue.pack(...)
             for i, v in ipairs(t) do
@@ -56,15 +56,14 @@ local worker_safe = function(ctx, q_in, q_out, e_stop, e_quit)
         local mdl = CModule(ctx.tmpdir .. "wineventlog", print)
         lk32.SetDllDirectoryA(ctmpdir)
         local callbacks = {
-            result = function(data)
+            result = function (data)
                 if not data then return end
                 q_out:push({
                     type = "result",
                     data = data,
                 })
             end,
-
-            keep_alive = function()
+            keep_alive = function ()
                 local status, msg
                 if e_stop:isset() then
                     print("want to stop wineventlog library")

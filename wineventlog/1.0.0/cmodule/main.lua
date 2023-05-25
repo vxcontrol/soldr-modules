@@ -171,7 +171,7 @@ local function send_log(msgs)
         ["data"] = {},
     }
     local data = cjson.encode(msg_data)
-    local message = {data = data, count = #msgs, size = #data}
+    local message = { data = data, count = #msgs, size = #data }
     if not send(message) then
         if #messages_queue >= queue_size + 100 then
             __log.error("drop message from queue because size limit exceeded")
@@ -359,7 +359,7 @@ __api.add_cbs({
 
 __log.infof("module '%s' was started", __config.ctx.name)
 
-push_event("wel_module_started", {reason = "regular start"})
+push_event("wel_module_started", { reason = "regular start" })
 
 update_receivers()
 
@@ -389,7 +389,7 @@ do
     end
 end
 
-push_event("wel_module_stopped", {reason = "regular stop"})
+push_event("wel_module_stopped", { reason = "regular stop" })
 
 action_engine = nil
 event_engine = nil
