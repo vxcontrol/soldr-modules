@@ -11,22 +11,18 @@
             "amd64"
         ],
         "windows": [
-            "amd64"
+            "amd64",
+            "386"
         ]
     },
     "system": false,
-    "actions": [
-        "frd_rewind_logfile"
-    ],
+    "actions": [],
     "events": [
         "frd_module_internal_error",
         "frd_module_started",
-        "frd_module_stopped",
-        "frd_logfile_rewinded_successful",
-        "frd_logfile_rewinded_failed"
+        "frd_module_stopped"
     ],
     "fields": [
-        "log.filepath",
         "reason"
     ],
     "tags": [

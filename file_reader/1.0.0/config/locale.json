@@ -43,16 +43,6 @@
     },
     "secure_config": {},
     "fields": {
-        "log.filepath": {
-            "en": {
-                "title": "The log file path",
-                "description": ""
-            },
-            "ru": {
-                "title": "Путь к файлу журнала",
-                "description": ""
-            }
-        },
         "reason": {
             "en": {
                 "title": "Event reason",
@@ -64,39 +54,8 @@
             }
         }
     },
-    "actions": {
-        "frd_rewind_logfile": {
-            "en": {
-                "title": "Read the log file from the beginning",
-                "description": "Reading a log file from the beginning"
-            },
-            "ru": {
-                "title": "Прочитать файл журнала с самого начала",
-                "description": "Чтение файла журнала с самого начала"
-            }
-        }
-    },
+    "actions": {},
     "events": {
-        "frd_logfile_rewinded_failed": {
-            "en": {
-                "title": "The module failed to rewind the log file reading: an error occurred",
-                "description": "Failed to rewind '{{[log.filepath]}}'"
-            },
-            "ru": {
-                "title": "Модуль не смог перемотать чтение лог-файла: произошла ошибка",
-                "description": "Не удалось перемотать '{{[log.filepath]}}'"
-            }
-        },
-        "frd_logfile_rewinded_successful": {
-            "en": {
-                "title": "The module rewinded the log file reading",
-                "description": "The '{{[log.filepath]}}' log file has been rewinded successfully"
-            },
-            "ru": {
-                "title": "Модуль перемотал чтенеие лог-файла",
-                "description": "Файл '{{[log.filepath]}}' был успешно перемотан"
-            }
-        },
         "frd_module_internal_error": {
             "en": {
                 "title": "Module internal error",
@@ -113,7 +72,7 @@
                 "description": "The module is started successfully"
             },
             "ru": {
-                "title": "Модуль «Сбор данных из файловых журналов» запущен",
+                "title": "Модуль «Сбор данных из файлов журналов» запущен",
                 "description": "Успешный запуск модуля"
             }
         },
@@ -123,17 +82,13 @@
                 "description": "The module is stopped successfully"
             },
             "ru": {
-                "title": "Модуль «Сбор данных из файловых журналов» остановлен",
+                "title": "Модуль «Сбор данных из файлов журналов» остановлен",
                 "description": "Успешная остановка модуля"
             }
         }
     },
-    "action_config": {
-        "frd_rewind_logfile": {}
-    },
+    "action_config": {},
     "event_config": {
-        "frd_logfile_rewinded_failed": {},
-        "frd_logfile_rewinded_successful": {},
         "frd_module_internal_error": {},
         "frd_module_started": {},
         "frd_module_stopped": {}

@@ -1,8 +1,1 @@
-{
-    "frd_rewind_logfile": {
-        "fields": [
-            "log.filepath"
-        ],
-        "priority": 10
-    }
-}
+{}

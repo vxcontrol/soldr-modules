@@ -1,21 +1,20 @@
 require("yaci")
-local thread  = require("thread")
+local thread = require("thread")
 local luapath = require("path")
-local cjson   = require("cjson.safe")
 
 CFileReader = newclass("CFileReader")
 
-local worker_safe = function(ctx, q_in, q_out, e_stop, e_quit)
-    local pp      = require("pp")
-    local glue    = require("glue")
-    local lpath   = require("path")
-    local socket  = require("socket")
+local worker_safe = function (ctx, q_in, q_out, e_stop, e_quit)
+    local pp = require("pp")
+    local glue = require("glue")
+    local lpath = require("path")
+    local socket = require("socket")
 
     -- custom module loader to take module from __files valiable per module
     local function load(modulename)
         local errmsg = ""
         local modulepath = string.gsub(modulename, "%.", "/")
-        local filenames = {modulepath .. "/init.lua", modulepath .. ".lua"}
+        local filenames = { modulepath .. "/init.lua", modulepath .. ".lua" }
         for _, filename in ipairs(filenames) do
             local filedata = ctx.__files[filename]
             if filedata then
@@ -27,7 +26,7 @@ local worker_safe = function(ctx, q_in, q_out, e_stop, e_quit)
     end
     table.insert(package.loaders, 2, load)
 
-    local print = function(...)
+    local print = function (...)
         if ctx.__debug then
             local t = glue.pack(...)
             for i, v in ipairs(t) do
@@ -48,7 +47,7 @@ local worker_safe = function(ctx, q_in, q_out, e_stop, e_quit)
         local is_close = false
         local mdl = CModule(lpath.combine(ctx.tmpdir, "SysLog"), lpath.combine(ctx.tmpdir, "lib"), print)
         local callbacks = {
-            result = function(data)
+            result = function (data)
                 if not data then return end
                 while q_out:length() == q_out:maxlength() do e_stop:wait(os.time() + 0.1) end
                 q_out:push({
@@ -56,8 +55,7 @@ local worker_safe = function(ctx, q_in, q_out, e_stop, e_quit)
                     data = data,
                 })
             end,
-
-            keep_alive = function()
+            keep_alive = function ()
                 local status, msg
                 if e_stop:isset() then
                     print("want to stop file reader library")
@@ -73,7 +71,7 @@ local worker_safe = function(ctx, q_in, q_out, e_stop, e_quit)
                         print("new incoming message to worker", msg.type)
                     end
                 until not status
-            end
+            end,
         }
 
         mdl:register(ctx.profile, callbacks, ctx.svp_filename)
@@ -113,7 +111,7 @@ function CFileReader:init(q_in, q_out, e_stop, e_quit, profile, store_dir)
         svp_filename = luapath.combine(store_dir, "frd_sp"),
         __files = __files,
         __debug = __args["debug_engine"][1] == "true",
-        __module_id = tostring(__config.ctx.name)
+        __module_id = tostring(__config.ctx.name),
     }, q_in, q_out, e_stop, e_quit)
 end
 
@@ -122,19 +120,4 @@ function CFileReader:wait()
         self.wrth:join()
         self.wrth = nil
     end
-end
-
-function CFileReader:rewind(store_dir, filename)
-    local svp_filename = luapath.combine(store_dir, "frd_sp")
-    local savepoint = {}
-    local file = io.open(svp_filename, "r")
-    if file then
-        local savepoint = cjson.decode(file:read("*a"));
-        io.close(file)
-    end
-    savepoint[filename] = {pos = -1}
-    file = io.open(svp_filename, "wb+")
-    file:write(cjson.encode(savepoint))
-    file:flush()
-    file:close()
 end

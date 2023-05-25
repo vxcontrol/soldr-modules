@@ -1,66 +1,6 @@
 {
     "additionalProperties": false,
     "properties": {
-        "frd_logfile_rewinded_failed": {
-            "allOf": [
-                {
-                    "$ref": "#/definitions/events.atomic"
-                },
-                {
-                    "properties": {
-                        "fields": {
-                            "default": [
-                                "log.filepath",
-                                "reason"
-                            ],
-                            "items": {
-                                "enum": [
-                                    "log.filepath",
-                                    "reason"
-                                ],
-                                "type": "string"
-                            },
-                            "maxItems": 2,
-                            "minItems": 2,
-                            "type": "array"
-                        }
-                    },
-                    "required": [
-                        "fields"
-                    ],
-                    "type": "object"
-                }
-            ]
-        },
-        "frd_logfile_rewinded_successful": {
-            "allOf": [
-                {
-                    "$ref": "#/definitions/events.atomic"
-                },
-                {
-                    "properties": {
-                        "fields": {
-                            "default": [
-                                "log.filepath"
-                            ],
-                            "items": {
-                                "enum": [
-                                    "log.filepath"
-                                ],
-                                "type": "string"
-                            },
-                            "maxItems": 1,
-                            "minItems": 1,
-                            "type": "array"
-                        }
-                    },
-                    "required": [
-                        "fields"
-                    ],
-                    "type": "object"
-                }
-            ]
-        },
         "frd_module_internal_error": {
             "allOf": [
                 {
@@ -138,9 +78,7 @@
     "required": [
         "frd_module_internal_error",
         "frd_module_started",
-        "frd_module_stopped",
-        "frd_logfile_rewinded_successful",
-        "frd_logfile_rewinded_failed"
+        "frd_module_stopped"
     ],
     "type": "object"
 }

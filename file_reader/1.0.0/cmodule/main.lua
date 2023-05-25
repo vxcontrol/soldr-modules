@@ -1,9 +1,9 @@
 require("engine")
 require("file_reader")
-local lfs     = require("lfs")
-local glue    = require("glue")
-local cjson   = require("cjson.safe")
-local thread  = require("thread")
+local lfs = require("lfs")
+local glue = require("glue")
+local cjson = require("cjson.safe")
+local thread = require("thread")
 local luapath = require("path")
 
 -- variables to initialize event and action engines
@@ -12,6 +12,11 @@ local fields_schema = __config.get_fields_schema()
 local current_event_config = __config.get_current_event_config()
 local module_info = __config.get_module_info()
 local module_config = cjson.decode(__config.get_current_config())
+
+local topic_name = "raw_events"
+local topic_token = __imc.make_topic and __imc.make_topic(topic_name, __gid) or ""
+local last_subscription_check = 0
+local result_subscriptions_list = {}
 
 -- event and action engines initialization
 local action_engine = CActionEngine(
@@ -37,15 +42,6 @@ local server_token = ""
 local queue_size = tonumber(__args["queue_size"][1])
 local is_send_messages = module_config.target_path ~= ""
 
--- generate and return uuid
-local function make_uuid()
-    local template ='xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
-    return string.gsub(template, '[xy]', function (c)
-        local v = (c == 'x') and math.random(0, 0xf) or math.random(8, 0xb)
-        return string.format('%x', v)
-    end)
-end
-
 -- return number
 local function tablelength(T)
     local count = 0
@@ -53,33 +49,49 @@ local function tablelength(T)
     return count
 end
 
--- events executor by event name, action and action_data
-local function push_event(event_name, action_name, action_data)
+-- events executor by event name and data
+local function push_event(event_name, event_data)
     assert(type(event_name) == "string", "event_name must be a string")
-    assert(type(action_name) == "string", "action_name must be a string")
-    assert(type(action_data) == "table", "action_data must be a table")
-    local actions = action_data.actions or {}
-    if action_name ~= "" then
-        local action_full_name = __config.ctx.name .. "." .. action_name
-        if glue.indexof(action_full_name, actions) == nil then
-            table.insert(actions, action_full_name)
-        end
-    end
+    assert(type(event_data) == "table", "event_data must be a table")
+    __log.debugf("push event to correlator: '%s'", event_name)
 
-    -- push some event to the engine
+    -- push the event to the engine
     local info = {
         ["name"] = event_name,
-        ["data"] = action_data.data,
-        ["actions"] = actions,
+        ["data"] = event_data,
+        ["actions"] = {},
     }
     local result, list = event_engine:push_event(info)
 
     -- check result return variable as marker is there need to execute actions
     if result then
         for action_id, action_result in ipairs(action_engine:exec(__aid, list)) do
-            __log.infof("action '%s' was requested with result: %s", action_id, action_result)
+            __log.debugf("action '%s' was requested: '%s'", action_id, action_result)
         end
     end
+end
+
+-- return bool
+local function is_using_subscription()
+    local now = os.time(os.date("!*t"))
+    local get_subscriptions = __imc.get_subscriptions
+    if get_subscriptions ~= nil and now - last_subscription_check > 5 then
+        result_subscriptions_list = {}
+        for _, subs in ipairs(get_subscriptions(topic_token)) do
+            table.insert(result_subscriptions_list, subs)
+        end
+        local modules = {}
+        for module_name, token in pairs(receivers) do
+            if glue.indexof(token, result_subscriptions_list) ~= nil then
+                table.insert(modules, module_name)
+            end
+        end
+        for _, module_name in ipairs(modules) do
+            receivers[module_name] = nil
+        end
+        last_subscription_check = now
+    end
+    return #result_subscriptions_list ~= 0
 end
 
 -- return nil
@@ -90,8 +102,12 @@ local function update_receivers()
     for irx, module_name in ipairs(mlist) do
         local minfo = " | group_id: " .. __gid .. " | module: " .. module_name
         local token = __imc.make_token(module_name, __gid)
-        __log.debugf("receiver[%s] | token: '%s' %s", irx, token, minfo)
-        receivers[module_name] = token
+        if glue.indexof(token, result_subscriptions_list) ~= nil then
+            __log.debugf("skip receiver[%s] | token: '%s' %s", irx, token, minfo)
+        else
+            __log.debugf("add receiver[%s] | token: '%s' %s", irx, token, minfo)
+            receivers[module_name] = token
+        end
     end
 end
 
@@ -125,6 +141,10 @@ local function send_to_receivers(events)
         __log.errorf("failed to serialize events message: %s", tostring(events))
         return
     end
+    local use_subscriptions = is_using_subscription()
+    if use_subscriptions then
+        __api.send_data_to(topic_token, msg)
+    end
     for _, imc_token in pairs(receivers) do
         __api.send_data_to(imc_token, msg)
     end
@@ -132,7 +152,7 @@ end
 
 -- return nil
 local function resend()
-    for _=1,#messages_queue do
+    for _ = 1, #messages_queue do
         if send(messages_queue[1]) then
             table.remove(messages_queue, 1)
         else
@@ -153,18 +173,18 @@ local function send_log(msgs)
         ["data"] = {},
     }
     local data = cjson.encode(msg_data)
-    local message = {data = data, count = #msgs, size = #data}
+    local message = { data = data, count = #msgs, size = #data }
     if not send(message) then
         if #messages_queue >= queue_size + 100 then
             __log.error("drop message from queue because size limit exceeded")
             local cnt = 0
-            for _=1,100 do
+            for _ = 1, 100 do
                 cnt = cnt + messages_queue[1].count
                 table.remove(messages_queue, 1)
             end
             __metric.add_int_counter("frd_agent_events_drop", cnt)
             collectgarbage("collect")
-            __metric.add_int_gauge_counter("frd_agent_mem_usage", collectgarbage("count")*1024)
+            __metric.add_int_gauge_counter("frd_agent_mem_usage", collectgarbage("count") * 1024)
         end
         table.insert(messages_queue, message)
     end
@@ -203,11 +223,14 @@ local function get_profile()
                 "auditd": {
                     "key_includes_src_ip": false,
                     "key_fields_from_records": [
+                        "node",
                         "timestamp",
+                        "timestampfractional",
                         "eventid"
                     ],
                     "filter_regexps": [
-                        ".*type=(?P<type>\\S+)\\s.*audit.*\\((?P<timestamp>[0-9]*[.,]?[0-9]+):(?P<eventid>[0-9]+)\\):\\s*(?P<value>.*)"
+                        ".*node=(?P<node>\\S+)\\s+type=(?P<type>\\S+)\\s+msg=audit\\((?P<timestamp>[0-9]*)[.,](?P<timestampfractional>[0-9]+):(?P<eventid>[0-9]+)\\):\\s*(?P<value>.*)",
+                        ".*type=(?P<type>\\S+)\\s+msg=audit\\((?P<timestamp>[0-9]*)[.,](?P<timestampfractional>[0-9]+):(?P<eventid>[0-9]+)\\):\\s*(?P<value>.*)"
                     ],
                     "group_by_field_settings": {
                         "regex_group_for_field_name": "type",
@@ -278,18 +301,22 @@ local function handler()
                 local events = cjson.decode(msg.data) or {}
                 local messages = {}
                 for _, event in ipairs(events) do
-                    if type(event) == "table" then
+                    if type(event) ~= "table" then goto continue end
+                    event.recv_ipv4 = event.recv_ipv4 or "127.0.0.1"
+                    if event.mime == "application/json" then
                         local jbody = cjson.decode(event.body)
                         if jbody and type(jbody) == "table" then
-                            if (jbody.node == nil) then jbody.node = "127.0.0.1" end
-                            event.body = cjson.encode(jbody) or ""
+                            if not jbody.node or jbody.node == "" then
+                                jbody.node = "127.0.0.1"
+                                event.body = cjson.encode(jbody) or event.body
+                            end
                             table.insert(messages, cjson.encode(event) or "")
                             event.body = jbody
-                        elseif type(event.body) == "string" and string.find(event.body, "node=") == nil then
-                            event.body = event.body .. " node=127.0.0.1"
-                            table.insert(messages, cjson.encode(event) or "")
                         end
+                    elseif event.mime == "text/plain" and type(event.body) == "string" then
+                        table.insert(messages, cjson.encode(event) or "")
                     end
+                    ::continue::
                 end
                 if not want_to_quit and not __api.is_close() then
                     send_to_receivers(events)
@@ -299,7 +326,7 @@ local function handler()
                 __log.info(glue.unpack(msg.data))
             elseif msg.type == "error" and type(msg.data) == "string" then
                 __log.errorf("catch error from file reader log collector: '%s': '%s'", msg.data, msg.err)
-                push_event("frd_module_internal_error", "", {["data"] = {reason = msg.data}})
+                push_event("frd_module_internal_error", { reason = msg.data })
             end
         end
         cnt = cnt + 1
@@ -314,75 +341,14 @@ local function handler()
     return q_e_quit:isset() and want_to_quit
 end
 
-local function exec_action(action_name, action_data)
-    local log_filepath
-    local set_failure = function(reason)
-        action_data.data.result = false
-        action_data.data.reason = reason
-        return false, "frd_module_internal_error"
-    end
-
-    if action_name == "frd_rewind_logfile" then
-        log_filepath = action_data.data["log.filepath"]
-    else
-        __log.errorf("unknown action '%s' was requested", action_name)
-        return set_failure("action_unknown")
-    end
-
-    if log_filepath == nil or log_filepath == "" then
-        __log.error("requested file path is empty")
-        return set_failure("file_path_is_empty")
-    end
-    action_data.data["uuid"] = action_data.data["uuid"] or make_uuid()
-
-    q_e_stop:set()
-    wm_e:wait()
-    wm_e:rewind(store_dir, log_filepath)
-    q_e_stop:clear()
-    q_e_quit:clear()
-    wm_e = CFileReader(q_in, q_out, q_e_stop, q_e_quit, get_profile(), store_dir)
-
-    action_data.data.result = true
-    action_data.data.reason = "rewind successful"
-    return true, "frd_logfile_rewinded_successful"
-
-end
-
 __api.add_cbs({
-
     -- data = function(src, data)
     -- file = function(src, path, name)
     -- text = function(src, text, name)
     -- msg = function(src, msg, mtype)
     -- action = function(src, data, name)
 
-    action = function(src, data, name)
-        __log.infof("receive action '%s' from '%s' with data %s", name, src, data)
-
-        -- execute received action
-        local action_data = cjson.decode(data) or {}
-        local action_result, event_name = exec_action(name, action_data)
-        push_event(event_name, name, action_data)
-
-        -- is internal communication from collector module
-        if __imc.is_exist(src) then
-            local mod_name, group_id = __imc.get_info(src)
-            __log.debugf("internal message received from module '%s' group %s", mod_name, group_id)
-        else
-            __log.debug("message received from the server")
-            __api.send_data_to(src, cjson.encode({
-                ["retaddr"] = action_data.retaddr,
-                ["status"] = tostring(action_result),
-                ["agent_id"] = __aid,
-                ["name"] = name,
-            }))
-        end
-
-        __log.infof("requested action '%s' was executed with result: %s", name, action_result)
-        return true
-    end,
-
-    control = function(cmtype, data)
+    control = function (cmtype, data)
         __log.debugf("receive control msg '%s' with payload: %s", cmtype, data)
 
         -- cmtype: "agent_connected"
@@ -430,12 +396,12 @@ __api.add_cbs({
 
 __log.infof("module '%s' was started", __config.ctx.name)
 
-push_event("frd_module_started", "", {["data"] = {reason = "regular start"}})
+push_event("frd_module_started", { reason = "regular start" })
 
 update_receivers()
 
 while not handler() do
-    __metric.add_int_gauge_counter("frd_agent_mem_usage", collectgarbage("count")*1024)
+    __metric.add_int_gauge_counter("frd_agent_mem_usage", collectgarbage("count") * 1024)
     __api.await(300)
 end
 
@@ -452,7 +418,7 @@ q_out:free()
 -- all events mark as drop
 do
     local cnt = 0
-    for i=1,#messages_queue do
+    for i = 1, #messages_queue do
         cnt = cnt + messages_queue[i].count
     end
     if cnt ~= 0 then
@@ -460,7 +426,7 @@ do
     end
 end
 
-push_event("frd_module_stopped", "", {["data"] = {reason = "regular stop"}})
+push_event("frd_module_stopped", { reason = "regular stop" })
 
 action_engine = nil
 event_engine = nil

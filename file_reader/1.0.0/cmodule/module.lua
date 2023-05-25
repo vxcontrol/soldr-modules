@@ -36,13 +36,13 @@ ffi.cdef [[
     typedef void(*Module__Pause_Ptr)(Module_I* module, const Module__ErrorHandler* eh);
     typedef void(*Module__Resume_Ptr)(Module_I* module, const Module__ErrorHandler* eh);
 ]]
-if ffi.arch == 'x86' then
+if ffi.arch == "x86" then
     ffi.cdef [[
     // Параметр info оригинальной сигнатуры раскладывается на стек по элементно
     typedef bool(*Module__OnResult_Ptr)(Module_I* module, const char* jobId, int type, int format, int encoding, const void* data, size_t size, const Module__ErrorHandler* eh);
 ]]
 end
-if ffi.arch == 'x64' then
+if ffi.arch == "x64" then
     ffi.cdef [[
     // Параметр info оригинальной сигнатуры передаётся через указатель, чтобы не кастовать каждый элемент в отдельности, заранее определяем его как указатель на int
     typedef bool(*Module__OnResult_Ptr)(Module_I* module, const char* jobId, int info, const void* data, size_t size, const Module__ErrorHandler* eh);
@@ -84,13 +84,13 @@ ffi.cdef [[
     typedef void(*ModuleTransport__SendProgress_Ptr)(ModuleTransport_I* transport, uint32_t progress, const Module__ErrorHandler* eh);
 ]]
 if ffi.os == "Windows" then
-    if ffi.arch == 'x86' then
+    if ffi.arch == "x86" then
         ffi.cdef [[
         // Параметр info оригинальной сигнатуры раскладывается на стек по элементно
         typedef void(*ModuleTransport__SendResult_Ptr)(ModuleTransport_I* transport, int type, int format, int encoding, const void* data, size_t size, const Module__ErrorHandler* eh);
     ]]
     end
-    if ffi.arch == 'x64' then
+    if ffi.arch == "x64" then
         ffi.cdef [[
         // Параметр info оригинальной сигнатуры передаётся через указатель, чтобы не кастовать каждый элемент в отдельности, заранее определяем его как указатель на int
         typedef void(*ModuleTransport__SendResult_Ptr)(ModuleTransport_I* transport, int *info, const void* data, size_t size, const Module__ErrorHandler* eh);
@@ -99,13 +99,13 @@ if ffi.os == "Windows" then
 end
 
 if ffi.os == "Linux" then
-    if ffi.arch == 'x86' then
+    if ffi.arch == "x86" then
         ffi.cdef [[
         // Параметр info оригинальной сигнатуры раскладывается на стек по элементно
         typedef void(*ModuleTransport__SendResult_Ptr)(ModuleTransport_I* transport, int type, int format, int encoding, const void* data, size_t size, const Module__ErrorHandler* eh);
     ]]
     end
-    if ffi.arch == 'x64' then
+    if ffi.arch == "x64" then
         ffi.cdef [[
         // Параметр info оригинальной сигнатуры передаётся через указатель, чтобы не кастовать каждый элемент в отдельности, заранее определяем его как указатель на int
         typedef void(*ModuleTransport__SendResult_Ptr)(ModuleTransport_I* transport, int *info, int i, const void* data, size_t size, const Module__ErrorHandler* eh);
@@ -161,7 +161,7 @@ function CModule:init(moduleName, libdir, fprint)
     self:unregister()
     self.libdir = libdir
     if ffi.os == "Linux" then self:load_depends() end
-    self:wrap_load(function()
+    self:wrap_load(function ()
         if ffi.os == "Linux" then
             self.module = ffi.load(moduleName .. ".so")
         else
@@ -244,7 +244,7 @@ function CModule:register(profile, callbacks, sp_filename)
 
     local function get_argv(...)
         local nargs = select("#", ...)
-        local argv = {...}
+        local argv = { ... }
 
         for i = 1, nargs do
             local v = tostring(argv[i])
@@ -256,28 +256,28 @@ function CModule:register(profile, callbacks, sp_filename)
 
     self.functions = {}
 
-    self.functions["SendKeepalive"] = function(transport, _)
+    self.functions["SendKeepalive"] = function (transport, _)
         if callbacks and transport == self.transport and callbacks["keep_alive"] then
             callbacks["keep_alive"]()
         end
     end
 
-    self.functions["SendProgress"] = function(transport, progress, _)
+    self.functions["SendProgress"] = function (transport, progress, _)
         if callbacks and transport == self.transport and callbacks["progress"] then
             callbacks["progress"](progress)
         end
     end
 
     if ffi.os == "Windows" then
-        if ffi.arch == 'x86' then
-            self.functions["SendResult"] = function(transport, _, _, _, data, size, _)
+        if ffi.arch == "x86" then
+            self.functions["SendResult"] = function (transport, _, _, _, data, size, _)
                 if callbacks and transport == self.transport and callbacks["result"] and data then
                     callbacks["result"](ffi.string(data, size))
                 end
             end
         end
-        if ffi.arch == 'x64' then
-            self.functions["SendResult"] = function(transport, _, data, size, _)
+        if ffi.arch == "x64" then
+            self.functions["SendResult"] = function (transport, _, data, size, _)
                 if callbacks and transport == self.transport and callbacks["result"] and data then
                     callbacks["result"](ffi.string(data, size))
                 end
@@ -286,15 +286,15 @@ function CModule:register(profile, callbacks, sp_filename)
     end
 
     if ffi.os == "Linux" then
-        if ffi.arch == 'x86' then
-            self.functions["SendResult"] = function(transport, _, _, _, data, size, _)
+        if ffi.arch == "x86" then
+            self.functions["SendResult"] = function (transport, _, _, _, data, size, _)
                 if callbacks and transport == self.transport and callbacks["result"] and data then
                     callbacks["result"](ffi.string(data, size))
                 end
             end
         end
-        if ffi.arch == 'x64' then
-            self.functions["SendResult"] = function(transport, _, _, data, size, _)
+        if ffi.arch == "x64" then
+            self.functions["SendResult"] = function (transport, _, _, data, size, _)
                 if callbacks and transport == self.transport and callbacks["result"] and size and data then
                     callbacks["result"](ffi.string(data, size))
                 end
@@ -302,7 +302,7 @@ function CModule:register(profile, callbacks, sp_filename)
         end
     end
 
-    self.functions["SendSavepoint"] = function(transport, data, size, _)
+    self.functions["SendSavepoint"] = function (transport, data, size, _)
         if data and size ~= 0 then
             local sd = ffi.string(data, size)
             if callbacks and transport == self.transport and callbacks["save_point"] and size and data then
@@ -321,30 +321,30 @@ function CModule:register(profile, callbacks, sp_filename)
         end
     end
 
-    self.functions["SendState"] = function(transport, state, _)
+    self.functions["SendState"] = function (transport, state, _)
         if callbacks and transport == self.transport and callbacks["state"] then
             callbacks["state"](state)
         end
     end
 
-    self.functions["SendError"] = function(transport, data, size, _)
+    self.functions["SendError"] = function (transport, data, size, _)
         if callbacks and transport == self.transport and callbacks["error"] then
             callbacks["error"](ffi.string(data, size))
         end
     end
 
-    self.functions["HandleError"] = function(descr, _)
+    self.functions["HandleError"] = function (descr, _)
         self.print("file reader library handled error: ", ffi.string(descr))
     end
 
-    self.error = ffi.new("Module__ErrorHandler", {ffi.cast("Module__Error_Ptr", self.functions["HandleError"]), nil})
+    self.error = ffi.new("Module__ErrorHandler", { ffi.cast("Module__Error_Ptr", self.functions["HandleError"]), nil })
     self.transport = ffi.new("ModuleTransport_I", {
         ffi.cast("ModuleTransport__SendKeepAlive_Ptr", self.functions["SendKeepalive"]),
         ffi.cast("ModuleTransport__SendProgress_Ptr", self.functions["SendProgress"]),
         ffi.cast("ModuleTransport__SendResult_Ptr", self.functions["SendResult"]),
         ffi.cast("ModuleTransport__SendSavePoint_Ptr", self.functions["SendSavepoint"]),
         ffi.cast("ModuleTransport__SendState_Ptr", self.functions["SendState"]),
-        ffi.cast("ModuleTransport__SendError_Ptr", self.functions["SendError"])
+        ffi.cast("ModuleTransport__SendError_Ptr", self.functions["SendError"]),
     })
     self.argv_type = ffi.typeof("const char* [?]")
     self.argc, self.argv = get_argv("--id", "692db8c2-9d54-11eb-a8b3-0242ac130003")
@@ -419,7 +419,7 @@ end
 
 if ffi.os == "Linux" then
     function CModule:load_depends()
-        local lfs   = require("lfs")
+        local lfs = require("lfs")
         local lpath = require("path")
         self.deps = {}
         for file in lfs.dir(self.libdir) do

@@ -1,45 +1,6 @@
 {
     "additionalProperties": false,
-    "properties": {
-        "frd_rewind_logfile": {
-            "allOf": [
-                {
-                    "$ref": "#/definitions/base.action"
-                },
-                {
-                    "properties": {
-                        "fields": {
-                            "default": [
-                                "log.filepath"
-                            ],
-                            "items": {
-                                "enum": [
-                                    "log.filepath"
-                                ],
-                                "type": "string"
-                            },
-                            "maxItems": 1,
-                            "minItems": 1,
-                            "type": "array"
-                        },
-                        "priority": {
-                            "default": 10,
-                            "maximum": 10,
-                            "minimum": 10,
-                            "type": "integer"
-                        }
-                    },
-                    "required": [
-                        "fields",
-                        "priority"
-                    ],
-                    "type": "object"
-                }
-            ]
-        }
-    },
-    "required": [
-        "frd_rewind_logfile"
-    ],
+    "properties": {},
+    "required": [],
     "type": "object"
 }
