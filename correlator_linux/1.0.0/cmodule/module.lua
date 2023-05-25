@@ -52,7 +52,7 @@ function CModule:init(moduleName)
         end
     end
 
-    self.wrap_load(function()
+    self.wrap_load(function ()
         self.module = ffi.load(moduleName)
     end)
 
@@ -111,7 +111,7 @@ function CModule:register(profile, callbacks)
 
     self.functions = {}
 
-    self.functions["receive"] = function(transport, type, data, size)
+    self.functions["receive"] = function (transport, type, data, size)
         if callbacks and transport == self.transport and callbacks["receive"] then
             return callbacks["receive"](type, data, size)
         end
@@ -123,7 +123,7 @@ function CModule:register(profile, callbacks)
     self.module_i = self.api.create(self.transport, 0, nil)
     self.profile = ffi.new("const char[?]", #profile + 1, profile)
 
-    self.wrap_load(function()
+    self.wrap_load(function ()
         self.api.is_inited = self.module_i.init(self.transport, self.profile, #profile)
     end)
 

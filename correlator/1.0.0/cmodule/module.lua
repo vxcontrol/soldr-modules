@@ -100,7 +100,7 @@ function CModule:register(profile, callbacks)
 
     self.functions = {}
 
-    self.functions["receive"] = function(transport, type, data, size)
+    self.functions["receive"] = function (transport, type, data, size)
         if callbacks and transport == self.transport and callbacks["receive"] then
             return callbacks["receive"](type, data, size)
         end

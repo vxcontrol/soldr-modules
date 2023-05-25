@@ -565,14 +565,13 @@ end
 __api.set_recv_timeout(5000) -- 5s
 
 __api.add_cbs({
-
     -- data = function(src, data)
     -- file = function(src, path, name)
     -- text = function(src, text, name)
     -- msg = function(src, msg, mtype)
     -- action = function(src, data, name)
 
-    control = function(cmtype, data)
+    control = function (cmtype, data)
         __log.debugf("receive control msg '%s' with payload: %s", cmtype, data)
         if cmtype == "update_config" then
             -- update current action and event list from new config

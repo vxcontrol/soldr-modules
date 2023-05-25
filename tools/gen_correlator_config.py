@@ -47,12 +47,6 @@ def_actions = [
     },
     {
         "fields": [],
-        "module_name": "pt_siem",
-        "name": "send_to_siem",
-        "priority": 10
-    },
-    {
-        "fields": [],
         "module_name": "syslog",
         "name": "send_to_syslog",
         "priority": 10

@@ -20,7 +20,7 @@ function CActsEngine:init(cfg)
     self.super:init(cfg)
 
     self.correlator = CCorrEngine(
-        function(event)
+        function (event)
             self:push_result(event)
         end
     )
@@ -28,7 +28,7 @@ function CActsEngine:init(cfg)
     if not self.correlator.valid then
         __log.info("try to restore correlator instance")
         self.correlator = CCorrEngine(
-            function(event)
+            function (event)
                 self:push_result(event)
             end,
             true

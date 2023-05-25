@@ -2,7 +2,7 @@ require("engines.acts_engine")
 
 -- base config to actions engine
 local cfg = {
-    config = {}
+    config = {},
 }
 
 -- actions engine initialize
@@ -12,24 +12,22 @@ local acts_engine = CActsEngine(cfg)
 __api.set_recv_timeout(5000) -- 5s
 
 __api.add_cbs({
-    data = function(src, data)
+    data = function (src, data)
         __log.debugf("receive data from '%s' with data", src)
         assert(acts_engine ~= nil, "actions engine instance is not initialized")
 
         return acts_engine:recv_data(src, data)
     end,
-
-    file = function(src, path, name)
+    file = function (src, path, name)
         __log.infof("receive file from '%s' with name '%s' path '%s'", src, name, path)
         assert(acts_engine ~= nil, "actions engine instance is not initialized")
 
         return acts_engine:recv_file(src, path, name)
     end,
-
     -- text = function(src, text, name)
     -- msg = function(src, msg, mtype)
 
-    action = function(src, data, name)
+    action = function (src, data, name)
         __log.infof("receive action '%s' from '%s' with data %s", name, src, data)
         assert(acts_engine ~= nil, "actions engine instance is not initialized")
 
@@ -37,8 +35,7 @@ __api.add_cbs({
         __log.infof("requested action '%s' was executed: %s", name, action_result)
         return action_result
     end,
-
-    control = function(cmtype, data)
+    control = function (cmtype, data)
         __log.debugf("receive control msg '%s' with data %s", cmtype, data)
         assert(acts_engine ~= nil, "actions engine instance is not initialized")
 

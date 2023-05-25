@@ -20,7 +20,7 @@ function CActsEngine:init(cfg)
     self.super:init(cfg)
 
     self.correlator = CCorrEngine(
-        function(event)
+        function (event)
             self:push_result(event)
         end
     )
@@ -28,7 +28,7 @@ function CActsEngine:init(cfg)
     if not self.correlator.valid then
         __log.info("try to restore correlator instance")
         self.correlator = CCorrEngine(
-            function(event)
+            function (event)
                 self:push_result(event)
             end,
             true
@@ -292,11 +292,11 @@ function CActsEngine:push_result(event)
 
     if event_name == nil or event_name == "" then return end
 
-    local config_events = self.config["events"] or {events={}}
-    local config_event = config_events[event_name] or {fields={}}
-    local config_fields = self.config["fields"] or {properties={}}
+    local config_events = self.config["events"] or { events = {} }
+    local config_event = config_events[event_name] or { fields = {} }
+    local config_fields = self.config["fields"] or { properties = {} }
     local _fields = config_event["fields"] or {}
-    local defaults = {string = "", number = 0, integer = 0, object = {}, array = {}, boolean = false, null = nil}
+    local defaults = { string = "", number = 0, integer = 0, object = {}, array = {}, boolean = false, null = nil }
 
     for _, v in ipairs(self.proc_id_fields) do
         result[v] = tonumber(result[v])

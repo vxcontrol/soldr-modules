@@ -156,7 +156,7 @@ function CBaseEngine:commit_success(src, action_name, action_data)
 
     -- case to notify other side about action execution result
     if type(action_data.retaddr) == "string" and action_data.retaddr ~= "" then
-        local data = cjson.encode(glue.merge({status = "success"}, action_data))
+        local data = cjson.encode(glue.merge({ status = "success" }, action_data))
         __api.send_data_to(src, data)
     end
 end
@@ -174,7 +174,7 @@ function CBaseEngine:commit_failed(src, action_name, action_data)
 
     -- case to notify other side about action execution result
     if type(action_data.retaddr) == "string" and action_data.retaddr ~= "" then
-        local data = cjson.encode(glue.merge({status = "error"}, action_data))
+        local data = cjson.encode(glue.merge({ status = "error" }, action_data))
         __api.send_data_to(src, data)
     end
 end
@@ -200,7 +200,7 @@ end
 -- out: string
 --      destination token (string) it'll be empty if agent disconnected
 function CBaseEngine:get_server_token()
-    local tablelength = function(t)
+    local tablelength = function (t)
         local count = 0
         for _ in pairs(t) do count = count + 1 end
         return count

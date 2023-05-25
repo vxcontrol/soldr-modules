@@ -87,7 +87,7 @@ function CCorrEngine:init(receiveEvents, restore)
     local tmpdir_data = luapath.combine(__tmpdir, "data")
     zip.unzip(luapath.combine(tmpdir_data, "graphs.zip"), "-d", tmpdir_data)
     self.callbacks = {
-        receive = function(type, data, size)
+        receive = function (type, data, size)
             if type == 1 and receiveEvents then
                 receiveEvents(ffi.string(data, size))
             elseif type == 2 then

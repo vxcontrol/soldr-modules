@@ -85,7 +85,7 @@ end
 function CCorrEngine:init(receiveEvents, restore)
     zip.unzip(__tmpdir .. "\\data\\graphs.zip", "-d", __tmpdir .. "\\data\\")
     self.callbacks = {
-        receive = function(type, data, size)
+        receive = function (type, data, size)
             if type == 1 and receiveEvents then
                 receiveEvents(ffi.string(data, size))
             elseif type == 2 then
