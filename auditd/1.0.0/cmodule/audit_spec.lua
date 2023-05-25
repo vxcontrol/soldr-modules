@@ -1,20 +1,23 @@
-local audit   = require "audit"
-local exec    = require "exec"
-local managed = require "managed"
-local pkg     = require "pkg"
+local audit = require "audit"
+local exec  = require "exec"
+local pkg   = require "pkg"
+local glue  = require "glue"
+
+local pm, state
+local os = glue.gsplit(tostring(glue.readfile("/etc/issue", "r")) or "unknown", "\n")()
 
 local function has_prefix(str, prefix)
 	return string.find(str, prefix, 1, true) == 1,
 		string.format("expected %q has prefix %q", str, prefix)
 end
 
-context("audit", function()
+context(os .. " | audit", function()
 	test("check_systemd() #systemd", function()
 		assert(audit.check_systemd())
 	end)
 end)
 
-context("audit setup() #root #systemd #network #write", function()
+context(os .. " | audit setup() #root #systemd #network #write", function()
 	setup(function()
 		pm = assert(pkg.find_manager())
 		state = audit.State.new()

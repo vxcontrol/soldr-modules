@@ -113,6 +113,7 @@ globals = {
     "teardown",
     "setup",
     "it",
+    "test",
     "before_each"
 }
 
