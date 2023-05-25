@@ -23,12 +23,13 @@ end
 
 local function osquery_uninstall()
     print("uninstallation osquery in test")
-    io.popen('dpkg --force-all -P osquery 2> /dev/null', 'r')
+    os.execute('dpkg --force-all -P osquery 2> /dev/null')
+    os.execute('echo "{}" > /etc/osquery/osquery.conf')
 end
 
 local function osquery_stop()
     print("stopping osquery in test")
-    io.popen('systemctl stop osqueryd', 'r')
+    os.execute('systemctl stop osqueryd')
 end
 
 describe('osquery_linux agent', function()
@@ -44,24 +45,7 @@ describe('osquery_linux agent', function()
         }
         -- load mocked environment
         require("mock")
-
-        -- hack, see: https://github.com/vxcontrol/soldr-modules/issues/42
-        __mock.module_info.fields = { "reason", "version" }
-        __mock.module_info.actions = {}
-        __mock.module_info.events = {
-            "osquery_linux_already_installed",
-            "osquery_linux_already_started",
-            "osquery_linux_config_updated_error",
-            "osquery_linux_config_updated_success",
-            "osquery_linux_installed_error",
-            "osquery_linux_installed_success",
-            "osquery_linux_started_error",
-            "osquery_linux_started_success",
-            "osquery_linux_unexpected_stopped",
-            "osquery_linux_unexpected_uninstalled",
-            "osquery_linux_uninstalled_error",
-            "osquery_linux_uninstalled_success"
-        }
+        -- wait until module initialization is finished
 
         osquery_uninstall()
     end)
@@ -80,12 +64,7 @@ describe('osquery_linux agent', function()
         if ffi.os ~= 'Linux' then
             describe('installing osquery', function()
                 it('should not install osquery', function()
-                    --__mock:module_start()
-
-                    --for i, data in ipairs(__mock.stage.ctx["event"]) do
-                    --    print("i", i)
-                    --    print("data", data)
-                    --end
+                    __mock:module_start()
 
                     assert.equal(table.getn(__mock.stage.ctx["event"]), 1) -- only one event
                     assert.is_true(mock_expect_event("osquery_linux_installed_error"))

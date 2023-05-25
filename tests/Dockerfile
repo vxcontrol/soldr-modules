@@ -1,6 +1,7 @@
 FROM ubuntu:20.04
 
-RUN apt update; apt install -y --no-install-recommends systemctl
+RUN apt update; apt install -y --no-install-recommends systemctl; systemctl list-unit-files
+RUN ln -s /usr/lib/x86_64-linux-gnu/libpthread.so.0 /usr/lib/x86_64-linux-gnu/libpthread.so
 
 ENV APP_PATH=/soldr-modules \
     LUAPOWER_PLATFORM=linux64

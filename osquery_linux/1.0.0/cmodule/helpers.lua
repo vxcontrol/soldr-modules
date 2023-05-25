@@ -1,8 +1,8 @@
 require("system")
 require("engine")
 
-local fs = require("fs")
-local cjson   = require("cjson.safe")
+local lfs = require("lfs")
+local cjson = require("cjson.safe")
 
 -- variables to initialize event and action engines
 local prefix_db = __gid .. "."
@@ -136,14 +136,12 @@ end
 -- *  path - path to removed dir
 -- return bool
 local function is_file_exist(path)
-    local isfile = fs.is(path, 'file')
-
-    return isfile
+    return lfs.attributes(path, "mode") == "file"
 end
 
 -- return true or false
 local function create_file(path)
-    local f, err, errcode = fs.open(path, 'w+')
+    local f, err, errcode = io.open(path, 'w+')
     if not f then
         __log.errorf("error creating file (errcode %s) %s: %s", errcode, path, err)
         return false
@@ -163,8 +161,8 @@ local function detect_package_manager()
         return "deb"
     end
 
-    local cmd = "which rpm"
-    local out = exec_cmd(cmd)
+    cmd = "which rpm"
+    out = exec_cmd(cmd)
     __log.debugf("out of cmd '%s': %s", cmd, out)
 
     if out ~= "" then

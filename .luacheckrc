@@ -108,6 +108,7 @@ globals = {
     "setfenv",
 
     -- busted API
+    "context",
     "describe",
     "teardown",
     "setup",

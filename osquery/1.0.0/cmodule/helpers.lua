@@ -1,7 +1,6 @@
 require("engine")
 local cjson = require("cjson.safe")
 local lfs = require("lfs")
-local fs = require("fs")
 local glue = require("glue")
 local luapath = require("path")
 
@@ -122,16 +121,12 @@ end
 -- return bool
 local function is_file_exist(path)
     path = denormalize_path(path)
-    local isfile = fs.is(path, 'file')
-
-    return isfile
+    return lfs.attributes(path, "mode") == "file"
 end
 
 local function is_dir_exist(path)
     path = denormalize_path(path)
-    local isdir = fs.is(path, 'dir')
-
-    return isdir
+    return lfs.attributes(path, "mode") == "directory"
 end
 
 local function combine_path(...)
@@ -225,7 +220,8 @@ local function update_file(name, path, content)
     end
 
     -- copying dump
-    local ok, err = copy_file(path_to_dumped_file, path)
+    local err
+    ok, err = copy_file(path_to_dumped_file, path)
     if not ok then
         return false, 'copying dump ' .. path_to_dumped_file .. ': ' .. err
     end

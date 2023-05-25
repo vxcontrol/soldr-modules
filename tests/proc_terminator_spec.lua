@@ -136,7 +136,7 @@ describe('proc_terminator agent', function()
             module = "proc_terminator",
             version = "1.0.0",
             side = "agent", -- server
-            sec = {siem="{}", waf="{}", nad="{}", sandbox="{}"},
+            sec = {},
         }
         -- load mocked environment
         require("mock")

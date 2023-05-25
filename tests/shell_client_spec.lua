@@ -1,17 +1,17 @@
 require 'busted.runner' ()
-local luapath = require("path")
-
 local cjson = require('cjson')
+local src, dst
 
 describe('shell agent', function()
     setup(function()
         _G.__mock = {
             vars = {},
-            timeout = 2,
+            timeout = 2, -- in seconds
             cwd = "tmpcwd",
             module = "shell",
             version = "1.0.0",
-            side = "agent",
+            side = "agent", -- server
+            sec = {},
         }
         -- load mocked environment
         require("mock")
