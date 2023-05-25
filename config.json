@@ -427,8 +427,8 @@
             "subject.process.parent.id",
             "subject.process.path"
         ],
-        "last_module_update": "2023-05-25 00:00:00",
-        "last_update": "2023-05-25 00:00:00"
+        "last_module_update": "2023-05-25 12:00:00",
+        "last_update": "2023-05-25 12:00:00"
     },
     {
         "group_id": "",
@@ -519,8 +519,8 @@
         "fields": [
             "reason"
         ],
-        "last_module_update": "2023-05-25 00:00:00",
-        "last_update": "2023-05-25 00:00:00"
+        "last_module_update": "2023-05-25 12:00:00",
+        "last_update": "2023-05-25 12:00:00"
     },
     {
         "group_id": "",
