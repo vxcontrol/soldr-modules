@@ -1,7 +1,5 @@
 <template>
   <div>
-    <el-tabs tab-position="left" v-model="leftTab">
-    </el-tabs>
   </div>
 </template>
 
@@ -12,7 +10,6 @@ module.exports = {
   name,
   props: ["protoAPI", "hash", "module", "api", "components", "viewMode"],
   data: () => ({
-    leftTab: undefined
   })
 };
 </script>
