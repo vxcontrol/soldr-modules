@@ -2,51 +2,51 @@
     "module": {
         "en": {
             "title": "Osquery installer",
-            "description": "The module installed and configured osquery application"
+            "description": "Installs and configures the osquery utility"
         },
         "ru": {
             "title": "Установщик osquery",
-            "description": "Модуль устанавливает и конфигурирует приложение osquery"
+            "description": "Устанавливает и конфигурирует утилиту osquery"
         }
     },
     "config": {
         "osquery_config": {
             "en": {
-                "title": "Content of osquery config",
+                "title": "Configuration file",
                 "description": ""
             },
             "ru": {
-                "title": "Содержимое файла конфигурации osquery",
+                "title": "Файл конфигурации",
                 "description": ""
             }
         },
         "osquery_flagfile": {
             "en": {
-                "title": "Content of osquery flagfile",
+                "title": "Flagfile",
                 "description": ""
             },
             "ru": {
-                "title": "Содержимое osquery flagfile",
+                "title": "Flagfile",
                 "description": ""
             }
         },
         "replace_current_osquery_config": {
             "en": {
-                "title": "Need to replace current osquery config content",
+                "title": "Replace the configuration file on an agent",
                 "description": ""
             },
             "ru": {
-                "title": "Необходимость обновления содержимого файла конфигурации osquery",
+                "title": "Заменить файл конфигурации на агенте",
                 "description": ""
             }
         },
         "replace_current_osquery_flagfile": {
             "en": {
-                "title": "Need to replace current osquery flagfile content",
+                "title": "Replace flagfile on an agent",
                 "description": ""
             },
             "ru": {
-                "title": "Необходимость обновления содержимого osquery flagfile",
+                "title": "Заменить flagfile на агенте",
                 "description": ""
             }
         }
@@ -77,142 +77,142 @@
     "events": {
         "osquery_already_installed": {
             "en": {
-                "title": "The module detected Osquery installed on an agent",
-                "description": "The module detected Osquery installed in OS:\n{{ reason }}"
+                "title": "The module detected the installed osquery utility on an agent",
+                "description": "The module detected the installed osquery utility on the OS:\n{{ reason }}"
             },
             "ru": {
-                "title": "Модуль обнаружил установленный Osquery на агенте",
-                "description": "Модуль обнаружил установленный Osquery в ОС:\n{{ reason }}"
+                "title": "Модуль обнаружил установленную утилиту osquery на агенте",
+                "description": "Модуль обнаружил установленную утилиту osquery в ОС:\n{{ reason }}"
             }
         },
         "osquery_already_started": {
             "en": {
-                "title": "The module detected Osquery already running on an agent",
-                "description": "The module detected Osquery already running in OS:\n{{ reason }}"
+                "title": "The module detected the running osquery utility on an agent",
+                "description": "The module detected the running osquery utility on the OS:\n{{ reason }}"
             },
             "ru": {
-                "title": "Модуль обнаружил уже запущенный Osquery на агенте",
-                "description": "Модуль обнаружил уже запущенный Osquery в ОС:\n{{ reason }}"
+                "title": "Модуль обнаружил уже запущенную утилиту osquery на агенте",
+                "description": "Модуль обнаружил уже запущенную утилиту osquery в ОС:\n{{ reason }}"
             }
         },
         "osquery_config_updated_error": {
             "en": {
-                "title": "The module could not update the Osquery configuration on an agent",
-                "description": "The module could not update the Osquery configuration {{ version }} on an agent:\n{{ reason }}"
+                "title": "The module could not update the osquery configuration on an agent",
+                "description": "The module could not update the osquery configuration {{ version }}:\n{{ reason }}"
             },
             "ru": {
-                "title": "Модуль не смог обновить конфигурацию Osquery на агенте",
-                "description": "Модуль не смог обновить конфигурацию Osquery {{ version }}, причина:\n{{ reason }}"
+                "title": "Модуль не смог обновить конфигурацию osquery на агенте",
+                "description": "Модуль не смог обновить конфигурацию osquery {{ version }}, причина:\n{{ reason }}"
             }
         },
         "osquery_config_updated_success": {
             "en": {
-                "title": "The module updated the Osquery configuration on an agent",
-                "description": "The module updated the Osquery configuration '{{ version }}' on an agent"
+                "title": "The module updated the osquery configuration on an agent",
+                "description": "The module updated the osquery configuration {{ version }} on an agent"
             },
             "ru": {
-                "title": "Модуль обновил конфигурацию Osquery на агенте",
-                "description": "Модуль обновил конфигурацию Osquery {{ version }} на агенте"
+                "title": "Модуль обновил конфигурацию osquery на агенте",
+                "description": "Модуль обновил конфигурацию osquery {{ version }} на агенте"
             }
         },
         "osquery_flagfile_updated_error": {
             "en": {
-                "title": "The module could not update the Osquery flagfile on an agent",
-                "description": "The module could not update the Osquery flagfile {{ version }} on an agent:\n{{ reason }}"
+                "title": "The module could not update the osquery flagfile on an agent",
+                "description": "The module could not update the osquery flagfile {{ version }}:\n{{ reason }}"
             },
             "ru": {
-                "title": "Модуль не смог обновить flagfile Osquery на агенте",
-                "description": "Модуль не смог обновить flagfile Osquery {{ version }}, причина:\n{{ reason }}"
+                "title": "Модуль не смог обновить flagfile osquery на агенте",
+                "description": "Модуль не смог обновить flagfile osquery {{ version }}, причина:\n{{ reason }}"
             }
         },
         "osquery_flagfile_updated_success": {
             "en": {
-                "title": "The module updated the Osquery flagfile on an agent",
-                "description": "The module updated the Osquery flagfile '{{ version }}' on an agent"
+                "title": "The module updated the osquery flagfile on an agent",
+                "description": "The module updated the osquery flagfile {{ version }} on an agent"
             },
             "ru": {
-                "title": "Модуль обновил flagfile Osquery на агенте",
-                "description": "Модуль обновил flagfile Osquery {{ version }} на агенте"
+                "title": "Модуль обновил flagfile osquery на агенте",
+                "description": "Модуль обновил flagfile osquery {{ version }} на агенте"
             }
         },
         "osquery_installed_error": {
             "en": {
-                "title": "The module could not install the Osquery on an agent",
-                "description": "The module could not install the Osquery '{{ version }}' on an agent:\n{{ reason }}"
+                "title": "The module could not install osquery on an agent",
+                "description": "The module could not install osquery {{ version }} on an agent:\n{{ reason }}"
             },
             "ru": {
-                "title": "Модуль не смог установить Osquery на агенте",
-                "description": "Модуль не смог установить Osquery {{ version }} на агенте, причина:\n{{ reason }}"
+                "title": "Модуль не смог установить osquery на агенте",
+                "description": "Модуль не смог установить osquery {{ version }} на агенте, причина:\n{{ reason }}"
             }
         },
         "osquery_installed_success": {
             "en": {
-                "title": "The module installed Osquery on an agent",
-                "description": "The module installed Osquery '{{ version }}' on an agent"
+                "title": "The module installed osquery on an agent",
+                "description": "The module installed osquery {{ version }} on an agent"
             },
             "ru": {
-                "title": "Модуль установил Osquery на агенте",
-                "description": "Модуль установил Osquery {{ version }} на агенте"
+                "title": "Модуль установил osquery на агенте",
+                "description": "Модуль установил osquery {{ version }} на агенте"
             }
         },
         "osquery_started_error": {
             "en": {
-                "title": "The module could not start Osquery on an agent",
-                "description": "The module could not start the Osquery '{{ version }}' on an agent:\n{{ reason }}"
+                "title": "The module could not start osquery on an agent",
+                "description": "The module could not start osquery {{ version }} on an agent:\n{{ reason }}"
             },
             "ru": {
-                "title": "Модуль не смог запустить Osquery на агенте",
-                "description": "Модуль не смог запустить Osquery {{ version }} на агенте, причина:\n{{ reason }}"
+                "title": "Модуль не смог запустить osquery на агенте",
+                "description": "Модуль не смог запустить osquery {{ version }} на агенте, причина:\n{{ reason }}"
             }
         },
         "osquery_started_success": {
             "en": {
-                "title": "The module started Osquery on an agent",
-                "description": "The module started Osquery '{{ version }}' on an agent"
+                "title": "The module started osquery on an agent",
+                "description": "The module started osquery {{ version }} on an agent"
             },
             "ru": {
-                "title": "Модуль запустил Osquery на агенте",
-                "description": "Модуль запустил Osquery {{ version }} на агенте"
+                "title": "Модуль запустил osquery на агенте",
+                "description": "Модуль запустил osquery {{ version }} на агенте"
             }
         },
         "osquery_unexpected_stopped": {
             "en": {
-                "title": "Osquery was stopped on an agent",
-                "description": "Osquery '{{ version }}' was stopped on an agent:\n{{ reason }}"
+                "title": "The osquery utility was stopped on an agent",
+                "description": "The osquery utility {{ version }} was stopped on an agent:\n{{ reason }}"
             },
             "ru": {
-                "title": "Osquery был остановлен на агенте",
-                "description": "Osquery {{ version }} был остановлен на агенте, причина:\n{{ reason }}"
+                "title": "Утилита osquery была остановлена на агенте",
+                "description": "Утилита osquery {{ version }} была остановлена на агенте, причина:\n{{ reason }}"
             }
         },
         "osquery_unexpected_uninstalled": {
             "en": {
-                "title": "Osquery was deleted on an agent",
-                "description": "Osquery '{{ version }}' was deleted on an agent:\n{{ reason }}"
+                "title": "The osquery utility was deleted on an agent",
+                "description": "The osquery utility {{ version }} was deleted on an agent:\n{{ reason }}"
             },
             "ru": {
-                "title": "Osquery был удален на агенте",
-                "description": "Osquery {{ version }} был удален на агенте, причина:\n{{ reason }}"
+                "title": "Утилита osquery была удалена на агенте",
+                "description": "Утилита osquery {{ version }} была удалена на агенте, причина:\n{{ reason }}"
             }
         },
         "osquery_uninstalled_error": {
             "en": {
-                "title": "The module could not delete Osquery on an agent",
-                "description": "The module could not delete the Osquery '{{ version }}' on an agent:\n{{ reason }}"
+                "title": "The module could not delete the osquery utility on an agent",
+                "description": "The module could not delete the osquery utility {{ version }} on an agent:\n{{ reason }}"
             },
             "ru": {
-                "title": "Модуль не смог удалить Osquery на агенте",
-                "description": "Модуль не смог удалить Osquery {{ version }} на агенте, причина:\n{{ reason }}"
+                "title": "Модуль не смог удалить утилиту osquery на агенте",
+                "description": "Модуль не смог удалить утилиту osquery {{ version }} на агенте, причина:\n{{ reason }}"
             }
         },
         "osquery_uninstalled_success": {
             "en": {
-                "title": "The module deleted Osquery on an agent",
-                "description": "The module deleted Osquery '{{ version }}' on an agent"
+                "title": "The module deleted the osquery utility on an agent",
+                "description": "The module deleted the osquery utility {{ version }} on an agent"
             },
             "ru": {
-                "title": "Модуль удалил Osquery на агенте",
-                "description": "Модуль удалил Osquery {{ version }} на агенте"
+                "title": "Модуль удалил утилиту osquery на агенте",
+                "description": "Модуль удалил утилиту osquery {{ version }} на агенте"
             }
         }
     },

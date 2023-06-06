@@ -1,14 +1,14 @@
 {
     "1.0.0": {
         "en": {
-            "date": "12-07-2022",
+            "date": "05-25-2023",
             "title": "Base functionality",
-            "description": "Added installation and configure osquery on agent"
+            "description": "Added the possibility to install and configure the osquery instrumentation framework"
         },
         "ru": {
-            "date": "07.12.2022",
+            "date": "25.05.2023",
             "title": "Базовая функциональность",
-            "description": "Добавлена возможность установки и конфигурирования osquery на агенте"
+            "description": "Добавлена возможность устанавливать и конфигурировать инструмент osquery"
         }
     }
 }

@@ -1,43 +1,43 @@
 {
     "module": {
         "en": {
-            "title": "Auditd (cyberok)",
-            "description": "Module for auditd installation on agent side"
+            "title": "Auditd installer (cyberok)",
+            "description": "Installs and configures the auditd component"
         },
         "ru": {
-            "title": "Auditd (cyberok)",
-            "description": "Модуль для установки auditd на стороне агента"
+            "title": "Установщик auditd (cyberok)",
+            "description": "Устанавливает и конфигурирует компонент auditd"
         }
     },
     "config": {
         "audit_rules": {
             "en": {
-                "title": "Audit rules",
-                "description": "/etc/audit/audit.rules"
+                "title": "Rules",
+                "description": "The /etc/audit/audit.rules file contents"
             },
             "ru": {
-                "title": "Правила аудита",
-                "description": "/etc/audit/audit.rules"
+                "title": "Правила",
+                "description": "Содержимое файла /etc/audit/audit.rules"
             }
         },
         "auditd_conf": {
             "en": {
-                "title": "Audit daemon configuration",
-                "description": "/etc/audit/auditd.conf"
+                "title": "Auditd configuration",
+                "description": "The /etc/audit/auditd.conf file contents"
             },
             "ru": {
-                "title": "Конфигурация демона auditd",
-                "description": "/etc/audit/auditd.conf"
+                "title": "Конфигурация auditd",
+                "description": "Содержимое файла /etc/audit/auditd.conf"
             }
         },
         "check_interval": {
             "en": {
-                "title": "Check interval, seconds",
-                "description": "Module is checking audit configuration every given interval of time"
+                "title": "Configuration check interval on an agent (in seconds)",
+                "description": ""
             },
             "ru": {
-                "title": "Интервал проверки, ceкунды",
-                "description": "Проверять конфигурацию аудита через указанный интервал времени"
+                "title": "Интервал проверки конфигурации на агенте, сек",
+                "description": ""
             }
         }
     },
@@ -58,12 +58,12 @@
     "events": {
         "auditd_error": {
             "en": {
-                "title": "Error in auditd installer module",
-                "description": "Caught error while installing auditd service"
+                "title": "The module failed to install auditd on the agent",
+                "description": "An error occurred during auditd installation"
             },
             "ru": {
-                "title": "Ошибка в модуле установщика аудита",
-                "description": "Обнаружена ошибка при установке службы аудита"
+                "title": "Модуль не смог установить auditd на агенте",
+                "description": "Ошибка при установке auditd"
             }
         }
     },

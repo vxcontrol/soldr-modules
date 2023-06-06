@@ -1,14 +1,14 @@
 {
     "1.0.0": {
         "en": {
-          "date": "02-03-2023",
-          "title": "New version",
-          "description": " "
+          "date": "05-25-2023",
+          "title": "Base functionality",
+          "description": "Added the possibility to install and configure the auditd component"
         },
         "ru": {
-          "date": "03.02.2023",
-          "title": "Новая версия",
-          "description": " "
+          "date": "25.05.2023",
+          "title": "Базовая функциональность",
+          "description": "Добавлена возможность устанавливать и конфигурировать компонент auditd"
         }
     }
 }

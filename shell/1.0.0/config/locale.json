@@ -1,12 +1,12 @@
 {
     "module": {
         "en": {
-            "title": "Interactive shell",
-            "description": "Module that will spawn interactive shell on specified agent."
+            "title": "Command shell",
+            "description": "Provides access to the OS command shell"
         },
         "ru": {
             "title": "Командная оболочка (shell)",
-            "description": "Модуль для запуска интерактивной командой оболочки на агенте."
+            "description": "Предоставляет доступ к командной оболочке ОС"
         }
     },
     "config": {},
@@ -15,44 +15,44 @@
     "actions": {
         "shell_start": {
             "en": {
-                "title": "shell_start",
-                "description": "shell_start"
+                "title": "Spawn a command shell",
+                "description": "Spawns a command shell"
             },
             "ru": {
-                "title": "shell_start",
-                "description": "shell_start"
+                "title": "Запустить командную оболочку",
+                "description": "Запускает командную оболочку"
             }
         },
         "shell_stop": {
             "en": {
-                "title": "shell_stop",
-                "description": "shell_stop"
+                "title": "Stop a command shell",
+                "description": "Stops a command shell"
             },
             "ru": {
-                "title": "shell_stop",
-                "description": "shell_stop"
+                "title": "Остановить командную оболочку",
+                "description": "Останавливает командную оболочку"
             }
         }
     },
     "events": {
         "shell_action_exec_failed": {
             "en": {
-                "title": "shell_action_exec_failed",
-                "description": "shell_action_exec_failed"
+                "title": "Failed to spawn the command shell",
+                "description": ""
             },
             "ru": {
-                "title": "shell_action_exec_failed",
-                "description": "shell_action_exec_failed"
+                "title": "Не удалось запустить командную оболочку",
+                "description": ""
             }
         },
         "shell_action_exec_success": {
             "en": {
-                "title": "shell_action_exec_success",
-                "description": "shell_action_exec_success"
+                "title": "The command shell is spawned",
+                "description": ""
             },
             "ru": {
-                "title": "shell_action_exec_success",
-                "description": "shell_action_exec_success"
+                "title": "Командная оболочка запущена",
+                "description": ""
             }
         }
     },

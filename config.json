@@ -556,8 +556,8 @@
         ],
         "fields": [
         ],
-        "last_module_update": "2022-02-12 00:00:00",
-        "last_update": "2022-02-12 00:00:00"
+        "last_module_update": "2023-06-06 00:00:00",
+        "last_update": "2023-06-06 00:00:00"
     },
     {
         "group_id": "",
@@ -584,8 +584,8 @@
             "message"
         ],
         "tags": [],
-        "last_module_update": "2023-05-24 00:00:00",
-        "last_update": "2023-05-24 00:00:00"
+        "last_module_update": "2023-06-06 00:00:00",
+        "last_update": "2023-06-06 00:00:00"
     },
     {
         "group_id": "",
@@ -625,8 +625,8 @@
           "reason",
           "version"
         ],
-        "last_module_update": "2023-05-26 00:00:00",
-        "last_update": "2023-05-26 00:00:00"
+        "last_module_update": "2023-06-06 00:00:00",
+        "last_update": "2023-06-06 00:00:00"
     },
     {
         "group_id": "",
@@ -664,7 +664,7 @@
             "reason",
             "version"
         ],
-        "last_module_update": "2023-05-26 00:00:00",
-        "last_update": "2023-05-26 00:00:00"
+        "last_module_update": "2023-06-06 00:00:00",
+        "last_update": "2023-06-06 00:00:00"
     }
 ]
