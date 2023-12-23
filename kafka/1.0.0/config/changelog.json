@@ -1,0 +1,62 @@
+{
+    "1.0.1": {
+        "en": {
+            "date": "11-23-2022",
+            "title": "New version",
+            "description": " "
+        },
+        "ru": {
+            "date": "23.11.2022",
+            "title": "Новая версия",
+            "description": " "
+        }
+    },
+    "1.1.0": {
+        "en": {
+            "date": "12-20-2022",
+            "title": "SASL mechanism",
+            "description": "Support SASL mechanism"
+        },
+        "ru": {
+            "date": "20.12.2022",
+            "title": "SASL механизм",
+            "description": "Потдерживается SASL механизм"
+        }
+    },
+    "1.2.0": {
+        "en": {
+            "date": "12-20-2022",
+            "title": "Precompiled dependencies",
+            "description": "Provide librdkafka.so as a precompiled library"
+        },
+        "ru": {
+            "date": "20.12.2022",
+            "title": "Прекомпилированные зависимости",
+            "description": "librdkafka.so поставляется в виде прекомпилированной библиотеки"
+        }
+    },
+    "1.3.0": {
+        "en": {
+            "date": "12-24-2022",
+            "title": "Support SSL",
+            "description": "Support secure SSL connection to a broker"
+        },
+        "ru": {
+            "date": "24.12.2022",
+            "title": "Потдержка SSL",
+            "description": "Добавлена потдержка защищенного SSL подключения к брокеру"
+        }
+    },
+    "1.4.0": {
+        "en": {
+            "date": "12-27-2022",
+            "title": "Agent ID",
+            "description": "Enrich an event with agent ID on write"
+        },
+        "ru": {
+            "date": "27.12.2022",
+            "title": "Идентификатор агента",
+            "description": "Вместе с событием записывается идентификатор агента"
+        }
+    }
+}
