@@ -52,6 +52,20 @@
         ],
         "type": "atomic"
     },
+    "fu_object_file_download_successful": {
+        "actions": [
+            {
+                "fields": [],
+                "module_name": "this",
+                "name": "log_to_db",
+                "priority": 10
+            }
+        ],
+        "fields": [
+            "object.fullpath"
+        ],
+        "type": "atomic"
+    },
     "fu_object_proc_image_upload_failed": {
         "actions": [
             {

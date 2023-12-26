@@ -1,13 +1,12 @@
 require("uploader")
-local lfs     = require("lfs")
+require("storage")
+require("ui")
 local cjson   = require("cjson.safe")
-local sqlite  = require("lsqlite3")
-local luapath = require("path")
 
 -- uploader variables
-local uploader, fu_db
-local db_file_name = "fu_" .. __gid .."_v2.db"
-local path_to_db = luapath.normalize(luapath.combine(luapath.combine(lfs.currentdir(), "data"), db_file_name))
+local fu_db
+local uploader
+local ui
 local module_config = cjson.decode(__config.get_current_config()) or {}
 
 -- return value of requested config option
@@ -19,52 +18,6 @@ local function get_option_config(opt)
     end
 
     return nil
-end
-
--- execute SQL quesry in local SQLite DB
-local function exec_query(src, query, db)
-    db:exec("BEGIN TRANSACTION;")
-    local result = {type="exec_sql_resp", cols={}, rows={}}
-    local rstep, err
-    local status, stmt = pcall(db.prepare, db, query.sql)
-    local send_result = function()
-        local response, jerr = cjson.encode(result)
-        if not response then
-            __log.errorf("failed to encode response by exec: %s", jerr)
-        end
-        __api.send_data_to(src, response)
-    end
-    if not status then
-        result.status = "error"
-        result.error = stmt
-        __log.errorf("failed to execute SQL query: %s", query.sql)
-        db:exec("ROLLBACK;")
-        send_result()
-        return
-    end
-    repeat
-        status, rstep = pcall(stmt.step, stmt)
-        if status and rstep then
-            table.insert(result.rows, stmt:get_values())
-        end
-    until (not status or not rstep)
-    if not status then
-        result.status = "error"
-        result.error = rstep
-        __log.infof("failed to execute SQL query: %s", query.sql)
-    else
-        result.status = "success"
-        for i=0, tonumber(stmt:columns())-1 do
-            table.insert(result.cols, stmt:get_name(i))
-        end
-        __log.infof("SQL query was executed successful: %s", query.sql)
-    end
-    status, err = pcall(stmt.finalize, stmt)
-    if not status then
-        __log.errorf("failed to finalize query statement: %s", err)
-    end
-    db:exec("COMMIT;")
-    send_result()
 end
 
 -- getting agent ID by dst token and agent type
@@ -96,6 +49,10 @@ local function init_uploader()
         debug = __args["debug_uploader"][1] == "true",
         debug_curl = __args["debug_curl"][1] == "true",
         request_config = get_option_config("request_config"),
+        request_to_minio_config = get_option_config("request_to_minio_config"),
+        s3_access_key = get_option_config("s3_access_key"),
+        s3_secret_key = get_option_config("s3_secret_key"),
+        s3_bucket = get_option_config("s3_bucket"),
         request_headers = get_option_config("request_headers"),
     })
     if not uploader:worker_start() then
@@ -106,16 +63,10 @@ local function init_uploader()
 end
 
 -- uploader cache database
-fu_db = sqlite.open(path_to_db, "create")
+fu_db = GetDB()
 if fu_db ~= nil then
     init_uploader()
-
-    -- add __gc to close database on exit module
-    local prox = newproxy(true)
-    getmetatable(prox).__gc = function() if fu_db then fu_db:close() end end
-    fu_db[prox] = true
-else
-    __log.error("failled to open uploader cache database")
+    ui = newUI()
 end
 
 -- set default timeout to wait exit on blocking of recv_* functions
@@ -133,8 +84,55 @@ __api.add_cbs({
                 local dst = msg_data.retaddr
                 msg_data.retaddr = nil
                 msg_data.status = msg_data.status and "success" or "error"
-                local send_res = __api.send_data_to(dst, cjson.encode(msg_data))
-                __log.debugf("response routed to '%s' with result %s", dst, send_res)
+
+                local start_upload_file_result = nil
+
+                if msg_data.name == "fu_upload_object_file" then
+                    if #msg_data.existing_file ~= 0 then
+                        start_upload_file_result = uploader:start_upload_file(
+                            msg_data.existing_file["filename"],
+                            msg_data.existing_file["md5_hash"],
+                            msg_data.existing_file["sha256_hash"],
+                            "fu_upload_object_file",
+                            dst
+                        )
+                    else
+                        start_upload_file_result = uploader:start_upload_file(
+                            msg_data.data["object.name"],
+                            msg_data.data["md5_hash"],
+                            msg_data.data["sha256_hash"],
+                            "fu_upload_object_file",
+                            dst
+                        )
+                    end
+                    if start_upload_file_result == nil then
+                        msg_data.stage = "process"
+                        local send_res = __api.send_data_to(dst, cjson.encode(msg_data))
+                        __log.debugf("response routed to '%s' with result %s", dst, send_res)
+                    end
+                elseif msg_data.name == "fu_download_object_file" then
+                    msg_data.type = "exec_download_resp"
+                    if #msg_data.existing_file == 0 then
+                        local fl = uploader.storage:GetFileInfoByHash(msg_data.data.md5_hash, msg_data.data.sha256_hash)
+                        msg_data.existing_file = fl
+                    end
+
+                    start_upload_file_result = uploader:start_upload_file(
+                        msg_data.existing_file["filename"],
+                        msg_data.existing_file["md5_hash"],
+                        msg_data.existing_file["sha256_hash"],
+                        "fu_download_object_file",
+                        dst
+                    )
+                end
+
+                if start_upload_file_result ~= nil then
+                    local payload = {
+                        status = "error_upload",
+                        error = start_upload_file_result,
+                    }
+                    __api.send_data_to(dst, cjson.encode(payload))
+                end
             else
                 __log.debugf("receive unknown type message '%s' from agent", msg_data["type"])
             end
@@ -143,6 +141,50 @@ __api.add_cbs({
             if msg_data["type"] == "exec_sql_req" then
                 __log.debugf("server module got request to exec SQL query")
                 exec_query(src, msg_data, fu_db)
+            elseif msg_data["type"] == "fu_get_files" then
+                local files = ui:getFiles(msg_data["search"], msg_data["page"], msg_data["pageSize"])
+                local count_of_files = ui:getCountOfFiles(msg_data["search"])
+                local response, jerr = cjson.encode({
+                    type = "fu_get_files",
+                    files = files,
+                    total = count_of_files
+                })
+                if not response then
+                    __log.errorf("failed to encode files by exec: %s", jerr)
+                end
+                __api.send_data_to(src, response)
+            elseif msg_data["type"] == "fu_get_files_actions" then
+                local files_actions = ui:getFilesActions(msg_data["search"], msg_data["page"], msg_data["pageSize"])
+                local count_of_files_actions = ui:getCountOfFilesActions(msg_data["search"])
+                local response, jerr = cjson.encode({
+                    type = "fu_get_files_actions",
+                    filesActions = files_actions,
+                    total = count_of_files_actions
+                })
+                if not response then
+                    __log.errorf("failed to encode files actions by exec: %s", jerr)
+                end
+                __api.send_data_to(src, response)
+            elseif msg_data["type"] == "fu_delete_file" then
+                local file = uploader.storage:GetFileLocalPathByFileId(msg_data["id"])
+                if file ~= nil then
+                    for _, f in ipairs(file) do
+                        local err = os.remove(f.local_path)
+                        if err ~= true and err ~= nil then
+                            __log.errorf("failed to delete file with id %s in local_path %s: %s", msg_data["id"], f.local_path, err)
+                        else
+                            uploader.storage:DeleteFile(msg_data["id"])
+                            local response, jerr = cjson.encode({
+                                type = "fu_delete_file",
+                                id = msg_data["id"]
+                            })
+                            if not response then
+                                __log.errorf("failed to encode response about deleted file: %s", jerr)
+                            end
+                            __api.send_data_to(src, response)
+                        end
+                    end
+                end
             else
                 __log.debugf("receive unknown type message '%s' from browser", msg_data["type"])
             end
@@ -164,8 +206,8 @@ __api.add_cbs({
     -- text = function(src, text, name)
     -- msg = function(src, msg, mtype)
 
-    action = function(src, data, name)
-        __log.infof("receive action '%s' from '%s' with data %s", name, src, data)
+    action = function(src, data, action_name)
+        __log.infof("receive action '%s' from '%s' with data %s", action_name, src, data)
 
         local action_data = cjson.decode(data)
         assert(type(action_data) == "table", "input action data type is invalid")
@@ -174,7 +216,41 @@ __api.add_cbs({
         local dst, _ = get_agent_src_by_id(id, "VXAgent")
         if dst ~= "" then
             __log.debugf("send action request to '%s'", dst)
-            __api.send_action_to(dst, cjson.encode(action_data), name)
+
+            if action_name == "fu_upload_object_file" or action_name == "fu_download_object_file" then
+                local filename = string.gsub(action_data["data"]["object.fullpath"], "(.*/)(.*)", "%2")
+                filename = string.gsub(filename, "(.*\\)(.*)", "%2")
+
+                if filename ~= nil and filename ~= "" then
+                    local files = uploader:getFilesInfoFromFilename(filename)
+                    action_data["data"]["files"] = {}
+                    if #files ~= 0 then
+                        for i, file in ipairs(files) do
+                            local isExistsFile = uploader:isExistsFileInFS(file.local_path)
+                            if isExistsFile then
+                                action_data["data"]["files"][i] = {
+                                    ["id"] = file.id,
+                                    ["sha256_hash"] = file.sha256_hash,
+                                    ["filename"] = file.filename,
+                                    ["filesize"] = file.filesize,
+                                    ["uuid"] = file.uuid,
+                                    ["md5_hash"] = file.md5_hash,
+                                    ["local_path"] = file.local_path
+                                }
+                            else
+                                uploader.storage:DeleteFile(file.id)
+                            end
+                        end
+                    end
+                end
+            end
+
+            __api.send_action_to(dst, cjson.encode(action_data), action_name)
+
+            local msg_data = {
+                type = "prepare_upload_resp"
+            }
+            __api.send_data_to(action_data.retaddr, cjson.encode(msg_data))
         else
             local payload = {
                 status = "error",

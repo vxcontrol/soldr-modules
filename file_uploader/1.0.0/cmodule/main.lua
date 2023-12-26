@@ -4,6 +4,8 @@ local glue    = require("glue")
 local cjson   = require("cjson.safe")
 local crc32   = require("crc32")
 local luapath = require("path")
+local md5    = require("md5")
+local sha2   = require("sha2")
 math.randomseed(crc32(tostring({})))
 
 -- correlator config
@@ -103,7 +105,7 @@ local function push_event(event_name, action_name, action_data)
 end
 
 local function exec_action(dst, action_name, action_data)
-    local object_name, object_value, object_prefix, object_type
+    local object_name, object_value, object_prefix, object_type, object_files
     local set_failure = function(reason)
         action_data.data.result = false
         action_data.data.reason = reason
@@ -114,6 +116,7 @@ local function exec_action(dst, action_name, action_data)
         object_name = "object_file"
         object_prefix, object_type = "object", "object"
         object_value = action_data.data["object.fullpath"]
+        object_files = action_data.data["files"]
     elseif action_name == "fu_upload_object_proc_image" then
         object_name = "object_proc_image"
         object_prefix, object_type = "object.process", "object"
@@ -122,6 +125,11 @@ local function exec_action(dst, action_name, action_data)
         object_name = "subject_proc_image"
         object_prefix, object_type = "subject.process", "subject"
         object_value = action_data.data["subject.process.fullpath"]
+    elseif action_name == "fu_download_object_file" then
+        object_name = "object_file"
+        object_prefix, object_type = "object", "object"
+        object_value = action_data.data["object.fullpath"]
+        object_files = action_data.data["files"]
     else
         __log.errorf("unknown action '%s' was requested", action_name)
         return set_failure("action_unknown")
@@ -146,6 +154,7 @@ local function exec_action(dst, action_name, action_data)
     end
 
     local result, reason
+    local existingFile = {}
     local filename = luapath.file(object_value)
     local filesize = fs.attr(object_value, "size")
     local file_size_limit = get_option_config("file_size_limit") * 1024 * 1024
@@ -158,12 +167,45 @@ local function exec_action(dst, action_name, action_data)
         result = false
         __log.errorf("exceeded file size (%d > %d) for '%s'", filesize, file_size_limit, object_value)
     else
-        result = __api.send_file_from_fs_to(dst, object_value, filename)
-        reason = result and "uploaded successful" or "internal_error"
+        local md5_digest, sha256_digest = md5.digest(), sha2.sha256_digest()
+        local file = io.open(object_value, "rb")
+        if not file then
+            return "", ""
+        end
+        local read_num, content = 1024 * 1024 -- 1 MB as a chunk to read file
+        while true do
+            content = file:read(read_num)
+            if content == nil then break end
+            md5_digest(content)
+            sha256_digest(content)
+        end
+        file:close()
+        local md5_hash = glue.tohex(md5_digest())
+        local sha256_hash = glue.tohex(sha256_digest())
+
+        local needToSendFile = true
+        for _, f in ipairs(object_files) do
+            if f["md5_hash"] == md5_hash and f["sha256_hash"] == sha256_hash and filesize == f["filesize"] then
+                needToSendFile = false
+                existingFile = f
+            end
+        end
+
+        if needToSendFile then
+            result = __api.send_file_from_fs_to(dst, object_value, filename)
+            reason = result and "uploaded successful" or "internal_error"
+        else
+            result = true
+            reason = "uploaded successful"
+        end
+        action_data.data.md5_hash = md5_hash
+        action_data.data.sha256_hash = sha256_hash
     end
 
     action_data.data.result = result
     action_data.data.reason = reason
+    action_data.data.existing_file = existingFile
+
     return result, result and
         "fu_" .. object_name .. "_upload_successful" or
         "fu_" .. object_name .. "_upload_failed"
@@ -186,6 +228,8 @@ local function perform_action(src, dst, action_name, action_data)
             ["agent_id"] = __aid,
             ["name"] = action_name,
             ["type"] = "exec_upload_resp",
+            ["existing_file"] = action_data.data.existing_file,
+            ["data"] = action_data.data
         }))
     end
 

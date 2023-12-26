@@ -105,6 +105,35 @@
                 }
             ]
         },
+        "fu_object_file_download_successful": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/events.atomic"
+                },
+                {
+                    "properties": {
+                        "fields": {
+                            "default": [
+                                "object.fullpath"
+                            ],
+                            "items": {
+                                "enum": [
+                                    "object.fullpath"
+                                ],
+                                "type": "string"
+                            },
+                            "maxItems": 1,
+                            "minItems": 1,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
         "fu_object_proc_image_upload_failed": {
             "allOf": [
                 {
@@ -268,6 +297,7 @@
         "fu_module_stopped",
         "fu_object_file_upload_failed",
         "fu_object_file_upload_successful",
+        "fu_object_file_download_successful",
         "fu_object_proc_image_upload_failed",
         "fu_object_proc_image_upload_successful",
         "fu_subject_proc_image_upload_failed",

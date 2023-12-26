@@ -4,5 +4,11 @@
         "method": "PUT",
         "url": ""
     },
+    "request_to_minio_config": {
+        "url": "http://minio.local:9000"
+    },
+    "s3_access_key": "accesskey",
+    "s3_secret_key": "secretkey",
+    "s3_bucket": "soldr-file-uploader",
     "request_headers": []
 }
